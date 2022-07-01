@@ -1,0 +1,9 @@
+from metafeatures.metafeature import ColaborativeMetaFeature
+
+
+class ProportionRatings(ColaborativeMetaFeature):
+    def __init__(self):
+        """
+        
+        """
+        pass
