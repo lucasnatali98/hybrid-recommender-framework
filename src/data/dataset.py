@@ -51,15 +51,19 @@ class AbstractDataSet(Dataset):
         self.genomeTags = None
         self.Loader = Loader()
 
+    @property
     def set_ratings(self, ratings):
         self.ratings = ratings
 
+    @property
     def set_items(self, items):
         self.movies = items
 
+    @property
     def set_users(self, users):
         self.users = users
 
+    @property
     def set_tags(self, tags):
         self.tags = tags
 

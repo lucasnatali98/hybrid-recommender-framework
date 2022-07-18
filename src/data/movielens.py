@@ -32,10 +32,6 @@ class MovieLens(AbstractDataSet):
         self.basePath = "data_storage/"
         self.dataset = self._get_dataset()
 
-
-
-
-
     def _is_proportion_valid(self, proportion):
         if proportion in PROPORTION_POSSIBILITIES:
             return True
@@ -86,7 +82,6 @@ class MovieLens(AbstractDataSet):
         self.genomeScores = genome_scores
         self.genomeTags = genome_tags
 
-
     def _set_ml_latest_small(self):
         """
 
@@ -108,12 +103,13 @@ class MovieLens(AbstractDataSet):
         self.ratings = ratings
         self.tags = tags
 
+    @property
     def set_genome_tags(self, genome_tags):
         self.genomeTags = genome_tags
 
+    @property
     def set_genome_scores(self, genome_scores):
         self.genomeScores = genome_scores
-
 
     def _get_dataset(self):
 
