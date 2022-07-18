@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Metric(ABC):
 
     @abstractmethod
@@ -10,23 +11,24 @@ class Metric(ABC):
         pass
 
     @abstractmethod
-    def check_missing(truth, missing):
+    def check_missing(self, truth, missing):
         """
         
         """
         pass
+
 
 class PredictionMetric(Metric):
 
     @abstractmethod
-    def evalute(self):
+    def evaluate(self):
         """
         
         """
         pass
 
     @abstractmethod
-    def check_missing(truth, missing):
+    def check_missing(self, truth, missing):
         """
         
         """
@@ -35,14 +37,14 @@ class PredictionMetric(Metric):
 
 class RankingMetric(Metric):
     @abstractmethod
-    def evalute(self):
+    def evaluate(self):
         """
         
         """
         pass
 
     @abstractmethod
-    def check_missing(truth, missing):
+    def check_missing(self, truth, missing):
         """
         
         """

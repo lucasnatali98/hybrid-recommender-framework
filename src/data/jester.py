@@ -1,4 +1,4 @@
-from dataset.dataset import AbstractDataSet
+from src.data.dataset import AbstractDataSet
 
 
 class Jester(AbstractDataSet):
