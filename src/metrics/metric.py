@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Metric(ABC):
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self, predictions, truth):
         """
         
         """
@@ -21,7 +21,7 @@ class Metric(ABC):
 class PredictionMetric(Metric):
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self, predictions, truth):
         """
         
         """
@@ -37,7 +37,7 @@ class PredictionMetric(Metric):
 
 class RankingMetric(Metric):
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self, predictions, truth):
         """
         
         """

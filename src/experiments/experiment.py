@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Experiment(ABC):
     @abstractmethod
     def run(self):
@@ -52,24 +53,24 @@ class ExperimentHandler(Experiment):
         """
         self.experiments = []
 
-    
     def run(self):
         """
         
         """
         pass
+
     def set_experiments(self, experiments):
         """
         
         """
         pass
-    
+
     def add(self, experiment):
         """
         
         """
         pass
-    
+
     def insert(self, experiments):
         """
         

@@ -7,10 +7,13 @@ class Loader:
         """
 
         """
-        print("Init Loader")
+
 
     def load_file(self, path, extension):
         """
+
+        @path: path to file
+        @extension: extension file
 
         """
         if extension == ".csv":
@@ -47,7 +50,12 @@ class Loader:
         return None
 
     def convert_to_csv(self, data):
+        """
+        Convert a dataframe to .csv file
 
+        @data: pd.DataFrame
+
+        """
         if isinstance(data, pandas.DataFrame):
             return data.to_csv()
         else:
@@ -58,6 +66,11 @@ class Loader:
                 raise Exception("Deu erro m")
 
     def convert_to_excel(self, data):
+        """
+        Convert a dataframe to excel file
+
+
+        """
         if isinstance(data, pandas.DataFrame):
             return data.to_excel()
         else:

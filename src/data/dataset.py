@@ -29,49 +29,27 @@ class Dataset(ABC):
         """
         pass
 
-    def load(self, path, extension):
-        pass
-
 
 class AbstractDataSet(Dataset):
     """
         
     """
 
-    def __init__(self):
+    def __init__(self, items=None, ratings=None, links=None, tags=None):
         """
 
         """
-        self.users = None
-        self.movies = None
-        self.ratings = None
-        self.tags = None
-        self.links = None
-        self.genomeScores = None
-        self.genomeTags = None
+
         self.Loader = Loader()
-
-    @property
-    def set_ratings(self, ratings):
+        self.items = items
         self.ratings = ratings
 
-    @property
-    def set_items(self, items):
-        self.movies = items
-
-    @property
-    def set_users(self, users):
-        self.users = users
-
-    @property
-    def set_tags(self, tags):
-        self.tags = tags
 
     def ratings(self):
         """
         
         """
-        return self.ratings
+        return getattr(AbstractDataSet, 'ratings')
 
     def users(self):
         """
@@ -83,4 +61,4 @@ class AbstractDataSet(Dataset):
         """
         
         """
-        pass
+        return self.items
