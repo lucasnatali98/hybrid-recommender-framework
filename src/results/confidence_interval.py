@@ -1,6 +1,6 @@
 
 
-from results.results import AbstractResults
+from src.results.results import AbstractResults
 
 
 class ConfidenceInterval(AbstractResults):

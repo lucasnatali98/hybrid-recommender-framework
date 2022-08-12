@@ -1,4 +1,4 @@
-from visualization.visualization import StaticPlot
+from src.visualization.visualization import StaticPlot
 
 
 class StaticScatterPlot(StaticPlot):

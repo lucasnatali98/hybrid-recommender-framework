@@ -10,6 +10,12 @@
 
 > Esse framework visa fornecer uma estrutura genérica e extensível para trabalhar com recomendação híbrida envolvendo meta-features
 
+### Arquitetura do projeto
+
+O projeto está dividido em três principais módulos: Pré-processamento, modelagem e treinamento e por fim avaliação e visualização dos resultados
+
+Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. 
+
 ### Ajustes e melhorias
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
@@ -24,9 +30,14 @@ O projeto ainda está em desenvolvimento e as próximas atualizações serão vo
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 <!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
-* Você instalou a versão mais recente de `<linguagem / dependência / requeridos>`
-* Você tem uma máquina `<Windows / Linux / Mac>`. Indique qual sistema operacional é compatível / não compatível.
-* Você leu `<guia / link / documentação_relacionada_ao_projeto>`.
+* Python 3
+* Numpy
+* Pandas
+* Scikit-Learn
+* Plotly
+* Matplotlib
+* LensKit
+
 
 ## 🚀 Instalando o Hybrid Recommender Framework
 
@@ -52,7 +63,7 @@ Para usar hybrid recommender framework, siga estas etapas:
 
 Adicione comandos de execução e exemplos que você acha que os usuários acharão úteis. Fornece uma referência de opções para pontos de bônus!
 
-## 📫 Contribuindo para <nome_do_projeto>
+## 📫 Contribuindo para o Hybrid Recommender Framework
 <!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
 Para contribuir com o hybrid recommender framework, siga estas etapas:
 

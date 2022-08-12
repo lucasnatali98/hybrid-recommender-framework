@@ -1,16 +1,21 @@
 {
     "preprocessing": [
         {
-            "instance" : "SplitProcessing"
+            "instance" : "SplitProcessing",
+            "parameters": {}
         },
         {
-            "instance" : "EncodingProcessing"
+            "instance" : "EncodingProcessing",
+            "parameters": {}
+
         },
         {
-            "instance" : "NormalizeProcessing"
+            "instance" : "NormalizeProcessing",
+            "parameters": {}
         },
         {
-            "instance" : "DiscretizeProcessing"
+            "instance" : "DiscretizeProcessing",
+            "parameters": {}
         }
 
     ],
@@ -20,7 +25,6 @@
             "parameters": {
                 "proportion": "ml-latest-small"
             }
-
         }
 
     ]

@@ -1,5 +1,5 @@
 
-from visualization.visualization import InteractivePlot
+from src.visualization.visualization import InteractivePlot
 
 
 class InteractiveBarPlot(InteractivePlot):

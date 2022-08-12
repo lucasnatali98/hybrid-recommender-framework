@@ -1,4 +1,4 @@
-from recommenders.recommender import Recommender
+from src.recommenders.recommender import Recommender
 
 
 class UserKNN(Recommender):

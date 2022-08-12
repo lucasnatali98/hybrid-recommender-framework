@@ -1,5 +1,6 @@
 import pandas
 import pandas as pd
+import json
 
 
 class Loader:
@@ -8,9 +9,17 @@ class Loader:
 
         """
 
+    def load_json_file(self, path):
+        """
+
+        """
+        file = open(path)
+
+        return json.load(file)
 
     def load_file(self, path, extension):
         """
+        Carrega um arquivo baseado em sua extensão
 
         @path: path to file
         @extension: extension file
@@ -20,6 +29,8 @@ class Loader:
             return self.load_csv_file(path+extension)
         if extension == ".xls":
             return self.load_excel_file(path+extension)
+        if extension == ".json":
+            return self.load_json_file(path+extension)
 
         return False
 

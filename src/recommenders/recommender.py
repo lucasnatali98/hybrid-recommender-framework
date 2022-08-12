@@ -1,6 +1,6 @@
 
 from abc import abstractmethod
-from recommenders.algorithm import Algorithm
+from src.recommenders.algorithm import Algorithm
 
 
 class Recommender(Algorithm):

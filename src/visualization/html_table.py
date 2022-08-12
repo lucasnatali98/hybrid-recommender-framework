@@ -1,4 +1,4 @@
-from visualization.visualization import TablePlot
+from src.visualization.visualization import TablePlot
 
 
 class HtmlTable(TablePlot):

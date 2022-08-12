@@ -8,17 +8,18 @@ PROPORTION_POSSIBILITIES = {
     "ml-latest-small",
 }
 
+
 @dataclass
 class MovieLens(AbstractDataSet):
     """
 
     """
 
-    def __init__(self, proportion):
+    def __init__(self, proportion="ml-latest-small"):
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
 
-        Exemplo: ["ML100K", "MOVIELENS", "ML1M", "ML10M"]
+
 
         """
         super().__init__()
@@ -37,7 +38,6 @@ class MovieLens(AbstractDataSet):
         self.genomeScores = None
         self.genomeTags = None
 
-
     def _is_proportion_valid(self, proportion):
         """
         Check if the proportion is valid
@@ -49,8 +49,6 @@ class MovieLens(AbstractDataSet):
             return True
 
         return False
-
-
 
     def _load_ml25m(self):
         """
@@ -108,11 +106,8 @@ class MovieLens(AbstractDataSet):
         self.set_ratings(ratings)
         self.set_links(links)
 
-
-
     def set_ratings(self, ratings):
         setattr(MovieLens, 'ratings', ratings)
-
 
     def set_links(self, links):
         setattr(MovieLens, 'links', links)
@@ -165,4 +160,3 @@ class MovieLens(AbstractDataSet):
 
         """
         return self.links
-
