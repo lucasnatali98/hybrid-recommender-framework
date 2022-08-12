@@ -12,10 +12,7 @@ ENCODING_TYPES = [
 
 class EncodingProcessing(AbstractPreProcessing):
 
-    def __init__(self):
-        super().__init__()
-
-    def __init__(self, encoding_type):
+    def __init__(self, encoding_type="onehot"):
         """
         
         """

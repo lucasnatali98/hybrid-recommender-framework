@@ -1,5 +1,5 @@
 
-from metrics.metric import RankingMetric
+from src.metrics.metric import RankingMetric
 
 
 class EPD(RankingMetric):

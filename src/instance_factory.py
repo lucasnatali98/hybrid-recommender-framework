@@ -5,6 +5,8 @@ from src.preprocessing.encoding import EncodingProcessing
 from src.preprocessing.normalize import NormalizeProcessing
 from src.preprocessing.split import SplitProcessing
 from src.preprocessing.preprocessing import PreProcessingContainer
+from src.preprocessing.discretize import DiscretizeProcessing
+
 
 
 class InstanceFactory:
@@ -29,15 +31,31 @@ class InstanceFactory:
 
         pass
 
+    def create_pre_processing_instances(self, pre_processing_object):
+        """
+
+        @param pre_processing_object:
+        @return:
+        """
+
+        instances = {}
+
+        for processing in pre_processing_object:
+            instance = self.create_instance(processing['instance'])
+            instances[instance.__class__.__name__] = instance
+
+        return instances
+
+
+
+
+
     def create_all_instances(self, config_obj: object):
         """
 
 
         """
-        for i in config_obj:
-            print(i)
-
-        instances = {}
+        pass
 
     def create_instance(self, instance: str):
         """

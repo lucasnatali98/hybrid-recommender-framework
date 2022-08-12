@@ -1,6 +1,7 @@
 from src.instance_factory import InstanceFactory
 import json
 
+
 """
 1. Focar no experimentor -> melhor desenvolver com ele desde o inicio (já testar com ele em bases pequenas)
 
@@ -34,23 +35,25 @@ tag = tags.tag
 
 object_factory = InstanceFactory()
 
-
-
 loader = object_factory.create_instance("Loader")
 
 config_obj = loader.load_file("config", ".json")
 
-print(config_obj)
+
+
+pre_processing_obj = config_obj['preprocessing']
+print("PreProcessing Object: ", pre_processing_obj)
+
 
 movie_lens = object_factory.create_instance("MovieLens")
-
 split_processing = object_factory.create_instance("SplitProcessing")
 normalize_processing = object_factory.create_instance("NormalizeProcessing")
 encoding_processing = object_factory.create_instance("EncodingProcessing")
 discretize_processing = object_factory.create_instance("DiscretizeProcessing")
 
+pre_processing_instances = object_factory.create_pre_processing_instances(pre_processing_obj)
 
-
+print("PreProcessing Instances: ", pre_processing_instances)
 
 
 object_factory.create_all_instances(config_obj)

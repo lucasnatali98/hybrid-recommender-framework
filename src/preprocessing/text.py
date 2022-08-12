@@ -1,5 +1,5 @@
 
-from preprocessing.preprocessing import AbstractPreProcessing
+from src.preprocessing.preprocessing import AbstractPreProcessing
 
 
 class TextProcessing(AbstractPreProcessing):
