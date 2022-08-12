@@ -1,10 +1,4 @@
-from src.data.loader import Loader
-from src.data.movielens import MovieLens
-from src.preprocessing.encoding import EncodingProcessing
-from src.preprocessing.normalize import NormalizeProcessing
-from src.preprocessing.split import SplitProcessing
-from src.preprocessing.preprocessing import PreProcessingContainer
-from pandas import DataFrame
+from src.instance_factory import InstanceFactory
 
 """
 1. Focar no experimentor -> melhor desenvolver com ele desde o inicio (já testar com ele em bases pequenas)
@@ -13,6 +7,8 @@ from pandas import DataFrame
 3. Próximo passo: Arquivo de configuração e documentação em paralelo com desenvolvimento
 4. Design Patterns (criacionais para instanciar os objetos)
 """
+"""
+
 
 movie_lens_dataset = MovieLens("ml-latest-small")
 pre_processing_container = PreProcessingContainer()
@@ -31,3 +27,11 @@ X_train, X_test, y_train, y_test = splitter.pre_processing(movie_lens_dataset.ta
 
 tags = movie_lens_dataset.tags
 tag = tags.tag
+"""
+
+
+object_factory = InstanceFactory()
+
+movie_lens = object_factory.create_instance("MovieLens")
+#split_processing = object_factory.create_instance("SplitProcessing")
+

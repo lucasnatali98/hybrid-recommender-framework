@@ -1,6 +1,27 @@
 {
     "preprocessing": [
-        {}
+        {
+            "instance" : "SplitProcessing"
+        },
+        {
+            "instance" : "EncodingProcessing"
+        },
+        {
+            "instance" : "NormalizeProcessing"
+        },
+        {
+            "instance" : "DiscretizeProcessing"
+        }
+
+    ],
+    "datasets": [
+        {
+            "instance": "MovieLens",
+            "parameters": {
+                "proportion": "ml-latest-small"
+            }
+
+        }
 
     ]
 }

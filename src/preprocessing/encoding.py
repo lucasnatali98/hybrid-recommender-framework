@@ -3,7 +3,6 @@ from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder
 import pandas as pd
 import numpy as np
 
-
 ENCODING_TYPES = [
     "ordinal",
     "label",
@@ -12,6 +11,9 @@ ENCODING_TYPES = [
 
 
 class EncodingProcessing(AbstractPreProcessing):
+
+    def __init__(self):
+        super().__init__()
 
     def __init__(self, encoding_type):
         """
