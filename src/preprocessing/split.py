@@ -11,6 +11,11 @@ class SplitProcessing(AbstractPreProcessing):
         super().__init__()
 
     def pre_processing(self, data):
+        """
+
+        @param data:
+        @return:
+        """
         X_train, X_test, y_train, y_test = train_test_split(data, [2,3,4], test_size=0.2)
 
         return X_train, X_test, y_train, y_test

@@ -1,5 +1,5 @@
 
-from hybrid.hybrid import Hybrid
+from src.hybrid.hybrid import Hybrid
 
 
 class HybridWeighted(Hybrid):

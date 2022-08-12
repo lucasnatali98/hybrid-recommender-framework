@@ -14,7 +14,10 @@ class MAE(PredictionMetric):
 
     def evaluate(self, predictions, truth):
         """
-        
+
+        @param predictions:
+        @param truth:
+        @return:
         """
         pass
 

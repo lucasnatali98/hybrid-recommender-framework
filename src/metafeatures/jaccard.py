@@ -1,5 +1,5 @@
 
-from metafeatures.metafeature import ContentBasedMetaFeature
+from src.metafeatures.metafeature import ContentBasedMetaFeature
 
 
 class Jaccard(ContentBasedMetaFeature):

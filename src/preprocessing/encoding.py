@@ -14,7 +14,8 @@ class EncodingProcessing(AbstractPreProcessing):
 
     def __init__(self, encoding_type="onehot"):
         """
-        
+
+        @param encoding_type:
         """
         super().__init__()
 
@@ -27,6 +28,10 @@ class EncodingProcessing(AbstractPreProcessing):
         self.encoding_type = encoding[0]
 
     def _create_encoding_instance(self):
+        """
+
+        @return:
+        """
         if self.encoding_type == "onehot":
             return OneHotEncoder()
         if self.encoding_type == "ordinal":
@@ -37,6 +42,11 @@ class EncodingProcessing(AbstractPreProcessing):
         return False
 
     def pre_processing(self, data):
+        """
+
+        @param data:
+        @return:
+        """
         encoding_instance = self._create_encoding_instance()
         data = np.array(data)
         data = data.reshape(1, -1)

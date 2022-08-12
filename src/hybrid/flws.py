@@ -1,4 +1,4 @@
-from hybrid.hybrid_weighted import HybridWeighted
+from src.hybrid.hybrid_weighted import HybridWeighted
 
 
 class FLWS(HybridWeighted):

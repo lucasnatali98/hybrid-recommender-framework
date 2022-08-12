@@ -8,3 +8,11 @@ class TextProcessing(AbstractPreProcessing):
         
         """
         pass
+
+    def pre_processing(self, data):
+        """
+
+        @param data:
+        @return:
+        """
+        pass

@@ -26,7 +26,8 @@ class InstanceFactory:
     def _handle_config_obj(self, config_obj: object):
         """
 
-
+        @param config_obj:
+        @return:
         """
 
         pass
@@ -53,7 +54,8 @@ class InstanceFactory:
     def create_all_instances(self, config_obj: object):
         """
 
-
+        @param config_obj:
+        @return:
         """
         pass
 

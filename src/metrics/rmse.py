@@ -16,27 +16,36 @@ class RMSE(PredictionMetric):
 
     def evaluate(self, predictions, truth):
         """
-        
+
+        @param predictions:
+        @param truth:
+        @return:
         """
         pass
 
     def check_missing(self, truth, missing):
         """
 
+        @param truth:
+        @param missing:
+        @return:
         """
         pass
 
 
 class RMSELensKit(PredictionMetric):
-    """
 
-
-    """
 
     def __init__(self):
         pass
 
     def evaluate(self, predictions, truth):
+        """
+
+        @param predictions:
+        @param truth:
+        @return:
+        """
         return lenskit_predict.rmse(predictions=predictions, truth=truth, missing='error')
 
     def check_missing(self, truth, missing):

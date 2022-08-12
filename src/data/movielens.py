@@ -107,27 +107,66 @@ class MovieLens(AbstractDataSet):
         self.set_links(links)
 
     def set_ratings(self, ratings):
+        """
+
+        @param ratings:
+        @return:
+        """
         setattr(MovieLens, 'ratings', ratings)
 
     def set_links(self, links):
+        """
+
+        @param links:
+        @return:
+        """
         setattr(MovieLens, 'links', links)
 
     def set_items(self, items):
+        """
+
+        @param items:
+        @return:
+        """
         setattr(MovieLens, 'items', items)
 
     def set_users(self, users):
+        """
+
+        @param users:
+        @return:
+        """
         setattr(MovieLens, 'users', users)
 
     def set_tags(self, tags):
+        """
+
+        @param tags:
+        @return:
+        """
         setattr(MovieLens, 'tags', tags)
 
     def set_genome_tags(self, genome_tags):
+        """
+
+        @param genome_tags:
+        @return:
+        """
         setattr(MovieLens, 'genomeTags', genome_tags)
 
     def set_genome_scores(self, genome_scores):
+        """
+
+        @param genome_scores:
+        @return:
+        """
         setattr(MovieLens, 'genomeScores', genome_scores)
 
     def _get_dataset(self):
+        """
+
+        @return:
+        """
 
         if self.proportion == "ml-25m":
             self._load_ml25m()
@@ -144,12 +183,17 @@ class MovieLens(AbstractDataSet):
         ]
 
     def ratings(self):
+        """
+
+        @return:
+        """
         return getattr(MovieLens, 'ratings')
 
     @property
     def tags(self):
         """
 
+        @return:
         """
 
         return self.tags
@@ -158,5 +202,6 @@ class MovieLens(AbstractDataSet):
     def links(self):
         """
 
+        @return:
         """
         return self.links

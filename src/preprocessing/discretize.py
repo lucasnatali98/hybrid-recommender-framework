@@ -11,6 +11,11 @@ class DiscretizeProcessing(AbstractPreProcessing):
         pass
 
     def pre_processing(self, data):
+        """
+
+        @param data:
+        @return:
+        """
         encoder = KBinsDiscretizer(n_bins=5, encode="onehot")
 
         data = encoder.fit_transform(data)

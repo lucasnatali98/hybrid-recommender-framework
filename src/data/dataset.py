@@ -38,6 +38,10 @@ class AbstractDataSet(Dataset):
     def __init__(self, items=None, ratings=None, links=None, tags=None):
         """
 
+        @param items:
+        @param ratings:
+        @param links:
+        @param tags:
         """
 
         self.Loader = Loader()
@@ -47,18 +51,21 @@ class AbstractDataSet(Dataset):
 
     def ratings(self):
         """
-        
+
+        @return:
         """
         return getattr(AbstractDataSet, 'ratings')
 
     def users(self):
         """
-        
+
+        @return:
         """
         return self.users
 
     def items(self):
         """
-        
+
+        @return:
         """
         return self.items

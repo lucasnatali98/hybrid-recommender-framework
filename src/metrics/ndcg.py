@@ -41,6 +41,9 @@ class NDCGLenskit(RankingMetric):
     def evaluate(self, predictions, truth):
         """
 
+        @param predictions:
+        @param truth:
+        @return:
         """
         return lenskit_topn.ndcg(predictions, truth)
 

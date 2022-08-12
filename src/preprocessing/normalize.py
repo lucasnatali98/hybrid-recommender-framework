@@ -11,4 +11,9 @@ class NormalizeProcessing(AbstractPreProcessing):
         super().__init__()
 
     def pre_processing(self, data):
+        """
+
+        @param data:
+        @return:
+        """
         return normalize(data)

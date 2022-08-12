@@ -33,11 +33,16 @@ class PreProcessingContainer:
     preprocessingObjects: [PreProcessing]
 
     def __init__(self):
+        """
+
+        """
         self.processingObjects = []
 
     def push(self, obj):
         """
 
+        @param obj:
+        @return:
         """
 
         obj_is_instance = isinstance(obj, PreProcessing)
@@ -49,7 +54,10 @@ class PreProcessingContainer:
 
     def insert(self, obj, index):
         """
-        
+
+        @param obj:
+        @param index:
+        @return:
         """
         obj_is_instance = isinstance(obj, PreProcessing)
 
@@ -63,7 +71,9 @@ class PreProcessingContainer:
 
     def remove(self, obj):
         """
-        
+
+        @param obj:
+        @return:
         """
         obj_is_instance = isinstance(obj, PreProcessing)
 
@@ -74,10 +84,15 @@ class PreProcessingContainer:
 
     def removeAll(self):
         """
-        
+
+        @return:
         """
         self.processingObjects.clear()
 
     def print_instances(self):
+        """
+
+        @return:
+        """
         for i in self.processingObjects:
             print(i)

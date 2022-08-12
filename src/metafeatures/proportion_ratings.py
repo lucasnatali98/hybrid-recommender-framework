@@ -1,4 +1,4 @@
-from metafeatures.metafeature import ColaborativeMetaFeature
+from src.metafeatures.metafeature import ColaborativeMetaFeature
 
 
 class ProportionRatings(ColaborativeMetaFeature):
