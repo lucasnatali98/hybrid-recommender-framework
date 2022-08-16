@@ -52,8 +52,7 @@ encoding_processing = object_factory.create_instance("EncodingProcessing")
 discretize_processing = object_factory.create_instance("DiscretizeProcessing")
 
 pre_processing_instances = object_factory.create_pre_processing_instances(pre_processing_obj)
-
 print("PreProcessing Instances: ", pre_processing_instances)
-
-
 object_factory.create_all_instances(config_obj)
+
+print(movie_lens.tags())

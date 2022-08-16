@@ -1,12 +1,14 @@
-from src.data.movielens import MovieLens
 from src.data.loader import Loader
-from src.data.movielens import MovieLens
-from src.preprocessing.encoding import EncodingProcessing
-from src.preprocessing.normalize import NormalizeProcessing
-from src.preprocessing.split import SplitProcessing
-from src.preprocessing.preprocessing import PreProcessingContainer
-from src.preprocessing.discretize import DiscretizeProcessing
 
+from src.preprocessing import *
+
+"""
+
+1. O intuito vai ser delegar a criação dos objetos para cada classe
+2. InstanceFactory vai apenas gerenciar a conexão entre config.json e as classes. 
+3. Achar uma forma de importar tudo que eu preciso de uma só vez.
+
+"""
 
 
 class InstanceFactory:
@@ -47,19 +49,7 @@ class InstanceFactory:
 
         return instances
 
-
-
-
-
-    def create_all_instances(self, config_obj: object):
-        """
-
-        @param config_obj:
-        @return:
-        """
-        pass
-
-    def create_instance(self, instance: str):
+    def create_instance(self, instance: dict): #receber um dicionario
         """
         Essa função realiza a criação de uma instancia de uma classe de acordo com uma string informada
 
@@ -71,13 +61,20 @@ class InstanceFactory:
 
         """
 
-        if self._check_valid_instance(instance):
-            instance = globals()[instance]()
+        #Colocar menção para o local do erro e exibição do stacktrace
+        #Olhar se o erro tras todas informações que preciso ou se terei que definir explicitamente.
 
-            return instance
-
-        raise Exception(
-            "the informed instance is invalid, define only an existing class in the global scope of the project")
+        class_name = instance['class']
+        class_parameters = instance['parameters']
+        if self._check_valid_instance(class_name):
+            try:
+                instance = globals()[class_name](class_parameters)
+                return instance
+            except:
+                raise Exception(f"[InstanceFactory.create_instance] <message_error>\n{e.message}")
+        else:
+            raise Exception(
+                "[InstanceFactory.create_instance] the informed instance is invalid, define only an existing class in the global scope of the project")
 
     def _check_valid_instance(self, instance: str):
         """

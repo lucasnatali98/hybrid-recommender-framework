@@ -40,7 +40,7 @@ class MovieLens(AbstractDataSet):
 
     def _is_proportion_valid(self, proportion):
         """
-        Check if the proportion is valid
+        Check if the proportion of movielens dataset is valid
 
         @proportion: str
 

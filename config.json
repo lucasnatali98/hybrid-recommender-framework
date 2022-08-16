@@ -1,31 +1,88 @@
 {
-    "preprocessing": [
+    "preprocessing":
         {
-            "instance" : "SplitProcessing",
-            "parameters": {}
-        },
-        {
-            "instance" : "EncodingProcessing",
-            "parameters": {}
 
-        },
-        {
-            "instance" : "NormalizeProcessing",
-            "parameters": {}
-        },
-        {
-            "instance" : "DiscretizeProcessing",
-            "parameters": {}
-        }
+            "class": "PreProcessingContainer",
+            "parameters": {
+                "stages": [
+                    {
+                        "class_name":"EncodingProcessing",
+                        "parameters": {
+                            "encoding_type": "onehot"
+                        }
+                    },
+                    {
+                        "class_name":"SplitProcessing",
+                        "parameters": {}
+                    },
+                    {
+                        "class_name":"DiscretizeProcessing",
+                        "parameters": {}
+                    },
+                    {
+                        "class_name":"NormalizeProcessing",
+                        "parameters": {}
+                    }
+                ]
+            }
 
-    ],
+    },
     "datasets": [
         {
+            "name": "MovieLens1K",
+            "instance": "MovieLens",
+            "parameters": {
+                "proportion": "ml-latest-small",
+                "filters": [
+                    "qtd_user": ""
+                ]
+            },
+
+        },
+        {
+            "name": "MovieLens20M",
             "instance": "MovieLens",
             "parameters": {
                 "proportion": "ml-latest-small"
             }
         }
 
+    ],
+    "tuning": [
+        {
+            "module": "preprocessing"
+        }
+    ],
+    "metrics": [
+        {
+            "instance": "EPD",
+            "parameters": {
+
+            }
+        },
+        {
+            "instance": "MAE",
+            "parameters": {
+
+            }
+        },
+        {
+            "instance": "NDCG",
+            "parameters": {
+
+            }
+        },
+        {
+            "instance": "Recall",
+            "parameters": {
+
+            }
+        },
+        {
+            "instance": "RMSE",
+            "parameters": {
+
+            }
+        }
     ]
 }
