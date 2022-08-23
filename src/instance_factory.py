@@ -34,20 +34,6 @@ class InstanceFactory:
 
         pass
 
-    def create_pre_processing_instances(self, pre_processing_object):
-        """
-
-        @param pre_processing_object:
-        @return:
-        """
-
-        instances = {}
-
-        for processing in pre_processing_object:
-            instance = self.create_instance(processing['instance'])
-            instances[instance.__class__.__name__] = instance
-
-        return instances
 
     def create_instance(self, instance: dict): #receber um dicionario
         """
@@ -71,7 +57,7 @@ class InstanceFactory:
                 instance = globals()[class_name](class_parameters)
                 return instance
             except:
-                raise Exception(f"[InstanceFactory.create_instance] <message_error>\n{e.message}")
+                raise Exception(f"[InstanceFactory.create_instance] <message_error>\n")
         else:
             raise Exception(
                 "[InstanceFactory.create_instance] the informed instance is invalid, define only an existing class in the global scope of the project")

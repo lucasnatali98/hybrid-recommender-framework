@@ -9,6 +9,9 @@ class DataHandler:
     output_folder: str = ""
 
 
+    def __init__(self):
+        pass
+
     def run(self):
         """
 

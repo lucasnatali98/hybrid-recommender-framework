@@ -1,88 +1,73 @@
 {
-    "preprocessing":
-        {
-
-            "class": "PreProcessingContainer",
-            "parameters": {
-                "stages": [
-                    {
-                        "class_name":"EncodingProcessing",
-                        "parameters": {
-                            "encoding_type": "onehot"
-                        }
-                    },
-                    {
-                        "class_name":"SplitProcessing",
-                        "parameters": {}
-                    },
-                    {
-                        "class_name":"DiscretizeProcessing",
-                        "parameters": {}
-                    },
-                    {
-                        "class_name":"NormalizeProcessing",
-                        "parameters": {}
+    "preprocessing": {
+        "class": "PreProcessingContainer",
+        "parameters": {
+            "stages": [
+                {
+                    "class_name": "EncodingProcessing",
+                    "parameters": {
+                        "encoding_type": "onehot"
                     }
-                ]
-            }
-
+                },
+                {
+                    "class_name": "SplitProcessing",
+                    "parameters": {}
+                },
+                {
+                    "class_name": "DiscretizeProcessing",
+                    "parameters": {}
+                },
+                {
+                    "class_name": "NormalizeProcessing",
+                    "parameters": {}
+                }
+            ]
+        }
     },
-    "datasets": [
-        {
-            "name": "MovieLens1K",
-            "instance": "MovieLens",
-            "parameters": {
-                "proportion": "ml-latest-small",
-                "filters": [
-                    "qtd_user": ""
-                ]
-            },
+    "MovieLens1K": {
 
-        },
-        {
-            "name": "MovieLens20M",
-            "instance": "MovieLens",
-            "parameters": {
-                "proportion": "ml-latest-small"
-            }
+        "class": "MovieLens",
+        "parameters": {
+            "proportion": "ml-latest-small",
+            "filters": [
+                "qtd_user",
+                ""
+            ]
         }
-
-    ],
-    "tuning": [
-        {
-            "module": "preprocessing"
+    },
+    "MovieLens20M": {
+        "class": "MovieLens",
+        "parameters": {
+            "proportion": "ml-latest-small",
+            "filters": [
+                "qtd_user",
+                ""
+            ]
         }
-    ],
-    "metrics": [
-        {
-            "instance": "EPD",
-            "parameters": {
+    },
+    "metrics": {
+        "class": "MetricsContainer",
+        "parameters": {
+            "metrics": [
+                {
+                    "class_name": "NDCG",
+                    "parameters": {
 
-            }
-        },
-        {
-            "instance": "MAE",
-            "parameters": {
+                    }
+                },
+                {
+                    "class_name": "RMSE",
+                    "parameters": {
 
-            }
-        },
-        {
-            "instance": "NDCG",
-            "parameters": {
-
-            }
-        },
-        {
-            "instance": "Recall",
-            "parameters": {
-
-            }
-        },
-        {
-            "instance": "RMSE",
-            "parameters": {
-
-            }
+                    }
+                },
+                {
+                    "class_name": "Recall",
+                    "parameters": {
+                        
+                    }
+                }
+            ]
         }
-    ]
+    }
 }
