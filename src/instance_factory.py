@@ -1,7 +1,3 @@
-from src.data.loader import Loader
-
-from src.preprocessing import *
-
 """
 
 1. O intuito vai ser delegar a criação dos objetos para cada classe

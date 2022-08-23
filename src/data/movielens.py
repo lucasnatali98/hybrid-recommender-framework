@@ -1,5 +1,4 @@
 from src.data.dataset import AbstractDataSet
-import os.path
 from dataclasses import dataclass
 
 PROPORTION_POSSIBILITIES = {
