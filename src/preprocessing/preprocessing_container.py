@@ -3,7 +3,17 @@ from src.preprocessing.factories import *
 
 class PreProcessingContainer:
 
-    def __init__(self, stages: list):
+    """
+    Preciso receber os parametros
+
+
+    -> O tipo do parametro precisa ser padronizado
+
+    -> toda classe precisa ter um método para interpretar
+
+    https://stackoverflow.com/questions/4821104/dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported-module
+    """
+    def __init__(self, stages = []):
         """
         @type stages: list
 
@@ -12,6 +22,7 @@ class PreProcessingContainer:
         if len(stages) == 0:
             self.processingObjects = []
         else:
+            self.processingObjects = []
             self._create_objects_by_stages(stages)
 
     def _create_objects_by_stages(self, stages):
@@ -26,21 +37,23 @@ class PreProcessingContainer:
         @param preprocessing_object:
         @return: object or None
         """
-        if preprocessing_object.class_name == "EncodingProcessing":
+
+        #Precisa ser uma única fabrica
+
+        if preprocessing_object['class_name'] == "EncodingProcessing":
             obj = EncodingProcessingFactory()
             return obj.create
-        if preprocessing_object.class_name == "SplitProcessing":
+        if preprocessing_object['class_name'] == "SplitProcessing":
             obj = SplitProcessingFactory()
             return obj.create
-        if preprocessing_object.class_name == "NormalizeProcessing":
+        if preprocessing_object['class_name'] == "NormalizeProcessing":
             obj = NormalizeProcessingFactory()
             return obj.create
 
-        if preprocessing_object.class_name == "DiscretizeProcessing":
+        if preprocessing_object['class_name'] == "DiscretizeProcessing":
             obj = DiscretizeProcessingFactory()
             return obj.create
 
-        return None
 
     def push(self, obj):
         """

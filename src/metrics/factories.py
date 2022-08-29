@@ -1,3 +1,5 @@
+from abc import abstractmethod
+
 from src.metrics.metric import Metric
 
 from src.metrics.ndcg import NDCG
@@ -7,7 +9,7 @@ from src.metrics.rmse import RMSE
 from src.metrics.epd import EPD
 
 
-class Creator(Metric):
+class Creator:
 
     @abstractmethod
     def create(self) -> Metric:

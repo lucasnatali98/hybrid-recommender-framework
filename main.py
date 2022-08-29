@@ -9,50 +9,15 @@ import json
 3. Próximo passo: Arquivo de configuração e documentação em paralelo com desenvolvimento
 4. Design Patterns (criacionais para instanciar os objetos)
 """
-"""
 
+file = open("config.json")
+config_obj = json.load(file)
 
-movie_lens_dataset = MovieLens("ml-latest-small")
-pre_processing_container = PreProcessingContainer()
-normalizer = NormalizeProcessing()
-splitter = SplitProcessing()
-ordinal = EncodingProcessing("onehot")
+instance_factory = InstanceFactory(config_obj)
 
-pre_processing_container.push(normalizer)
-pre_processing_container.push(splitter)
-pre_processing_container.push(ordinal)
-pre_processing_container.print_instances()
+instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
+print(instance_dict)
 
-X_train, X_test, y_train, y_test = splitter.pre_processing(movie_lens_dataset.tags)
+instance = instance_factory.create_instance(instance_dict)
+print(instance.print_instances())
 
-# print(X_train)
-
-tags = movie_lens_dataset.tags
-tag = tags.tag
-"""
-
-
-
-object_factory = InstanceFactory()
-
-loader = object_factory.create_instance("Loader")
-
-config_obj = loader.load_file("config", ".json")
-
-
-
-pre_processing_obj = config_obj['preprocessing']
-print("PreProcessing Object: ", pre_processing_obj)
-
-
-movie_lens = object_factory.create_instance("MovieLens")
-split_processing = object_factory.create_instance("SplitProcessing")
-normalize_processing = object_factory.create_instance("NormalizeProcessing")
-encoding_processing = object_factory.create_instance("EncodingProcessing")
-discretize_processing = object_factory.create_instance("DiscretizeProcessing")
-
-pre_processing_instances = object_factory.create_pre_processing_instances(pre_processing_obj)
-print("PreProcessing Instances: ", pre_processing_instances)
-object_factory.create_all_instances(config_obj)
-
-print(movie_lens.tags())

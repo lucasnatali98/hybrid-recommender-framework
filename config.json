@@ -1,73 +1,182 @@
 {
-    "preprocessing": {
-        "class": "PreProcessingContainer",
-        "parameters": {
-            "stages": [
-                {
-                    "class_name": "EncodingProcessing",
-                    "parameters": {
-                        "encoding_type": "onehot"
-                    }
-                },
-                {
-                    "class_name": "SplitProcessing",
-                    "parameters": {}
-                },
-                {
-                    "class_name": "DiscretizeProcessing",
-                    "parameters": {}
-                },
-                {
-                    "class_name": "NormalizeProcessing",
-                    "parameters": {}
-                }
-            ]
+  "preprocessing": {
+    "class": "PreProcessingContainer",
+    "module": "src.preprocessing",
+    "parameters": {
+      "stages": [
+        {
+          "class_name": "EncodingProcessing",
+          "parameters": {
+            "encoding_type": "onehot"
+          }
+        },
+        {
+          "class_name": "SplitProcessing",
+          "parameters": {}
+        },
+        {
+          "class_name": "DiscretizeProcessing",
+          "parameters": {}
+        },
+        {
+          "class_name": "NormalizeProcessing",
+          "parameters": {}
         }
-    },
-    "MovieLens1K": {
-
-        "class": "MovieLens",
-        "parameters": {
-            "proportion": "ml-latest-small",
-            "filters": [
-                "qtd_user",
-                ""
-            ]
-        }
-    },
-    "MovieLens20M": {
-        "class": "MovieLens",
-        "parameters": {
-            "proportion": "ml-latest-small",
-            "filters": [
-                "qtd_user",
-                ""
-            ]
-        }
-    },
-    "metrics": {
-        "class": "MetricsContainer",
-        "parameters": {
-            "metrics": [
-                {
-                    "class_name": "NDCG",
-                    "parameters": {
-
-                    }
-                },
-                {
-                    "class_name": "RMSE",
-                    "parameters": {
-
-                    }
-                },
-                {
-                    "class_name": "Recall",
-                    "parameters": {
-                        
-                    }
-                }
-            ]
-        }
+      ]
     }
+  },
+  "MovieLens1K": {
+    "class": "MovieLens",
+    "module": "src.data",
+    "parameters": {
+      "proportion": "ml-latest-small",
+      "filters": [
+        {
+          "qtd_user": 100
+        },
+        {
+          "qtd_ratings": 100
+        }
+      ]
+    }
+  },
+  "MovieLens20M": {
+    "class": "MovieLens",
+    "module": "src.data",
+    "parameters": {
+      "proportion": "ml-latest-small",
+      "filters": [
+        {
+          "qtd_user": 100
+        },
+        {
+          "qtd_ratings": 100
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "class": "MetricsContainer",
+    "module": "src.metrics",
+    "parameters": {
+      "metrics": [
+        {
+          "class_name": "NDCG",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "RMSE",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "Recall",
+          "parameters": {
+          }
+        }
+      ]
+    }
+  },
+  "metafeatures": {
+    "class": "MetaFeaturesContainer",
+    "module": "src.metafeatures",
+    "parameters": {
+      "features": [
+        {
+          "class_name": "Cosine",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "Gini",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "Jaccard",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "ProportionRatings",
+          "parameters": {
+          }
+        }
+      ]
+    }
+  },
+  "recommenders": {
+    "class": "RecommendersContainer",
+    "module": "src.recommenders",
+    "parameters": {
+      "features": [
+        {
+          "class_name": "ItemKNN",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "SlopeOne",
+          "parameters": {
+          }
+        },
+        {
+          "class_name": "UserKNN",
+          "parameters": {
+          }
+        }
+      ]
+    }
+  },
+  "visualization": {
+    "class": "VisualizationContainer",
+    "module": "src.visualization",
+    "parameters": {
+      "visualizations": [
+        {
+          "class_name": "StaticScatter",
+          "parameters": {}
+        },
+        {
+          "class_name": "StaticBar",
+          "parameters": {}
+        },
+        {
+          "class_name": "InteractiveBar",
+          "parameters": {}
+        },
+        {
+          "class_name": "InteractiveScatter",
+          "parameters": {}
+        },
+        {
+          "class_name": "HtmlTable",
+          "parameters": {}
+        },
+        {
+          "class_name": "LatexTable",
+          "parameters": {}
+        }
+
+      ]
+    }
+  },
+  "results": {
+    "class": "ResultsContainer",
+    "module": "src.results",
+    "parameters": {
+      "results": [
+        {
+          "class_name": "ANOVA",
+          "parameters": {}
+        },
+        {
+          "class_name": "ConfidenceInterval",
+          "parameters": {}
+        }
+
+      ]
+    }
+  }
 }

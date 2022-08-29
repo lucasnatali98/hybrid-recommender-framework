@@ -1,9 +1,21 @@
+from src.data import *
+from src.preprocessing import *
+from src.experiments import *
+from src.metafeatures import *
+from src.metrics import *
+from src.recommenders import *
+from src.results import *
+from src.visualization import *
+
+
+
+
 """
 
 1. O intuito vai ser delegar a criação dos objetos para cada classe
 2. InstanceFactory vai apenas gerenciar a conexão entre config.json e as classes. 
 3. Achar uma forma de importar tudo que eu preciso de uma só vez.
-
+4. Import dinamico
 """
 
 
@@ -19,6 +31,7 @@ class InstanceFactory:
 
         @param config_obj:
         """
+        self._handle_config_obj(config_obj)
         self.config_obj = config_obj
 
     def _handle_config_obj(self, config_obj: object):
@@ -28,10 +41,21 @@ class InstanceFactory:
         @return:
         """
 
-        pass
+        for key, value in config_obj.items():
+            if value['class'] == "PreProcessingContainer":
+                instance = self.create_instance(value)
 
+    def get_instance_from_config_obj(self, class_name: str) -> dict:
+        """
 
-    def create_instance(self, instance: dict): #receber um dicionario
+        @param class_name:
+        @return:
+        """
+        for key, value in self.config_obj.items():
+            if value['class'] == class_name:
+                return value
+
+    def create_instance(self, instance: dict):  # receber um dicionario
         """
         Essa função realiza a criação de uma instancia de uma classe de acordo com uma string informada
 
@@ -43,15 +67,12 @@ class InstanceFactory:
 
         """
 
-        #Colocar menção para o local do erro e exibição do stacktrace
-        #Olhar se o erro tras todas informações que preciso ou se terei que definir explicitamente.
-
         class_name = instance['class']
         class_parameters = instance['parameters']
+
         if self._check_valid_instance(class_name):
             try:
-                instance = globals()[class_name](class_parameters)
-                return instance
+                return preprocessing_container.PreProcessingContainer(class_parameters['stages'])
             except:
                 raise Exception(f"[InstanceFactory.create_instance] <message_error>\n")
         else:
@@ -64,7 +85,7 @@ class InstanceFactory:
         @return:
 
         """
-
+        return True
         instance_class = globals()[instance]
         instance_class = instance_class()
 
