@@ -14,7 +14,9 @@
 
 O projeto está dividido em três principais módulos: Pré-processamento, modelagem e treinamento e por fim avaliação e visualização dos resultados
 
-Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. 
+Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. Abaixo segue uma imagem que define os módulos desse projeto em uma visão mais macro.
+
+
 
 ### Ajustes e melhorias
 
