@@ -4,7 +4,7 @@ from sklearn.preprocessing import KBinsDiscretizer
 
 class DiscretizeProcessing(AbstractPreProcessing):
 
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
         @rtype: object
         

@@ -3,7 +3,7 @@ from src.metrics.metric import Metric
 
 
 class MetricsContainer:
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
 
         """

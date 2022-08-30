@@ -2,7 +2,6 @@ from src.preprocessing.factories import *
 
 
 class PreProcessingContainer:
-
     """
     Preciso receber os parametros
 
@@ -13,50 +12,27 @@ class PreProcessingContainer:
 
     https://stackoverflow.com/questions/4821104/dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported-module
     """
-    def __init__(self, stages = []):
+
+    def __init__(self, parameters: dict):
         """
         @type stages: list
 
         """
+        stages = parameters['stages']
 
         if len(stages) == 0:
             self.processingObjects = []
         else:
             self.processingObjects = []
-            self._create_objects_by_stages(stages)
+            self.processing_factory = ProcessingFactory(parameters)
+            self.processingObjects = self.processing_factory.create
 
-    def _create_objects_by_stages(self, stages):
-
-        for stage in stages:
-            obj = self._create_preprocessing_object(stage)
-            self.push(obj)
-
-    def _create_preprocessing_object(self, preprocessing_object) -> object:
-        """
-
-        @param preprocessing_object:
-        @return: object or None
-        """
-
-        #Precisa ser uma única fabrica
-
-        if preprocessing_object['class_name'] == "EncodingProcessing":
-            obj = EncodingProcessingFactory()
-            return obj.create
-        if preprocessing_object['class_name'] == "SplitProcessing":
-            obj = SplitProcessingFactory()
-            return obj.create
-        if preprocessing_object['class_name'] == "NormalizeProcessing":
-            obj = NormalizeProcessingFactory()
-            return obj.create
-
-        if preprocessing_object['class_name'] == "DiscretizeProcessing":
-            obj = DiscretizeProcessingFactory()
-            return obj.create
 
 
     def push(self, obj):
         """
+        Insere um objeto do tipo PreProcessing no array
+
 
         @param obj:
         @return:

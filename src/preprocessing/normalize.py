@@ -4,7 +4,7 @@ from sklearn.preprocessing import normalize
 
 class NormalizeProcessing(AbstractPreProcessing):
 
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
 
         """

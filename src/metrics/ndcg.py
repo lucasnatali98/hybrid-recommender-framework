@@ -8,7 +8,7 @@ class NDCG(RankingMetric):
 
     """
 
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
         
         """

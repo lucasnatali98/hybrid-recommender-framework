@@ -1,5 +1,5 @@
 from abc import abstractmethod
-
+import importlib
 from src.preprocessing.preprocessing import PreProcessing, AbstractPreProcessing
 from src.preprocessing.encoding import EncodingProcessing
 from src.preprocessing.split import SplitProcessing
@@ -19,48 +19,34 @@ class Creator:
 
 
 class ProcessingFactory(Creator):
-    def __init__(self, config_obj: dict):
+    def __init__(self, parameters: dict):
+        self.parameters = self._handle_config_obj(parameters)
 
-        config_obj = self._handle_config_obj(config_obj)
-
-        if not isinstance(config_obj, dict):
-            print("Erro na definição do objeto de configuração")
-
-        self.config_obj = config_obj
-
-    def _handle_config_obj(self, config_obj: dict):
+    def _handle_config_obj(self, parameters: dict) -> dict:
         """
         Tem como objetivo verificar a validade do arquivo de configuração para a execução
         das etapas de pré-processamento
 
+        @type parameters: object
         @param config_obj:
         @return: object or None
         """
 
-        # Verificação das chaves pode ser um processo comum a todas as classes
-        #
-        config_keys = ["class", "module", "parameters"]
-        has_config_keys = []
-
-        for key in config_keys:
-            if key in config_obj:
-                has_config_keys.append(True)
-            else:
-                has_config_keys.append(False)
-
-        if has_config_keys.index(False):
-            raise Exception("Não existem todas as chaves necessárias para a execução do projeto")
-
-        parameters = config_obj['parameters']
         stages = parameters['stages']
 
         is_empty = self._is_stages_empty(stages)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
-        return config_obj
+        return parameters
 
-    def _is_stages_empty(self, stages):
+    def _is_stages_empty(self, stages: list) -> bool:
+        """
+        Verifica se a lista de estágios de preprocessamento está vazia
+
+        @param stages:
+        @return:
+        """
         if len(stages) == 0:
             return True
 
@@ -73,3 +59,11 @@ class ProcessingFactory(Creator):
 
         @return: object
         """
+        instances = []
+        for stages in self.parameters:
+            module = importlib.import_module('src.preprocessing')
+            class_ = getattr(module, stages['class_name'])
+            instance = class_(stages['parameters'])
+            instances.append(instance)
+
+        return instances

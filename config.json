@@ -1,7 +1,7 @@
 {
   "preprocessing": {
     "class": "PreProcessingContainer",
-    "module": "src.preprocessing",
+    "module": "src.preprocessing.preprocessing",
     "parameters": {
       "stages": [
         {
@@ -27,7 +27,7 @@
   },
   "MovieLens1K": {
     "class": "MovieLens",
-    "module": "src.data",
+    "module": "src.data.movielens",
     "parameters": {
       "proportion": "ml-latest-small",
       "filters": [
@@ -42,7 +42,7 @@
   },
   "MovieLens20M": {
     "class": "MovieLens",
-    "module": "src.data",
+    "module": "src.data.movielens",
     "parameters": {
       "proportion": "ml-latest-small",
       "filters": [
@@ -57,7 +57,7 @@
   },
   "metrics": {
     "class": "MetricsContainer",
-    "module": "src.metrics",
+    "module": "src.metrics.metrics_container",
     "parameters": {
       "metrics": [
         {
@@ -80,7 +80,7 @@
   },
   "metafeatures": {
     "class": "MetaFeaturesContainer",
-    "module": "src.metafeatures",
+    "module": "src.metafeatures.",
     "parameters": {
       "features": [
         {

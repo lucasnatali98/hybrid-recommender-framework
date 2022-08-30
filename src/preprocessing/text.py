@@ -3,7 +3,7 @@ from src.preprocessing.preprocessing import AbstractPreProcessing
 
 
 class TextProcessing(AbstractPreProcessing):
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
         
         """

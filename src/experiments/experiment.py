@@ -57,7 +57,7 @@ class Experiment(ABC):
 
 class ExperimentHandler(Experiment):
 
-    def __init__(self):
+    def __init__(self, parameters: dict):
         """
         
         """

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import sklearn
-from src.utils import object_equals_type
+
 
 
 class PreProcessing(ABC):
