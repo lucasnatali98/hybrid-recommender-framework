@@ -16,7 +16,7 @@ O projeto está dividido em três principais módulos: Pré-processamento, model
 
 Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. Abaixo segue uma imagem que define os módulos desse projeto em uma visão mais macro.
 
-
+![alt text](https://raw.githubusercontent.com/lucasnatali98/hybrid-recommender-framework/dev/docs/imgs/arquiteturaFramework_ptbr.png?token=GHSAT0AAAAAABWFNVAT5YV657V7DUJ7SKZ6YYOVJFA)
 
 ### Ajustes e melhorias
 
