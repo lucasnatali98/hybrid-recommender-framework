@@ -10,7 +10,8 @@ class PreProcessingContainer:
 
     -> toda classe precisa ter um método para interpretar
 
-    https://stackoverflow.com/questions/4821104/dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported-module
+    https://stackoverflow.com/questions/482110
+    4/dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported-module
     """
 
     def __init__(self, parameters: dict):
@@ -38,12 +39,9 @@ class PreProcessingContainer:
         @return:
         """
 
-        obj_is_instance = isinstance(obj, PreProcessing)
 
-        if obj_is_instance:
-            self.processingObjects.insert(-1, obj)
-        else:
-            raise Exception("")
+        self.processingObjects.insert(-1, obj)
+
 
     def insert(self, obj, index):
         """

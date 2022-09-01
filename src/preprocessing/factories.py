@@ -1,17 +1,14 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 import importlib
-from src.preprocessing.preprocessing import PreProcessing, AbstractPreProcessing
-from src.preprocessing.encoding import EncodingProcessing
-from src.preprocessing.split import SplitProcessing
-from src.preprocessing.normalize import NormalizeProcessing
-from src.preprocessing.discretize import DiscretizeProcessing
+from src.preprocessing.preprocessing import AbstractPreProcessing
+
 
 """
 1. Generalizar as fabricas em uma classe
 """
 
 
-class Creator:
+class Creator(ABC):
 
     @abstractmethod
     def create(self) -> AbstractPreProcessing:

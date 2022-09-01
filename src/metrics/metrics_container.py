@@ -1,13 +1,20 @@
 from src.metrics.metric import Metric
-
-
+from src.metrics.factories import *
 
 class MetricsContainer:
     def __init__(self, parameters: dict):
         """
 
         """
-        self.metrics = []
+
+        metrics = parameters['metrics']
+
+        if len(metrics) == 0:
+            self.metrics_objects = []
+        else:
+            self.metrics_objects = []
+            self.metrics_factory = MetricsFactory(parameters)
+            self.processingObjects = self.metrics_factory.create
 
     def push(self, metric: Metric):
         """

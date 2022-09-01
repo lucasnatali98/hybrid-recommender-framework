@@ -1,11 +1,4 @@
-from src.data import *
-from src.preprocessing import *
 from src.experiments import *
-from src.metafeatures import *
-from src.metrics import *
-from src.recommenders import *
-from src.results import *
-from src.visualization import *
 import importlib
 
 """
@@ -28,7 +21,7 @@ class InstanceFactory:
 
         @param config_obj:
         """
-        #self._handle_config_obj(config_obj)
+
         self.config_obj = config_obj
 
     def _handle_config_obj(self, config_obj: object):
@@ -54,7 +47,7 @@ class InstanceFactory:
             if value['class'] == class_name:
                 return value
 
-    def create_instance(self, instance: dict):  # receber um dicionario
+    def create_instance(self, instance: dict):
         """
         Essa função realiza a criação de uma instancia de uma classe de acordo com uma string informada
 

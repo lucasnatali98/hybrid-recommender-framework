@@ -1,16 +1,16 @@
 from abc import abstractmethod
-from src.metrics.metric import AbstractMetric
+from src.recommenders.recommender import Recommender
 import importlib
 
 
 class Creator:
 
     @abstractmethod
-    def create(self) -> AbstractMetric:
+    def create(self) -> Recommender:
         pass
 
 
-class MetricsFactory(Creator):
+class RecommendersFactory(Creator):
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
 
@@ -24,22 +24,22 @@ class MetricsFactory(Creator):
         @return: object or None
         """
 
-        metrics = parameters['metrics']
+        recommenders = parameters['recommenders']
 
-        is_empty = self._is_metrics_empty(metrics)
+        is_empty = self._is_recommenders_empty(recommenders)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
 
-    def _is_metrics_empty(self, metrics: list) -> bool:
+    def _is_recommenders_empty(self, recommenders: list) -> bool:
         """
         Verifica se a lista de estágios de preprocessamento está vazia
 
         @param stages:
         @return:
         """
-        if len(metrics) == 0:
+        if len(recommenders) == 0:
             return True
 
         return False
@@ -53,7 +53,7 @@ class MetricsFactory(Creator):
         """
         instances = []
         for stages in self.parameters:
-            module = importlib.import_module('src.metrics')
+            module = importlib.import_module('src.recommenders')
             class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)
