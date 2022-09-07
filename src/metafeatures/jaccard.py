@@ -8,3 +8,25 @@ class Jaccard(ContentBasedMetaFeature):
         
         """
         pass
+
+    def fit(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def predict(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def update(self, obj):
+        """
+
+        @param obj:
+        @return:
+        """
+        pass

@@ -37,3 +37,19 @@ class SlopeOne(Recommender):
         @return:
         """
         pass
+
+    def fit(self):
+        """
+
+        @return:
+        """
+        pass
+
+
+    def get_params(self, deep = True):
+        """
+
+        @param deep:
+        @return:
+        """
+        pass

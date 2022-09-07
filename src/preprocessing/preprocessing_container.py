@@ -1,7 +1,7 @@
 from src.preprocessing.factories import *
+from src.shared.container import Container
 
-
-class PreProcessingContainer:
+class PreProcessingContainer(Container):
     """
     Preciso receber os parametros
 
@@ -19,6 +19,8 @@ class PreProcessingContainer:
         @type stages: list
 
         """
+
+        super().__init__()
         stages = parameters['stages']
 
         if len(stages) == 0:
@@ -28,62 +30,3 @@ class PreProcessingContainer:
             self.processing_factory = ProcessingFactory(parameters)
             self.processingObjects = self.processing_factory.create
 
-
-
-    def push(self, obj):
-        """
-        Insere um objeto do tipo PreProcessing no array
-
-
-        @param obj:
-        @return:
-        """
-
-
-        self.processingObjects.insert(-1, obj)
-
-
-    def insert(self, obj, index):
-        """
-
-        @param obj:
-        @param index:
-        @return:
-        """
-        obj_is_instance = isinstance(obj, PreProcessing)
-
-        if not obj_is_instance:
-            raise Exception("")
-
-        if index > len(self.processingObjects):
-            raise Exception("")
-
-        self.processingObjects.insert(index, obj)
-
-    def remove(self, obj):
-        """
-
-        @param obj:
-        @return:
-        """
-        obj_is_instance = isinstance(obj, PreProcessing)
-
-        if not obj_is_instance:
-            raise Exception("")
-
-        self.processingObjects.remove(obj)
-
-    def removeAll(self):
-        """
-
-        @return:
-        """
-        self.processingObjects.clear()
-
-    def print_instances(self):
-        """
-
-        @return:
-        """
-        for i in self.processingObjects:
-            print(i)

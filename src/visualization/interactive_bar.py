@@ -2,7 +2,7 @@
 from src.visualization.visualization import InteractivePlot
 
 
-class InteractiveBarPlot(InteractivePlot):
+class InteractiveBar(InteractivePlot):
     def __init__(self, parameters: dict):
         """
         

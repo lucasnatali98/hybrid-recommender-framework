@@ -10,8 +10,12 @@ class Creator(ABC):
         pass
 
 
-class MetafeatureFactory(Creator):
+class MetaFeatureFactory(Creator):
     def __init__(self, parameters: dict):
+        """
+
+        @param parameters:
+        """
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
@@ -31,6 +35,7 @@ class MetafeatureFactory(Creator):
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
+
 
     def _is_metafeatures_empty(self, metafeatures: list) -> bool:
         """
@@ -52,8 +57,9 @@ class MetafeatureFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters:
-            module = importlib.import_module('src.metafeatures')
+        for stages in self.parameters['metafeatures']:
+            class_file = stages['class_file']
+            module = importlib.import_module('src.metafeatures.' + class_file)
             class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)

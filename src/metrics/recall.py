@@ -17,3 +17,12 @@ class Recall(RankingMetric):
         """
         return lenskit_topn.recall(predictions, truth)
 
+    def check_missing(self, truth, missing):
+        """
+
+        @param truth:
+        @param missing:
+        @return:
+        """
+        pass
+

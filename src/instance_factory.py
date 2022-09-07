@@ -1,6 +1,6 @@
 from src.experiments import *
 import importlib
-
+from src.preprocessing import *
 """
 
 1. O intuito vai ser delegar a criação dos objetos para cada classe
@@ -60,10 +60,11 @@ class InstanceFactory:
         """
 
         class_name = instance['class']
+        file_name = "." + instance['class_file']
         module_name = instance['module']
         class_parameters = instance['parameters']
 
-        module = importlib.import_module(module_name)
+        module = importlib.import_module(module_name + file_name)
         class_ = getattr(module, class_name)
 
         try:

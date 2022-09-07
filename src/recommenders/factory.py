@@ -10,7 +10,7 @@ class Creator:
         pass
 
 
-class RecommendersFactory(Creator):
+class RecommenderFactory(Creator):
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
 
@@ -52,8 +52,9 @@ class RecommendersFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters:
-            module = importlib.import_module('src.recommenders')
+        for stages in self.parameters['recommenders']:
+            class_file = stages['class_file']
+            module = importlib.import_module('src.recommenders.' + class_file)
             class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)

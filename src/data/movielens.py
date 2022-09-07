@@ -127,7 +127,7 @@ class MovieLens(AbstractDataSet):
         @param items:
         @return:
         """
-        setattr(MovieLens, 'items', items)
+        setattr(MovieLens, '__items', items)
 
     def set_users(self, users):
         """

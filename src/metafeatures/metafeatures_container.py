@@ -1,36 +1,20 @@
+from src.metafeatures.factory import *
+from src.shared.container import Container
 
-class MetaFeatureContainer:
+
+class MetaFeatureContainer(Container):
     def __init__(self, parameters: dict):
-        pass
-
-    def push(self, metafeature):
         """
 
-        @param metafeature:
-        @return:
         """
-        pass
+        super().__init__()
 
-    def insert(self, metafeatures):
-        """
+        metafeatures = parameters['metafeatures']
 
-        @param metafeatures:
-        @return:
-        """
-        pass
+        if len(metafeatures) == 0:
+            self.metafeatures_objects = []
+        else:
+            self.metafeatures_objects = []
+            self.metafeatures_factory = MetaFeatureFactory(parameters)
+            self.metafeatures_objects = self.metafeatures_factory.create
 
-    def remove(self, metafeature):
-        """
-
-        @param metafeature:
-        @return:
-        """
-        pass
-
-    def remove_all(self):
-        """
-
-        @return:
-        """
-
-        pass

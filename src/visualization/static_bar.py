@@ -1,7 +1,7 @@
 from src.visualization.visualization import StaticPlot
 
 
-class StaticBarPlot(StaticPlot):
+class StaticBar(StaticPlot):
     def __init__(self, parameters: dict):
         """
         

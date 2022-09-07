@@ -56,9 +56,12 @@ class ProcessingFactory(Creator):
 
         @return: object
         """
+
         instances = []
-        for stages in self.parameters:
-            module = importlib.import_module('src.preprocessing')
+        for stages in self.parameters['stages']:
+
+            module = importlib.import_module('src.preprocessing.' + stages['class_file'])
+
             class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)

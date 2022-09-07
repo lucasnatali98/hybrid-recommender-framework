@@ -12,13 +12,15 @@ ENCODING_TYPES = [
 
 class EncodingProcessing(AbstractPreProcessing):
 
-    def __init__(self, encoding_type: object = "onehot") -> object:
+    def __init__(self, encoding_type: dict) -> object:
         """
 
         @rtype: object
         @param encoding_type:
         """
         super().__init__()
+        encoding_type = encoding_type['encoding_type']
+
 
         encoding = filter(lambda x: x == encoding_type, ENCODING_TYPES)
         encoding = list(encoding)

@@ -52,8 +52,9 @@ class VisualizationFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters:
-            module = importlib.import_module('src.visualization')
+        for stages in self.parameters['visualizations']:
+            class_file = stages['class_file']
+            module = importlib.import_module('src.visualization.' + class_file)
             class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)

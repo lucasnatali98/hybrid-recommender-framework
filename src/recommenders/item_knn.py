@@ -38,3 +38,20 @@ class ItemKNN(Recommender):
         @return:
         """
         pass
+
+    def get_params(self, deep = True):
+        """
+
+        @param deep:
+        @return:
+        """
+        pass
+
+    def fit(self, rating, **kwargs):
+        """
+
+        @param rating:
+        @param kwargs:
+        @return:
+        """
+        pass

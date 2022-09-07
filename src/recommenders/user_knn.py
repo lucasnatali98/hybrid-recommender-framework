@@ -36,3 +36,21 @@ class UserKNN(Recommender):
         @param ratings:
         @return:
         """
+
+    def fit(self, rating, **kwargs):
+        """
+
+        @param rating:
+        @param kwargs:
+        @return:
+        """
+        pass
+
+
+    def get_params(self, deep = True):
+        """
+
+        @param deep:
+        @return:
+        """
+        pass
