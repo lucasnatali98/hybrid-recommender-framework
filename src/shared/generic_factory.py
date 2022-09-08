@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, List
 from collections.abc import Container
+import importlib
+
 T = TypeVar('T')
 
-import importlib
+
 
 
 
@@ -56,6 +58,7 @@ class GenericFactory(AbstractEntityFactory):
         return False
 
     @property
+
     def create(self):
         """
 
@@ -65,9 +68,13 @@ class GenericFactory(AbstractEntityFactory):
         instances = []
 
         for stages in self.parameters['visualizations']:
-            class_file = stages['class_file']
-            module = importlib.import_module('src.visualization.' + class_file)
-            class_ = getattr(module, stages['class_name'])
+
+            class_module = stages['module']
+            class_name = stages['class_name']
+
+            module = importlib.import_module(class_module)
+            class_ = getattr(module, class_name)
+
             instance = class_(stages['parameters'])
             instances.append(instance)
 

@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from src.metrics.metric import AbstractMetric
 import importlib
+from src.utils import is_structure_empty
 
 
 class Creator:
@@ -11,6 +12,9 @@ class Creator:
 
 
 class MetricsFactory(Creator):
+    """
+
+    """
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
 
@@ -24,25 +28,15 @@ class MetricsFactory(Creator):
         @return: object or None
         """
 
-        metrics = parameters['metrics']
+        metrics = parameters['instances']
 
-        is_empty = self._is_metrics_empty(metrics)
+        is_empty = is_structure_empty(metrics)
+
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
 
-    def _is_metrics_empty(self, metrics: list) -> bool:
-        """
-        Verifica se a lista de estágios de preprocessamento está vazia
-
-        @param stages:
-        @return:
-        """
-        if len(metrics) == 0:
-            return True
-
-        return False
 
     @property
     def create(self):
@@ -52,10 +46,13 @@ class MetricsFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters['metrics']:
-            class_file = stages['class_file']
-            module = importlib.import_module('src.metrics.' + class_file)
-            class_ = getattr(module, stages['class_name'])
+        for stages in self.parameters['instances']:
+            class_module = stages['module']
+            class_name = stages['class_name']
+
+            module = importlib.import_module(class_module)
+            class_ = getattr(module, class_name)
+
             instance = class_(stages['parameters'])
             instances.append(instance)
 

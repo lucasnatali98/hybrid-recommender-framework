@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from src.metafeatures.metafeature import MetaFeature
 import importlib
+from src.utils import is_structure_empty
 
 
 class Creator(ABC):
@@ -11,6 +12,9 @@ class Creator(ABC):
 
 
 class MetaFeatureFactory(Creator):
+    """
+
+    """
     def __init__(self, parameters: dict):
         """
 
@@ -28,9 +32,9 @@ class MetaFeatureFactory(Creator):
         @return: object or None
         """
 
-        metafeatures = parameters['metafeatures']
+        metafeatures = parameters['instances']
+        is_empty = is_structure_empty(metafeatures)
 
-        is_empty = self._is_metafeatures_empty(metafeatures)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
@@ -57,10 +61,13 @@ class MetaFeatureFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters['metafeatures']:
-            class_file = stages['class_file']
-            module = importlib.import_module('src.metafeatures.' + class_file)
-            class_ = getattr(module, stages['class_name'])
+        for stages in self.parameters['instances']:
+            class_module = stages['module']
+            class_name = stages['class_name']
+
+            module = importlib.import_module(class_module)
+            class_ = getattr(module, class_name)
+
             instance = class_(stages['parameters'])
             instances.append(instance)
 

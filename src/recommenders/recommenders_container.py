@@ -11,6 +11,8 @@ class RecommendersContainer(Container):
         @type stages: list
 
         """
+
+        super().__init__()
         recommenders = parameters['recommenders']
 
         if len(recommenders) == 0:

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import importlib
 from src.preprocessing.preprocessing import AbstractPreProcessing
-
+from src.utils import is_structure_empty
 
 """
 1. Generalizar as fabricas em uma classe
@@ -28,26 +28,15 @@ class ProcessingFactory(Creator):
         @param config_obj:
         @return: object or None
         """
+        stages = parameters['instances']
 
-        stages = parameters['stages']
+        is_empty = is_structure_empty(stages)
 
-        is_empty = self._is_stages_empty(stages)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
 
-    def _is_stages_empty(self, stages: list) -> bool:
-        """
-        Verifica se a lista de estágios de preprocessamento está vazia
-
-        @param stages:
-        @return:
-        """
-        if len(stages) == 0:
-            return True
-
-        return False
 
     @property
     def create(self):
@@ -58,11 +47,13 @@ class ProcessingFactory(Creator):
         """
 
         instances = []
-        for stages in self.parameters['stages']:
+        for stages in self.parameters['instances']:
+            class_module = stages['module']
+            class_name = stages['class_name']
 
-            module = importlib.import_module('src.preprocessing.' + stages['class_file'])
+            module = importlib.import_module(class_module)
+            class_ = getattr(module, class_name)
 
-            class_ = getattr(module, stages['class_name'])
             instance = class_(stages['parameters'])
             instances.append(instance)
 

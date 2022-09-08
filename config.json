@@ -1,89 +1,89 @@
 {
-
   "preprocessing": {
-    "module": "src.preprocessing",
+    "module": "src.preprocessing.preprocessing_container",
     "class": "PreProcessingContainer",
-    "class_file": "preprocessing_container",
     "parameters": {
-      "stages": [
+      "instances": [
         {
-          "module": "",
+          "module": "src.preprocessing.encoding",
           "class_name": "EncodingProcessing",
-          "class_file": "encoding",
           "parameters": {
             "encoding_type": "onehot"
           }
         },
         {
-          "module": "",
+          "module": "src.preprocessing.split",
           "class_name": "SplitProcessing",
-          "class_file": "split",
           "parameters": {}
         },
         {
+          "module": "src.preprocessing.discretize",
           "class_name": "DiscretizeProcessing",
-          "class_file": "discretize",
           "parameters": {}
         },
         {
+          "module": "src.preprocessing.normalize",
           "class_name": "NormalizeProcessing",
-          "class_file": "normalize",
           "parameters": {}
         }
       ]
     }
   },
-  "MovieLens1K": {
-    "class": "MovieLens",
-    "module": "src.data.movielens",
+  "datasets": {
+    "class": "DatasetContainer",
+    "module": "src.data.dataset_container",
     "parameters": {
-      "proportion": "ml-latest-small",
-      "folds": "",
-      "filters": [
+      "instances": [
         {
-          "qtd_user": 100
+          "module": "src.data.movielens",
+          "class_name": "MovieLens",
+          "proportion": "ml-latest-small",
+          "folds": "",
+          "filters": [
+            {
+              "qtd_user": 100
+            },
+            {
+              "qtd_ratings": 100
+            }
+          ]
         },
         {
-          "qtd_ratings": 100
-        }
-      ]
-    }
-  },
-  "MovieLens20M": {
-    "class": "MovieLens",
-    "module": "src.data.movielens",
-    "parameters": {
-      "proportion": "ml-latest-small",
-      "filters": [
-        {
-          "qtd_user": 100
-        },
-        {
-          "qtd_ratings": 100
+          "module": "src.data.movielens",
+          "class_name": "MovieLens",
+          "proportion": "ml-latest-small",
+          "folds": "",
+          "filters": [
+            {
+              "qtd_user": 100
+            },
+            {
+              "qtd_ratings": 100
+            }
+          ]
         }
       ]
     }
   },
   "metrics": {
     "class": "MetricsContainer",
-    "class_file":"metrics_container",
-    "module": "src.metrics",
+    "module": "src.metrics.metrics_container",
     "parameters": {
-      "metrics": [
+      "instances": [
         {
+          "module": "src.metrics.ndcg",
           "class_name": "NDCG",
-          "class_file": "ndcg",
           "parameters": {}
         },
         {
+          "module": "src.metrics.rmse",
           "class_name": "RMSE",
-          "class_file": "rmse",
           "parameters": {
           }
         },
         {
+          "module": "src.metrics.recall",
           "class_name": "Recall",
-          "class_file": "recall",
           "parameters": {
           }
         }
@@ -91,32 +91,31 @@
     }
   },
   "metafeatures": {
+    "module": "src.metafeatures.metafeatures_container",
     "class": "MetaFeatureContainer",
-    "class_file": "metafeatures_container",
-    "module": "src.metafeatures",
     "parameters": {
-      "metafeatures": [
+      "instances": [
         {
+          "module": "src.metafeatures.cosine",
           "class_name": "Cosine",
-          "class_file": "cosine",
           "parameters": {
           }
         },
         {
+          "module": "src.metafeatures.gini",
           "class_name": "Gini",
-          "class_file": "gini",
           "parameters": {
           }
         },
         {
+          "module": "src.metafeatures.jaccard",
           "class_name": "Jaccard",
-          "class_file": "jaccard",
           "parameters": {
           }
         },
         {
+          "module": "src.metafeatures.proportion_ratings",
           "class_name": "ProportionRatings",
-          "class_file": "proportion_ratings",
           "parameters": {
           }
         }
@@ -125,25 +124,23 @@
   },
   "recommenders": {
     "class": "RecommendersContainer",
-    "class_file": "recommenders_container",
-    "module": "src.recommenders",
+    "module": "src.recommenders.recommenders_container",
     "parameters": {
-      "recommenders": [
+      "instances": [
         {
+          "module": "src.recommenders.item_knn",
           "class_name": "ItemKNN",
-          "class_file": "item_knn",
           "parameters": {
           }
         },
         {
+          "module": "src.recommenders.slopeone",
           "class_name": "SlopeOne",
-          "class_file": "slopeone",
-          "parameters": {
-          }
+          "parameters": {}
         },
         {
+          "module": "src.recommenders.user_knn",
           "class_name": "UserKNN",
-          "class_file": "user_knn",
           "parameters": {
           }
         }
@@ -152,61 +149,57 @@
   },
   "visualization": {
     "class": "VisualizationContainer",
-    "class_file": "visualization_container",
-    "module": "src.visualization",
+    "module": "src.visualization.visualization_container",
     "parameters": {
-      "visualizations": [
+      "instances": [
         {
+          "module": "src.visualization.static_scatter",
           "class_name": "StaticScatter",
-          "class_file": "static_scatter",
           "parameters": {}
         },
         {
+          "module": "src.visualization.static_bar",
           "class_name": "StaticBar",
-          "class_file": "static_bar",
           "parameters": {}
         },
         {
+          "module": "src.visualization.interactive_bar",
           "class_name": "InteractiveBar",
-          "class_file": "interactive_bar",
           "parameters": {}
         },
         {
+          "module": "src.visualization.interactive_scatter",
           "class_name": "InteractiveScatter",
-          "class_file": "interactive_scatter",
           "parameters": {}
         },
         {
+          "module": "src.visualization.html_table",
           "class_name": "HtmlTable",
-          "class_file": "html_table",
           "parameters": {}
         },
         {
+          "module": "src.visualization.latex_table",
           "class_name": "LatexTable",
-          "class_file": "latex_table",
           "parameters": {}
         }
-
       ]
     }
   },
   "results": {
     "class": "ResultsContainer",
-    "class_file": "results_container",
-    "module": "src.results",
+    "module": "src.results.results_container",
     "parameters": {
-      "results": [
+      "instances": [
         {
+          "module": "src.results.anova",
           "class_name": "ANOVA",
-          "class_file": "anova",
           "parameters": {}
         },
         {
+          "module": "src.results.confidence_interval",
           "class_name": "ConfidenceInterval",
-          "class_file": "confidence_interval",
           "parameters": {}
         }
-
       ]
     }
   }

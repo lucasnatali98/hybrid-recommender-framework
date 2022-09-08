@@ -11,14 +11,13 @@ import json
 4. Design Patterns (criacionais para instanciar os objetos)
 """
 
+
+
 file = open("config.json")
 config_obj = json.load(file)
 
 instance_factory = InstanceFactory(config_obj)
 
-"""
-
-"""
 pre_processing_instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
 #metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
 #metafeatures_instance_dict = instance_factory.get_instance_from_config_obj("MetaFeatureContainer")
@@ -54,4 +53,5 @@ encoding = EncodingProcessing({
 preprocessing_instance.push(encoding)
 
 preprocessing_instance.print_instances()
+
 

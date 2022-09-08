@@ -21,7 +21,7 @@ class PreProcessingContainer(Container):
         """
 
         super().__init__()
-        stages = parameters['stages']
+        stages = parameters['instances']
 
         if len(stages) == 0:
             self.processingObjects = []

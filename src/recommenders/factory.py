@@ -1,5 +1,6 @@
 from abc import abstractmethod
 from src.recommenders.recommender import Recommender
+from src.utils import is_structure_empty
 import importlib
 
 
@@ -11,6 +12,9 @@ class Creator:
 
 
 class RecommenderFactory(Creator):
+    """
+
+    """
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
 
@@ -24,25 +28,15 @@ class RecommenderFactory(Creator):
         @return: object or None
         """
 
-        recommenders = parameters['recommenders']
+        recommenders = parameters['instances']
+        is_empty = is_structure_empty(recommenders)
 
-        is_empty = self._is_recommenders_empty(recommenders)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
 
-    def _is_recommenders_empty(self, recommenders: list) -> bool:
-        """
-        Verifica se a lista de estágios de preprocessamento está vazia
 
-        @param stages:
-        @return:
-        """
-        if len(recommenders) == 0:
-            return True
-
-        return False
 
     @property
     def create(self):
@@ -52,10 +46,13 @@ class RecommenderFactory(Creator):
         @return: object
         """
         instances = []
-        for stages in self.parameters['recommenders']:
-            class_file = stages['class_file']
-            module = importlib.import_module('src.recommenders.' + class_file)
-            class_ = getattr(module, stages['class_name'])
+        for stages in self.parameters['instances']:
+            class_module = stages['module']
+            class_name = stages['class_name']
+
+            module = importlib.import_module(class_module)
+            class_ = getattr(module, class_name)
+
             instance = class_(stages['parameters'])
             instances.append(instance)
 

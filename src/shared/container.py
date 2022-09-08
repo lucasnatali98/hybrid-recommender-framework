@@ -25,11 +25,8 @@ class Container(Generic[T]):
         @return: None
 
         """
+        self.__items.append(item)
 
-        if isinstance(item, self.instance_type):
-            self.__items.append(item)
-        else:
-            raise Exception("")
 
     def pop(self) -> T:
         """
