@@ -11,12 +11,12 @@ class ResultsContainer(Container):
         @type stages: list
 
         """
+        super().__init__()
         results = parameters['instances']
 
         if len(results) == 0:
-            self.results_objects = []
+            pass
         else:
-            self.results_objects = []
             self.result_factory = ResultsFactory(parameters)
-            self.results_objects = self.result_factory.create
+            self.insert(0, self.result_factory.create)
 

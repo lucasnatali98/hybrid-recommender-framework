@@ -12,11 +12,11 @@ class DatasetContainer(Container):
 
         """
         super().__init__()
-        datasets = parameters['datasets']
+        datasets = parameters['instances']
+
 
         if len(datasets) == 0:
-            self.dataset_objects = []
+            pass
         else:
-            self.recommenders_object = []
             self.dataset_factory = DatasetFactory(parameters)
-            self.dataset_objects = self.dataset_factory.create
+            self.insert(0, self.dataset_factory.create)

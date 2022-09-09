@@ -25,10 +25,9 @@ class PreProcessingContainer(Container):
         stages = parameters['instances']
 
         if len(stages) == 0:
-            self.processingObjects = []
+            pass
         else:
-            self.processingObjects = []
             self.processing_factory = ProcessingFactory(parameters)
-            self.processingObjects = self.processing_factory.create
-            print("Processing_objects: ", self.processingObjects)
+            self.insert(0, self.processing_factory.create)
+
 

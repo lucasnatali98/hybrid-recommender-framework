@@ -16,8 +16,7 @@ class RecommendersContainer(Container):
         recommenders = parameters['instances']
 
         if len(recommenders) == 0:
-            self.recommenders_object = []
+            pass
         else:
-            self.recommenders_object = []
             self.recommender_factory = RecommenderFactory(parameters)
-            self.recommenders_object = self.recommender_factory.create
+            self.insert(0, self.recommender_factory.create)

@@ -56,3 +56,6 @@ class ProcessingFactory(AbstractEntityFactory[T]):
             instances.append(instance)
 
 
+        return instances
+
+

@@ -10,13 +10,13 @@ class Container(Generic[T]):
     """
     instance_type: object
 
-    def __init__(self, instance_type=None) -> None:
+    def __init__(self,instance_type=None) -> None:
         """
         A classe Container tem o objetivo de generalizar o armazenamento de items de um tipo T
 
         """
         self.instance_type = instance_type
-        self.__items: List[T] = []
+        self.items: List[T] = []
 
 
     def push(self, item: T) -> None:
@@ -27,7 +27,7 @@ class Container(Generic[T]):
         @return: None
 
         """
-        self.__items.append(item)
+        self.items.append(item)
 
 
     def pop(self) -> T:
@@ -36,7 +36,7 @@ class Container(Generic[T]):
         @return:
         """
 
-        return self.__items.pop()
+        return self.items.pop()
 
     def insert(self, index, items: List[T]) -> None:
         """
@@ -47,7 +47,7 @@ class Container(Generic[T]):
         """
 
 
-        self.__items.insert(index, items)
+        self.items.insert(index, items)
 
     def remove(self, item: T) -> None:
         """
@@ -55,7 +55,7 @@ class Container(Generic[T]):
         @param item:
         @return:
         """
-        self.__items.remove(item)
+        self.items.remove(item)
 
     def remove_all(self):
         """
@@ -64,15 +64,14 @@ class Container(Generic[T]):
 
         @return: None
         """
-        self.__items.clear()
+        self.items.clear()
 
     def print_instances(self):
         """
         Essa faz a exibição de todas as instancias da lista de items
         @return:
         """
-        print("__ITEMS: ", self.__items)
-        for i in self.__items:
+        for i in self.items:
             print(i)
 
 

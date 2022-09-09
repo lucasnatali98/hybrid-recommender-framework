@@ -27,7 +27,6 @@ results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsCo
 
 
 preprocessing_instance = instance_factory.create_instance(pre_processing_instance_dict)
-print("preprocessing_instance: ", preprocessing_instance)
 metrics_instance = instance_factory.create_instance(metrics_instance_dict)
 metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
 recommenders_instance = instance_factory.create_instance(recommenders_instance_dict)
@@ -36,14 +35,12 @@ results_instance = instance_factory.create_instance(results_instance_dict)
 
 
 preprocessing_instance.print_instances()
-print("Arebaba")
+metrics_instance.print_instances()
+metafeatures_instance.print_instances()
+recommenders_instance.print_instances()
+visualization_instance.print_instances()
+results_instance.print_instances()
 
-
-#print(metrics_instance.print_instances())
-#print(metafeatures_instance.print_instances())
-#print(recommenders_instance.print_instances())
-#print(visualization_instance.print_instances())
-#print(results_instance.print_instances())
 
 encoding = EncodingProcessing({
     "encoding_type": "onehot"
@@ -53,6 +50,6 @@ encoding = EncodingProcessing({
 
 preprocessing_instance.push(encoding)
 
-preprocessing_instance.print_instances()
+
 
 

@@ -67,7 +67,7 @@ class InstanceFactory:
         class_ = getattr(module, class_name)
 
         class_object = class_(class_parameters)
-        print("Class object_ ", class_object)
+
 
         return class_object
 

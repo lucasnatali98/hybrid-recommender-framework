@@ -11,14 +11,13 @@ class VisualizationContainer(Container):
         @type stages: list
 
         """
-        super().__init__(self)
+        super().__init__()
         visualizations = parameters['instances']
 
         if len(visualizations) == 0:
-            self.visualizationObjects = []
+            pass
         else:
-            self.visualizationObjects = []
             self.visualization_factory = VisualizationFactory(parameters)
-            self.visualizationObjects = self.visualization_factory.create
+            self.insert(0, self.visualization_factory.create)
 
 

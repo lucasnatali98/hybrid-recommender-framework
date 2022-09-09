@@ -12,9 +12,8 @@ class MetaFeatureContainer(Container):
         metafeatures = parameters['instances']
 
         if len(metafeatures) == 0:
-            self.metafeatures_objects = []
+            pass
         else:
-            self.metafeatures_objects = []
             self.metafeatures_factory = MetaFeatureFactory(parameters)
-            self.metafeatures_objects = self.metafeatures_factory.create
+            self.insert(0, self.metafeatures_factory.create)
 
