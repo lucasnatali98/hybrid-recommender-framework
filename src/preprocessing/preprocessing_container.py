@@ -1,5 +1,6 @@
 from src.preprocessing.factories import *
 from src.shared.container import Container
+from src.shared.generic_factory import GenericFactory
 
 
 class PreProcessingContainer(Container):
@@ -27,7 +28,7 @@ class PreProcessingContainer(Container):
         if len(stages) == 0:
             pass
         else:
-            self.processing_factory = ProcessingFactory(parameters)
+            self.processing_factory = GenericFactory(parameters)
             self.insert(0, self.processing_factory.create)
 
 

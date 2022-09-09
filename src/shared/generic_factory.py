@@ -1,20 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic, List
-from collections.abc import Container
 import importlib
+from src.utils import is_structure_empty
 
 T = TypeVar('T')
 
-
-
-
-
-"""
-A chave dos objetos do arquivo de configuração devem ser padronizadas
-de forma com que eu consiga iterar sobre qualquer objeto de classe nessa
-fábrica generica
-
-"""
 
 
 class AbstractEntityFactory(ABC, Generic[T]):
@@ -24,6 +14,8 @@ class AbstractEntityFactory(ABC, Generic[T]):
         pass
 
 
+
+#Condensar todas as factories aqui na generica.
 class GenericFactory(AbstractEntityFactory):
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
@@ -37,37 +29,24 @@ class GenericFactory(AbstractEntityFactory):
         @return: object or None
         """
 
-        visualizations = parameters['visualizations']
-
-        is_empty = self._is_visualizations_empty(visualizations)
+        instances = parameters['instances']
+        is_empty = is_structure_empty(instances)
         if is_empty:
             raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
 
         return parameters
 
-    def _is_visualizations_empty(self, visualizations: list) -> bool:
-        """
-        Verifica se a lista de estágios de preprocessamento está vazia
-
-        @param stages:
-        @return:
-        """
-        if len(visualizations) == 0:
-            return True
-
-        return False
 
     @property
-
     def create(self):
         """
 
 
         @return: object
         """
-        instances = []
+        instances = [] #Poderia ser um dicionário -> Instancia e Nome da instancia
 
-        for stages in self.parameters['visualizations']:
+        for stages in self.parameters['instances']:
 
             class_module = stages['module']
             class_name = stages['class_name']

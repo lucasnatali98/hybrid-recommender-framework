@@ -1,5 +1,5 @@
 from src.shared.container import Container
-from src.data.factory import DatasetFactory
+from src.shared.generic_factory import GenericFactory
 
 
 class DatasetContainer(Container):
@@ -18,5 +18,5 @@ class DatasetContainer(Container):
         if len(datasets) == 0:
             pass
         else:
-            self.dataset_factory = DatasetFactory(parameters)
+            self.dataset_factory = GenericFactory(parameters)
             self.insert(0, self.dataset_factory.create)

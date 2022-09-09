@@ -4,7 +4,7 @@ import json
 
 
 class Loader:
-    def __init__(self):
+    def __init__(self) -> None:
         """
 
         """

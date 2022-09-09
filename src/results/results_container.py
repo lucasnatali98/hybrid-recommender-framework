@@ -1,5 +1,6 @@
 from src.results.factory import *
 from src.shared.container import Container
+from src.shared.generic_factory import GenericFactory
 
 class ResultsContainer(Container):
     """
@@ -17,6 +18,6 @@ class ResultsContainer(Container):
         if len(results) == 0:
             pass
         else:
-            self.result_factory = ResultsFactory(parameters)
+            self.result_factory = GenericFactory(parameters)
             self.insert(0, self.result_factory.create)
 

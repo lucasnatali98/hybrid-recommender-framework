@@ -1,5 +1,6 @@
 from src.recommenders.factory import *
 from src.shared.container import Container
+from src.shared.generic_factory import GenericFactory
 
 class RecommendersContainer(Container):
     """
@@ -18,5 +19,5 @@ class RecommendersContainer(Container):
         if len(recommenders) == 0:
             pass
         else:
-            self.recommender_factory = RecommenderFactory(parameters)
+            self.recommender_factory = GenericFactory(parameters)
             self.insert(0, self.recommender_factory.create)

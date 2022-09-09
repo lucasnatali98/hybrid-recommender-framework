@@ -1,5 +1,6 @@
 from src.visualization.factory import *
 from src.shared.container import Container
+from src.shared.generic_factory import GenericFactory
 
 class VisualizationContainer(Container):
     """
@@ -17,7 +18,7 @@ class VisualizationContainer(Container):
         if len(visualizations) == 0:
             pass
         else:
-            self.visualization_factory = VisualizationFactory(parameters)
+            self.visualization_factory = GenericFactory(parameters)
             self.insert(0, self.visualization_factory.create)
 
 

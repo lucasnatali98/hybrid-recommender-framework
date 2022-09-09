@@ -1,5 +1,6 @@
 from src.metafeatures.factory import *
 from src.shared.container import Container
+from src.shared.generic_factory import GenericFactory
 
 
 class MetaFeatureContainer(Container):
@@ -14,6 +15,6 @@ class MetaFeatureContainer(Container):
         if len(metafeatures) == 0:
             pass
         else:
-            self.metafeatures_factory = MetaFeatureFactory(parameters)
+            self.metafeatures_factory = GenericFactory(parameters)
             self.insert(0, self.metafeatures_factory.create)
 
