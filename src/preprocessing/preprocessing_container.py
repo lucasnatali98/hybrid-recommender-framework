@@ -1,6 +1,7 @@
 from src.preprocessing.factories import *
 from src.shared.container import Container
 
+
 class PreProcessingContainer(Container):
     """
     Preciso receber os parametros
@@ -14,7 +15,7 @@ class PreProcessingContainer(Container):
     4/dynamic-instantiation-from-string-name-of-a-class-in-dynamically-imported-module
     """
 
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         @type stages: list
 
@@ -29,4 +30,5 @@ class PreProcessingContainer(Container):
             self.processingObjects = []
             self.processing_factory = ProcessingFactory(parameters)
             self.processingObjects = self.processing_factory.create
+            print("Processing_objects: ", self.processingObjects)
 

@@ -6,14 +6,14 @@ class RecommendersContainer(Container):
 
     """
 
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         @type stages: list
 
         """
 
         super().__init__()
-        recommenders = parameters['recommenders']
+        recommenders = parameters['instances']
 
         if len(recommenders) == 0:
             self.recommenders_object = []

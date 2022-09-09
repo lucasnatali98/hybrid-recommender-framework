@@ -2,20 +2,16 @@ from abc import ABC, abstractmethod
 from src.metafeatures.metafeature import MetaFeature
 import importlib
 from src.utils import is_structure_empty
+from src.shared.generic_factory import AbstractEntityFactory
+from typing import TypeVar, Generic, List, Dict, Type
 
+T = TypeVar('T')
 
-class Creator(ABC):
-
-    @abstractmethod
-    def create(self) -> MetaFeature:
-        pass
-
-
-class MetaFeatureFactory(Creator):
+class MetaFeatureFactory(AbstractEntityFactory[T]):
     """
 
     """
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
 
         @param parameters:
@@ -41,20 +37,10 @@ class MetaFeatureFactory(Creator):
         return parameters
 
 
-    def _is_metafeatures_empty(self, metafeatures: list) -> bool:
-        """
-        Verifica se a lista de estágios de preprocessamento está vazia
 
-        @param stages:
-        @return:
-        """
-        if len(metafeatures) == 0:
-            return True
-
-        return False
 
     @property
-    def create(self):
+    def create(self) -> List[T]:
         """
         Cria uma instância de um objeto do tipo PreProcessing
 

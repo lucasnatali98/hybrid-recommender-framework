@@ -2,7 +2,7 @@ import lenskit.metrics.topn as lenskit_topn
 from src.metrics.metric import RankingMetric
 
 class Recall(RankingMetric):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
 
         """

@@ -3,13 +3,13 @@ from src.shared.container import Container
 
 
 class MetaFeatureContainer(Container):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
 
         """
         super().__init__()
 
-        metafeatures = parameters['metafeatures']
+        metafeatures = parameters['instances']
 
         if len(metafeatures) == 0:
             self.metafeatures_objects = []

@@ -2,20 +2,16 @@ from abc import abstractmethod
 from src.visualization.visualization import Visualization
 import importlib
 from src.utils import is_structure_empty
+from src.shared.generic_factory import AbstractEntityFactory
+from typing import TypeVar, Generic, List, Dict, Type
 
+T = TypeVar('T')
 
-class Creator:
-
-    @abstractmethod
-    def create(self) -> Visualization:
-        pass
-
-
-class VisualizationFactory(Creator):
+class VisualizationFactory(AbstractEntityFactory[T]):
     """
 
     """
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
@@ -38,7 +34,7 @@ class VisualizationFactory(Creator):
 
 
     @property
-    def create(self):
+    def create(self) -> List[T]:
         """
         Cria uma instância de um objeto do tipo Visualization
 
@@ -47,7 +43,7 @@ class VisualizationFactory(Creator):
 
         instances = []
         for stages in self.parameters['instances']:
-            class_module = stages['class_file']
+            class_module = stages['module']
             class_name = stages['class_name']
 
             module = importlib.import_module(class_module)

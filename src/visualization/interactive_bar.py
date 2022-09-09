@@ -3,7 +3,7 @@ from src.visualization.visualization import InteractivePlot
 
 
 class InteractiveBar(InteractivePlot):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """

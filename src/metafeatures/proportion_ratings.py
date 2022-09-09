@@ -2,7 +2,7 @@ from src.metafeatures.metafeature import ColaborativeMetaFeature
 
 
 class ProportionRatings(ColaborativeMetaFeature):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """

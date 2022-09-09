@@ -12,7 +12,7 @@ ENCODING_TYPES = [
 
 class EncodingProcessing(AbstractPreProcessing):
 
-    def __init__(self, encoding_type: dict) -> object:
+    def __init__(self, encoding_type: dict) -> None:
         """
 
         @rtype: object

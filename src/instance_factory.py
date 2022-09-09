@@ -66,7 +66,8 @@ class InstanceFactory:
         module = importlib.import_module(module_name)
         class_ = getattr(module, class_name)
 
-        try:
-            return class_(class_parameters)
-        except RuntimeError:
-            raise Exception(f"[InstanceFactory.create_instance] <message_error>\n")
+        class_object = class_(class_parameters)
+        print("Class object_ ", class_object)
+
+        return class_object
+

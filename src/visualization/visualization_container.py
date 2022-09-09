@@ -6,12 +6,13 @@ class VisualizationContainer(Container):
 
     """
 
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         @type stages: list
 
         """
-        visualizations = parameters['visualizations']
+        super().__init__(self)
+        visualizations = parameters['instances']
 
         if len(visualizations) == 0:
             self.visualizationObjects = []

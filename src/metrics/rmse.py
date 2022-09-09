@@ -8,7 +8,7 @@ class RMSE(PredictionMetric):
 
     """
 
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """

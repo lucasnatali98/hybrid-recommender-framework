@@ -19,25 +19,26 @@ config_obj = json.load(file)
 instance_factory = InstanceFactory(config_obj)
 
 pre_processing_instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
-#metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
-#metafeatures_instance_dict = instance_factory.get_instance_from_config_obj("MetaFeatureContainer")
-#recommenders_instance_dict = instance_factory.get_instance_from_config_obj("RecommendersContainer")
-#visualization_instance_dict = instance_factory.get_instance_from_config_obj("VisualizationContainer")
-#results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsContainer")
+metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
+metafeatures_instance_dict = instance_factory.get_instance_from_config_obj("MetaFeatureContainer")
+recommenders_instance_dict = instance_factory.get_instance_from_config_obj("RecommendersContainer")
+visualization_instance_dict = instance_factory.get_instance_from_config_obj("VisualizationContainer")
+results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsContainer")
 
 
 preprocessing_instance = instance_factory.create_instance(pre_processing_instance_dict)
-#metrics_instance = instance_factory.create_instance(metrics_instance_dict)
-#metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
-#recommenders_instance = instance_factory.create_instance(recommenders_instance_dict)
-
-#visualization_instance = instance_factory.create_instance(visualization_instance_dict)
-#results_instance = instance_factory.create_instance(results_instance_dict)
-
-
+print("preprocessing_instance: ", preprocessing_instance)
+metrics_instance = instance_factory.create_instance(metrics_instance_dict)
+metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
+recommenders_instance = instance_factory.create_instance(recommenders_instance_dict)
+visualization_instance = instance_factory.create_instance(visualization_instance_dict)
+results_instance = instance_factory.create_instance(results_instance_dict)
 
 
-print(preprocessing_instance.print_instances())
+preprocessing_instance.print_instances()
+print("Arebaba")
+
+
 #print(metrics_instance.print_instances())
 #print(metafeatures_instance.print_instances())
 #print(recommenders_instance.print_instances())

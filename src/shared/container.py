@@ -5,7 +5,8 @@ T = TypeVar('T')
 
 class Container(Generic[T]):
     """
-
+    A classe Container tem como objetivo generalizar para diversos tipos as operações
+    de push, insert, remove, clear, etc
     """
     instance_type: object
 
@@ -16,6 +17,7 @@ class Container(Generic[T]):
         """
         self.instance_type = instance_type
         self.__items: List[T] = []
+
 
     def push(self, item: T) -> None:
         """
@@ -57,6 +59,7 @@ class Container(Generic[T]):
 
     def remove_all(self):
         """
+
         Remove todos os elementos da lista de itens
 
         @return: None
@@ -68,6 +71,7 @@ class Container(Generic[T]):
         Essa faz a exibição de todas as instancias da lista de items
         @return:
         """
+        print("__ITEMS: ", self.__items)
         for i in self.__items:
             print(i)
 

@@ -1,22 +1,20 @@
 from abc import ABC, abstractmethod
+from typing import TypeVar, Generic, List, Dict, Type
 import importlib
 from src.preprocessing.preprocessing import AbstractPreProcessing
+from src.shared.generic_factory import AbstractEntityFactory
 from src.utils import is_structure_empty
 
+T = TypeVar('T')
 """
 1. Generalizar as fabricas em uma classe
 """
 
 
-class Creator(ABC):
 
-    @abstractmethod
-    def create(self) -> AbstractPreProcessing:
-        pass
+class ProcessingFactory(AbstractEntityFactory[T]):
 
-
-class ProcessingFactory(Creator):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
@@ -39,7 +37,7 @@ class ProcessingFactory(Creator):
 
 
     @property
-    def create(self):
+    def create(self) -> List[T]:
         """
         Cria uma instância de um objeto do tipo PreProcessing
 
@@ -57,4 +55,4 @@ class ProcessingFactory(Creator):
             instance = class_(stages['parameters'])
             instances.append(instance)
 
-        return instances
+

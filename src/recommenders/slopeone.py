@@ -2,7 +2,7 @@ from src.recommenders.recommender import Recommender
 
 
 class SlopeOne(Recommender):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """

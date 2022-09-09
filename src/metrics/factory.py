@@ -1,21 +1,16 @@
-from abc import abstractmethod
-from src.metrics.metric import AbstractMetric
 import importlib
 from src.utils import is_structure_empty
+from src.shared.generic_factory import AbstractEntityFactory
+from typing import TypeVar, Generic, List, Dict, Type
+
+T = TypeVar('T')
 
 
-class Creator:
-
-    @abstractmethod
-    def create(self) -> AbstractMetric:
-        pass
-
-
-class MetricsFactory(Creator):
+class MetricsFactory(AbstractEntityFactory[T]):
     """
 
     """
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
@@ -39,7 +34,7 @@ class MetricsFactory(Creator):
 
 
     @property
-    def create(self):
+    def create(self) -> List[T]:
         """
         Cria uma instância de um objeto do tipo PreProcessing
 

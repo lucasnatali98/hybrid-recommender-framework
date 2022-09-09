@@ -3,7 +3,7 @@ from src.recommenders.recommender import Recommender
 
 
 class ItemKNN(Recommender):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """

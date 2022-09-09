@@ -2,20 +2,16 @@ from abc import abstractmethod
 from src.recommenders.recommender import Recommender
 from src.utils import is_structure_empty
 import importlib
+from typing import TypeVar, Generic, List, Dict, Type
+from src.shared.generic_factory import AbstractEntityFactory
 
+T = TypeVar('T')
 
-class Creator:
-
-    @abstractmethod
-    def create(self) -> Recommender:
-        pass
-
-
-class RecommenderFactory(Creator):
+class RecommenderFactory(AbstractEntityFactory[T]):
     """
 
     """
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
@@ -39,7 +35,7 @@ class RecommenderFactory(Creator):
 
 
     @property
-    def create(self):
+    def create(self) -> List[T]:
         """
         Cria uma instância de um objeto do tipo PreProcessing
 

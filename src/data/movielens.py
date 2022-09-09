@@ -14,7 +14,7 @@ class MovieLens(AbstractDataSet):
 
     """
 
-    def __init__(self, proportion="ml-latest-small"):
+    def __init__(self, proportion="ml-latest-small") -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
 
@@ -37,7 +37,7 @@ class MovieLens(AbstractDataSet):
         self.genomeScores = None
         self.genomeTags = None
 
-    def _is_proportion_valid(self, proportion):
+    def _is_proportion_valid(self, proportion) -> bool:
         """
         Check if the proportion of movielens dataset is valid
 
@@ -49,7 +49,7 @@ class MovieLens(AbstractDataSet):
 
         return False
 
-    def _load_ml25m(self):
+    def _load_ml25m(self) -> None:
         """
 
 
@@ -70,7 +70,7 @@ class MovieLens(AbstractDataSet):
         self.set_genome_tags(genome_tags)
         self.set_genome_scores(genome_scores)
 
-    def _load_ml_latest(self):
+    def _load_ml_latest(self) -> None:
         """
 
         """
@@ -89,7 +89,7 @@ class MovieLens(AbstractDataSet):
         self.set_genome_tags(genome_tags)
         self.set_genome_scores(genome_scores)
 
-    def _load_ml_latest_small(self):
+    def _load_ml_latest_small(self) -> None:
         """
 
 

@@ -3,12 +3,12 @@ from src.metrics.factory import *
 from src.shared.container import Container
 
 class MetricsContainer(Container):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
 
         """
 
-        metrics = parameters['metrics']
+        metrics = parameters['instances']
 
         if len(metrics) == 0:
             self.metrics_objects = []

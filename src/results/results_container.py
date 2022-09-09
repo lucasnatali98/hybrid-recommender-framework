@@ -6,12 +6,12 @@ class ResultsContainer(Container):
 
     """
 
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         @type stages: list
 
         """
-        results = parameters['results']
+        results = parameters['instances']
 
         if len(results) == 0:
             self.results_objects = []

@@ -2,7 +2,7 @@ from src.visualization.visualization import TablePlot
 
 
 class LatexTable(TablePlot):
-    def __init__(self, parameters: dict):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """
