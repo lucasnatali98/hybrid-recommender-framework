@@ -25,17 +25,6 @@ class InstanceFactory:
 
         self.config_obj = config_obj
 
-    def _handle_config_obj(self, config_obj: object):
-        """
-
-        @param config_obj:
-        @return:
-        """
-        module = importlib.import_module(experiment['handler_module'])
-        class_ = getattr(module, experiment['handler_name'])
-        for key, value in config_obj.items():
-            if value['class'] == "PreProcessingContainer":
-                instance = self.create_instance(value)
 
     def get_instance_from_config_obj(self, class_name: str) -> dict:
         """

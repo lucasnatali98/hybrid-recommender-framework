@@ -1,7 +1,12 @@
+from dataclasses import dataclass
 from abc import ABC, abstractmethod
 
 
 class Experiment(ABC):
+
+
+
+
     @abstractmethod
     def run(self):
         """
@@ -55,9 +60,24 @@ class Experiment(ABC):
         pass
 
 
-class ExperimentHandler(Experiment):
 
-    def __init__(self, parameters: dict):
+
+@dataclass
+class ExperimentHandler(Experiment):
+    """
+
+    """
+
+    experiment_id: str
+    datasets: object
+    preprocessing: object
+    metrics: object
+    metafeatures: object
+    results: object
+    visualization: object
+    recommenders: object
+
+    def __init__(self):
         """
         
         """
@@ -76,7 +96,10 @@ class ExperimentHandler(Experiment):
         @param experiments:
         @return:
         """
+
+
         pass
+
 
     def add(self, experiment):
         """

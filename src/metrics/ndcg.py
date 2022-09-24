@@ -1,6 +1,6 @@
 from src.metrics.metric import RankingMetric
 import lenskit.metrics.topn as lenskit_topn
-
+from sklearn.metrics import ndcg_score
 
 class NDCG(RankingMetric):
     """
@@ -52,3 +52,29 @@ class NDCGLenskit(RankingMetric):
 
         """
         pass
+
+class NDCGScikit(RankingMetric):
+    def __init__(self):
+        """
+
+        """
+        pass
+
+    def check_missing(self, truth, missing):
+        """
+
+        @param truth:
+        @param missing:
+        @return:
+        """
+
+        pass
+    def evaluate(self, predictions, truth):
+        """
+
+        @param predictions: equivalente a y_true
+        @param truth: equivalente a y_score?
+        @return:
+        """
+        return ndcg_score(predictions, truth)
+

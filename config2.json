@@ -1,224 +1,191 @@
 {
-  "experiments": [ //Definir experimentos
-    "exp1": {
-      'dataset':"",
-      "prec" : "preprocessing1"
-    },
-    "exp2": {
-
-    },
-  ],
-  "preprocessing1": {
-    "module": "src.preprocessing",
-    "class": "PreProcessingContainer",
-    "class_file": "preprocessing_container",
-    "parameters": {
-      "stages": [
-        {
-          "module": "",
-          "class_name": "EncodingProcessing",
-          "class_file": "encoding",
-          "parameters": {
-            "encoding_type": "onehot"
-          }
-        },
-        {
-          "module": "",
-          "class_name": "SplitProcessing",
-          "class_file": "split",
-          "parameters": {}
-        },
-        {
-          "class_name": "DiscretizeProcessing",
-          "class_file": "discretize",
-          "parameters": {}
-        },
-        {
-          "class_name": "NormalizeProcessing",
-          "class_file": "normalize",
-          "parameters": {}
+  "experiments": [
+    {
+      "experiment_id": "experiment1",
+      "datasets": {
+        "class": "MovieLens",
+        "module": "src.data.movielens",
+        "parameters": {
+          "proportion": "ml-latest-small",
+          "folds": "",
+          "filters": [
+            {
+              "qtd_user": 100
+            },
+            {
+              "qtd_ratings": 100
+            }
+          ]
         }
-      ]
-    }
-  },
-  "datasets": {
-    //Inserir os possíveis datasets e suas configurações
-  },
-  "MovieLens1K": {
-    "class": "MovieLens",
-    "module": "src.data.movielens",
-    "parameters": {
-      "proportion": "ml-latest-small",
-      "folds": "",
-      "filters": [
-        {
-          "qtd_user": 100
-        },
-        {
-          "qtd_ratings": 100
+      },
+      "preprocessing1": {
+        "module": "src.preprocessing.preprocessing_container",
+        "class": "PreProcessingContainer",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.preprocessing.encoding",
+              "class_name": "EncodingProcessing",
+              "parameters": {
+                "encoding_type": "onehot"
+              }
+            },
+            {
+              "module": "src.preprocessing.split",
+              "class_name": "SplitProcessing",
+              "parameters": {}
+            },
+            {
+              "module": "src.preprocessing.discretize",
+              "class_name": "DiscretizeProcessing",
+              "parameters": {}
+            },
+            {
+              "module": "src.preprocessing.normalize",
+              "class_name": "NormalizeProcessing",
+              "parameters": {}
+            }
+          ]
         }
-      ]
-    }
-  },
-  "MovieLens20M": {
-    "class": "MovieLens",
-    "module": "src.data.movielens",
-    "parameters": {
-      "proportion": "ml-latest-small",
-      "filters": [
-        {
-          "qtd_user": 100
-        },
-        {
-          "qtd_ratings": 100
+      },
+      "metrics": {
+        "class": "MetricsContainer",
+        "module": "src.metrics.metrics_container",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.metrics.ndcg",
+              "class_name": "NDCG",
+              "parameters": {}
+            },
+            {
+              "module": "src.metrics.rmse",
+              "class_name": "RMSE",
+              "parameters": {
+              }
+            },
+            {
+              "module": "src.metrics.recall",
+              "class_name": "Recall",
+              "parameters": {
+              }
+            }
+          ]
         }
-      ]
-    }
-  },
-  "metrics": {
-    "class": "MetricsContainer",
-    "class_file":"metrics_container",
-    "module": "src.metrics",
-    "parameters": {
-      "metrics": [
-        {
-          "class_name": "NDCG",
-          "class_file": "ndcg",
-          "parameters": {}
-        },
-        {
-          "class_name": "RMSE",
-          "class_file": "rmse",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "Recall",
-          "class_file": "recall",
-          "parameters": {
-          }
+      },
+      "metafeatures": {
+        "module": "src.metafeatures.metafeatures_container",
+        "class": "MetaFeatureContainer",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.metafeatures.cosine",
+              "class_name": "Cosine",
+              "parameters": {
+              }
+            },
+            {
+              "module": "src.metafeatures.gini",
+              "class_name": "Gini",
+              "parameters": {
+              }
+            },
+            {
+              "module": "src.metafeatures.jaccard",
+              "class_name": "Jaccard",
+              "parameters": {
+              }
+            },
+            {
+              "module": "src.metafeatures.proportion_ratings",
+              "class_name": "ProportionRatings",
+              "parameters": {
+              }
+            }
+          ]
         }
-      ]
-    }
-  },
-  "metafeatures": {
-    "class": "MetaFeatureContainer",
-    "class_file": "metafeatures_container",
-    "module": "src.metafeatures",
-    "parameters": {
-      "metafeatures": [
-        {
-          "class_name": "Cosine",
-          "class_file": "cosine",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "Gini",
-          "class_file": "gini",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "Jaccard",
-          "class_file": "jaccard",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "ProportionRatings",
-          "class_file": "proportion_ratings",
-          "parameters": {
-          }
+      },
+      "recommenders": {
+        "class": "RecommendersContainer",
+        "module": "src.recommenders.recommenders_container",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.recommenders.item_knn",
+              "class_name": "ItemKNN",
+              "parameters": {
+              }
+            },
+            {
+              "module": "src.recommenders.slopeone",
+              "class_name": "SlopeOne",
+              "parameters": {}
+            },
+            {
+              "module": "src.recommenders.user_knn",
+              "class_name": "UserKNN",
+              "parameters": {
+              }
+            }
+          ]
         }
-      ]
-    }
-  },
-  "recommenders": {
-    "class": "RecommendersContainer",
-    "class_file": "recommenders_container",
-    "module": "src.recommenders",
-    "parameters": {
-      "recommenders": [
-        {
-          "class_name": "ItemKNN",
-          "class_file": "item_knn",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "SlopeOne",
-          "class_file": "slopeone",
-          "parameters": {
-          }
-        },
-        {
-          "class_name": "UserKNN",
-          "class_file": "user_knn",
-          "parameters": {
-          }
+      },
+      "visualization": {
+        "class": "VisualizationContainer",
+        "module": "src.visualization.visualization_container",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.visualization.static_scatter",
+              "class_name": "StaticScatter",
+              "parameters": {}
+            },
+            {
+              "module": "src.visualization.static_bar",
+              "class_name": "StaticBar",
+              "parameters": {}
+            },
+            {
+              "module": "src.visualization.interactive_bar",
+              "class_name": "InteractiveBar",
+              "parameters": {}
+            },
+            {
+              "module": "src.visualization.interactive_scatter",
+              "class_name": "InteractiveScatter",
+              "parameters": {}
+            },
+            {
+              "module": "src.visualization.html_table",
+              "class_name": "HtmlTable",
+              "parameters": {}
+            },
+            {
+              "module": "src.visualization.latex_table",
+              "class_name": "LatexTable",
+              "parameters": {}
+            }
+          ]
         }
-      ]
-    }
-  },
-  "visualization": {
-    "class": "VisualizationContainer",
-    "class_file": "visualization_container",
-    "module": "src.visualization",
-    "parameters": {
-      "visualizations": [
-        {
-          "class_name": "StaticScatter",
-          "class_file": "static_scatter",
-          "parameters": {}
-        },
-        {
-          "class_name": "StaticBar",
-          "class_file": "static_bar",
-          "parameters": {}
-        },
-        {
-          "class_name": "InteractiveBar",
-          "class_file": "interactive_bar",
-          "parameters": {}
-        },
-        {
-          "class_name": "InteractiveScatter",
-          "class_file": "interactive_scatter",
-          "parameters": {}
-        },
-        {
-          "class_name": "HtmlTable",
-          "class_file": "html_table",
-          "parameters": {}
-        },
-        {
-          "class_name": "LatexTable",
-          "class_file": "latex_table",
-          "parameters": {}
+      },
+      "results": {
+        "class": "ResultsContainer",
+        "module": "src.results.results_container",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.results.anova",
+              "class_name": "ANOVA",
+              "parameters": {}
+            },
+            {
+              "module": "src.results.confidence_interval",
+              "class_name": "ConfidenceInterval",
+              "parameters": {}
+            }
+          ]
         }
-
-      ]
+      }
     }
-  },
-  "results": {
-    "class": "ResultsContainer",
-    "class_file": "results_container",
-    "module": "src.results",
-    "parameters": {
-      "results": [
-        {
-          "class_name": "ANOVA",
-          "class_file": "anova",
-          "parameters": {}
-        },
-        {
-          "class_name": "ConfidenceInterval",
-          "class_file": "confidence_interval",
-          "parameters": {}
-        }
-
-      ]
-    }
+   ]
   }
-}
