@@ -33,17 +33,29 @@
             {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",
-              "parameters": {}
+              "parameters": {
+                "strategy": "StratifiedKFold"
+              }
             },
             {
               "module": "src.preprocessing.discretize",
               "class_name": "DiscretizeProcessing",
-              "parameters": {}
+              "parameters": {
+                "apply_on": {
+                  "ratings": ["ratings", "movieId"],
+                  "tags": ["movieId"]
+                }
+              }
             },
             {
               "module": "src.preprocessing.normalize",
               "class_name": "NormalizeProcessing",
-              "parameters": {}
+              "parameters": {
+                "apply_on": {
+                  "ratings": ["rating", "movieId"],
+                  "tags": ["movieId"]
+                }
+              }
             }
           ]
         }

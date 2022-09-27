@@ -28,4 +28,6 @@ dataset_instance = instance['datasets']
 
 print(dataset_instance.tags)
 print(dataset_instance.ratings)
+print(dataset_instance.items)
+print(dataset_instance.links)
 
