@@ -24,9 +24,10 @@ class SplitProcessing(AbstractPreProcessing):
 
         super().__init__()
 
-    def pre_processing(self, data):
+    def pre_processing(self, data, **kwargs):
         """
 
+        @param **kwargs:
         @param data:
         @return:
         """

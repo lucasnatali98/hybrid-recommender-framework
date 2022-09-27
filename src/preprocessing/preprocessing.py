@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class PreProcessing(ABC):
 
     @abstractmethod
-    def pre_processing(self, data):
+    def pre_processing(self, data, **kwargs):
         """
         
         """
@@ -20,7 +20,7 @@ class AbstractPreProcessing(PreProcessing):
         pass
 
     @abstractmethod
-    def pre_processing(self, data):
+    def pre_processing(self, data, **kwargs):
         """
         
         """

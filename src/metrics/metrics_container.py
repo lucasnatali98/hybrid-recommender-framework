@@ -1,5 +1,4 @@
 from src.metrics.metric import Metric
-from src.metrics.factory import *
 from src.shared.container import Container
 from src.shared.generic_factory import GenericFactory
 

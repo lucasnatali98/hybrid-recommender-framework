@@ -44,7 +44,7 @@ class EncodingProcessing(AbstractPreProcessing):
 
         return False
 
-    def pre_processing(self, data):
+    def pre_processing(self, data, **kwargs):
         """
 
         @param data:

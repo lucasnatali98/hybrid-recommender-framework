@@ -11,9 +11,10 @@ class DiscretizeProcessing(AbstractPreProcessing):
         """
         pass
 
-    def pre_processing(self, data):
+    def pre_processing(self, data, **kwargs):
         """
 
+        @param **kwargs:
         @param data:
         @return:
         """
