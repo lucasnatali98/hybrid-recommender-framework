@@ -1,7 +1,7 @@
 {
   "experiments": [
     {
-      "experiment_id": "experiment1",
+
       "datasets": {
         "class": "MovieLens",
         "module": "src.data.movielens",
@@ -18,7 +18,7 @@
           ]
         }
       },
-      "preprocessing1": {
+      "preprocessing": {
         "module": "src.preprocessing.preprocessing_container",
         "class": "PreProcessingContainer",
         "parameters": {

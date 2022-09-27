@@ -1,5 +1,7 @@
-from src.instance_factory import InstanceFactory
-from src.preprocessing.encoding import EncodingProcessing
+
+from src.experiments.experiment import ExperimentHandler
+
+
 import json
 
 """
@@ -13,25 +15,11 @@ import json
 file = open("config2.json")
 config_obj = json.load(file)
 
-experiments = config_obj['experiments']
+experiments_config = config_obj['experiments']
 
-print(experiments)
+print(experiments_config)
 
-instance_factory = InstanceFactory(experiments)
+experiment_handler = ExperimentHandler()
+instance = experiment_handler.create_experiment_instances(experiments_config)
+print(instance)
 
-pre_processing_instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
-
-metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
-metafeatures_instance_dict = instance_factory.get_instance_from_config_obj("MetaFeatureContainer")
-recommenders_instance_dict = instance_factory.get_instance_from_config_obj("RecommendersContainer")
-visualization_instance_dict = instance_factory.get_instance_from_config_obj("VisualizationContainer")
-results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsContainer")
-
-preprocessing_instance = instance_factory.create_instance(pre_processing_instance_dict)
-metrics_instance = instance_factory.create_instance(metrics_instance_dict)
-metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
-recommenders_instance = instance_factory.create_instance(recommenders_instance_dict)
-visualization_instance = instance_factory.create_instance(visualization_instance_dict)
-results_instance = instance_factory.create_instance(results_instance_dict)
-
-print("VALESCA")

@@ -1,4 +1,3 @@
-from src.experiments import *
 import importlib
 from src.preprocessing import *
 
@@ -10,6 +9,15 @@ from src.preprocessing import *
 4. Import dinamico
 """
 
+expected_keys = [
+    "datasets",
+    "preprocessing",
+    "metrics",
+    "visualization"
+    "metafeatures",
+    "recommenders",
+    "results"
+]
 
 class InstanceFactory:
     """
@@ -23,7 +31,13 @@ class InstanceFactory:
         @param config_obj:
         """
 
+
+        print("Config object: ", config_obj)
+
         self.config_obj = config_obj
+
+
+
 
 
     def get_instance_from_config_obj(self, class_name: str) -> dict:
