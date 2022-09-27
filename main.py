@@ -21,5 +21,11 @@ print(experiments_config)
 
 experiment_handler = ExperimentHandler()
 instance = experiment_handler.create_experiment_instances(experiments_config)
-print(instance)
+
+dataset_instance = instance['datasets']
+
+
+
+print(dataset_instance.tags)
+print(dataset_instance.ratings)
 

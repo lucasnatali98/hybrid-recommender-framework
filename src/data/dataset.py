@@ -45,8 +45,9 @@ class AbstractDataSet(Dataset):
         """
 
         self.Loader = Loader()
-        self.items = items
-        self.ratings = ratings
+
+
+
 
 
     def ratings(self):
@@ -54,7 +55,8 @@ class AbstractDataSet(Dataset):
 
         @return:
         """
-        return getattr(AbstractDataSet, 'ratings')
+        return self.ratings
+
 
     def users(self):
         """
@@ -63,9 +65,12 @@ class AbstractDataSet(Dataset):
         """
         return self.users
 
+
     def items(self):
         """
 
         @return:
         """
         return self.items
+
+

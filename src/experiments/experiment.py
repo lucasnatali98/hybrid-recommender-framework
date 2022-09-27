@@ -15,7 +15,7 @@ class Experiment(ABC):
         pass
 
     @abstractmethod
-    def set_experiments(self, experiments):
+    def set_experiment(self, experiment: dict):
         """
 
         @param experiments:
@@ -76,7 +76,7 @@ class ExperimentHandler(Experiment):
     visualization: object
     recommenders: object
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         
         """
@@ -89,7 +89,7 @@ class ExperimentHandler(Experiment):
         """
         pass
 
-    def create_experiment_instances(self, config_obj):
+    def create_experiment_instances(self, config_obj) -> dict:
 
         """
 
@@ -100,6 +100,8 @@ class ExperimentHandler(Experiment):
         """
         instance_factory = InstanceFactory(config_obj[0])
 
+        dataset_dict = instance_factory.get_instance_from_config_obj("MovieLens")
+
         pre_processing_instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
 
         metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
@@ -108,6 +110,7 @@ class ExperimentHandler(Experiment):
         visualization_instance_dict = instance_factory.get_instance_from_config_obj("VisualizationContainer")
         results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsContainer")
 
+        dataset_instance = instance_factory.create_instance(dataset_dict)
         preprocessing_instance = instance_factory.create_instance(pre_processing_instance_dict)
         metrics_instance = instance_factory.create_instance(metrics_instance_dict)
         metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
@@ -116,6 +119,7 @@ class ExperimentHandler(Experiment):
         results_instance = instance_factory.create_instance(results_instance_dict)
 
         return {
+            "datasets": dataset_instance,
             "preprocessing": preprocessing_instance,
             "metrics": metrics_instance,
             "metafeatures": metafeatures_instance,
@@ -124,18 +128,21 @@ class ExperimentHandler(Experiment):
             "results": results_instance
         }
 
-    def set_experiments(self, experiments):
+    def set_experiment(self, experiment: dict) -> None:
         """
 
         @param experiments:
         @return:
         """
 
+        if bool(experiment) == False:
+            print("Experiment object is empty")
 
-        pass
+
+        self.experiments.append(experiment)
 
 
-    def add(self, experiment):
+    def add(self, experiment) -> None:
         """
 
         @param experiment:
@@ -143,7 +150,7 @@ class ExperimentHandler(Experiment):
         """
         pass
 
-    def insert(self, experiments):
+    def insert(self, experiments) -> None:
         """
 
         @param experiments:
@@ -151,17 +158,18 @@ class ExperimentHandler(Experiment):
         """
         pass
 
-    def remove(self, experiment):
+    def remove(self, experiment) -> None:
+
         """
 
-        @param experiment:
+        @param experiment: dict
         @return:
         """
-        pass
+        self.experiments.remove(experiment)
 
-    def removeAll(self):
+    def removeAll(self) -> None:
         """
 
         @return:
         """
-        pass
+        self.experiments.clear()

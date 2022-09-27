@@ -14,7 +14,7 @@ class MovieLens(AbstractDataSet):
 
     """
 
-    def __init__(self, proportion="ml-latest-small") -> None:
+    def __init__(self, config_obj: dict) -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
 
@@ -22,7 +22,7 @@ class MovieLens(AbstractDataSet):
 
         """
         super().__init__()
-        proportion = str(proportion)
+        proportion = str(config_obj['proportion'])
 
         print("Load MovieLens Proportion: ", proportion)
 
@@ -100,6 +100,7 @@ class MovieLens(AbstractDataSet):
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
         tags = self.Loader.load_file(path=path + "tags", extension=".csv")
 
+
         self.set_items(movies)
         self.set_tags(tags)
         self.set_ratings(ratings)
@@ -113,12 +114,15 @@ class MovieLens(AbstractDataSet):
         """
         setattr(MovieLens, 'ratings', ratings)
 
+
+
     def set_links(self, links):
         """
 
         @param links:
         @return:
         """
+
         setattr(MovieLens, 'links', links)
 
     def set_items(self, items):
@@ -127,7 +131,8 @@ class MovieLens(AbstractDataSet):
         @param items:
         @return:
         """
-        setattr(MovieLens, '__items', items)
+
+        setattr(MovieLens, 'items', items)
 
     def set_users(self, users):
         """
@@ -135,6 +140,7 @@ class MovieLens(AbstractDataSet):
         @param users:
         @return:
         """
+
         setattr(MovieLens, 'users', users)
 
     def set_tags(self, tags):
@@ -143,6 +149,7 @@ class MovieLens(AbstractDataSet):
         @param tags:
         @return:
         """
+
         setattr(MovieLens, 'tags', tags)
 
     def set_genome_tags(self, genome_tags):
@@ -181,12 +188,14 @@ class MovieLens(AbstractDataSet):
             self.tags,
         ]
 
+    @property
     def ratings(self):
         """
 
         @return:
         """
-        return getattr(MovieLens, 'ratings')
+        return self.ratings
+
 
     @property
     def tags(self):
@@ -204,3 +213,11 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         return self.links
+
+    @property
+    def items(self):
+        """
+
+        @return:
+        """
+        return self.items
