@@ -17,17 +17,25 @@ config_obj = json.load(file)
 
 experiments_config = config_obj['experiments']
 
-print(experiments_config)
+
 
 experiment_handler = ExperimentHandler()
 instance = experiment_handler.create_experiment_instances(experiments_config)
 
+
+
+
 dataset_instance = instance['datasets']
+preprocessing_instance = instance['preprocessing']
 
 
+after_filters = dataset_instance.apply_filters()
+print("After filters:" , after_filters)
 
-print(dataset_instance.tags)
-print(dataset_instance.ratings)
-print(dataset_instance.items)
-print(dataset_instance.links)
+print("Ratings: ", dataset_instance.ratings)
+"""
+print("Tags: ", dataset_instance.tags)
 
+print("Items (movies): ", dataset_instance.items)
+print("Links: ", dataset_instance.links)
+"""

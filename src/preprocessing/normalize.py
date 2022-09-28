@@ -4,7 +4,7 @@ from sklearn.preprocessing import normalize
 
 class NormalizeProcessing(AbstractPreProcessing):
 
-    def __init__(self, parameters: dict)-> None:
+    def __init__(self, parameters: dict) -> None:
         """
 
         """
@@ -17,4 +17,16 @@ class NormalizeProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        return normalize(data)
+
+        norm = kwargs.pop('norm')
+        axis = kwargs.pop('axis')
+        copy = kwargs.pop('copy')
+        return_norm = kwargs.pop('return_norm')
+
+        return normalize(
+            X=data,
+            norm=norm,
+            axis=axis,
+            copy=copy,
+            return_norm=return_norm
+        )

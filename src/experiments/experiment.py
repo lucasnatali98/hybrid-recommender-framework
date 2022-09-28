@@ -82,12 +82,28 @@ class ExperimentHandler(Experiment):
         """
         self.experiments = []
 
+
     def run(self):
         """
 
         @return:
         """
         pass
+
+
+    def _handle_with_dataset(self, dataset):
+        pass
+
+
+    def _set_attributes(self, instances: dict):
+
+        self.datasets = instances['datasets']
+        self.metafeatures = instances['metafeatures']
+        self.preprocessing = instances['preprocessing']
+        self.results = instances['results']
+        self.visualization = instances['visualization']
+        self.recommenders = instances['recommenders']
+        self.metrics = instances['metrics']
 
     def create_experiment_instances(self, config_obj) -> dict:
 

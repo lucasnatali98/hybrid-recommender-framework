@@ -7,15 +7,16 @@
         "module": "src.data.movielens",
         "parameters": {
           "proportion": "ml-latest-small",
-          "folds": "",
-          "filters": [
-            {
-              "qtd_user": 100
-            },
-            {
-              "qtd_ratings": 100
-            }
-          ]
+          "apply_on": [
+            "ratings", "movies", "links"
+          ],
+          "folds": "5",
+          "strategy": "StratifiedKFolds",
+          "filters": {
+            "qtd_ratings": 100
+
+          }
+
         }
       },
       "preprocessing": {

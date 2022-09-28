@@ -1,6 +1,8 @@
 from src.data.dataset import AbstractDataSet
 from dataclasses import dataclass
 
+
+
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
     "ml-latest",
@@ -31,6 +33,7 @@ class MovieLens(AbstractDataSet):
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"
             )
 
+        self.config_obj = config_obj
         self.proportion = proportion
         self.basePath = "data_storage/"
         self.dataset = self._get_dataset()
@@ -167,6 +170,31 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         setattr(MovieLens, 'genomeScores', genome_scores)
+
+    def processing_datasets(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def generate_folds(self):
+        """
+
+        @return:
+        """
+
+    def apply_filters(self):
+
+        filters = self.config_obj['filters']
+
+        qtd_ratings = filters['qtd_ratings']
+
+        new_ratings = self.ratings[0:qtd_ratings]
+
+        return new_ratings
+
+
 
     def _get_dataset(self):
         """

@@ -31,6 +31,19 @@ class SplitProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        X_train, X_test, y_train, y_test = train_test_split(data, [2,3,4], test_size=0.2)
+        test_size = kwargs.pop('test_size')
+        train_size = kwargs.pop('train_size')
+        random_state = kwargs.pop('random_state')
+        shuffle = kwargs.pop('shuffle')
+        stratify = kwargs.pop('stratify')
+
+        X_train, X_test, y_train, y_test = train_test_split(
+            data,
+            train_size=train_size,
+            test_size=test_size,
+            random_state=random_state,
+            shuffle=shuffle,
+            stratify=stratify
+        )
 
         return X_train, X_test, y_train, y_test
