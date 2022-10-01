@@ -11,12 +11,12 @@
             "ratings", "movies", "links"
           ],
           "folds": "5",
+
           "strategy": "StratifiedKFolds",
           "filters": {
             "qtd_ratings": 100
 
           }
-
         }
       },
       "preprocessing": {
@@ -28,14 +28,17 @@
               "module": "src.preprocessing.encoding",
               "class_name": "EncodingProcessing",
               "parameters": {
-                "encoding_type": "onehot"
+                "encoding_type": "onehot",
+                "apply_on": []
               }
             },
             {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",
               "parameters": {
-                "strategy": "StratifiedKFold"
+                "train_size": "",
+                "test_size": "",
+                "random_state": ""
               }
             },
             {
@@ -55,7 +58,8 @@
                 "apply_on": {
                   "ratings": ["rating", "movieId"],
                   "tags": ["movieId"]
-                }
+                },
+                "norm": "l2"
               }
             }
           ]

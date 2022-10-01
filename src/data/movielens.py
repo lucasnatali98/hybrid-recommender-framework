@@ -1,5 +1,6 @@
 from src.data.dataset import AbstractDataSet
 from dataclasses import dataclass
+from sklearn.model_selection import StratifiedKFold, StratifiedGroupKFold
 
 
 
@@ -183,6 +184,10 @@ class MovieLens(AbstractDataSet):
 
         @return:
         """
+        strategy = self.config_obj['strategy']
+
+
+
 
     def apply_filters(self):
 
