@@ -23,9 +23,21 @@ Em cada um deles faremos um conjunto de processos que alimentará o próximo mó
 Esse framework faz uso de outros trabalhos e, com isso, é importante que tenhamos conhecimento sobre o objetivo deste trabalho e também como podemos utiliza-lo. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0
 
 #### Xperimentor
-Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, 
+Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, o projeto é estruturado através de um frontend que é responsável por contruir e gerenciar a execução de um experimento e o backend (Task Executor) é um servidor HTTP desenvolvido em Python para tratar as requisições para executar os processos. 
+
+<b>Task Executor</b>: Esta aplicação deve ser conteinerizada e implantada em um cluster Kubernetes onde cada máquina do cluster possui uma réplica do Task Executor que será executado como um serviço. Toda tarefa de um experimento que estiver sendo executada no Xperimentor será direcionada para a aplicação do Task Executor que iniciará um processo e registrará todo fluxo produzidos nos canais de saída padrão.
+
+<b>Xperimentor</b>: está é a aplicação principal do framework e tem como responsabilidade construir e gerenciar a execução de um experimento. O projeto conta com uma única página com um editor de código embutido e um painel de visualização onde o experimentador pode observar o status do experimento. Toda a configuração deve ser feita através de um documento YAML, nele estarão contidos todos os dados necessarios para que o framework seja capaz de executar o seu proposito.
+
+Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependência. Um exemplo de uma dessas tarefas seria:
+
+tasks:
+  id: <task_id>
+  command: "gcc -c main.c main.o"
+  deps: [dep1,dep2]
 
 
+Definidas todas as tarefas neste arquivo de configuração o próximo passo é fazer a configuração e execução do cluster Kubernetes, para isso podemos utilizar o Kubernetes tanto localmente quanto em um servidor.
 
 ## 💻 Pré-requisitos
 
