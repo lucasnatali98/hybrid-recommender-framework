@@ -18,15 +18,14 @@ Em cada um deles faremos um conjunto de processos que alimentará o próximo mó
 
 ![alt text](https://raw.githubusercontent.com/lucasnatali98/hybrid-recommender-framework/dev/docs/imgs/arquiteturaFramework_ptbr.png?token=GHSAT0AAAAAABWFNVAT5YV657V7DUJ7SKZ6YYOVJFA)
 
-### Ajustes e melhorias
+### Dependências importantes do projeto
 
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
+Esse framework faz uso de outros trabalhos e, com isso, é importante que tenhamos conhecimento sobre o objetivo deste trabalho e também como podemos utiliza-lo. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0
 
-- [x] Tarefa 1
-- [x] Tarefa 2
-- [x] Tarefa 3
-- [ ] Tarefa 4
-- [ ] Tarefa 5
+#### Xperimentor
+Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, 
+
+
 
 ## 💻 Pré-requisitos
 
