@@ -16,4 +16,4 @@ def load_yaml(path):
         try:
             return yaml.safe_load(file)
         except yaml.YAMLError as e:
-            print(e, file=sys.stderr)
+            print(e, file=sys.std err)
