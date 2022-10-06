@@ -1,9 +1,33 @@
-from metafeatures.metafeature import ColaborativeMetaFeature
+from src.metafeatures.metafeature import ColaborativeMetaFeature
 
 
 class ProportionRatings(ColaborativeMetaFeature):
-    def __init__(self):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """
         pass
+
+    def fit(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def predict(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def update(self, obj):
+        """
+
+        @param obj:
+        @return:
+        """
+        pass
+
+

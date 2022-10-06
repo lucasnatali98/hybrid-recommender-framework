@@ -1,5 +1,8 @@
 from src.data.dataset import AbstractDataSet
-import os.path
+from dataclasses import dataclass
+from sklearn.model_selection import StratifiedKFold, StratifiedGroupKFold
+
+
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -8,41 +11,49 @@ PROPORTION_POSSIBILITIES = {
 }
 
 
+@dataclass
 class MovieLens(AbstractDataSet):
     """
 
     """
 
-    def __init__(self, proportion):
+    def __init__(self, config_obj: dict) -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
 
-        Exemplo: ["ML100K", "MOVIELENS", "ML1M", "ML10M"]
+
 
         """
         super().__init__()
-        proportion = str(proportion)
+        proportion = str(config_obj['proportion'])
+
+        print("Load MovieLens Proportion: ", proportion)
 
         if not self._is_proportion_valid(proportion):
             raise Exception(
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"
             )
 
+        self.config_obj = config_obj
         self.proportion = proportion
         self.basePath = "data_storage/"
         self.dataset = self._get_dataset()
+        self.genomeScores = None
+        self.genomeTags = None
 
+    def _is_proportion_valid(self, proportion) -> bool:
+        """
+        Check if the proportion of movielens dataset is valid
 
+        @proportion: str
 
-
-
-    def _is_proportion_valid(self, proportion):
+        """
         if proportion in PROPORTION_POSSIBILITIES:
             return True
 
         return False
 
-    def _set_ml25m(self):
+    def _load_ml25m(self) -> None:
         """
 
 
@@ -59,15 +70,11 @@ class MovieLens(AbstractDataSet):
         self.set_items(movies)
         self.set_tags(tags)
         self.set_ratings(ratings)
+        self.set_links(links)
+        self.set_genome_tags(genome_tags)
+        self.set_genome_scores(genome_scores)
 
-        self.movies = movies
-        self.links = links
-        self.ratings = ratings
-        self.tags = tags
-        self.genomeScores = genome_scores
-        self.genomeTags = genome_tags
-
-    def _set_ml_latest(self):
+    def _load_ml_latest(self) -> None:
         """
 
         """
@@ -79,15 +86,14 @@ class MovieLens(AbstractDataSet):
         genome_scores = self.Loader.load_file(path=path + "genome-scores", extension=".csv")
         genome_tags = self.Loader.load_file(path=path + "genome-tags", extension=".csv")
 
-        self.movies = movies
-        self.links = links
-        self.ratings = ratings
-        self.tags = tags
-        self.genomeScores = genome_scores
-        self.genomeTags = genome_tags
+        self.set_items(movies)
+        self.set_tags(tags)
+        self.set_ratings(ratings)
+        self.set_links(links)
+        self.set_genome_tags(genome_tags)
+        self.set_genome_scores(genome_scores)
 
-
-    def _set_ml_latest_small(self):
+    def _load_ml_latest_small(self) -> None:
         """
 
 
@@ -98,67 +104,153 @@ class MovieLens(AbstractDataSet):
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
         tags = self.Loader.load_file(path=path + "tags", extension=".csv")
 
-        print("movies: ", movies)
-        print("links: ", links)
-        print("ratings: ", ratings)
-        print("tags: ", tags)
 
-        self.movies = movies
-        self.links = links
-        self.ratings = ratings
-        self.tags = tags
+        self.set_items(movies)
+        self.set_tags(tags)
+        self.set_ratings(ratings)
+        self.set_links(links)
+
+    def set_ratings(self, ratings):
+        """
+
+        @param ratings:
+        @return:
+        """
+        setattr(MovieLens, 'ratings', ratings)
+
+
+
+    def set_links(self, links):
+        """
+
+        @param links:
+        @return:
+        """
+
+        setattr(MovieLens, 'links', links)
+
+    def set_items(self, items):
+        """
+
+        @param items:
+        @return:
+        """
+
+        setattr(MovieLens, 'items', items)
+
+    def set_users(self, users):
+        """
+
+        @param users:
+        @return:
+        """
+
+        setattr(MovieLens, 'users', users)
+
+    def set_tags(self, tags):
+        """
+
+        @param tags:
+        @return:
+        """
+
+        setattr(MovieLens, 'tags', tags)
 
     def set_genome_tags(self, genome_tags):
-        self.genomeTags = genome_tags
+        """
+
+        @param genome_tags:
+        @return:
+        """
+        setattr(MovieLens, 'genomeTags', genome_tags)
 
     def set_genome_scores(self, genome_scores):
-        self.genomeScores = genome_scores
+        """
+
+        @param genome_scores:
+        @return:
+        """
+        setattr(MovieLens, 'genomeScores', genome_scores)
+
+    def processing_datasets(self):
+        """
+
+        @return:
+        """
+        pass
+
+    def generate_folds(self):
+        """
+
+        @return:
+        """
+        strategy = self.config_obj['strategy']
+
+
+
+
+    def apply_filters(self):
+
+        filters = self.config_obj['filters']
+
+        qtd_ratings = filters['qtd_ratings']
+
+        new_ratings = self.ratings[0:qtd_ratings]
+
+        return new_ratings
+
 
 
     def _get_dataset(self):
+        """
+
+        @return:
+        """
 
         if self.proportion == "ml-25m":
-            self._set_ml25m()
+            self._load_ml25m()
         if self.proportion == "ml-latest":
             self.set_mllatest()
         if self.proportion == "ml-latest-small":
-            self._set_ml_latest_small()
+            self._load_ml_latest_small()
 
         return [
-            self.movies,
+            self.items,
             self.links,
             self.ratings,
             self.tags,
         ]
 
+    @property
     def ratings(self):
         """
-        
-        """
 
+        @return:
+        """
         return self.ratings
 
-    def items(self):
-        """
-        
-        """
-        return self.items
 
-    def users(self):
-        """
-        
-        """
-        return self.users
-
+    @property
     def tags(self):
         """
 
+        @return:
         """
 
         return self.tags
 
+    @property
     def links(self):
         """
 
+        @return:
         """
         return self.links
+
+    @property
+    def items(self):
+        """
+
+        @return:
+        """
+        return self.items

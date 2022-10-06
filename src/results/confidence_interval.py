@@ -1,12 +1,19 @@
 
 
-from results.results import AbstractResults
+from src.results.results import AbstractResults
 
 
 class ConfidenceInterval(AbstractResults):
 
-    def __init__(self):
+    def __init__(self, parameters: dict) -> None:
         """
         
+        """
+        pass
+
+    def get_results(self):
+        """
+
+        @return:
         """
         pass

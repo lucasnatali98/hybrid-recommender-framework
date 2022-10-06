@@ -2,3 +2,5 @@
 __pypache__/
 
 data_storage/
+*.zip
+*.pyc

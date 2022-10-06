@@ -1,10 +1,17 @@
 
-from visualization.visualization import InteractivePlot
+from src.visualization.visualization import InteractivePlot
 
 
-class InteractiveBarPlot(InteractivePlot):
-    def __init__(self):
+class InteractiveBar(InteractivePlot):
+    def __init__(self, parameters: dict) -> None:
         """
         
+        """
+        pass
+
+    def plot(self):
+        """
+
+        @return:
         """
         pass

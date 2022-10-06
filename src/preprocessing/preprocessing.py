@@ -1,54 +1,29 @@
 from abc import ABC, abstractmethod
-import sklearn
 
 
 class PreProcessing(ABC):
 
     @abstractmethod
-    def pre_processing():
+    def pre_processing(self, data, **kwargs):
         """
         
         """
         pass
 
-def AbstractPreProcessing(PreProcessing):
+
+class AbstractPreProcessing(PreProcessing):
 
     def __init__(self):
         """
         
         """
         pass
+
     @abstractmethod
-    def pre_processing():
+    def pre_processing(self, data, **kwargs):
         """
         
         """
         pass
 
-def PreProcessingContainer():
-    def __init__(self):
-        self.processingObjects = []
 
-    def push_back(self, obj):
-        """
-        
-        """
-        pass
-
-    def push_front(self, obj):
-        """
-        
-        """
-        pass
-
-    def remove(self, obj):
-        """
-        
-        """
-        pass
-
-    def removeAll(self):
-        """
-        
-        """
-        pass

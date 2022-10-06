@@ -1,9 +1,16 @@
-from visualization.visualization import StaticPlot
+from src.visualization.visualization import StaticPlot
 
 
-class StaticBarPlot(StaticPlot):
-    def __init__(self):
+class StaticBar(StaticPlot):
+    def __init__(self, parameters: dict) -> None:
         """
         
+        """
+        pass
+
+    def plot(self):
+        """
+
+        @return:
         """
         pass

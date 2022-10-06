@@ -1,9 +1,16 @@
-from visualization.visualization import StaticPlot
+from src.visualization.visualization import StaticPlot
 
 
-class StaticScatterPlot(StaticPlot):
-    def __init__(self):
+class StaticScatter(StaticPlot):
+    def __init__(self, parameters: dict) -> None:
         """
         
+        """
+        pass
+
+    def plot(self):
+        """
+
+        @return:
         """
         pass

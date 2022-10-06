@@ -1,9 +1,9 @@
 
-from metrics.metric import RankingMetric
+from src.metrics.metric import RankingMetric
 
 
 class EPD(RankingMetric):
-    def __init__(self):
+    def __init__(self, parameters: dict) -> None:
         """
         
         """
@@ -11,6 +11,6 @@ class EPD(RankingMetric):
 
     def evaluate(self):
         """
-        
+
         """
         pass

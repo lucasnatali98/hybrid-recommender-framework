@@ -29,54 +29,48 @@ class Dataset(ABC):
         """
         pass
 
-    def load(self, path, extension):
-        pass
-
 
 class AbstractDataSet(Dataset):
     """
         
     """
 
-    def __init__(self):
+    def __init__(self, items=None, ratings=None, links=None, tags=None):
         """
 
+        @param items:
+        @param ratings:
+        @param links:
+        @param tags:
         """
-        self.users = None
-        self.movies = None
-        self.ratings = None
-        self.tags = None
-        self.links = None
-        self.genomeScores = None
-        self.genomeTags = None
+
         self.Loader = Loader()
 
-    def set_ratings(self, ratings):
-        self.ratings = ratings
 
-    def set_items(self, items):
-        self.movies = items
 
-    def set_users(self, users):
-        self.users = users
 
-    def set_tags(self, tags):
-        self.tags = tags
 
     def ratings(self):
         """
-        
+
+        @return:
         """
         return self.ratings
 
+
     def users(self):
         """
-        
+
+        @return:
         """
         return self.users
 
+
     def items(self):
         """
-        
+
+        @return:
         """
-        pass
+        return self.items
+
+
