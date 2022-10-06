@@ -18,6 +18,13 @@ Em cada um deles faremos um conjunto de processos que alimentará o próximo mó
 
 ![alt text](https://raw.githubusercontent.com/lucasnatali98/hybrid-recommender-framework/dev/docs/imgs/arquiteturaFramework_ptbr.png?token=GHSAT0AAAAAABWFNVAT5YV657V7DUJ7SKZ6YYOVJFA)
 
+O módulo de preprocessamento será responsável por todo processo inicial antes de pensarmos em recomendações, então depois de carregar uma base de dados podemos submeter essa base ao calculo das metafeatures e/ou processamento dos scores constituintes, após feita estas etapas o resultado é submetido ao processamento dos recursos gerados para ao final desse processo gerar como artefato um conjunto de recursos.
+
+Ṕosteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados.
+
+Esses itens recomendados serão usados na última fase do framework que envolve a avaliação e visualização dos resultados gerados pelas outras etapas do framework. Aqui podemos aplicar diferentes métricas para avaliar os resultados e deles criar visualizações utilizando diferentes bibliotecas de visualização.
+
+
 ### Dependências importantes do projeto
 
 Esse framework faz uso de outros trabalhos e, com isso, é importante que tenhamos conhecimento sobre o objetivo deste trabalho e também como podemos utiliza-lo. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0
@@ -38,6 +45,15 @@ tasks:
 
 
 Definidas todas as tarefas neste arquivo de configuração o próximo passo é fazer a configuração e execução do cluster Kubernetes, para isso podemos utilizar o Kubernetes tanto localmente quanto em um servidor.
+
+## Princípios de funcionamento do framework
+Toda a execução do framework parte de um único ponto, um arquivo de configuração JSON que contêm todas as informações necessarias para a criação das classes que estarão envolvidas no processo da experimentação, em termos práticos cada experimento será definido por um conjunto de objetos que descrevem classes e seus parâmetros de forma que poderemos instanciar base de dados, diferentes preprocessamentos, modelos e avaliadores.
+
+A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias... Ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
+
+
+
+
 
 ## 💻 Pré-requisitos
 
