@@ -37,12 +37,51 @@ Esse trabalho faz a gestão de experimentos computacionais em um ambiente em par
 <b>Xperimentor</b>: está é a aplicação principal do framework e tem como responsabilidade construir e gerenciar a execução de um experimento. O projeto conta com uma única página com um editor de código embutido e um painel de visualização onde o experimentador pode observar o status do experimento. Toda a configuração deve ser feita através de um documento YAML, nele estarão contidos todos os dados necessarios para que o framework seja capaz de executar o seu proposito.
 
 Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependência. Um exemplo de uma dessas tarefas seria:
+```
+processes:
+  - id: MetaFeatureCalculator
+    command: "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0"
 
-tasks:
-  id: <task_id>
-  command: "gcc -c main.c main.o"
-  deps: [dep1,dep2]
+  - id: PredictionCF
+    command: "python -u PredictionCF.py {DB} {Alg} {Fold} 60 0"
 
+  - id: PredictionWHF
+    command: "python -u PredictionWHF.py {DB} {HF} {Fold} 60 0"
+    deps: [MetaFeatureCalculator, PredictionCF]
+
+  - id: EvaluatorCF
+    command: "java -jar MetricCalculator.jar {DB} {Fold} {Eval} CF 60 0"
+    deps: [PredictionCF]
+
+  - id: EvaluatorWHF
+    command: "java -jar MetricCalculator.jar {DB} {Fold} {Eval} WHF 60 0"
+    deps: [PredictionWHF]
+
+  - id: CalculateStatistics
+    command: "java -jar MetricCalculator.jar {DB} ALL {Eval} {Stats} 60 0"
+    deps: [EvaluatorCF, EvaluatorWHF]
+
+recipeDefaults:
+  DB: ["Bookcrossing"]
+  Fold: ["F1234-5", "F1235-4", "F1245-3", "F1345-2", "F2345-1"]
+  MF: ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"]
+  Alg: ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"]
+  HF: ["STREAM", "FWLS", "HR"]
+  Eval: ["RMSE", "F1", "EPC", "EILD"]
+  Stats: ["mean", "IC"]
+
+recipes:
+ - id: ExBC
+   pruning: [Fold, Eval]
+   uses:
+      DB:    ["Bookcrossing"]
+      Fold:  ["F1234-5", "F1235-4", "F1245-3", "F1345-2", "F2345-1"]
+      MF:    ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"]
+      Alg:   ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"]
+      HF:    ["STREAM", "FWLS", "HR"]
+      Eval:  ["RMSE", "F1", "EPC", "EILD"]
+      Stats: ["mean", "IC"]
+```
 
 Definidas todas as tarefas neste arquivo de configuração o próximo passo é fazer a configuração e execução do cluster Kubernetes, para isso podemos utilizar o Kubernetes tanto localmente quanto em um servidor.
 
@@ -126,14 +165,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
         </sub>
       </a>
     </td>
-    <td align="center">
-      <a href="#">
-        <img src="https://miro.medium.com/max/360/0*1SkS3mSorArvY9kS.jpg" width="100px;" alt="Foto do Steve Jobs"/><br>
-        <sub>
-          <b>Steve Jobs</b>
-        </sub>
-      </a>
-    </td>
+    
   </tr>
 </table>
 
