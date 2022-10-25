@@ -1,0 +1,28 @@
+doctype html
+html(lang='en-us')
+    head
+        meta(charset='utf-8' name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+
+        link(rel='stylesheet' href='/node-dependencies/bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet' href='/node-dependencies/@fortawesome/fontawesome-free/css/all.css')
+        link(rel='stylesheet' href='/node-dependencies/visjs-network/dist/vis.css')
+        link(rel='stylesheet' href='/node-dependencies/toastr/build/toastr.css')
+        link(rel='stylesheet', href='/app/css/main.css')
+
+        link(rel='shortcut icon' href='/img/favicon.png')
+        title='New Experiment'
+    body
+        div(id='container')
+            div(id='panels')
+                div(id='editor')
+                div(id='graph')
+                input(type='file' id='hiddenFileInput' hidden aria-hidden='true')
+
+        div(id='control-buttons')
+        button(type='button' class='btn btn-dark' id='btn-load-file') Load File
+        button(type='button' class='btn btn-success' id='btn-validate') Validate
+        button(type='button' class='btn btn-info' id='btn-build') Build
+        button(type='button' class='btn btn-primary' id='btn-execute') Execute
+
+        //- data-main attribute tells require.js to load given script after require.js loads.
+        script(data-main="/app/js/boot.js" src="/node-dependencies/requirejs/require.js")
