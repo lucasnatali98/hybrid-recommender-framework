@@ -1,0 +1,14 @@
+#python -u <RUN>/createLossesWinsOutBaseline.py  <BD> Results MF/Results "<BASELINE>" <R1> <R2> <TOP_N> 1.0  false Results/Analisys/losses_winners_risk_bln_100-false_<BD> > <OUT>-<R1>-<R2>-<TOP_N>-bln_100-false.out
+#python -u <RUN>/createLossesWinsOutBaseline.py  <BD> Results MF/Results "<BASELINE>" <R1> <R2> <TOP_N> 1.0  true  Results/Analisys/losses_winners_risk_bln_100-true_<BD>  > <OUT>-<R1>-<R2>-<TOP_N>-bln_100-true.out
+#python -u <RUN>/createLossesWinsOutBaseline.py  <BD> Results MF/Results "<BASELINE>" <R1> <R2> <TOP_N> 0.20 false Results/Analisys/losses_winners_risk_bln_20-false_<BD>  > <OUT>-<R1>-<R2>-<TOP_N>-bln_20-false.out
+#python -u <RUN>/createLossesWinsOutBaseline.py  <BD> Results MF/Results "<BASELINE>" <R1> <R2> <TOP_N> 0.20 true  Results/Analisys/losses_winners_risk_bln_20-true_<BD>   > <OUT>-<R1>-<R2>-<TOP_N>-bln_20-true.out
+#python -u <RUN>/createLossesWinsAllBaselines.py <BD> Results                         <R1> <R2> <TOP_N> 1.0  false Results/Analisys/losses_winners_risk_all_100-false_<BD> > <OUT>-<R1>-<R2>-<TOP_N>-all_100-false.out
+#python -u <RUN>/createLossesWinsAllBaselines.py <BD> Results                         <R1> <R2> <TOP_N> 1.0  true  Results/Analisys/losses_winners_risk_all_100-true_<BD>  > <OUT>-<R1>-<R2>-<TOP_N>-all_100-true.out
+#python -u <RUN>/createLossesWinsAllBaselines.py <BD> Results                         <R1> <R2> <TOP_N> 0.20 false Results/Analisys/losses_winners_risk_all_20-false_<BD>  > <OUT>-<R1>-<R2>-<TOP_N>-all_20-false.out
+#python -u <RUN>/createLossesWinsAllBaselines.py <BD> Results                         <R1> <R2> <TOP_N> 0.20 true  Results/Analisys/losses_winners_risk_all_20-true_<BD>   > <OUT>-<R1>-<R2>-<TOP_N>-all_20-true.out
+
+# ultima execucao, no mac (pelo PyCharm, sem gerar .out)
+#python -u <RUN>/createLossesWinsAllBaselines.py <BD>/RISK-6H Results                  <R1> <R2> <TOP_N> 1.0  false Results/Analisys/losses_winners_risk_all_<BD> > <OUT>-<R1>-<R2>-<TOP_N>-all_RISK.out
+
+# Executado para SIGIR pelo execEval-Fairness-SIGIR.sh
+python -u <RUN>/createLossesWinsAllBaselines.py <BD> Results                         <R1> <R2> <TOP_N> 1.0  false Results/Analisys/losses_winners_risk_all_100-false_<BD> > <OUT>-<R1>-<R2>-<TOP_N>-all_100-false.out

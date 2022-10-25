@@ -1,0 +1,2 @@
+python -u <RUN>/generationalDistancesComputation.py  <BD>  Results/GD  > <OUT>.out
+python -u <RUN>/generationalDistancesComputation.py  <BD>  Results/GD  1  > <OUT>-igRisk.out

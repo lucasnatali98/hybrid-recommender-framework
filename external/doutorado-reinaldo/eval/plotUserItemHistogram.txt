@@ -1,0 +1,51 @@
+#python -u run/eval/plotUserItemHistogram.py Amazon BD Sample2345.train Results/Plots user_item_histogram_F1_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F1_Amazon.out
+#python -u run/eval/plotUserItemHistogram.py Amazon BD Sample1345.train Results/Plots user_item_histogram_F2_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F2_Amazon.out
+#python -u run/eval/plotUserItemHistogram.py Amazon BD Sample1245.train Results/Plots user_item_histogram_F3_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F3_Amazon.out
+#python -u run/eval/plotUserItemHistogram.py Amazon BD Sample1235.train Results/Plots user_item_histogram_F4_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F4_Amazon.out
+#python -u run/eval/plotUserItemHistogram.py Amazon BD Sample1234.train Results/Plots user_item_histogram_F5_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F5_Amazon.out
+#python -u run/eval/plotUserItemHistogram.py Amazon BD ratingsNorm.txt  Results/Plots user_item_histogram_ALL_Amazon.pdf > Amazon/Results/Plots/user_item_histogram_ALL_Amazon.out
+
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample2345.train Results/Plots user_item_histogram_F1_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F1_Bookcrossing.out
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample1345.train Results/Plots user_item_histogram_F2_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F2_Bookcrossing.out
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample1245.train Results/Plots user_item_histogram_F3_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F3_Bookcrossing.out
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample1235.train Results/Plots user_item_histogram_F4_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F4_Bookcrossing.out
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample1234.train Results/Plots user_item_histogram_F5_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F5_Bookcrossing.out
+#python -u run/eval/plotUserItemHistogram.py Bookcrossing BD ratingsNorm.txt  Results/Plots user_item_histogram_ALL_Bookcrossing.pdf > Bookcrossing/Results/Plots/user_item_histogram_ALL_Bookcrossing.out
+
+#python -u run/eval/plotUserItemHistogram.py Jester BD Sample2345.train Results/Plots user_item_histogram_F1_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F1_Jester.out
+#python -u run/eval/plotUserItemHistogram.py Jester BD Sample1345.train Results/Plots user_item_histogram_F2_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F2_Jester.out
+#python -u run/eval/plotUserItemHistogram.py Jester BD Sample1245.train Results/Plots user_item_histogram_F3_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F3_Jester.out
+#python -u run/eval/plotUserItemHistogram.py Jester BD Sample1235.train Results/Plots user_item_histogram_F4_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F4_Jester.out
+#python -u run/eval/plotUserItemHistogram.py Jester BD Sample1234.train Results/Plots user_item_histogram_F5_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F5_Jester.out
+#python -u run/eval/plotUserItemHistogram.py Jester BD ratingsNorm.txt  Results/Plots user_item_histogram_ALL_Jester.pdf > Jester/Results/Plots/user_item_histogram_ALL_Jester.out
+
+#python -u run/eval/plotUserItemHistogram.py ML20M BD Sample2345.train Results/Plots user_item_histogram_F1_ML20M.pdf  > ml20m/Results/Plots/user_item_histogram_F1_ML20M.out
+#python -u run/eval/plotUserItemHistogram.py ML20M BD Sample1345.train Results/Plots user_item_histogram_F2_ML20M.pdf  > ml20m/Results/Plots/user_item_histogram_F2_ML20M.out
+#python -u run/eval/plotUserItemHistogram.py ML20M BD Sample1245.train Results/Plots user_item_histogram_F3_ML20M.pdf  > ml20m/Results/Plots/user_item_histogram_F3_ML20M.out
+#python -u run/eval/plotUserItemHistogram.py ML20M BD Sample1235.train Results/Plots user_item_histogram_F4_ML20M.pdf  > ml20m/Results/Plots/user_item_histogram_F4_ML20M.out
+#python -u run/eval/plotUserItemHistogram.py ML20M BD Sample1234.train Results/Plots user_item_histogram_F5_ML20M.pdf  > ml20m/Results/Plots/user_item_histogram_F5_ML20M.out
+#python -u run/eval/plotUserItemHistogram.py ML20M BD ratingsNorm.txt  Results/Plots user_item_histogram_ALL_ML20M.pdf > ml20m/Results/Plots/user_item_histogram_ALL_ML20M.out
+
+python -u run/eval/plotUserItemHistogram.py Amazon BD Sample1.test Results/Plots user_item_histogram_F1_test_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F1_test_Amazon.out
+python -u run/eval/plotUserItemHistogram.py Amazon BD Sample2.test Results/Plots user_item_histogram_F2_test_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F2_test_Amazon.out
+python -u run/eval/plotUserItemHistogram.py Amazon BD Sample3.test Results/Plots user_item_histogram_F3_test_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F3_test_Amazon.out
+python -u run/eval/plotUserItemHistogram.py Amazon BD Sample4.test Results/Plots user_item_histogram_F4_test_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F4_test_Amazon.out
+python -u run/eval/plotUserItemHistogram.py Amazon BD Sample5.test Results/Plots user_item_histogram_F5_test_Amazon.pdf  > Amazon/Results/Plots/user_item_histogram_F5_test_Amazon.out
+
+python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample1.test Results/Plots user_item_histogram_F1_test_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F1_test_Bookcrossing.out
+python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample2.test Results/Plots user_item_histogram_F2_test_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F2_test_Bookcrossing.out
+python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample3.test Results/Plots user_item_histogram_F3_test_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F3_test_Bookcrossing.out
+python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample4.test Results/Plots user_item_histogram_F4_test_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F4_test_Bookcrossing.out
+python -u run/eval/plotUserItemHistogram.py Bookcrossing BD Sample5.test Results/Plots user_item_histogram_F5_test_Bookcrossing.pdf  > Bookcrossing/Results/Plots/user_item_histogram_F5_test_Bookcrossing.out
+
+python -u run/eval/plotUserItemHistogram.py Jester BD Sample1.test Results/Plots user_item_histogram_F1_test_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F1_test_Jester.out
+python -u run/eval/plotUserItemHistogram.py Jester BD Sample2.test Results/Plots user_item_histogram_F2_test_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F2_test_Jester.out
+python -u run/eval/plotUserItemHistogram.py Jester BD Sample3.test Results/Plots user_item_histogram_F3_test_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F3_test_Jester.out
+python -u run/eval/plotUserItemHistogram.py Jester BD Sample4.test Results/Plots user_item_histogram_F4_test_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F4_test_Jester.out
+python -u run/eval/plotUserItemHistogram.py Jester BD Sample5.test Results/Plots user_item_histogram_F5_test_Jester.pdf  > Jester/Results/Plots/user_item_histogram_F5_test_Jester.out
+
+python -u run/eval/plotUserItemHistogram.py ML20M BD Sample1.test Results/Plots user_item_histogram_F1_test_ML20M.pdf  > ML20M/Results/Plots/user_item_histogram_F1_test_ML20M.out
+python -u run/eval/plotUserItemHistogram.py ML20M BD Sample2.test Results/Plots user_item_histogram_F2_test_ML20M.pdf  > ML20M/Results/Plots/user_item_histogram_F2_test_ML20M.out
+python -u run/eval/plotUserItemHistogram.py ML20M BD Sample3.test Results/Plots user_item_histogram_F3_test_ML20M.pdf  > ML20M/Results/Plots/user_item_histogram_F3_test_ML20M.out
+python -u run/eval/plotUserItemHistogram.py ML20M BD Sample4.test Results/Plots user_item_histogram_F4_test_ML20M.pdf  > ML20M/Results/Plots/user_item_histogram_F4_test_ML20M.out
+python -u run/eval/plotUserItemHistogram.py ML20M BD Sample5.test Results/Plots user_item_histogram_F5_test_ML20M.pdf  > ML20M/Results/Plots/user_item_histogram_F5_test_ML20M.out

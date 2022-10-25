@@ -1,0 +1,2 @@
+python -u <RUN>/rankAlgorithms.py <BD>/Results <R1> <R2> <TOP_N> ranking_<R1>_<R2>_<NAME> <CONFIG> -Top > <OUT>-<R1>-<R2>_<NAME>-TOP.out
+python -u <RUN>/rankAlgorithms.py <BD>/Results <R1> <R2> <TOP_N> ranking_<R1>_<R2>_<NAME> <CONFIG> -Bot > <OUT>-<R1>-<R2>_<NAME>-BOT.out

@@ -1,0 +1,8 @@
+# tanto para Amazon quanto para ML20M nos testes de Risco o ncf-64-4 foi o melhor.
+# como o custo dele é muito alto, e aqui temos vários folds, usaremos apenas esta configuração
+# ele também convergiu muito bem na primeira época, com isso executaremos apenas uma.
+# a pasta NCF é copiada para a pasta raiz, junto com MyMediaLite
+#python3 -u /home/terralab/reinaldo/NCF/main.py <BD> <TRAIN> <TEST> ./<BD>/constituent/F<TRAIN>-<TEST>/ncf-8-4.tsv   /home/terralab/reinaldo/NCF/ --batch_size=256 --lr=0.001 --factor_num=8  --num_ng=4  --epochs=1 > <OUT>ncf-8-4.out
+python3 -u /home/terralab/reinaldo/NCF/main.py  <BD> <TRAIN> <TEST> ./<BD>/constituent/F<TRAIN>-<TEST>/ncf-64-4.tsv  /home/terralab/reinaldo/NCF/ --batch_size=256 --lr=0.001 --factor_num=64 --num_ng=4  --epochs=1 > <OUT>ncf-64-4.out
+#python3 -u /home/terralab/reinaldo/NCF/main.py <BD> <TRAIN> <TEST> ./<BD>/constituent/F<TRAIN>-<TEST>/ncf-8-10.tsv  /home/terralab/reinaldo/NCF/ --batch_size=256 --lr=0.001 --factor_num=8  --num_ng=10 --epochs=1 > <OUT>ncf-8-10.out
+#python3 -u /home/terralab/reinaldo/NCF/main.py <BD> <TRAIN> <TEST> ./<BD>/constituent/F<TRAIN>-<TEST>/ncf-64-10.tsv /home/terralab/reinaldo/NCF/ --batch_size=256 --lr=0.001 --factor_num=64 --num_ng=10 --epochs=1 > <OUT>ncf-64-10.out

@@ -1,0 +1,5 @@
+python -u run/utility_metrics/usersPreferences.py <BD> u.item.attributes Sample1234.sorted Sample5.test Sample5.preferences <RELEVANT> > <OUT>.1234.5.out
+python -u run/utility_metrics/usersPreferences.py <BD> u.item.attributes Sample1235.sorted Sample4.test Sample4.preferences <RELEVANT> > <OUT>.1235.4.out
+python -u run/utility_metrics/usersPreferences.py <BD> u.item.attributes Sample1245.sorted Sample3.test Sample3.preferences <RELEVANT> > <OUT>.1245.3.out
+python -u run/utility_metrics/usersPreferences.py <BD> u.item.attributes Sample1345.sorted Sample2.test Sample2.preferences <RELEVANT> > <OUT>.1345.2.out
+python -u run/utility_metrics/usersPreferences.py <BD> u.item.attributes Sample2345.sorted Sample1.test Sample1.preferences <RELEVANT> > <OUT>.2345.1.out

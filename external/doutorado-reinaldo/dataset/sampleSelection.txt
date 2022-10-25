@@ -1,0 +1,5 @@
+python -u <RUN>/sampleSelection.py -d <BD> -s Sample1 -u <NUM_USERS> > <OUT>_Sample1.out
+python -u <RUN>/sampleSelection.py -d <BD> -s Sample2 -u <NUM_USERS> > <OUT>_Sample2.out
+python -u <RUN>/sampleSelection.py -d <BD> -s Sample3 -u <NUM_USERS> > <OUT>_Sample3.out
+python -u <RUN>/sampleSelection.py -d <BD> -s Sample4 -u <NUM_USERS> > <OUT>_Sample4.out
+python -u <RUN>/sampleSelection.py -d <BD> -s Sample5 -u <NUM_USERS> > <OUT>_Sample5.out

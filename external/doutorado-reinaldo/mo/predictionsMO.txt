@@ -1,0 +1,4 @@
+python -u <RUN>/predictionsMO.py  <BD>/  MO/<FOLD>/<R>/  SOL-SUM.csv          features/<FOLD>/  <hybrid>-<feature>.test  keys.test  <PRED_FOLD>/  >  <OUT>-SUM-<hybrid>-<feature>-<FOLD>-<R>.out
+python -u <RUN>/predictionsMO.py  <BD>/  MO/<FOLD>/<R>/  SOL-GeoRisk.csv      features/<FOLD>/  <hybrid>-<feature>.test  keys.test  <PRED_FOLD>/  >  <OUT>-GeoRisk-<hybrid>-<feature>-<FOLD>-<R>.out
+python -u <RUN>/predictionsMO.py  <BD>/  MO/<FOLD>/<R>/  SOL-Ind-SUM.csv      features/<FOLD>/  <hybrid>-<feature>.test  keys.test  <PRED_FOLD>/  >  <OUT>-Ind-SUM-<hybrid>-<feature>-<FOLD>-<R>.out
+python -u <RUN>/predictionsMO.py  <BD>/  MO/<FOLD>/<R>/  SOL-Ind-GeoRisk.csv  features/<FOLD>/  <hybrid>-<feature>.test  keys.test  <PRED_FOLD>/  >  <OUT>-Ind-GeoRisk-<hybrid>-<feature>-<FOLD>-<R>.out

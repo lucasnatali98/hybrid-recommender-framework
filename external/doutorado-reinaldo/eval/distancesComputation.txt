@@ -1,0 +1,1 @@
+python -u <RUN>/distancesComputation.py  <BD>  Results/<R>  <FOLD>  <TOP_N>  > <OUT>-<R>-<FOLD>.out

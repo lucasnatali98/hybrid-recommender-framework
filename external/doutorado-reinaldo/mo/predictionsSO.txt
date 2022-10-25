@@ -1,0 +1,1 @@
+python -u <RUN>/predictionsSO.py  <BD>/  SO/<FOLD>/<R>/  <hybrid>-<feature>.test  features/<FOLD>/  keys.test  <PRED_FOLD>/  >  <OUT>-<hybrid>-<feature>-<FOLD>-<R>.out

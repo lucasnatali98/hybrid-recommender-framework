@@ -1,0 +1,26 @@
+#executando o primeiro no shell script para criação dos indices de itens
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F123-4  > <OUT>-F123-4.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F123-5  > <OUT>-F123-5.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F124-3  > <OUT>-F124-3.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F124-5  > <OUT>-F124-5.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F125-3  > <OUT>-F125-3.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F125-4  > <OUT>-F125-4.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F134-2  > <OUT>-F134-2.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F134-5  > <OUT>-F134-5.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F135-2  > <OUT>-F135-2.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F135-4  > <OUT>-F135-4.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F145-2  > <OUT>-F145-2.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F145-3  > <OUT>-F145-3.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F234-1  > <OUT>-F234-1.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F234-5  > <OUT>-F234-5.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F235-1  > <OUT>-F235-1.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F235-4  > <OUT>-F235-4.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F245-1  > <OUT>-F245-1.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F245-3  > <OUT>-F245-3.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F345-1  > <OUT>-F345-1.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F345-2  > <OUT>-F345-2.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F1234-5 > <OUT>-F1234-5.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F1235-4 > <OUT>-F1235-4.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F1245-3 > <OUT>-F1245-3.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F1345-2 > <OUT>-F1345-2.out
+java -Xmx50G -jar <RUN>/CBRecommender.jar <PROP_FILE> true F2345-1 > <OUT>-F2345-1.out
