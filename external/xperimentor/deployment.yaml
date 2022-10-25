@@ -1,0 +1,23 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "xperimentor-deployment"
+  namespace: "default"
+  labels:
+    app: "xperimentor-deployment"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "xperimentor-deployment"
+  template:
+    metadata:
+      labels:
+        app: "xperimentor-deployment"
+    spec:
+      containers:
+      - name: "xperimentor-container"
+        image: "mpacheco95/task_executor:1.0.0"
+        ports:
+        - containerPort: 5050
