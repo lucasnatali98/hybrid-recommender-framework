@@ -85,6 +85,16 @@ recipes:
 
 Definidas todas as tarefas neste arquivo de configuração o próximo passo é fazer a configuração e execução do cluster Kubernetes, para isso podemos utilizar o Kubernetes tanto localmente quanto em um servidor.
 
+Toda tarefa possui um estado que varia durante a execução do experimento. Existem 8 estados ao total, sendo eles:
+- Waiting: estado inicial de toda tarefa
+- running: sinaliza uma tarefa em execução
+- successfully_finished: sinaliza uma tarefa que finalizou de forma bem sucedida
+- finished_with_erros: sinaliza que uma tarefa finalizou com o fluxo de erro padrão não vazio
+- finished_with_non_zero: sinaliza que uma tarefa finalizou com código diferente de zero
+- finished_with_errors_non_zero: sinaliza que uma tarefa finalizou com o fluxo de erro padrão não vazio e com código diferente de zero
+- failed: sinaliza que uma tarefa não pode ser executada
+- forced_successfully_finished: sinaliza que uma tarefa foi marcada como bem sucedida
+
 ## Princípios de funcionamento do framework
 Toda a execução do framework parte de um único ponto, um arquivo de configuração JSON que contêm todas as informações necessarias para a criação das classes que estarão envolvidas no processo da experimentação, em termos práticos cada experimento será definido por um conjunto de objetos que descrevem classes e seus parâmetros de forma que poderemos instanciar base de dados, diferentes preprocessamentos, modelos e avaliadores.
 
