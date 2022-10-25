@@ -1,0 +1,23 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "task-executor-deployment"
+  namespace: "default"
+  labels:
+    app: "task-executor-deployment"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "task-executor-deployment"
+  template:
+    metadata:
+      labels:
+        app: "task-executor-deployment"
+    spec:
+      containers:
+      - name: "task-executor-container"
+        image: "mpacheco95/task_executor:1.0.0"
+        ports:
+        - containerPort: 5050
