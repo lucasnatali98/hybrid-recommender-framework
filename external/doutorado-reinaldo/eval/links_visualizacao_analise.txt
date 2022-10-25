@@ -1,0 +1,22 @@
+OBS:
+1. pymoo pode ser uma boa alternativa para uma reengenharia dos métodos
+2. Pegar código de cálculo das métricas no projeto do Vinícius (RS_evaluation)
+
+https://pymoo.org/visualization/index.html
+
+https://pymoo.org/visualization/scatter.html
+
+https://pymoo.org/visualization/heatmap.html
+
+https://pymoo.org/visualization/petal.html
+
+https://ichi.pro/pt/introducao-a-analise-fatorial-em-python-116625965253739
+
+https://www.phylos.net/2020-11-02/analise-fatorial-usando-python/
+
+https://www.datasklr.com/principal-component-analysis-and-factor-analysis/factor-analysis
+
+https://www.datacamp.com/community/tutorials/introduction-factor-analysis
+
+https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.FactorAnalysis.html
+

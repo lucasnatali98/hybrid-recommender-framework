@@ -1,0 +1,2 @@
+# a pasta NCF é copiada para a pasta raiz, junto com MyMediaLite
+python3 -u /home/terralab/reinaldo/NCF/preprocessing.py /home/terralab/reinaldo/tese/<BD>/ <BD> <TRAIN> /home/terralab/reinaldo/NCF/ > <OUT>.out

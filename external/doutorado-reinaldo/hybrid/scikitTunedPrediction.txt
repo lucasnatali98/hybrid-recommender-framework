@@ -1,0 +1,6 @@
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none HR-all     Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.HR-all.out
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none STREAM-all Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.STREAM-all.out
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none FWLS-all   Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.FWLS-all.out
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none HR-sel     Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.HR-sel.out
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none STREAM-sel Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.STREAM-sel.out
+python -u run/hybrid/scikitTunedPrediction.py <BD>/ features/ <FOLD>/ keys.test none FWLS-sel   Predictions/hybrid/<R>/ scikitAlgorithms-<BD> > <OUT>.<FOLD>.<R>.FWLS-sel.out

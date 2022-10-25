@@ -1,0 +1,3 @@
+#o tempo de execução com utility_metrics é muito grande, executando as escolhas apenas com os resultados gerais
+#python -u run/utility_metrics/decisionMakingDistSum.py <BD>  u.item.attributes  0  Sample<TRAIN>.sorted  Sample<TEST>.preferences  PREF-6h/MO/F<TRAIN>-<TEST>/<R>  features/F<TRAIN>-<TEST>  <CORES_MAIN>  SOL-Ind-DIST  > <OUT>_<R>_F<TRAIN>-<TEST>.out
+python -u <RUN>/decisionMakingDist.py  <BD>  PREF-6h/MO/F<TRAIN>-<TEST>/<R>  Sample<TEST>.preferences  <CORES_MAIN>  SOL-Ind-DIST  > <OUT>_<R>_F<TRAIN>-<TEST>.out

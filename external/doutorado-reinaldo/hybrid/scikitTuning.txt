@@ -1,0 +1,14 @@
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-all.train     Ridge R 5 > <OUT>.Ridge.HR-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-all.train Ridge R 5 > <OUT>.Ridge.STREAM-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning FWLS-all.train   Ridge R 5 > <OUT>.Ridge.FWLS-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-sel.train     Ridge R 5 > <OUT>.Ridge.HR-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-sel.train Ridge R 5 > <OUT>.Ridge.STREAM-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning FWLS-sel.train   Ridge R 5 > <OUT>.Ridge.FWLS-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-all.train     RFR   R 5 > <OUT>.RFR.HR-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-all.train RFR   R 5 > <OUT>.RFR.STREAM-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-sel.train     RFR   R 5 > <OUT>.RFR.HR-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-sel.train RFR   R 5 > <OUT>.RFR.STREAM-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-all.train     GBR   R 5 > <OUT>.GBR.HR-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-all.train GBR   R 5 > <OUT>.GBR.STREAM-all-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning HR-sel.train     GBR   R 5 > <OUT>.GBR.HR-sel-train.out
+python -u run/hybrid/scikitTuning.py <BD> features/tuning STREAM-sel.train GBR   R 5 > <OUT>.GBR.STREAM-sel-train.out

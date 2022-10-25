@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<calculator>
+	<global>
+		<dataFile>DFILE</dataFile>
+		<resourceFile>RFILE</resourceFile>
+		<partitionLength>0</partitionLength>
+		<outputFolder>../Metadata/OUTPUTFOLDER/</outputFolder>
+		<basePath>HOME/BD/</basePath>
+		<bufferSize>16384</bufferSize>
+		<useTextOutput /> 
+	</global>
+	<!--
+	CD INDEX
+	-->
+	<process>
+		<doItem />
+		<type>content-based</type>
+		<index/>
+		<resourceFile>CONTENTBASEDF</resourceFile>
+		<separatorCharacter>\|</separatorCharacter>
+		<numFields>NUMFIELDS</numFields>
+		<startingField>STARTINGFIELD</startingField>
+		<useFirstLineAsTitle>0</useFirstLineAsTitle>
+		<indexFolder>index/OUTPUTFOLDER</indexFolder>
+		<userPreferenceThreshold>0</userPreferenceThreshold>
+		<userPreferenceFile>RFILE</userPreferenceFile>
+	</process>
+</calculator>

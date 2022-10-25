@@ -21,3 +21,7 @@ spec:
         image: "mpacheco95/task_executor:1.0.0"
         ports:
         - containerPort: 5050
+      - name: "xperimentor-container"
+        image: "mpacheco95/xperimentor:1.0.0"
+        ports:
+          - containerPort: 3270

@@ -1,0 +1,1 @@
+python -u <RUN>/prepareTopBotFiles.py <BD> "Predictions;Predictions/hybrid" Results/Weights/<BD>-F<TEST>_Accuracy_Weights.tsv <R1> <R2> F<TRAIN>-<TEST> > <OUT>-<R1>-<R2>_F<TRAIN>-<TEST>.out

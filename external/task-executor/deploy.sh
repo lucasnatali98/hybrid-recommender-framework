@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gcloud container clusters get-credentials task-executor-cluster --zone southamerica-east1-a --project monografia-238917 && \
+gcloud container clusters get-credentials autopilot-cluster-1 --zone us-central1 --project thematic-mapper-364320 && \
 
 cat <<EOF > task-executor-deployment.yaml
 ---
@@ -26,6 +26,10 @@ spec:
         image: "mpacheco95/task_executor:1.0.0"
         ports:
         - containerPort: 5050
+      - name: "xperimentor-container"
+        image: "mpacheco95/xperimentor:1.0.0"
+        ports:
+        - containerPort: 3250
 EOF
 
 kubectl apply -f task-executor-deployment.yaml && \
