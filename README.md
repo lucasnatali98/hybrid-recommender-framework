@@ -101,7 +101,16 @@ Toda a execução do framework parte de um único ponto, um arquivo de configura
 A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias... Ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
 
 
-
+## Os módulos do framework:
+- Módulo de pré-processamento:
+- Módulo de meta-features:
+- Módulo de métricas:
+- Módulo de recomendadores:
+- Módulo de resultados:
+- Módulo de visualização:
+- Módulo de recomendação hibrida
+- Módulo de dados
+- Módulo dos experimentos
 
 
 ## 💻 Pré-requisitos

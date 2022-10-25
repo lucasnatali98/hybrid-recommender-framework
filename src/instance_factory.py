@@ -37,9 +37,6 @@ class InstanceFactory:
         self.config_obj = config_obj
 
 
-
-
-
     def get_instance_from_config_obj(self, class_name: str) -> dict:
         """
         Busca por uma instancia especifica dentro do objeto de configuração
