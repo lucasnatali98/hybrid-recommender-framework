@@ -24,4 +24,4 @@ spec:
       - name: "xperimentor-container"
         image: "mpacheco95/xperimentor:1.0.0"
         ports:
-          - containerPort: 3270
+          - containerPort: 5051
