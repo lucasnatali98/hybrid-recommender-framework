@@ -4,7 +4,7 @@ gcloud container clusters get-credentials task-executor-cluster --zone southamer
 
 cat <<EOF > xperimentor-deployment.yaml
 ---
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "xperimentor-deployment"

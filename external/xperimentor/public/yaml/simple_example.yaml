@@ -1,0 +1,27 @@
+clusterEndpoint: 34.136.108.11
+
+processes:
+  - id: util_file
+    command: "wget -P ~/build http://www.example.com/util.c"
+
+  - id: math_file
+    command: "wget -P ~/build http://www.example.com/math.c"
+
+  - id: main_file
+    command: "wget -P ~/build http://www.example.com/main.c"
+
+  - id: compile_main
+    command: "gcc -c main.c -o main.o"
+    deps: [main_file]
+
+  - id: util_math
+    command: "gcc -c util.c math.c"
+    deps: [util_file, math_file]
+
+  - id: libmath
+    command: "ar rcs libmath.a util.o math.o"
+    deps: [util_math]
+
+  - id: compile_all
+    command: "gcc main.o -lmath -o App"
+    deps: [ libmath, compile_main ]
