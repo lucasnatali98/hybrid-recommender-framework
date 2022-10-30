@@ -5,3 +5,4 @@ data_storage/
 *.zip
 *.pyc
 .idea
+node_modules/
