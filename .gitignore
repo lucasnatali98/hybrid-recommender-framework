@@ -6,3 +6,4 @@ data_storage/
 *.pyc
 .idea
 node_modules/
+kubernetes_config.json
