@@ -35,4 +35,4 @@ def post():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='34.136.108.11', port=5050)
+    app.run(debug=True, host='localhost', port=5050)

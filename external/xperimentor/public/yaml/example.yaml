@@ -1,3 +1,4 @@
+clusterEndpoint: "10.8.128.1"
 processes:
   - id: MetaFeatureCalculator
     command: "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0"

@@ -23,16 +23,13 @@ spec:
     spec:
       containers:
       - name: "task-executor-container"
-        image: "mpacheco95/task_executor:1.0.0"
+        image: "mpacheco95/task_executor:latest"
         ports:
         - containerPort: 5050
-      - name: "xperimentor-container"
-        image: "mpacheco95/xperimentor:1.0.0"
-        ports:
-        - containerPort: 3250
+
 EOF
 
 kubectl apply -f task-executor-deployment.yaml && \
 kubectl get pods
-kubectl expose deployment task-executor-deployment --type=LoadBalancer --name=task-executor-service
-kubectl describe service task-executor-service | grep IP
+kubectl expose deployment task-executor-deployment --type=LoadBalancer --name=task-executor-service-2
+kubectl describe service task-executor-service-2 | grep IP

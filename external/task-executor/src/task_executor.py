@@ -32,7 +32,7 @@ def execute_task(task_info: dict) -> dict:
         print(f'Running command: {Fore.GREEN}%s{Style.RESET_ALL} in %s mode' % (task_info["command"], "environment"))
         process = subprocess.Popen(shlex.split(task_info["command"]), shell=False, **default_args)
     else:
-        print(f'Running command: {Fore.GREEN}%s{Style.RESET_ALL} in %s mode' % (task_info["command"], "shell"))
+        print(f'Rqunning command: {Fore.GREEN}%s{Style.RESET_ALL} in %s mode' % (task_info["command"], "shell"))
         process = subprocess.Popen(task_info["command"], shell=True, **default_args)
 
     thread_pool = ThreadPool(processes=2)
