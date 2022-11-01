@@ -1,9 +1,12 @@
-FROM node:latest
+FROM node:alpine
 
 WORKDIR ./src
+COPY package.json .
 
+RUN npm install \
+    && npm install typescript -g
 
-COPY
-
-RUN
+COPY . .
+EXPOSE 5000
+RUN ["npm", "start"]
 

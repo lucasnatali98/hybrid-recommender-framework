@@ -2,7 +2,7 @@
   "experiments": [
     {
       "experiment_id": "Exp1",
-      "log": "../path/math.js",
+      "experiment_file": "",
 
       "datasets": {
         "class": "MovieLens",
