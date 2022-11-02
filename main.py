@@ -1,7 +1,8 @@
 
 from src.experiments.experiment import ExperimentHandler
-
+from src.data.loader import Loader
 from external.deploy import DeployTest, TaskExecutor, Xperimentor
+from src.parser import json2yaml
 import json
 
 """
@@ -12,6 +13,14 @@ import json
 4. Design Patterns (criacionais para instanciar os objetos)
 """
 
+
+loader = Loader()
+
+example_file = loader.load_json_file("src/example.json")
+
+print(example_file)
+output_file = json2yaml(example_file)
+print("output file: ", output_file)
 task_executor = TaskExecutor()
 xperimentor = Xperimentor()
 deploy_test = DeployTest()
