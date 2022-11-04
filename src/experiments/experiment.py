@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from src.experiments.experiment import Experiment
+from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
 
 
@@ -46,12 +49,13 @@ class Experiment:
 
         @return:
         """
-        pass
+
 
 
     def __str__(self):
         print(
-            "E"
+            "Descrição do experimento: \n",
+            "Nome do experimento: ", self.experiment_id,
         )
 
     def _handle_with_dataset(self, dataset):
