@@ -7,24 +7,17 @@ execução deles via Xperimentor
 
 
 class Xperimentor:
-    def __init__(self):
+    def __init__(self, ex):
         """
 
         """
         pass
 
-    def set_config_file(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def convert_to_xperimentor_pattern(self):
+    def convert_to_xperimentor_pattern(self, config_obj):
         """
 
         """
-        pass
+
 
     def build_xperimentor(self):
         """
