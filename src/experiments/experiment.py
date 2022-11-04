@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from abc import ABC, abstractmethod
+from src.experiments.experiment import Experiment
 from src.instance_factory import InstanceFactory
+from abc import ABC, abstractmethod
 
 
-class Experiment(ABC):
-
+class AbstractExperiment(ABC):
 
     @abstractmethod
     def run(self):
@@ -23,49 +23,11 @@ class Experiment(ABC):
         """
         pass
 
-    @abstractmethod
-    def add(self, experiment):
-        """
 
-        @param experiment:
-        @return:
-        """
-        pass
-
-    @abstractmethod
-    def insert(self, experiments):
-        """
-
-        @param experiments:
-        @return:
-        """
-        pass
-
-    @abstractmethod
-    def remove(self, experiment):
-        """
-
-        @param experiment:
-        @return:
-        """
-        pass
-
-    @abstractmethod
-    def removeAll(self):
-        """
-
-        @return:
-        """
-        pass
-
-
-
-
-@dataclass
-class ExperimentHandler(Experiment):
+class Experiment:
     """
 
-    """
+        """
 
     experiment_id: str
     datasets: object
@@ -78,25 +40,28 @@ class ExperimentHandler(Experiment):
 
     def __init__(self) -> None:
         """
-        
+
         """
         self.experiments = []
-
 
     def run(self):
         """
 
         @return:
         """
-        pass
 
+
+
+    def __str__(self):
+        print(
+            "Descrição do experimento: \n",
+            "Nome do experimento: ", self.experiment_id,
+        )
 
     def _handle_with_dataset(self, dataset):
         pass
 
-
     def _set_attributes(self, instances: dict):
-
         self.datasets = instances['datasets']
         self.metafeatures = instances['metafeatures']
         self.preprocessing = instances['preprocessing']
@@ -106,7 +71,6 @@ class ExperimentHandler(Experiment):
         self.metrics = instances['metrics']
 
     def create_experiment_instances(self, config_obj) -> dict:
-
         """
 
 
@@ -143,49 +107,3 @@ class ExperimentHandler(Experiment):
             "recommenders": recommenders_instance,
             "results": results_instance
         }
-
-    def set_experiment(self, experiment: dict) -> None:
-        """
-
-        @param experiments:
-        @return:
-        """
-
-        if bool(experiment) == False:
-            print("Experiment object is empty")
-
-
-        self.experiments.append(experiment)
-
-
-    def add(self, experiment) -> None:
-        """
-
-        @param experiment:
-        @return:
-        """
-        pass
-
-    def insert(self, experiments) -> None:
-        """
-
-        @param experiments:
-        @return:
-        """
-        pass
-
-    def remove(self, experiment) -> None:
-
-        """
-
-        @param experiment: dict
-        @return:
-        """
-        self.experiments.remove(experiment)
-
-    def removeAll(self) -> None:
-        """
-
-        @return:
-        """
-        self.experiments.clear()

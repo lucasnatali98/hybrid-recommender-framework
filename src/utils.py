@@ -10,7 +10,19 @@ def object_equals_type(obj, object_type):
 
     return False
 
+def subprocess_output_is_correct(output):
+    """
+    Função responsável por verificar se a saída de CompletedProcess
+    é correta ou não
 
+    @param output:
+    @return:
+    """
+
+    if output.returncode == 0:
+        return True
+
+    return False
 def is_structure_empty(structure):
     """
     Essa função faz a verificação se uma determinada estrutura está vazia

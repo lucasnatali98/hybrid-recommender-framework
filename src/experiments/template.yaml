@@ -1,0 +1,26 @@
+clusterEndpoint: ""
+processes:
+  - id: null
+    command: ""
+    deps: []
+
+recipeDefaults:
+  DB: []
+  Fold: []
+  MF: []
+  Alg: []
+  HF: []
+  Eval: []
+  Stats: []
+
+recipes:
+ - id: null
+   pruning: []
+   uses:
+      DB:    []
+      Fold:  []
+      MF:    []
+      Alg:   []
+      HF:    []
+      Eval:  []
+      Stats: []

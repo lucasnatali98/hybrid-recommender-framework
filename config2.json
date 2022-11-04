@@ -2,18 +2,13 @@
   "experiments": [
     {
       "experiment_id": "Exp1",
-      "log": "../path/math.js",
-
+      "experiment_file": "",
       "datasets": {
         "class": "MovieLens",
         "module": "src.data.movielens",
         "parameters": {
           "proportion": "ml-latest-small",
-          "apply_on": [
-            "ratings", "movies", "links"
-          ],
           "folds": "5",
-
           "strategy": "StratifiedKFolds",
           "filters": {
             "qtd_ratings": 100
