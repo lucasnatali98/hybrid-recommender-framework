@@ -1,4 +1,8 @@
 {
+  "config": {
+    "clusterIP": "",
+    "projectID": ""
+  },
   "experiments": [
     {
       "experiment_id": "Exp1",

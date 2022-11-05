@@ -7,4 +7,5 @@ class ExperimentHandler(Container):
 
         """
         super().__init__()
+
         self.insert(0, experiments)
