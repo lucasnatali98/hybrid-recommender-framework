@@ -105,10 +105,32 @@ class TaskExecutor:
         pass
 
     def build(self):
+        """
 
-        pass
+        @return:
+        """
+        output = subprocess.run(['sh', "external/task-executor/build.sh"])
+        print("-- Building Task Executor by shell script file -- ")
+        if subprocess_output_is_correct(output) == True:
+            print("The image was built successfully")
+            print("Task Executor Build Output: ", output)
+        else:
+            print("Could not build image")
+            print("Task Executor Build Output: ", output)
+        return output
     def deploy(self):
+        """
+
+        @return:
+        """
         output = subprocess.run(['sh', "external/task-executor/deploy.sh"])
         print("-- deploy Task Executor by shell script file -- ")
-        print("output: ", output)
+
+        if subprocess_output_is_correct(output) == True:
+            print("The image was built successfully")
+            print("Task Executor Deploy Output: ", output)
+        else:
+            print("Could not build image")
+            print("Task Executor Deploy Output: ", output)
+
         return output
