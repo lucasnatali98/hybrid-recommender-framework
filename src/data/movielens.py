@@ -27,8 +27,6 @@ class MovieLens(AbstractDataSet):
         super().__init__()
         proportion = str(config_obj['proportion'])
 
-        print("Load MovieLens Proportion: ", proportion)
-
         if not self._is_proportion_valid(proportion):
             raise Exception(
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"

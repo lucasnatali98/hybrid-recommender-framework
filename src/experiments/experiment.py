@@ -1,10 +1,7 @@
-from dataclasses import dataclass
-from src.experiments.experiment import Experiment
 from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
 from external.deploy import Xperimentor, TaskExecutor
-from src.utils import subprocess_output_is_correct
-
+from src.parser import json2yaml, yaml2json
 class AbstractExperiment(ABC):
 
     @abstractmethod
@@ -16,16 +13,13 @@ class AbstractExperiment(ABC):
         pass
 
     @abstractmethod
-    def set_experiment(self, experiment: dict):
+    def run(self):
         """
 
-        @param experiments:
         @return:
         """
         pass
-
-
-class Experiment:
+class Experiment(AbstractExperiment):
     """
 
         """
@@ -39,40 +33,37 @@ class Experiment:
     visualization: object
     recommenders: object
 
-    def __init__(self) -> None:
+    def __init__(self, config_obj) -> None:
         """
 
         """
-        self.experiments = []
+        self.config_obj = config_obj
+        self.experiment_id = config_obj['experiment_id']
+        instances_obj = self.create_experiment_instances(config_obj)
+        self._set_attributes(instances_obj)
 
     def run(self):
         """
 
         @return:
         """
+        instances = self.create_experiment_instances(self.config_obj)
+        print("Instances: ", instances)
 
-        # config_file_yaml = json2yaml(config_obj)
         xperimentor = Xperimentor()
-        xperimentor.convert_to_xperimentor_pattern(config_obj={})
+        xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(experiment_obj=self.config_obj)
+
+        print("Xperimentor_config_obj: ", xperimentor_config_obj)
 
         task_executor = TaskExecutor()
 
         #Deploy do task executor no cluster Kubernetes
-        task_executor_output_build = task_executor.build()
-        task_executor_output_deploy = task_executor.deploy()
+        #task_executor_output_build = task_executor.build()
+        #task_executor_output_deploy = task_executor.deploy()
 
         #Deplou do task executor no cluster Kubernetes
-        xperimentor_output_build = xperimentor.build()
-        xperimentor_output_deploy = xperimentor.deploy()
-
-
-
-
-    def __str__(self):
-        print(
-            "Descrição do experimento: \n",
-            "Nome do experimento: ", self.experiment_id,
-        )
+        #xperimentor_output_build = xperimentor.build()
+        #xperimentor_output_deploy = xperimentor.deploy()
 
     def _handle_with_dataset(self, dataset):
         pass
@@ -95,7 +86,8 @@ class Experiment:
         @param config_obj:
         @return:
         """
-        instance_factory = InstanceFactory(config_obj[0])
+
+        instance_factory = InstanceFactory(config_obj)
 
         dataset_dict = instance_factory.get_instance_from_config_obj("MovieLens")
 
