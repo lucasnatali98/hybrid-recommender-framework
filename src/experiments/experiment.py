@@ -61,19 +61,28 @@ class Experiment(AbstractExperiment):
         metrics = instances['metrics']
         results = instances['results']
 
+        #dataset = dataset()
+        print(dataset.ratings)
+        movie_lens_folds = dataset.generate_folds()
 
-        task_executor = TaskExecutor()
+        print("movie_lens_folds: ", movie_lens_folds)
 
-        #Deploy do task executor no cluster Kubernetes
-        #task_executor_output_build = task_executor.build()
-        #task_executor_output_deploy = task_executor.deploy()
 
-        #Deplou do task executor no cluster Kubernetes
-        #xperimentor_output_build = xperimentor.build()
-        #xperimentor_output_deploy = xperimentor.deploy()
+
 
     def _handle_with_dataset(self, dataset):
         pass
+
+    def deploy_apps(self):
+        task_executor = TaskExecutor()
+
+        # Deploy do task executor no cluster Kubernetes
+        # task_executor_output_build = task_executor.build()
+        # task_executor_output_deploy = task_executor.deploy()
+
+        # Deplou do task executor no cluster Kubernetes
+        # xperimentor_output_build = xperimentor.build()
+        # xperimentor_output_deploy = xperimentor.deploy()
 
     def _set_attributes(self, instances: dict):
         self.datasets = instances['datasets']

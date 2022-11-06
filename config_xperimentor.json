@@ -4,7 +4,8 @@
       "processes": [
         {
           "id": "MetaFeatureCalculator",
-          "command": "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0"
+          "command": "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0",
+
         },
         {
           "id": "PredictionCF",

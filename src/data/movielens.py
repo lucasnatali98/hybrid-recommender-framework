@@ -182,7 +182,9 @@ class MovieLens(AbstractDataSet):
         num_folds = self.config_obj['folds']
         random_state = self.config_obj['random_state']
 
+        strategy = strategy.lower()
         folds = Folds(strategy)
+
         return folds.create_folds(self.ratings, n_splits=num_folds, shuffle=shuffle, random_state=random_state)
 
     def apply_filters(self):

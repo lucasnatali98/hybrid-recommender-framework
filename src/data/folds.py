@@ -29,6 +29,7 @@ class Folds:
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
 
+    def save_folds(self):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs) -> None:
         """
 
@@ -46,11 +47,12 @@ class KFoldStrategy(Strategy):
         print('Create folds in KFold Strategy')
         kfold = KFold(n_splits=n_splits, shuffle=shuffle)
         kfold_n_splits = kfold.get_n_splits(data)
+
         for train_index, test_index in kfold.split(data):
             print("TRAIN:", train_index, "TEST:", test_index)
 
 
-        return None
+        return kfold
 
 
 
@@ -82,3 +84,9 @@ class ShuffleSplitStrategy(Strategy):
         print('Create folds in ShuffleSplit Strategy')
         shuffle_split = ShuffleSplit(n_splits=n_splits, random_state=random_state)
         return shuffle_split
+
+class StratifiedKFoldStrategy(Strategy):
+    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
+        print('Create folds in StratifiedKFold Strategy')
+        stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=shuffle)
+        return stratified_kfold

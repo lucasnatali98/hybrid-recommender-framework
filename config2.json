@@ -12,8 +12,10 @@
         "module": "src.data.movielens",
         "parameters": {
           "proportion": "ml-latest-small",
-          "folds": "5",
-          "strategy": "StratifiedKFolds",
+          "folds": 5,
+          "shuffle": false,
+          "random_state": 42,
+          "strategy": "kfold",
           "filters": {
             "qtd_ratings": 100
           }
