@@ -43,7 +43,6 @@ class Xperimentor:
         xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
 
-        print("xperimentor_pattern_obj: ", xperimentor_pattern_obj)
         return xperimentor_pattern_obj
 
     def _set_database_recipes(self, database: dict) -> list:

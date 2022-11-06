@@ -54,6 +54,13 @@ class Experiment(AbstractExperiment):
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(experiment_obj=self.config_obj)
 
         print("Xperimentor_config_obj: ", xperimentor_config_obj)
+        dataset = instances['datasets']
+        preprocessing = instances['preprocessing']
+        metafeatures = instances['metafeatures']
+        recommenders = instances['recommenders']
+        metrics = instances['metrics']
+        results = instances['results']
+
 
         task_executor = TaskExecutor()
 

@@ -1,8 +1,6 @@
 from src.data.dataset import AbstractDataSet
 from dataclasses import dataclass
-from sklearn.model_selection import StratifiedKFold, StratifiedGroupKFold
-
-
+from src.data.folds import Folds
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -102,7 +100,6 @@ class MovieLens(AbstractDataSet):
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
         tags = self.Loader.load_file(path=path + "tags", extension=".csv")
 
-
         self.set_items(movies)
         self.set_tags(tags)
         self.set_ratings(ratings)
@@ -115,8 +112,6 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         setattr(MovieLens, 'ratings', ratings)
-
-
 
     def set_links(self, links):
         """
@@ -183,9 +178,12 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         strategy = self.config_obj['strategy']
+        shuffle = self.config_obj['shuffle']
+        num_folds = self.config_obj['folds']
+        random_state = self.config_obj['random_state']
 
-
-
+        folds = Folds(strategy)
+        return folds.create_folds(self.ratings, n_splits=num_folds, shuffle=shuffle, random_state=random_state)
 
     def apply_filters(self):
 
@@ -196,8 +194,6 @@ class MovieLens(AbstractDataSet):
         new_ratings = self.ratings[0:qtd_ratings]
 
         return new_ratings
-
-
 
     def _get_dataset(self):
         """
@@ -226,7 +222,6 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         return self.ratings
-
 
     @property
     def tags(self):

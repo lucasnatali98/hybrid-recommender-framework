@@ -30,39 +30,41 @@ class Folds:
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
 
-    def create_folds(self, data, n_splits, shuffle, random_state, **kwargs) -> None:
+    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs) -> None:
         """
 
         @return:
         """
-        result = self._strategy.create_folds(data, n_splits, shuffle, random_state, kwargs)
+        result = self._strategy.create_folds(self, data=data,
+                                             n_splits=n_splits,
+                                             shuffle=shuffle,
+                                             random_state=random_state)
         return result
 
 
 class KFoldStrategy(Strategy):
-    def create_folds(self, data, n_splits, shuffle, random_state, **kwargs):
-        kfold = KFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
+    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int = None, **kwargs):
+        print('Create folds in KFold Strategy')
+        kfold = KFold(n_splits=n_splits, shuffle=shuffle)
         kfold_n_splits = kfold.get_n_splits(data)
-        return self.generate_folds(data, kfold)
-
-    def generate_folds(self, data, kfold):
-        y = data['target']
-        X = data.drop(columns=["target"], axis=1, inplace=True)
-
         for train_index, test_index in kfold.split(data):
             print("TRAIN:", train_index, "TEST:", test_index)
-            X_train, X_test = X[train_index], X[test_index]
-            y_train, y_test = y[train_index], y[test_index]
+
+
+        return None
+
 
 
 class GroupKFoldStrategy(Strategy):
-    def create_folds(self, data, n_splits, shuffle, random_state, **kwargs):
+    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
+        print('Create folds in GroupKFold Strategy')
         group_kfold = GroupKFold(n_splits=n_splits)
         return group_kfold
 
 
 class StratifiedGroupKFoldsStrategy(Strategy):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
+        print('Create folds in StratifiedGroupKFolds Strategy')
         stratified_group_kfolds = StratifiedGroupKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
         return stratified_group_kfolds
 
@@ -70,6 +72,7 @@ class StratifiedGroupKFoldsStrategy(Strategy):
 class StratifiedShuffleSplitStrategy(Strategy):
 
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
+        print('Create folds in StratifiedShuffleSPlit Strategy')
         stratified_shuffle_split = StratifiedShuffleSplit(n_splits=n_splits, random_state=random_state)
         return stratified_shuffle_split
 
@@ -77,5 +80,6 @@ class StratifiedShuffleSplitStrategy(Strategy):
 class ShuffleSplitStrategy(Strategy):
 
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
+        print('Create folds in ShuffleSplit Strategy')
         shuffle_split = ShuffleSplit(n_splits=n_splits, random_state=random_state)
         return shuffle_split

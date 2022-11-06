@@ -4,6 +4,7 @@ from src.parser import json2yaml
 import json
 from src.data.data_handler import DataHandler
 from src.experiments.experiment_handler import ExperimentHandler
+from src.data.folds import Folds
 """
 experiment_handler = ExperimentHandler(config_obj)
 
@@ -19,3 +20,19 @@ experiments = config_obj['experiments']
 experiment_handler = ExperimentHandler(experiments)
 experiment_results = experiment_handler.run_experiments()
 print("Experiment Results: ", experiment_results)
+
+
+data_example = [
+    [1,2],
+    [3,5],
+    [6,4],
+    [1,3],
+    [4,5]
+]
+folds = Folds("kfold")
+result_folds = folds.create_folds(
+    data=data_example,
+    n_splits=5,
+    shuffle=False,
+    random_state=42
+)
