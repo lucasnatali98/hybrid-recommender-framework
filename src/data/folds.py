@@ -9,7 +9,6 @@ class Strategy(ABC):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
         pass
 
-
 class Folds:
     def __init__(self, strategy: str) -> None:
         possible_strategies = {
