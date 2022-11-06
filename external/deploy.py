@@ -24,12 +24,12 @@ class Xperimentor:
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
         xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
         xperimentor_pattern_obj['recipeDefaults']['DB'] = self._set_database_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(dataset)
+        xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(folds)
+        xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(metafeatures)
+        xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(recommenders)
+        xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(hybrid)
+        xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(metrics)
+        xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
 
 
 
@@ -47,24 +47,38 @@ class Xperimentor:
         return xperimentor_pattern_obj
 
     def _set_database_recipes(self, database: dict) -> list:
-        pass
+        return [database['class']]
 
     def _set_hybrid_recipes(self, hybrid) -> list:
-        pass
+        return self._get_class_name_from_instance(hybrid)
 
-    def _set_stats_recipes(self, results) -> list:
-        pass
+    def _set_stats_recipes(self, results: dict) -> list:
+        return self._get_class_name_from_instance(results)
 
+    def _get_class_name_from_instance(self, obj: dict) -> list:
+        """
+
+        @param obj:
+        @return: list
+        """
+        if obj is None:
+            return []
+
+        parameters = obj['parameters']
+        instances = parameters['instances']
+        return list(map(lambda x: x['class_name'], instances))
     def _set_folds_recipes(self, folds) -> list:
-        pass
+        return self._get_class_name_from_instance(folds)
+
     def _set_metafeatures_recipes(self, metafeatures: dict) -> list:
-        pass
+        return self._get_class_name_from_instance(metafeatures)
 
-    def _set_algorithms_recipes(self, metafeatures: dict) -> list:
-        pass
+    def _set_algorithms_recipes(self, algorithms: dict) -> list:
+        return self._get_class_name_from_instance(algorithms)
 
-    def _set_eval_recipes(self, metafeatures: dict) -> list:
-        pass
+    def _set_eval_recipes(self, metrics: dict) -> list:
+        return self._get_class_name_from_instance(metrics)
+
     def build(self):
         """
 
