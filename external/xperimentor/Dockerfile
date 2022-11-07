@@ -1,11 +1,16 @@
-FROM node:alpine
+FROM node:latest
 
-WORKDIR ./src
+WORKDIR /src
+COPY . .
 COPY package.json .
+COPY tsconfig.json .
+
 
 RUN npm install \
     && npm install typescript -g
 
-COPY . .
-EXPOSE 5000
-RUN ["node", "www.js"]
+RUN ls
+RUN tsc --build ./tsconfig.json
+
+EXPOSE 3000
+CMD ["npm", "start"]

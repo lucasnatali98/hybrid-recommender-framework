@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node www.js",
-    "build": "rimraf ./build && tsc",
+    "start": "node app.js",
+    "build": "tsc --build ./tsconfig.json",
     "clean": "rm -rf ./dist",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register test/**/*.ts",
     "coverage": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' nyc -r lcov -e .ts -x \"*.ts\" mocha -r ts-node/register test/**/*.ts && nyc report"

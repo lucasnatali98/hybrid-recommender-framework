@@ -12,7 +12,7 @@ metadata:
   labels:
     app: "xperimentor-deployment"
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: "xperimentor-deployment"
@@ -26,6 +26,10 @@ spec:
         image: "mpacheco95/xperimentor:latest"
         ports:
         - containerPort: 3000
+      - name: "task-executor-container"
+        image: "mpacheco95/task_executor:latest"
+        ports:
+        - containerPort: 5050
 
 EOF
 
