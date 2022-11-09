@@ -3,11 +3,24 @@
     "clusterIP": "",
     "projectID": ""
   },
+  "experiment_dependencies": [
+    {
+      "id": "exp1",
+      "deps": []
+    },
+    {
+      "id": "exp2",
+      "deps": ["exp1"]
+    },
+    {
+      "id": "exp3",
+      "deps": ["exp2"]
+    }
+  ],
   "experiments": [
     {
       "experiment_id": "Exp1",
-      "experiment_file": "",
-      "datasets": {
+      "dataset": {
         "class": "MovieLens",
         "module": "src.data.movielens",
         "parameters": {
@@ -44,23 +57,9 @@
               }
             },
             {
-              "module": "src.preprocessing.discretize",
-              "class_name": "DiscretizeProcessing",
-              "parameters": {
-                "apply_on": {
-                  "ratings": ["ratings", "movieId"],
-                  "tags": ["movieId"]
-                }
-              }
-            },
-            {
               "module": "src.preprocessing.normalize",
               "class_name": "NormalizeProcessing",
               "parameters": {
-                "apply_on": {
-                  "ratings": ["rating", "movieId"],
-                  "tags": ["movieId"]
-                },
                 "norm": "l2"
               }
             }
@@ -72,11 +71,6 @@
         "module": "src.metrics.metrics_container",
         "parameters": {
           "instances": [
-            {
-              "module": "src.metrics.ndcg",
-              "class_name": "NDCG",
-              "parameters": {}
-            },
             {
               "module": "src.metrics.rmse",
               "class_name": "RMSE",
@@ -106,18 +100,6 @@
             {
               "module": "src.metafeatures.gini",
               "class_name": "Gini",
-              "parameters": {
-              }
-            },
-            {
-              "module": "src.metafeatures.jaccard",
-              "class_name": "Jaccard",
-              "parameters": {
-              }
-            },
-            {
-              "module": "src.metafeatures.proportion_ratings",
-              "class_name": "ProportionRatings",
               "parameters": {
               }
             }
@@ -173,16 +155,6 @@
               "module": "src.visualization.interactive_scatter",
               "class_name": "InteractiveScatter",
               "parameters": {}
-            },
-            {
-              "module": "src.visualization.html_table",
-              "class_name": "HtmlTable",
-              "parameters": {}
-            },
-            {
-              "module": "src.visualization.latex_table",
-              "class_name": "LatexTable",
-              "parameters": {}
             }
           ]
         }
@@ -206,5 +178,5 @@
         }
       }
     }
-   ]
-  }
+  ]
+}
