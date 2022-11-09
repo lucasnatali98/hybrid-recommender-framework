@@ -40,7 +40,6 @@ class SplitProcessing(AbstractPreProcessing):
         y = data['rating']
         X = data.drop(columns = ['rating'], axis=1)
 
-        print(data)
         X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
@@ -50,4 +49,10 @@ class SplitProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             stratify=None)
 
-        return X_train, X_test, y_train, y_test
+        #return X_train, X_test, y_train, y_test
+        return {
+            'x_train': X_train,
+            'x_test': X_test,
+            'y_train': y_train,
+            'y_test': y_test
+        }

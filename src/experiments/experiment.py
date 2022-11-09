@@ -2,7 +2,7 @@ from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
 from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
-
+from src.data.loader import Loader
 
 class AbstractExperiment(ABC):
 
@@ -74,21 +74,39 @@ class Experiment(AbstractExperiment):
 
     def _handle_pre_processing_tasks(self, dataset, preprocessing):
 
+        execution_steps = {}
         items = preprocessing.items[0]
-        print(items)
         for item in items:
-            print(item.pre_processing(dataset))
+            class_name = item.__class__.__name__
+            result = item.pre_processing(dataset)
+            execution_steps[class_name] = result
 
+        self._save_splited_dataset(execution_steps['SplitProcessing'])
+
+    def _save_splited_dataset(self, split_processing: dict):
+        loader = Loader()
+        for key, value in split_processing.items():
+            if key == 'x_train':
+                loader.convert_to("csv", value, "xtrain.csv")
+            if key == 'x_test':
+                loader.convert_to("csv", value, "xtest.csv")
+            if key == 'y_train':
+                loader.convert_to("csv", value, "ytrain.csv")
+            if key == 'y_test':
+                loader.convert_to("csv", value, 'ytest.csv')
     def _handle_metrics_tasks(self):
         pass
 
     def _handle_with_dataset(self, dataset):
-        pass
+        return dataset.ratings
 
     def _handle_metafeatures_tasks(self):
         pass
 
     def _handle_algorithms_tasks(self):
+        pass
+
+    def _handle_results_tasks(self):
         pass
 
     def deploy_apps(self):
