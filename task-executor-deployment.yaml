@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: "task-executor-homolog-container"
-        image: "lucasnatali98/task-executor:task-executor-homolog-1.0.0"
+        image: "lucasnatali98/task-executor:task-executor-homolog-1.0.4"
         ports:
         - containerPort: 5050
