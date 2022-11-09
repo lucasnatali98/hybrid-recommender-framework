@@ -21,18 +21,3 @@ experiment_handler = ExperimentHandler(experiments)
 experiment_results = experiment_handler.run_experiments()
 print("Experiment Results: ", experiment_results)
 
-
-data_example = [
-    [1,2],
-    [3,5],
-    [6,4],
-    [1,3],
-    [4,5]
-]
-folds = Folds("kfold")
-result_folds = folds.create_folds(
-    data=data_example,
-    n_splits=5,
-    shuffle=False,
-    random_state=42
-)

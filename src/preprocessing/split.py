@@ -21,8 +21,14 @@ class SplitProcessing(AbstractPreProcessing):
         """
         
         """
-
         super().__init__()
+        print(parameters)
+        self.test_size = parameters['test_size']
+        self.train_size = parameters['train_size']
+        self.random_state = parameters['random_state']
+        self.shuffle = parameters['shuffle']
+        self.stratify = parameters['stratify']
+
 
     def pre_processing(self, data, **kwargs):
         """
@@ -31,19 +37,17 @@ class SplitProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        test_size = kwargs.pop('test_size')
-        train_size = kwargs.pop('train_size')
-        random_state = kwargs.pop('random_state')
-        shuffle = kwargs.pop('shuffle')
-        stratify = kwargs.pop('stratify')
+        y = data['rating']
+        X = data.drop(columns = ['rating'], axis=1)
 
+        print(data)
         X_train, X_test, y_train, y_test = train_test_split(
-            data,
-            train_size=train_size,
-            test_size=test_size,
-            random_state=random_state,
-            shuffle=shuffle,
-            stratify=stratify
-        )
+            X,
+            y,
+            train_size=self.train_size,
+            test_size=self.test_size,
+            random_state=self.random_state,
+            shuffle=self.shuffle,
+            stratify=None)
 
         return X_train, X_test, y_train, y_test

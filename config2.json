@@ -40,29 +40,28 @@
         "parameters": {
           "instances": [
             {
-              "module": "src.preprocessing.encoding",
-              "class_name": "EncodingProcessing",
+              "module": "src.preprocessing.normalize",
+              "class_name": "NormalizeProcessing",
               "parameters": {
-                "encoding_type": "onehot",
-                "apply_on": []
+                "norm": "l2",
+                "axis": 1,
+                "copy": true,
+                "return_norm": false
+
               }
             },
             {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",
               "parameters": {
-                "train_size": "",
-                "test_size": "",
-                "random_state": ""
-              }
-            },
-            {
-              "module": "src.preprocessing.normalize",
-              "class_name": "NormalizeProcessing",
-              "parameters": {
-                "norm": "l2"
+                "train_size": 70,
+                "test_size": 30,
+                "random_state": 42,
+                "shuffle": true,
+                "stratify": ""
               }
             }
+
           ]
         }
       },

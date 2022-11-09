@@ -2,6 +2,8 @@ from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
 from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
+
+
 class AbstractExperiment(ABC):
 
     @abstractmethod
@@ -19,6 +21,8 @@ class AbstractExperiment(ABC):
         @return:
         """
         pass
+
+
 class Experiment(AbstractExperiment):
     """
 
@@ -55,22 +59,36 @@ class Experiment(AbstractExperiment):
 
         print("Xperimentor_config_obj: ", xperimentor_config_obj)
         dataset = instances['datasets']
+
+        ratings_df = dataset.ratings
         preprocessing = instances['preprocessing']
         metafeatures = instances['metafeatures']
         recommenders = instances['recommenders']
         metrics = instances['metrics']
         results = instances['results']
 
-        #dataset = dataset()
-        print(dataset.ratings)
+        # dataset = dataset()
         movie_lens_folds = dataset.generate_folds()
 
-        print("movie_lens_folds: ", movie_lens_folds)
+        self._handle_pre_processing_tasks(ratings_df, preprocessing)
 
+    def _handle_pre_processing_tasks(self, dataset, preprocessing):
 
+        items = preprocessing.items[0]
+        print(items)
+        for item in items:
+            print(item.pre_processing(dataset))
 
+    def _handle_metrics_tasks(self):
+        pass
 
     def _handle_with_dataset(self, dataset):
+        pass
+
+    def _handle_metafeatures_tasks(self):
+        pass
+
+    def _handle_algorithms_tasks(self):
         pass
 
     def deploy_apps(self):
@@ -92,7 +110,6 @@ class Experiment(AbstractExperiment):
         self.visualization = instances['visualization']
         self.recommenders = instances['recommenders']
         self.metrics = instances['metrics']
-
 
     def create_experiment_instances(self, config_obj) -> dict:
         """

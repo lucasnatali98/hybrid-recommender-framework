@@ -12,7 +12,7 @@ class Xperimentor:
         @return:
         """
         loader = Loader()
-        dataset = experiment_obj['datasets']
+        dataset = experiment_obj['dataset']
         metafeatures = experiment_obj['metafeatures']
         hybrid = None
         folds = None

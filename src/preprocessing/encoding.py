@@ -12,18 +12,16 @@ ENCODING_TYPES = [
 
 class EncodingProcessing(AbstractPreProcessing):
 
-    def __init__(self, encoding_type: dict) -> None:
+    def __init__(self, parameters: dict) -> None:
         """
 
         @rtype: object
         @param encoding_type:
         """
         super().__init__()
-        encoding_type = encoding_type['encoding_type']
+        encoding_type = parameters['encoding_type']
 
-
-        encoding = filter(lambda x: x == encoding_type, ENCODING_TYPES)
-        encoding = list(encoding)
+        encoding = list(filter(lambda x: x == encoding_type, ENCODING_TYPES))
 
         if len(encoding) == 0:
             raise Exception("Informe um método encoding válido")
@@ -53,5 +51,4 @@ class EncodingProcessing(AbstractPreProcessing):
         encoding_instance = self._create_encoding_instance()
         data = np.array(data)
         data = data.reshape(1, -1)
-        print(data)
         return encoding_instance.fit_transform(data)

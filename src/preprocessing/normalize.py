@@ -8,6 +8,11 @@ class NormalizeProcessing(AbstractPreProcessing):
         """
 
         """
+        print("Normalize processing")
+        self.norm = parameters['norm']
+        self.axis = parameters['axis']
+        self.copy = parameters['copy']
+        self.return_norm = parameters['return_norm']
         super().__init__()
 
     def pre_processing(self, data, **kwargs):
@@ -18,15 +23,14 @@ class NormalizeProcessing(AbstractPreProcessing):
         @return:
         """
 
-        norm = kwargs.pop('norm')
-        axis = kwargs.pop('axis')
-        copy = kwargs.pop('copy')
-        return_norm = kwargs.pop('return_norm')
+        print("kwargs")
+        print(**kwargs)
+
 
         return normalize(
             X=data,
-            norm=norm,
-            axis=axis,
-            copy=copy,
-            return_norm=return_norm
+            norm=self.norm,
+            axis=self.axis,
+            copy=self.copy,
+            return_norm=self.return_norm
         )
