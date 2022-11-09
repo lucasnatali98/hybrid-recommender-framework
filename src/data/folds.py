@@ -47,15 +47,7 @@ class KFoldStrategy(Strategy):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int = None, **kwargs):
         print('Create folds in KFold Strategy')
         kfold = KFold(n_splits=n_splits, shuffle=shuffle)
-        kfold_n_splits = kfold.get_n_splits(data)
-
-        for train_index, test_index in kfold.split(data):
-            print("TRAIN:", train_index, "TEST:", test_index)
-
-
         return kfold
-
-
 
 class GroupKFoldStrategy(Strategy):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
