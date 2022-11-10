@@ -16,7 +16,7 @@ O projeto está dividido em três principais módulos: Pré-processamento, model
 
 Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. Abaixo segue uma imagem que define os módulos desse projeto em uma visão mais macro.
 
-![alt text](https://raw.githubusercontent.com/lucasnatali98/hybrid-recommender-framework/dev/docs/imgs/arquiteturaFramework_ptbr.png?token=GHSAT0AAAAAABWFNVAT5YV657V7DUJ7SKZ6YYOVJFA)
+![alt text](docs/imgs/arquiteturaFramework_ptbr.png?raw=true)
 
 O módulo de preprocessamento será responsável por todo processo inicial antes de pensarmos em recomendações, então depois de carregar uma base de dados podemos submeter essa base ao calculo das metafeatures e/ou processamento dos scores constituintes, após feita estas etapas o resultado é submetido ao processamento dos recursos gerados para ao final desse processo gerar como artefato um conjunto de recursos.
 
@@ -27,73 +27,17 @@ Esses itens recomendados serão usados na última fase do framework que envolve 
 
 ### Dependências importantes do projeto
 
-Esse framework faz uso de outros trabalhos e, com isso, é importante que tenhamos conhecimento sobre o objetivo deste trabalho e também como podemos utiliza-lo. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0
+Esse framework faz uso de outros trabalhos com isso é importante que tenhamos
+conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos
+que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo
+estão as documentações para os projetos e através delas teremos
+um maior entendimento sobre cada um
 
-#### Xperimentor
-Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, o projeto é estruturado através de um frontend que é responsável por contruir e gerenciar a execução de um experimento e o backend (Task Executor) é um servidor HTTP desenvolvido em Python para tratar as requisições para executar os processos. 
 
-<b>Task Executor</b>: Esta aplicação deve ser conteinerizada e implantada em um cluster Kubernetes onde cada máquina do cluster possui uma réplica do Task Executor que será executado como um serviço. Toda tarefa de um experimento que estiver sendo executada no Xperimentor será direcionada para a aplicação do Task Executor que iniciará um processo e registrará todo fluxo produzidos nos canais de saída padrão.
+[Xperimentor](external/xperimentor/README.md)
 
-<b>Xperimentor</b>: está é a aplicação principal do framework e tem como responsabilidade construir e gerenciar a execução de um experimento. O projeto conta com uma única página com um editor de código embutido e um painel de visualização onde o experimentador pode observar o status do experimento. Toda a configuração deve ser feita através de um documento YAML, nele estarão contidos todos os dados necessarios para que o framework seja capaz de executar o seu proposito.
+[Task-Executor](external/task-executor/README.md)
 
-Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependência. Um exemplo de uma dessas tarefas seria:
-```
-processes:
-  - id: MetaFeatureCalculator
-    command: "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0"
-
-  - id: PredictionCF
-    command: "python -u PredictionCF.py {DB} {Alg} {Fold} 60 0"
-
-  - id: PredictionWHF
-    command: "python -u PredictionWHF.py {DB} {HF} {Fold} 60 0"
-    deps: [MetaFeatureCalculator, PredictionCF]
-
-  - id: EvaluatorCF
-    command: "java -jar MetricCalculator.jar {DB} {Fold} {Eval} CF 60 0"
-    deps: [PredictionCF]
-
-  - id: EvaluatorWHF
-    command: "java -jar MetricCalculator.jar {DB} {Fold} {Eval} WHF 60 0"
-    deps: [PredictionWHF]
-
-  - id: CalculateStatistics
-    command: "java -jar MetricCalculator.jar {DB} ALL {Eval} {Stats} 60 0"
-    deps: [EvaluatorCF, EvaluatorWHF]
-
-recipeDefaults:
-  DB: ["Bookcrossing"]
-  Fold: ["F1234-5", "F1235-4", "F1245-3", "F1345-2", "F2345-1"]
-  MF: ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"]
-  Alg: ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"]
-  HF: ["STREAM", "FWLS", "HR"]
-  Eval: ["RMSE", "F1", "EPC", "EILD"]
-  Stats: ["mean", "IC"]
-
-recipes:
- - id: ExBC
-   pruning: [Fold, Eval]
-   uses:
-      DB:    ["Bookcrossing"]
-      Fold:  ["F1234-5", "F1235-4", "F1245-3", "F1345-2", "F2345-1"]
-      MF:    ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"]
-      Alg:   ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"]
-      HF:    ["STREAM", "FWLS", "HR"]
-      Eval:  ["RMSE", "F1", "EPC", "EILD"]
-      Stats: ["mean", "IC"]
-```
-
-Definidas todas as tarefas neste arquivo de configuração o próximo passo é fazer a configuração e execução do cluster Kubernetes, para isso podemos utilizar o Kubernetes tanto localmente quanto em um servidor.
-
-Toda tarefa possui um estado que varia durante a execução do experimento. Existem 8 estados ao total, sendo eles:
-- Waiting: estado inicial de toda tarefa
-- running: sinaliza uma tarefa em execução
-- successfully_finished: sinaliza uma tarefa que finalizou de forma bem sucedida
-- finished_with_erros: sinaliza que uma tarefa finalizou com o fluxo de erro padrão não vazio
-- finished_with_non_zero: sinaliza que uma tarefa finalizou com código diferente de zero
-- finished_with_errors_non_zero: sinaliza que uma tarefa finalizou com o fluxo de erro padrão não vazio e com código diferente de zero
-- failed: sinaliza que uma tarefa não pode ser executada
-- forced_successfully_finished: sinaliza que uma tarefa foi marcada como bem sucedida
 
 ## Princípios de funcionamento do framework
 Toda a execução do framework parte de um único ponto, um arquivo de configuração JSON que contêm todas as informações necessarias para a criação das classes que estarão envolvidas no processo da experimentação, em termos práticos cada experimento será definido por um conjunto de objetos que descrevem classes e seus parâmetros de forma que poderemos instanciar base de dados, diferentes preprocessamentos, modelos e avaliadores.
@@ -130,25 +74,41 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 Para instalar o hybrid recommender framework, siga estas etapas:
 
-Linux e macOS:
+Primeiro faça o clone do projeto para sua máquina
 ```
-<comando_de_instalação>
+git clone https://github.com/lucasnatali98/hybrid-recommender-framework.git
+```
+Em sequência você irá precisar criar um ambiente para o projeto e suas depedências, e para isso você pode utilizar de diversas ferramentas. Nesse caso, vou utilizar o Virtualenv
+
+```
+virtualenv venv
 ```
 
-Windows:
+Com o ambiente devidamente criado, vamos ativá-lo:
+
 ```
-<comando_de_instalação>
+source venv/bin/activate
 ```
+
+Com o ambiente ativado, podemos fazer a instalação das dependências
+do projeto utilizando pip
+```
+pip install -r requirements.txt
+```
+
+Isso deve ser suficiente para baixar todas as dependências e a
+partir dai já estaremos prontos para utilizar o projeto
 
 ## ☕ Usando o Hybrid Recommender Framework
 
-Para usar hybrid recommender framework, siga estas etapas:
+Para usar hybrid recommender framework, o intuito é que você
+prepare todo o arquivo de configuração, definindo os experimentos
+com seus respectivos algoritmos, preprocessamentos, dentre outras
+operações. Com esse arquivo configurado, basta que seja executado:
 
 ```
-<exemplo_de_uso>
+python main.py
 ```
-
-Adicione comandos de execução e exemplos que você acha que os usuários acharão úteis. Fornece uma referência de opções para pontos de bônus!
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
 <!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
@@ -170,7 +130,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
   <tr>
     <td align="center">
       <a href="#">
-        <img src="https://avatars3.githubusercontent.com/u/31936044" width="100px;" alt="Foto do Iuri Silva no GitHub"/><br>
+        <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHcrrceSpVcDw/profile-displayphoto-shrink_800_800/0/1579646560279?e=1673481600&v=beta&t=ZNYdW2-J5gF_d2VcVgVbJMaiMxdk0klwyLr7JvoJPSM" width="100px;" alt="Foto do Lucas"/><br>
         <sub>
           <b>Lucas Natali</b>
         </sub>
@@ -178,7 +138,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
     </td>
     <td align="center">
       <a href="#">
-        <img src="https://s2.glbimg.com/FUcw2usZfSTL6yCCGj3L3v3SpJ8=/smart/e.glbimg.com/og/ed/f/original/2019/04/25/zuckerberg_podcast.jpg" width="100px;" alt="Foto do Mark Zuckerberg"/><br>
+        <img src="https://media-exp1.licdn.com/dms/image/C4D03AQEKsc-CUUX56A/profile-displayphoto-shrink_800_800/0/1516837380603?e=1673481600&v=beta&t=FkNii-p4tkKDfN16HTrdE4k1ChaDmAeB3-Tusg-fsE8" width="100px;" alt="Foto do Reinaldo"/><br>
         <sub>
           <b>Reinaldo Silva Fortes</b>
         </sub>
@@ -189,12 +149,11 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
 </table>
 
 
-## 😄 Seja um dos contribuidores<br>
+## Seja um dos contribuidores<br>
 
-Quer fazer parte desse projeto? Clique [AQUI](CONTRIBUTING.md) e leia como contribuir.
+Quer fazer parte desse projeto? Entre em contato com:
 
-## 📝 Licença
-
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
+- lucas.natali@aluno.ufop.edu.br
+- rei.fortes@ufop.edu.br
 
 [⬆ Voltar ao topo](#hybrid recommender framework)<br>
