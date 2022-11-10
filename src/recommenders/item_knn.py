@@ -7,6 +7,8 @@ class ItemKNN(Recommender):
         """
         
         """
+        print("Item KNN constructor")
+        print(parameters)
         pass
 
     def predict_for_users(self, users, items, ratings):

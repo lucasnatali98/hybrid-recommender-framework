@@ -13,6 +13,14 @@ for exp in expeiment_handler.data:
 
 """
 
+"""
+O que eu preciso fazer no mais alto nível da aplicação é organizar o
+arquivo yaml na parte dos comandos com a execução de arquivos python
+então teriamos vários processos de acordo com as etapas do arquivo de 
+configuração.
+
+"""
+
 loader = Loader()
 config_obj = loader.load_json_file("config2.json")
 experiments = config_obj['experiments']

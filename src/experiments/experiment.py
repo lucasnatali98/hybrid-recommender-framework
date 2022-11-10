@@ -4,6 +4,7 @@ from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 
+
 class AbstractExperiment(ABC):
 
     @abstractmethod
@@ -52,25 +53,31 @@ class Experiment(AbstractExperiment):
         @return:
         """
         instances = self.create_experiment_instances(self.config_obj)
-        print("Instances: ", instances)
+
 
         xperimentor = Xperimentor()
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(experiment_obj=self.config_obj)
 
-        print("Xperimentor_config_obj: ", xperimentor_config_obj)
-        dataset = instances['datasets']
 
-        ratings_df = dataset.ratings
+        dataset = instances['datasets']
         preprocessing = instances['preprocessing']
         metafeatures = instances['metafeatures']
         recommenders = instances['recommenders']
         metrics = instances['metrics']
         results = instances['results']
+        print(preprocessing)
+        ratings_df = self._handle_with_dataset(dataset)
+        print(ratings_df)
+        preprocessing = self._handle_pre_processing_tasks(ratings_df, preprocessing)
+        metafeatures = self._handle_metafeatures_tasks(metafeatures)
+        recommmenders = self._handle_algorithms_tasks(recommenders)
+        metrics = self._handle_algorithms_tasks(metrics)
+        results = self._handle_results_tasks(results)
 
         # dataset = dataset()
-        movie_lens_folds = dataset.generate_folds()
 
-        self._handle_pre_processing_tasks(ratings_df, preprocessing)
+
+
 
     def _handle_pre_processing_tasks(self, dataset, preprocessing):
 
@@ -94,20 +101,22 @@ class Experiment(AbstractExperiment):
                 loader.convert_to("csv", value, "ytrain.csv")
             if key == 'y_test':
                 loader.convert_to("csv", value, 'ytest.csv')
-    def _handle_metrics_tasks(self):
+
+    def _handle_metrics_tasks(self, metrics):
         pass
 
     def _handle_with_dataset(self, dataset):
-        return dataset.ratings
+        dataset = dataset.apply_filters()
+        return dataset
 
-    def _handle_metafeatures_tasks(self):
-        pass
+    def _handle_metafeatures_tasks(self, metafeatures):
+        return metafeatures
 
-    def _handle_algorithms_tasks(self):
-        pass
+    def _handle_algorithms_tasks(self, algorithms):
+        return algorithms
 
-    def _handle_results_tasks(self):
-        pass
+    def _handle_results_tasks(self, results):
+        return results
 
     def deploy_apps(self):
         task_executor = TaskExecutor()

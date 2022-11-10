@@ -29,7 +29,7 @@ class Folds:
     def strategy(self, strategy: Strategy) -> None:
         self._strategy = strategy
 
-    def save_folds(self):
+    def save_folds(self, X, y, train_indexes, test_indexes):
         pass
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs) -> None:
         """

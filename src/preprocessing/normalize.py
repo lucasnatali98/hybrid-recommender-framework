@@ -1,6 +1,6 @@
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from sklearn.preprocessing import normalize
-
+import numpy as np
 
 class NormalizeProcessing(AbstractPreProcessing):
 
@@ -23,12 +23,11 @@ class NormalizeProcessing(AbstractPreProcessing):
         @return:
         """
 
-        print("kwargs")
-        print(**kwargs)
 
+        X = np.array(data['rating']).reshape(-1,1)
 
         return normalize(
-            X=data,
+            X=X,
             norm=self.norm,
             axis=self.axis,
             copy=self.copy,

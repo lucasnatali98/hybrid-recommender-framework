@@ -188,13 +188,9 @@ class MovieLens(AbstractDataSet):
         return folds.create_folds(self.ratings, n_splits=num_folds, shuffle=shuffle, random_state=random_state)
 
     def apply_filters(self):
-
         filters = self.config_obj['filters']
-
         qtd_ratings = filters['qtd_ratings']
-
         new_ratings = self.ratings[0:qtd_ratings]
-
         return new_ratings
 
     def _get_dataset(self):
