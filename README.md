@@ -122,9 +122,7 @@ Para contribuir com o hybrid recommender framework, siga estas etapas:
 
 Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-## 🤝 Colaboradores
-
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
+## 🤝 Autores
 
 <table>
   <tr>
@@ -155,5 +153,3 @@ Quer fazer parte desse projeto? Entre em contato com:
 
 - lucas.natali@aluno.ufop.edu.br
 - rei.fortes@ufop.edu.br
-
-[⬆ Voltar ao topo](#hybrid recommender framework)<br>
