@@ -189,13 +189,9 @@ define(function (require) {
       });
       onFailure = onFailure || (() => {
       });
-      console.log("Cluster endpoint")
-      console.log(this._clusterEndpoint)
-      console.log("WIndow hrf: ", window.location.href)
 
       $.ajax({
         context: this,
-        type: "post",
         url: this._clusterEndpoint,
         contentType: 'application/json;charset=UTF-8',
         cache: false,
