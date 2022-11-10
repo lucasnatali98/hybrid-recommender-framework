@@ -25,8 +25,10 @@ cycler==0.11.0
 debugpy==1.6.3
 decorator==5.1.1
 defusedxml==0.7.1
+dill==0.3.6
 docutils==0.19
 entrypoints==0.4
+etils==0.9.0
 exceptiongroup==1.0.0
 fastjsonschema==2.16.2
 flatbuffers==22.10.26
@@ -36,10 +38,12 @@ gast==0.4.0
 google-auth==2.14.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
+googleapis-common-protos==1.56.4
 grpcio==1.50.0
 h5py==3.7.0
 idna==3.4
 importlib-metadata==5.0.0
+importlib-resources==5.10.0
 iniconfig==1.1.1
 ipykernel==6.17.0
 ipython==7.34.0
@@ -95,6 +99,7 @@ pkginfo==1.8.3
 plotly==4.14.3
 pluggy==1.0.0
 prometheus-client==0.15.0
+promise==2.3
 prompt-toolkit==3.0.32
 protobuf==3.19.6
 psutil==5.9.3
@@ -139,8 +144,10 @@ tensorboard==2.10.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow==2.10.0
+tensorflow-datasets==4.7.0
 tensorflow-estimator==2.10.0
 tensorflow-io-gcs-filesystem==0.27.0
+tensorflow-metadata==1.10.0
 tensorflow-recommenders==0.7.2
 termcolor==2.1.0
 terminado==0.17.0
@@ -149,6 +156,7 @@ tinycss2==1.2.1
 toml==0.10.2
 tomli==2.0.1
 tornado==6.2
+tqdm==4.64.1
 traitlets==5.5.0
 twine==4.0.1
 typing_extensions==4.4.0

@@ -2,19 +2,7 @@ from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
 
 
-"""
-Estrategias de Fold:
 
-K-Fold
-StratifiedKFold
-GroupKFold
-ShuffleSplit
-StratifiedShuffleSplit
-GroupShuffleSplit
-LeaveOneOut
-LeavePOut
-
-"""
 
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
