@@ -11,6 +11,8 @@ define(function (require) {
   /* =================== private functions ================= */
 
   function generateTaskMap(tasks) {
+    console.log("tasks in generate task map: ")
+    console.log(tasks)
     let taskMap = new Map();
     for (const taskRawData of tasks) {
       const task = new Task(taskRawData);
@@ -187,9 +189,13 @@ define(function (require) {
       });
       onFailure = onFailure || (() => {
       });
+      console.log("Cluster endpoint")
+      console.log(this._clusterEndpoint)
+      console.log("WIndow hrf: ", window.location.href)
 
       $.ajax({
         context: this,
+        type: "post",
         url: this._clusterEndpoint,
         contentType: 'application/json;charset=UTF-8',
         cache: false,
