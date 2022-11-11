@@ -17,6 +17,15 @@
       "deps": ["exp2"]
     }
   ],
+  "recipeDefaults": {
+    "database": "MovieLens",
+    "metafeatures": [],
+    "metrics": [],
+    "hybrid": [],
+    "algorithms": [],
+    "results": [],
+    "folds": []
+  },
   "experiments": [
     {
       "experiment_id": "Exp1",
