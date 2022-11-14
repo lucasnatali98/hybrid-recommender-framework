@@ -123,17 +123,28 @@
               "module": "src.recommenders.item_knn",
               "class_name": "ItemKNN",
               "parameters": {
+                "": "",
+                "": "",
+                "": ""
               }
             },
             {
               "module": "src.recommenders.slopeone",
               "class_name": "SlopeOne",
-              "parameters": {}
+              "parameters": {
+                "": "",
+                "": "",
+                "": "",
+              }
             },
             {
               "module": "src.recommenders.user_knn",
               "class_name": "UserKNN",
               "parameters": {
+                "maxNumberNeighbors": 1,
+                "minNumberNeighbors": 2,
+                "min_sim": "",
+                "",
               }
             }
           ]
@@ -175,12 +186,24 @@
             {
               "module": "src.results.anova",
               "class_name": "ANOVA",
-              "parameters": {}
+              "parameters": {
+                "axis": 0,
+                "models": "",
+                "scale": "None",
+                "test": "",
+                "typ": "1",
+                "robust": ""
+              }
             },
             {
               "module": "src.results.confidence_interval",
               "class_name": "ConfidenceInterval",
-              "parameters": {}
+              "parameters": {
+                "type": "norm",
+                "alpha": 0.9,
+                "loc": "mean",
+                "scale": ""
+              }
             }
           ]
         }

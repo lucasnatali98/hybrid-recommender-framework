@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
-
+from pandas import DataFrame
 
 
 
@@ -44,3 +44,16 @@ class SplitProcessing(AbstractPreProcessing):
             'y_train': y_train,
             'y_test': y_test
         }
+
+    def row_based_splitting(self, data: DataFrame, partitions: int, rng_spec):
+        """
+
+
+        @return:
+        """
+        pass
+
+    def user_based_splitting(self):
+        pass
+
+
