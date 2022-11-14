@@ -213,6 +213,16 @@ class MovieLens(AbstractDataSet):
             self.tags,
         ]
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+
+
     @property
     def ratings(self):
         """

@@ -57,3 +57,12 @@ class SplitProcessing(AbstractPreProcessing):
         pass
 
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+

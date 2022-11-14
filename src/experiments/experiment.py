@@ -118,6 +118,16 @@ class Experiment(AbstractExperiment):
     def _handle_results_tasks(self, results):
         return results
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+
+
     def deploy_apps(self):
         task_executor = TaskExecutor()
 

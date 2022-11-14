@@ -52,3 +52,13 @@ class EncodingProcessing(AbstractPreProcessing):
         data = np.array(data)
         data = data.reshape(1, -1)
         return encoding_instance.fit_transform(data)
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+

@@ -59,4 +59,13 @@ class UserKNN(Recommender):
     def recommend(self, user, n=None, candidates=None, ratings=None):
         pass
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+
 
