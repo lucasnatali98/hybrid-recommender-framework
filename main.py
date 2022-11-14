@@ -22,7 +22,7 @@ configuração.
 """
 
 loader = Loader()
-config_obj = loader.load_json_file("config2.json")
+config_obj = loader.load_json_file("config.json")
 experiments = config_obj['experiments']
 
 experiment_handler = ExperimentHandler(experiments)
