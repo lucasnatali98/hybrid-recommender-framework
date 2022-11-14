@@ -6,7 +6,7 @@ from src.recommenders.algorithm import Algorithm
 class Recommender(Algorithm):
 
     @abstractmethod
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, algorithm, users, n, candidates, ratings):
         """
 
         @param n:

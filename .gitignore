@@ -1,7 +1,10 @@
 /venv
 __pypache__/
-
+dist/
+build/
 data_storage/
 *.zip
 *.pyc
 .idea
+node_modules/
+kubernetes_config.json

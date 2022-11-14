@@ -1,10 +1,10 @@
 #!/bin/bash
 
-gcloud container clusters get-credentials task-executor-cluster --zone southamerica-east1-a --project monografia-238917 && \
+gcloud container clusters get-credentials autopilot-cluster-1 --zone us-central1 --project thematic-mapper-364320 && \
 
 cat <<EOF > xperimentor-deployment.yaml
 ---
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "xperimentor-deployment"
@@ -23,12 +23,17 @@ spec:
     spec:
       containers:
       - name: "xperimentor-container"
-        image: "mpacheco95/task_executor:1.0.0"
+        image: "mpacheco95/xperimentor:latest"
+        ports:
+        - containerPort: 3000
+      - name: "task-executor-container"
+        image: "mpacheco95/task_executor:latest"
         ports:
         - containerPort: 5050
+
 EOF
 
 kubectl apply -f xperimentor-deployment.yaml && \
-kubectl get pods (e aguarda o status = running)
-kubectl expose deployment task-executor-deployment --type=LoadBalancer --name=xperimentor-service
-kubectl describe service xperimentor-service | grep IP (e pega o ip)
+kubectl get pods
+kubectl expose deployment xperimentor-deployment --type=LoadBalancer --name=xperimentor-service
+kubectl describe service xperimentor-service | grep IP

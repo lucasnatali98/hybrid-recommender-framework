@@ -1,8 +1,6 @@
 from src.data.dataset import AbstractDataSet
 from dataclasses import dataclass
-from sklearn.model_selection import StratifiedKFold, StratifiedGroupKFold
-
-
+from src.data.folds import Folds
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -26,8 +24,6 @@ class MovieLens(AbstractDataSet):
         """
         super().__init__()
         proportion = str(config_obj['proportion'])
-
-        print("Load MovieLens Proportion: ", proportion)
 
         if not self._is_proportion_valid(proportion):
             raise Exception(
@@ -104,7 +100,6 @@ class MovieLens(AbstractDataSet):
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
         tags = self.Loader.load_file(path=path + "tags", extension=".csv")
 
-
         self.set_items(movies)
         self.set_tags(tags)
         self.set_ratings(ratings)
@@ -117,8 +112,6 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         setattr(MovieLens, 'ratings', ratings)
-
-
 
     def set_links(self, links):
         """
@@ -185,21 +178,20 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         strategy = self.config_obj['strategy']
+        shuffle = self.config_obj['shuffle']
+        num_folds = self.config_obj['folds']
+        random_state = self.config_obj['random_state']
 
+        strategy = strategy.lower()
+        folds = Folds(strategy)
 
-
+        return folds.create_folds(self.ratings, n_splits=num_folds, shuffle=shuffle, random_state=random_state)
 
     def apply_filters(self):
-
         filters = self.config_obj['filters']
-
         qtd_ratings = filters['qtd_ratings']
-
         new_ratings = self.ratings[0:qtd_ratings]
-
         return new_ratings
-
-
 
     def _get_dataset(self):
         """
@@ -221,6 +213,16 @@ class MovieLens(AbstractDataSet):
             self.tags,
         ]
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+
+
     @property
     def ratings(self):
         """
@@ -228,7 +230,6 @@ class MovieLens(AbstractDataSet):
         @return:
         """
         return self.ratings
-
 
     @property
     def tags(self):

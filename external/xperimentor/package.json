@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=xperimentor:* node ./bin/www",
+    "start": "node app.js",
+    "build": "tsc --build ./tsconfig.json",
+    "clean": "rm -rf ./dist",
     "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register test/**/*.ts",
     "coverage": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' nyc -r lcov -e .ts -x \"*.ts\" mocha -r ts-node/register test/**/*.ts && nyc report"
   },
@@ -45,12 +47,13 @@
     "@types/mongodb": "^3.1.32",
     "@types/node": "^12.6.9",
     "chai": "^4.2.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
     "gulp-clean": "^0.4.0",
     "gulp-typescript": "^5.0.1",
     "gulp-watch": "^5.0.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
+    "rimraf": "^3.0.2",
     "source-map-support": "^0.5.13",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"

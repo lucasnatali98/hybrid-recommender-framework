@@ -1,5 +1,5 @@
 ---
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "task-executor-deployment"
@@ -7,7 +7,7 @@ metadata:
   labels:
     app: "task-executor-deployment"
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: "task-executor-deployment"
@@ -24,4 +24,4 @@ spec:
       - name: "xperimentor-container"
         image: "mpacheco95/xperimentor:1.0.0"
         ports:
-          - containerPort: 3270
+          - containerPort: 5051

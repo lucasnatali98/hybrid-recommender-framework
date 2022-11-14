@@ -17,6 +17,7 @@ class Loader:
 
         return json.load(file)
 
+
     def load_file(self, path, extension):
         """
         Carrega um arquivo baseado em sua extensão
@@ -46,7 +47,7 @@ class Loader:
         """
         return pandas.read_excel(io=path)
 
-    def convert_to(self, to, data):
+    def convert_to(self, to, data, path):
         """
 
         """
@@ -54,29 +55,30 @@ class Loader:
 
         if to in to_possibilities:
             if to == "csv":
-                return self.convert_to_csv(data)
+                return self.convert_to_csv(data, path)
             if to == "excel":
-                return self.convert_to_excel(data)
+                return self.convert_to_excel(data, path)
 
         return None
 
-    def convert_to_csv(self, data):
+    def convert_to_csv(self, data, path):
         """
         Convert a dataframe to .csv file
 
         @data: pd.DataFrame
 
         """
+
         if isinstance(data, pandas.DataFrame):
-            return data.to_csv()
+            return data.to_csv("data_storage/temp_files/" + path)
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_csv()
+                return data.to_csv("data_storage/temp_files/" + path)
             except:
-                raise Exception("Deu erro m")
+                raise Exception("Não foi possível gravar o arquivo .csv")
 
-    def convert_to_excel(self, data):
+    def convert_to_excel(self, data, path):
         """
         Convert a dataframe to excel file
 
@@ -87,6 +89,6 @@ class Loader:
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_excel()
+                return data.to_excel("data_storage/temp_files" + path)
             except:
-                raise Exception("deu erro ai")
+                raise Exception("Não foi possível converter para excel")

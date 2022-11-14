@@ -1,41 +1,31 @@
-
-from src.experiments.experiment import ExperimentHandler
-
-
+from src.data.loader import Loader
+from external.deploy import TaskExecutor, Xperimentor
+from src.parser import json2yaml
 import json
+from src.data.data_handler import DataHandler
+from src.experiments.experiment_handler import ExperimentHandler
+from src.data.folds import Folds
+"""
+experiment_handler = ExperimentHandler(config_obj)
+
+for exp in expeiment_handler.data:
+    exp.run()
 
 """
-1. Focar no experimentor -> melhor desenvolver com ele desde o inicio (já testar com ele em bases pequenas)
 
-2. É possível instanciar as classes a partir do arquivo de configuração
-3. Próximo passo: Arquivo de configuração e documentação em paralelo com desenvolvimento
-4. Design Patterns (criacionais para instanciar os objetos)
+"""
+O que eu preciso fazer no mais alto nível da aplicação é organizar o
+arquivo yaml na parte dos comandos com a execução de arquivos python
+então teriamos vários processos de acordo com as etapas do arquivo de 
+configuração.
+
 """
 
-file = open("config2.json")
-config_obj = json.load(file)
+loader = Loader()
+config_obj = loader.load_json_file("config.json")
+experiments = config_obj['experiments']
 
-experiments_config = config_obj['experiments']
+experiment_handler = ExperimentHandler(experiments)
+experiment_results = experiment_handler.run_experiments()
+print("Experiment Results: ", experiment_results)
 
-
-
-experiment_handler = ExperimentHandler()
-instance = experiment_handler.create_experiment_instances(experiments_config)
-
-
-
-
-dataset_instance = instance['datasets']
-preprocessing_instance = instance['preprocessing']
-
-
-after_filters = dataset_instance.apply_filters()
-print("After filters:" , after_filters)
-
-print("Ratings: ", dataset_instance.ratings)
-"""
-print("Tags: ", dataset_instance.tags)
-
-print("Items (movies): ", dataset_instance.items)
-print("Links: ", dataset_instance.links)
-"""

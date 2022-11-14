@@ -1,0 +1,5 @@
+clusterEndpoint: http://35.226.36.217:5050/run
+
+tasks:
+  - id: exp1
+    command: "echo helloword"
