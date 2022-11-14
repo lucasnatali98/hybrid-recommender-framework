@@ -1,7 +1,5 @@
 # Xperimentor
 
-A general purpose framework to manage distributed computational experiments
-
 Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, o projeto é estruturado através de um frontend que é responsável por contruir e gerenciar a execução de um experimento e o backend (Task Executor) é um servidor HTTP desenvolvido em Python para tratar as requisições para executar os processos. 
 
 
@@ -9,6 +7,7 @@ Esta é a aplicação principal do framework e tem como responsabilidade constru
 
 Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependências. Um exemplo de uma dessas tarefas seria:
 ```
+clusterEndpoint: http://0.0.0.0:5050/run
 tasks:
   - id: MetaFeatureCalculator
     command: "java -jar MetricCalculator.jar {DB} {Fold} {MF} 60 0"
