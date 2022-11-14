@@ -12,26 +12,23 @@
 
 ### Arquitetura do projeto
 
-O projeto está dividido em três principais módulos: Pré-processamento, modelagem e treinamento e por fim avaliação e visualização dos resultados
+O projeto está dividido em três principais módulos: Pré-processamento, modelagem e treinamento e por fim avaliação e visualização dos resultados.
 
-Em cada um deles faremos um conjunto de processos que alimentará o próximo módulo. Abaixo segue uma imagem que define os módulos desse projeto em uma visão mais macro.
+Em cada uma dessas fases teremos um conjunto de artefatos gerados para alimentar a execução da próxima fase, por exemplo, da fase de processamento invocaremos uma base de dados e ela será submetida a vários pré-processamentos, divisão em folds, dentre outras operações. Os resultados gerados serão utilizados na modelagem e treinamento, da mesma forma ocorrerá até o término da execução, uma visão geral dos módulos que compõe esse projeto estão definidos na imagem abaixo:
+
 
 ![alt text](docs/imgs/arquiteturaFramework_ptbr.png?raw=true)
 
-O módulo de preprocessamento será responsável por todo processo inicial antes de pensarmos em recomendações, então depois de carregar uma base de dados podemos submeter essa base ao calculo das metafeatures e/ou processamento dos scores constituintes, após feita estas etapas o resultado é submetido ao processamento dos recursos gerados para ao final desse processo gerar como artefato um conjunto de recursos.
+O módulo de pré-processamento será responsável por todas operações pré construção dos modelos de recomendação, para ter mais detalhes sobre o funcionamento do pré-processamento basta acessar a documentação do módulo [Preprocessamento](src/preprocessing/README.md)
 
-Ṕosteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados.
+Ṕosteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados. Mais detalhes sobre esse módulo basta consultar a documentação [Modelagem e Treinamento](src/recommenders/README.md)
 
-Esses itens recomendados serão usados na última fase do framework que envolve a avaliação e visualização dos resultados gerados pelas outras etapas do framework. Aqui podemos aplicar diferentes métricas para avaliar os resultados e deles criar visualizações utilizando diferentes bibliotecas de visualização.
+Esses itens recomendados serão usados na última fase do framework que envolve a avaliação e visualização dos resultados gerados pelas outras etapas do framework. Aqui podemos aplicar diferentes métricas para avaliar os resultados e deles criar visualizações utilizando diferentes bibliotecas de visualização. Mais detalhes podem ser consultados aqui: [Avaliação](src/metrics/README.md)
 
 
 ### Dependências importantes do projeto
 
-Esse framework faz uso de outros trabalhos com isso é importante que tenhamos
-conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos
-que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo
-estão as documentações para os projetos e através delas teremos
-um maior entendimento sobre cada um
+Esse framework faz uso de outros trabalhos com isso é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
 
 
 [Xperimentor](external/xperimentor/README.md)
@@ -42,7 +39,7 @@ um maior entendimento sobre cada um
 ## Princípios de funcionamento do framework
 Toda a execução do framework parte de um único ponto, um arquivo de configuração JSON que contêm todas as informações necessarias para a criação das classes que estarão envolvidas no processo da experimentação, em termos práticos cada experimento será definido por um conjunto de objetos que descrevem classes e seus parâmetros de forma que poderemos instanciar base de dados, diferentes preprocessamentos, modelos e avaliadores.
 
-A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias... Ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
+A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias, ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
 
 
 ## Os módulos do framework:
