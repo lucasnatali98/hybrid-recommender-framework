@@ -4,9 +4,10 @@ A general purpose framework to manage distributed computational experiments
 
 Esse trabalho faz a gestão de experimentos computacionais em um ambiente em pararelo utilizando de um cluster Kubernetes, o projeto é estruturado através de um frontend que é responsável por contruir e gerenciar a execução de um experimento e o backend (Task Executor) é um servidor HTTP desenvolvido em Python para tratar as requisições para executar os processos. 
 
-<b>Xperimentor</b>: está é a aplicação principal do framework e tem como responsabilidade construir e gerenciar a execução de um experimento. O projeto conta com uma única página com um editor de código embutido e um painel de visualização onde o experimentador pode observar o status do experimento. Toda a configuração deve ser feita através de um documento YAML, nele estarão contidos todos os dados necessarios para que o framework seja capaz de executar o seu proposito.
 
-Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependência. Um exemplo de uma dessas tarefas seria:
+Esta é a aplicação principal do framework e tem como responsabilidade construir e gerenciar a execução de um experimento. O projeto conta com uma única página com um editor de código embutido e um painel de visualização onde o experimentador pode observar o status do experimento. Toda a configuração deve ser feita através de um documento YAML, nele estarão contidos todos os dados necessarios para que o framework seja capaz de executar o seu proposito.
+
+Nesse arquivo de configuração são definidas tarefas que possuem identificadores, comandos e suas dependências. Um exemplo de uma dessas tarefas seria:
 ```
 tasks:
   - id: MetaFeatureCalculator
