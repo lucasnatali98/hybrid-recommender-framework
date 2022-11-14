@@ -87,3 +87,13 @@ class Container(Generic[T]):
 
         return False
 
+    def find(self, elem):
+        new_elem = list(filter(lambda x: x == elem, self.items))
+        if len(new_elem) == 0:
+            return None
+
+        return new_elem[0]
+
+    def get_items(self):
+        return self.items
+

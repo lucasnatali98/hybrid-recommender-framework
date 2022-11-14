@@ -2,6 +2,9 @@ from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
 from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
+from src.data.loader import Loader
+
+
 class AbstractExperiment(ABC):
 
     @abstractmethod
@@ -19,6 +22,8 @@ class AbstractExperiment(ABC):
         @return:
         """
         pass
+
+
 class Experiment(AbstractExperiment):
     """
 
@@ -48,30 +53,80 @@ class Experiment(AbstractExperiment):
         @return:
         """
         instances = self.create_experiment_instances(self.config_obj)
-        print("Instances: ", instances)
+
 
         xperimentor = Xperimentor()
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(experiment_obj=self.config_obj)
 
-        print("Xperimentor_config_obj: ", xperimentor_config_obj)
+
         dataset = instances['datasets']
         preprocessing = instances['preprocessing']
         metafeatures = instances['metafeatures']
         recommenders = instances['recommenders']
         metrics = instances['metrics']
         results = instances['results']
+        print(preprocessing)
+        ratings_df = self._handle_with_dataset(dataset)
+        print(ratings_df)
+        preprocessing = self._handle_pre_processing_tasks(ratings_df, preprocessing)
+        metafeatures = self._handle_metafeatures_tasks(metafeatures)
+        recommmenders = self._handle_algorithms_tasks(recommenders)
+        metrics = self._handle_algorithms_tasks(metrics)
+        results = self._handle_results_tasks(results)
 
-        #dataset = dataset()
-        print(dataset.ratings)
-        movie_lens_folds = dataset.generate_folds()
-
-        print("movie_lens_folds: ", movie_lens_folds)
+        # dataset = dataset()
 
 
 
+
+    def _handle_pre_processing_tasks(self, dataset, preprocessing):
+
+        execution_steps = {}
+        items = preprocessing.items[0]
+        for item in items:
+            class_name = item.__class__.__name__
+            result = item.pre_processing(dataset)
+            execution_steps[class_name] = result
+
+        self._save_splited_dataset(execution_steps['SplitProcessing'])
+
+    def _save_splited_dataset(self, split_processing: dict):
+        loader = Loader()
+        for key, value in split_processing.items():
+            if key == 'x_train':
+                loader.convert_to("csv", value, "xtrain.csv")
+            if key == 'x_test':
+                loader.convert_to("csv", value, "xtest.csv")
+            if key == 'y_train':
+                loader.convert_to("csv", value, "ytrain.csv")
+            if key == 'y_test':
+                loader.convert_to("csv", value, 'ytest.csv')
+
+    def _handle_metrics_tasks(self, metrics):
+        pass
 
     def _handle_with_dataset(self, dataset):
+        dataset = dataset.apply_filters()
+        return dataset
+
+    def _handle_metafeatures_tasks(self, metafeatures):
+        return metafeatures
+
+    def _handle_algorithms_tasks(self, algorithms):
+        return algorithms
+
+    def _handle_results_tasks(self, results):
+        return results
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
         pass
+
 
     def deploy_apps(self):
         task_executor = TaskExecutor()
@@ -92,7 +147,6 @@ class Experiment(AbstractExperiment):
         self.visualization = instances['visualization']
         self.recommenders = instances['recommenders']
         self.metrics = instances['metrics']
-
 
     def create_experiment_instances(self, config_obj) -> dict:
         """

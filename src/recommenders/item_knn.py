@@ -7,6 +7,17 @@ class ItemKNN(Recommender):
         """
         
         """
+        print("Item KNN constructor")
+        print(parameters)
+
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
         pass
 
     def predict_for_users(self, users, items, ratings):

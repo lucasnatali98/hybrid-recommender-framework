@@ -13,26 +13,19 @@ for exp in expeiment_handler.data:
 
 """
 
+"""
+O que eu preciso fazer no mais alto nível da aplicação é organizar o
+arquivo yaml na parte dos comandos com a execução de arquivos python
+então teriamos vários processos de acordo com as etapas do arquivo de 
+configuração.
+
+"""
+
 loader = Loader()
-config_obj = loader.load_json_file("config2.json")
+config_obj = loader.load_json_file("config.json")
 experiments = config_obj['experiments']
 
 experiment_handler = ExperimentHandler(experiments)
 experiment_results = experiment_handler.run_experiments()
 print("Experiment Results: ", experiment_results)
 
-
-data_example = [
-    [1,2],
-    [3,5],
-    [6,4],
-    [1,3],
-    [4,5]
-]
-folds = Folds("kfold")
-result_folds = folds.create_folds(
-    data=data_example,
-    n_splits=5,
-    shuffle=False,
-    random_state=42
-)
