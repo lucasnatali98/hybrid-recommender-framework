@@ -9,7 +9,7 @@ class UserKNN(Recommender):
         
         """
         self.max_number_neighbors = parameters['maxNumberNeighbors']
-        self.min_number_neighbors = parameters['minNumberNeighbors'] | ""
+        self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
         self.feedback = parameters['feedback']
         self.user_knn = user_knn.UserUser(

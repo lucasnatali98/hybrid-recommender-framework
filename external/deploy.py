@@ -2,18 +2,21 @@ import subprocess
 from abc import ABC, abstractmethod
 from src.utils import subprocess_output_is_correct
 from src.data.loader import Loader
+
+#https://unix.stackexchange.com/questions/31414/how-can-i-pass-a-command-line-argument-into-a-shell-script
 class Xperimentor:
     def __init__(self):
-        pass
+        loader = Loader()
+        self.xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
 
-    def convert_to_xperimentor_pattern(self, experiment_obj: dict):
+
+    def convert_to_xperimentor_pattern(self, experiment_obj: dict, experiment_dependencies: dict = None):
         """
 
         @return:
         """
         print("convert to xperimentor pattern")
-        print(experiment_obj)
-        loader = Loader()
+
         dataset = experiment_obj['dataset']
         metafeatures = experiment_obj['metafeatures']
         hybrid = None
@@ -21,31 +24,34 @@ class Xperimentor:
         recommenders = experiment_obj['recommenders']
         metrics = experiment_obj['metrics']
         results = experiment_obj['results']
+        clusterName = None
+        projectId = None
+
 
 
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
-        xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
-        xperimentor_pattern_obj['recipeDefaults']['DB'] = self._set_database_recipes(dataset)
-        xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(folds)
-        xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(recommenders)
-        xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(hybrid)
-        xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(metrics)
-        xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
+
+        self.xperimentor_pattern_obj['recipeDefaults']['DB'] = self._set_database_recipes(dataset)
+        self.xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(folds)
+        self.xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(metafeatures)
+        self.xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(recommenders)
+        self.xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(hybrid)
+        self.xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(metrics)
+        self.xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
 
 
 
+        #Refactor
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['Eval'] = self._set_eval_recipes(metrics)
+        self.xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
-        xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
-        xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
-        xperimentor_pattern_obj['recipes'][0]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        xperimentor_pattern_obj['recipes'][0]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
-        xperimentor_pattern_obj['recipes'][0]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
-        xperimentor_pattern_obj['recipes'][0]['uses']['Eval'] = self._set_eval_recipes(metrics)
-        xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
-
-        return xperimentor_pattern_obj
+        return self.xperimentor_pattern_obj
 
     def _set_database_recipes(self, database: dict) -> list:
         return [database['class']]

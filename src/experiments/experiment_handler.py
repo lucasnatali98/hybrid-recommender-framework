@@ -3,7 +3,7 @@ from src.shared.container import Container
 from typing import List
 
 class ExperimentHandler(Container):
-    def __init__(self, experiments) -> None:
+    def __init__(self, experiments, experiment_dependencies: dict = None) -> None:
         """
 
         """
