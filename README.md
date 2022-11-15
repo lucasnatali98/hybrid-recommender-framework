@@ -65,6 +65,11 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * Plotly
 * Matplotlib
 * LensKit
+* Surprise
+
+Essas são algumas das dependências do projeto, você pode ter acesso a relação completa
+através do arquivo ```requirements.txt```
+
 
 
 ## 🚀 Instalando o Hybrid Recommender Framework
@@ -104,8 +109,13 @@ com seus respectivos algoritmos, preprocessamentos, dentre outras
 operações. Com esse arquivo configurado, basta que seja executado:
 
 ```
-python main.py
+python main.py <path_to_config_file>
 ```
+
+A execução do projeto considera um único argumento de linha de comando que é o caminho
+para o arquivo de configuração. Por default esse valor vai considerar que o arquivo de configuração
+esteja na raiz do projeto, nomeado como ```config.json```
+
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
 <!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
