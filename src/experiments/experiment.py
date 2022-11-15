@@ -38,13 +38,15 @@ class Experiment(AbstractExperiment):
     visualization: object
     recommenders: object
 
-    def __init__(self, config_obj) -> None:
+    def __init__(self, experiment_obj: dict, experiment_dependencies: dict = None) -> None:
         """
 
         """
-        self.config_obj = config_obj
-        self.experiment_id = config_obj['experiment_id']
-        instances_obj = self.create_experiment_instances(config_obj)
+
+        self.experiment_dependencies = experiment_dependencies
+        self.config_obj = experiment_obj
+        self.experiment_id = experiment_obj['experiment_id']
+        instances_obj = self.create_experiment_instances(experiment_obj)
         self._set_attributes(instances_obj)
 
     def run(self):
@@ -56,7 +58,14 @@ class Experiment(AbstractExperiment):
 
 
         xperimentor = Xperimentor()
-        xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(experiment_obj=self.config_obj)
+
+        xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
+            experiment_obj=self.config_obj,
+            experiment_dependencies=self.experiment_dependencies
+        )
+
+        print("Xperimentor config obj")
+        print(xperimentor_config_obj)
 
 
         dataset = instances['datasets']
@@ -65,9 +74,7 @@ class Experiment(AbstractExperiment):
         recommenders = instances['recommenders']
         metrics = instances['metrics']
         results = instances['results']
-        print(preprocessing)
         ratings_df = self._handle_with_dataset(dataset)
-        print(ratings_df)
         preprocessing = self._handle_pre_processing_tasks(ratings_df, preprocessing)
         metafeatures = self._handle_metafeatures_tasks(metafeatures)
         recommmenders = self._handle_algorithms_tasks(recommenders)

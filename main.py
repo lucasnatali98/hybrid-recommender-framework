@@ -28,7 +28,21 @@ configuração.
 if __name__ == "__main__":
     loader = Loader()
     config_obj = loader.load_json_file("config.json")
+
     experiments = config_obj['experiments']
+
+    cluster_info = config_obj['cluster_info']
+
+    experiment_dependencies = config_obj['experiment_dependencies']
+
+    print("Informações do Cluster")
+    print(cluster_info)
+
+
+    print("Dependências dos experimentos")
+    print(experiment_dependencies)
+
+
 
     experiment_handler = ExperimentHandler(experiments)
     experiment_results = experiment_handler.run_experiments()

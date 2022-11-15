@@ -1,7 +1,7 @@
 {
-  "config": {
-    "clusterIP": "",
-    "projectID": ""
+  "cluster_info": {
+    "clusterName": "autopilot-cluster-1",
+    "projectID": "thematic-mapper-364320"
   },
   "experiment_dependencies": [
     {
@@ -18,17 +18,17 @@
     }
   ],
   "recipeDefaults": {
-    "database": "MovieLens",
-    "metafeatures": [],
-    "metrics": [],
-    "hybrid": [],
-    "algorithms": [],
-    "results": [],
+    "database": ["MovieLens"],
+    "metafeatures": ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"],
+    "metrics": ["RMSE", "F1", "EPC", "EILD"],
+    "hybrid": ["STREAM", "FWLS"],
+    "algorithms": ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"],
+    "results": ["mean", "IC"],
     "folds": []
   },
   "experiments": [
     {
-      "experiment_id": "Exp1",
+      "experiment_id": "exp1",
       "dataset": {
         "class": "MovieLens",
         "module": "src.data.movielens",
