@@ -83,12 +83,21 @@
               "module": "src.metrics.rmse",
               "class_name": "RMSE",
               "parameters": {
+                "sample_weight": "None",
+                "squared": true
               }
             },
             {
               "module": "src.metrics.recall",
               "class_name": "Recall",
               "parameters": {
+              }
+            },
+            {
+              "module": "src.metrics.mae",
+              "class_name": "MAE",
+              "parameters": {
+
               }
             }
           ]
@@ -98,17 +107,54 @@
         "module": "src.metafeatures.metafeatures_container",
         "class": "MetaFeatureContainer",
         "parameters": {
+          "global": {
+            "doUser": true,
+            "doItem": true,
+            "doItemUser": true,
+            "basePath": "",
+            "resourceFile": "",
+            "partitionLength":  1,
+            "outputFolder": "",
+            "bufferSize": 1000,
+            "numThreads": 0,
+            "useTextOutput": true
+          },
           "instances": [
             {
-              "module": "src.metafeatures.cosine",
-              "class_name": "Cosine",
+              "module": "src.metafeatures.jaccard",
+              "class_name": "Jaccard",
               "parameters": {
+                "type": "content-based",
+                "basePath": "",
+                "doUser": true,
+                "doItem": false,
+                "doItemUser": false,
+                "numThreads": 0,
+                "metricParameter": {
+                  "id": "",
+                  "value": ""
+                },
+                "fields": [
+                  "1", "2", "3"
+                ]
               }
             },
             {
               "module": "src.metafeatures.gini",
               "class_name": "Gini",
               "parameters": {
+                "type": "collaborative",
+                "basePath": "",
+                "doUser": true,
+                "doItem": false,
+                "doItemUser": false,
+                "items": [
+                  {
+                    "dataFile": "",
+                    "resourceFile": "",
+                    "outputFolder": ""
+                  }
+                ]
               }
             }
           ]
