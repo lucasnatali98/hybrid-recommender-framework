@@ -17,7 +17,7 @@
       "deps": ["exp2"]
     }
   ],
-  "recipeDefaults": {
+  "recipesDefault": {
     "database": ["MovieLens"],
     "metafeatures": ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"],
     "metrics": ["RMSE", "F1", "EPC", "EILD"],

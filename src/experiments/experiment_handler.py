@@ -3,13 +3,18 @@ from src.shared.container import Container
 from typing import List
 
 class ExperimentHandler(Container):
-    def __init__(self, experiments, experiment_dependencies: dict = None) -> None:
+    def __init__(self, experiments, experiment_dependencies: dict = None, recipe_defaults: dict = None) -> None:
         """
 
         """
         super().__init__()
 
-        experiment = Experiment(experiments[0])
+        experiment = Experiment(
+            experiment_obj=experiments[0],
+            experiment_dependencies=experiment_dependencies,
+            recipe_defaults=recipe_defaults
+
+        )
         self.items.append(experiment)
     def run_experiments(self) -> dict:
         result = {}

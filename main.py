@@ -33,6 +33,8 @@ if __name__ == "__main__":
 
     cluster_info = config_obj['cluster_info']
 
+    recipes_default = config_obj['recipesDefault']
+
     experiment_dependencies = config_obj['experiment_dependencies']
 
     print("Informações do Cluster")

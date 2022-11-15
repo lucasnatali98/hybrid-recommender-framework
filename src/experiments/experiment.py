@@ -38,12 +38,14 @@ class Experiment(AbstractExperiment):
     visualization: object
     recommenders: object
 
-    def __init__(self, experiment_obj: dict, experiment_dependencies: dict = None) -> None:
+    def __init__(self, experiment_obj: dict, experiment_dependencies: dict = None,
+                 recipes_default: dict = None) -> None:
         """
 
         """
 
         self.experiment_dependencies = experiment_dependencies
+        self.recipes_default = recipes_default
         self.config_obj = experiment_obj
         self.experiment_id = experiment_obj['experiment_id']
         instances_obj = self.create_experiment_instances(experiment_obj)
@@ -56,7 +58,6 @@ class Experiment(AbstractExperiment):
         """
         instances = self.create_experiment_instances(self.config_obj)
 
-
         xperimentor = Xperimentor()
 
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
@@ -67,22 +68,19 @@ class Experiment(AbstractExperiment):
         print("Xperimentor config obj")
         print(xperimentor_config_obj)
 
-
         dataset = instances['datasets']
         preprocessing = instances['preprocessing']
         metafeatures = instances['metafeatures']
         recommenders = instances['recommenders']
         metrics = instances['metrics']
         results = instances['results']
+
         ratings_df = self._handle_with_dataset(dataset)
         preprocessing = self._handle_pre_processing_tasks(ratings_df, preprocessing)
         metafeatures = self._handle_metafeatures_tasks(metafeatures)
         recommmenders = self._handle_algorithms_tasks(recommenders)
         metrics = self._handle_algorithms_tasks(metrics)
         results = self._handle_results_tasks(results)
-
-        # dataset = dataset()
-
 
 
 
@@ -133,7 +131,6 @@ class Experiment(AbstractExperiment):
         """
 
         pass
-
 
     def deploy_apps(self):
         task_executor = TaskExecutor()
