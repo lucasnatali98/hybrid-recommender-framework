@@ -97,7 +97,7 @@
               "module": "src.metrics.mae",
               "class_name": "MAE",
               "parameters": {
-
+                "multioutput": "uniform_average"
               }
             }
           ]
