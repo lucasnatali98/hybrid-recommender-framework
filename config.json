@@ -123,18 +123,18 @@
               "module": "src.recommenders.item_knn",
               "class_name": "ItemKNN",
               "parameters": {
-                "": "",
-                "": "",
-                "": ""
+                "param1": "",
+                "param2": "",
+                "param3": ""
               }
             },
             {
               "module": "src.recommenders.slopeone",
               "class_name": "SlopeOne",
               "parameters": {
-                "": "",
-                "": "",
-                "": "",
+                "param1": "",
+                "param2": "",
+                "param3": ""
               }
             },
             {
@@ -144,7 +144,7 @@
                 "maxNumberNeighbors": 1,
                 "minNumberNeighbors": 2,
                 "min_sim": "",
-                "",
+                "feedback": "implicit"
               }
             }
           ]
@@ -202,7 +202,8 @@
                 "type": "norm",
                 "alpha": 0.9,
                 "loc": "mean",
-                "scale": ""
+                "scale": "",
+                "sigma": ""
               }
             }
           ]

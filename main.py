@@ -2,6 +2,7 @@ from src.data.loader import Loader
 from external.deploy import TaskExecutor, Xperimentor
 from src.parser import json2yaml
 import json
+import sys
 from src.data.data_handler import DataHandler
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.folds import Folds
@@ -21,11 +22,28 @@ configuração.
 
 """
 
-loader = Loader()
-config_obj = loader.load_json_file("config.json")
-experiments = config_obj['experiments']
 
-experiment_handler = ExperimentHandler(experiments)
-experiment_results = experiment_handler.run_experiments()
-print("Experiment Results: ", experiment_results)
+
+
+if __name__ == "__main__":
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
+    experiments = config_obj['experiments']
+
+    experiment_handler = ExperimentHandler(experiments)
+    experiment_results = experiment_handler.run_experiments()
+    print("Experiment Results: ", experiment_results)
+
+    path_to_config_file = "";
+
+    args = sys.argv
+    print("CMD arguments: ", args)
+
+    if len(args) == 0:
+        path_to_config_file = "config.json"
+    else:
+        path_to_config_file = args[1]
+
+    print("Path to config file: ", path_to_config_file)
+
 

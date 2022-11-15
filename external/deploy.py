@@ -2,6 +2,8 @@ import subprocess
 from abc import ABC, abstractmethod
 from src.utils import subprocess_output_is_correct
 from src.data.loader import Loader
+
+#https://unix.stackexchange.com/questions/31414/how-can-i-pass-a-command-line-argument-into-a-shell-script
 class Xperimentor:
     def __init__(self):
         pass
@@ -21,6 +23,10 @@ class Xperimentor:
         recommenders = experiment_obj['recommenders']
         metrics = experiment_obj['metrics']
         results = experiment_obj['results']
+        clusterIp = None
+        clusterName = None
+
+
 
 
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
@@ -35,7 +41,7 @@ class Xperimentor:
 
 
 
-
+        #Refactor
         xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
         xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
         xperimentor_pattern_obj['recipes'][0]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
