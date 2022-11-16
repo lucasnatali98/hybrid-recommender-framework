@@ -13,7 +13,7 @@ Nesse arquivo tem explicado o que cada chave desse XML significa e como pode ser
 para tentar tornar ainda mais simples, no texto é definida a seguinte tabela
 para relacionar cada informação:
 
-![Recmetrics](docs/imgs/recmetrics_xml_file_inputs.png?raw=true)
+![alt text](https://github.com/lucasnatali98/hybrid-recommender-framework/blob/c2060c874cb8e7cc4bba63a92e1c5f0d8004a327/docs/imgs/recmetrics_xml_file_inputs.png)
 
 
 
