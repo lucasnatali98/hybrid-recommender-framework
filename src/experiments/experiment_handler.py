@@ -3,7 +3,7 @@ from src.shared.container import Container
 from typing import List
 
 class ExperimentHandler(Container):
-    def __init__(self, experiments, experiment_dependencies: dict = None, recipe_defaults: dict = None) -> None:
+    def __init__(self, experiments, experiment_dependencies: dict = None, recipes_default: dict = None) -> None:
         """
 
         """
@@ -12,7 +12,7 @@ class ExperimentHandler(Container):
         experiment = Experiment(
             experiment_obj=experiments[0],
             experiment_dependencies=experiment_dependencies,
-            recipe_defaults=recipe_defaults
+            recipes_default=recipes_default
 
         )
         self.items.append(experiment)

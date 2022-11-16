@@ -15,7 +15,7 @@ class Jaccard(ContentBasedMetaFeature):
         self.num_threads = parameters['numThreads']
         self.metric_parameter = parameters['metricParameter']
         self.fields = parameters['fields']
-        self.items = parameters['items']
+#        self.items = parameters['items']
 
     def fit(self):
         """
