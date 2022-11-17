@@ -5,7 +5,7 @@ from src.tasks.task import Task
 
 class DatasetTask(Task):
 
-    def __init__(self):
+    def __init__(self, args = None):
         pass
 
     def check_args(self, args):
@@ -14,7 +14,7 @@ class DatasetTask(Task):
         @param args:
         @return:
         """
-        pass
+
 
     def run(self):
         """

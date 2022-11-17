@@ -5,7 +5,7 @@ from src.tasks.task import Task
 
 
 class MetricsTask(Task):
-    def __init__(self):
+    def __init__(self, args):
         pass
 
     def check_args(self, args):

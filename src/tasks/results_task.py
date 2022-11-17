@@ -4,7 +4,7 @@ import subprocess
 from src.tasks.task import Task
 
 class ResultsTask(Task):
-    def __init__(self):
+    def __init__(self, args = None):
         pass
 
 
