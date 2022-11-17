@@ -21,3 +21,7 @@ class MetaFeaturesTask(Task):
         @return:
         """
         pass
+
+
+    def _handle_metafeatures_tasks(self, metafeatures):
+        return metafeatures

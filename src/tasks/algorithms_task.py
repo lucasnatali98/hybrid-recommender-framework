@@ -21,3 +21,6 @@ class AlgorithmsTask(Task):
         @return:
         """
         pass
+
+    def _handle_algorithms_tasks(self, algorithms):
+        return algorithms

@@ -22,3 +22,10 @@ class DatasetTask(Task):
         @return:
         """
         pass
+
+
+    def _handle_with_dataset(self, dataset):
+        dataset = dataset.apply_filters()
+        return dataset
+
+

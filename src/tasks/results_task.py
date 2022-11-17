@@ -22,3 +22,6 @@ class ResultsTask(Task):
         @return:
         """
         pass
+
+    def _handle_results_tasks(self, results):
+        return results

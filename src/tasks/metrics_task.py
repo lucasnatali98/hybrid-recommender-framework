@@ -22,3 +22,6 @@ class MetricsTask(Task):
         @return:
         """
         pass
+
+    def _handle_metrics_tasks(self, metrics):
+        pass
