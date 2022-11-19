@@ -21,19 +21,21 @@ Em cada uma dessas fases teremos um conjunto de artefatos gerados para alimentar
 
 O módulo de pré-processamento será responsável por todas operações pré construção dos modelos de recomendação, para ter mais detalhes sobre o funcionamento do pré-processamento basta acessar a documentação do módulo [Preprocessamento](src/preprocessing/README.md)
 
-Ṕosteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados. Mais detalhes sobre esse módulo basta consultar a documentação [Modelagem e Treinamento](src/recommenders/README.md)
+Posteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados. Mais detalhes sobre esse módulo basta consultar a documentação [Modelagem e Treinamento](src/recommenders/README.md)
 
 Esses itens recomendados serão usados na última fase do framework que envolve a avaliação e visualização dos resultados gerados pelas outras etapas do framework. Aqui podemos aplicar diferentes métricas para avaliar os resultados e deles criar visualizações utilizando diferentes bibliotecas de visualização. Mais detalhes podem ser consultados aqui: [Avaliação](src/metrics/README.md)
 
 
 ### Dependências importantes do projeto
 
-Esse framework faz uso de outros trabalhos com isso é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
+Esse framework faz uso de outros trabalhos de monografia, com isso, é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
 
 
 [Xperimentor](external/xperimentor/README.md)
 
 [Task-Executor](external/task-executor/README.md)
+
+[Metrics Calculator](external/MetricsCalculator/README.md)
 
 
 ## Princípios de funcionamento do framework
