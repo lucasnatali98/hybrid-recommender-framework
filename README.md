@@ -28,7 +28,7 @@ Esses itens recomendados serão usados na última fase do framework que envolve 
 
 ### Dependências importantes do projeto
 
-Esse framework faz uso de outros trabalhos de monografia, com isso, é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator 2.0. Abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
+Esse framework faz uso de outros trabalhos de monografia, com isso, é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator. O Xperimentor é dividido em dois projetos, o front-end chamado de Xperimentor e um back-end chamado Task-Executor, abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
 
 
 [Xperimentor](external/xperimentor/README.md)
@@ -44,22 +44,21 @@ Toda a execução do framework parte de um único ponto, um arquivo de configura
 A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias, ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
 
 
-## Os módulos do framework:
-- Módulo de pré-processamento:
-- Módulo de meta-features:
-- Módulo de métricas:
-- Módulo de recomendadores:
-- Módulo de resultados:
-- Módulo de visualização:
-- Módulo de recomendação hibrida
-- Módulo de dados
-- Módulo dos experimentos
+## Os pacotes do framework:
+- Pré-processamento:
+- Meta-features:
+- Métricas:
+- Recomendadores:
+- Resultados:
+- Visualização:
+- Eecomendação hibrida
+- Dados
+- Experimentos
 
 
 ## 💻 Pré-requisitos
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
-<!---Estes são apenas requisitos de exemplo. Adicionar, duplicar ou remover conforme necessário--->
 * Python 3
 * Numpy
 * Pandas
@@ -68,9 +67,17 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * Matplotlib
 * LensKit
 * Surprise
+* Docker
+* Kubernetes
+* Typescript
+* Java
 
 Essas são algumas das dependências do projeto, você pode ter acesso a relação completa
 através do arquivo ```requirements.txt```
+
+Vale lembrar que toda a execução desse projeto é feita através de um cluster Kubernetes que será responsável por gerenciar o Xperimentor e o Task Executor, então temos que um pré-requisito muito importante é a instalação e configuração de um cluster Kubernetes. Só após feita essa etapa conseguiremos tirar 100% de aproveitamento do framework.
+
+Para realizar todo esse processo, você pode consultar a documentação oficial do [Kubernetes](https://kubernetes.io/docs/home/)
 
 
 
@@ -120,7 +127,6 @@ esteja na raiz do projeto, nomeado como ```config.json```
 
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
-<!---Se o seu README for longo ou se você tiver algum processo ou etapas específicas que deseja que os contribuidores sigam, considere a criação de um arquivo CONTRIBUTING.md separado--->
 Para contribuir com o hybrid recommender framework, siga estas etapas:
 
 1. Bifurque este repositório.
