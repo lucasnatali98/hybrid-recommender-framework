@@ -26,7 +26,7 @@ task_map = {
     },
     "results": {
         "module": "src.tasks.results_task",
-        "class_name": "ResulsTask"
+        "class_name": "ResultsTask"
     }
 }
 

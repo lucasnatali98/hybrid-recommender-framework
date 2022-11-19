@@ -5,9 +5,8 @@ from src.tasks.task import Task
 
 
 class PreProcessingTask(Task):
-    def __init__(self, dataset, preprocessing):
-        self.dataset = dataset
-        self.preprocessing = preprocessing
+    def __init__(self, args):
+        self.dataset = args[1]
 
     def check_args(self, args):
         """
@@ -22,7 +21,8 @@ class PreProcessingTask(Task):
 
         @return:
         """
-        self._handle_pre_processing_tasks(self.dataset, self.preprocessing)
+        pass
+        #self._handle_pre_processing_tasks(self.dataset, self.preprocessing)
 
 
     def _handle_pre_processing_tasks(self, dataset, preprocessing):

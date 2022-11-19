@@ -5,6 +5,7 @@ from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
 
+
 class AbstractExperiment(ABC):
 
     @abstractmethod
@@ -44,19 +45,79 @@ class Experiment(AbstractExperiment):
 
         """
 
+        # Informações provenientes do arquivo de configuração
         self.experiment_dependencies = experiment_dependencies
         self.recipes_default = recipes_default
-        self.config_obj = experiment_obj
+        self.experiment_obj = experiment_obj
         self.experiment_id = experiment_obj['experiment_id']
-        instances_obj = self.create_experiment_instances(experiment_obj)
-        self._set_attributes(instances_obj)
+
+        # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
         self.task_factory = TaskFactory()
         self.tasks = self.define_all_tasks()
 
-    def define_all_tasks(self):
+        # Definição de todas as instâncias baseado no experimento
+        instances_obj = self.create_experiment_instances(experiment_obj)
+        self._set_attributes(instances_obj)
+
+        self.instances = None
+
+    @property
+    def experiment_obj(self):
+        """
+        Getter de experiment_obj
+
+        @return: experiment_obj
+        """
+        return self.experiment_obj
+
+    @property
+    def experiment_dependencies(self):
         """
 
         @return:
+        """
+        return self.experiment_dependencies
+
+    @property
+    def recipes_default(self):
+        """
+
+        @return:
+        """
+        return self.recipes_default
+
+    @recipes_default.setter
+    def recipes_default(self, recipes):
+        """
+
+        @param recipes:
+        @return:
+        """
+        self.recipes_default = recipes
+
+    @experiment_dependencies.setter
+    def experiment_dependencies(self, exp_dependencies):
+        """
+
+        @param exp_dependencies:
+        @return:
+        """
+        self.experiment_dependencies = exp_dependencies
+
+    @experiment_obj.setter
+    def experiment_obj(self, exp_obj):
+        """
+
+        @param exp_obj:
+        @return:
+        """
+        self.experiment_obj = exp_obj
+
+    def define_all_tasks(self):
+        """
+        Cria um dicionário para mapear todas as tarefas
+
+        @return: dict
         """
         tasks = {
             "dataset": self.task_factory.create("dataset"),
@@ -70,45 +131,41 @@ class Experiment(AbstractExperiment):
 
     def run(self):
         """
+        Função responsável pela execução do experimento.
 
-        @return:
+
+        @return: Um arquivo YAML seguindo o padrão do Xperimentor
         """
-        instances = self.create_experiment_instances(self.config_obj)
+        self.instances = self.create_experiment_instances(self.experiment_obj)
 
         xperimentor = Xperimentor()
 
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
-            experiment_obj=self.config_obj,
+            experiment_obj=self.experiment_obj,
             experiment_dependencies=self.experiment_dependencies
         )
 
         print("Xperimentor config obj")
         print(xperimentor_config_obj)
 
-        dataset = instances['datasets']
-        preprocessing = instances['preprocessing']
-        metafeatures = instances['metafeatures']
-        recommenders = instances['recommenders']
-        metrics = instances['metrics']
-        results = instances['results']
+        loader = Loader()
 
-        #Todas as possíveis tarefas do framework
+        dataset = self.instances['datasets']
+        preprocessing = self.instances['preprocessing']
+        metafeatures = self.instances['metafeatures']
+        recommenders = self.instances['recommenders']
+        metrics = self.instances['metrics']
+        results = self.instances['results']
+
+        loader.convert_to("csv", dataset.ratings, "ratings.csv")
+
+        # Todas as possíveis tarefas do framework
         dataset_task = self.tasks['dataset']
-        preprocessing_task = self.tasks['preprocessing'](dataset, preprocessing)
-        algorithms_task = self.tasks['algorithms']()
-        metrics_task = self.tasks['metrics']()
-        results_task = self.tasks['results']()
-        metafeatures_task = self.tasks['metafeatures'](dataset)
-
-        preprocessing = preprocessing_task.run()
-        dataset = dataset_task.run()
-        metrics = metrics_task.run()
-        metafeatures = metafeatures_task.run()
-        recommenders = algorithms_task.run()
-        results = results_task.run()
-
-
-
+        preprocessing_task = self.tasks['preprocessing']
+        algorithms_task = self.tasks['algorithms']
+        metrics_task = self.tasks['metrics']
+        results_task = self.tasks['results']
+        metafeatures_task = self.tasks['metafeatures']
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -118,6 +175,26 @@ class Experiment(AbstractExperiment):
         """
 
         pass
+
+    @property
+    def datasets(self):
+        return self.datasets
+
+    @property
+    def recommenders(self):
+        return self.recommenders
+
+    @property
+    def preprocessing(self):
+        return self.preprocessing
+
+    @property
+    def metrics(self):
+        return self.metrics
+
+    @property
+    def results(self):
+        return self.results
 
     def deploy_apps(self):
         task_executor = TaskExecutor()
@@ -141,11 +218,11 @@ class Experiment(AbstractExperiment):
 
     def create_experiment_instances(self, config_obj) -> dict:
         """
-
+        Faz a criação de todas as instâncias do programa utilizando do arquivo de configuração
 
 
         @param config_obj:
-        @return:
+        @return: dict
         """
 
         instance_factory = InstanceFactory(config_obj)
