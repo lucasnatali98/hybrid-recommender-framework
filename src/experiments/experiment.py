@@ -30,14 +30,14 @@ class Experiment(AbstractExperiment):
 
         """
 
-    experiment_id: str
-    datasets: object
-    preprocessing: object
-    metrics: object
-    metafeatures: object
-    results: object
-    visualization: object
-    recommenders: object
+    _experiment_id: str
+    _datasets: object
+    _preprocessing: object
+    _metrics: object
+    _metafeatures: object
+    _results: object
+    _visualization: object
+    _recommenders: object
 
     def __init__(self, experiment_obj: dict, experiment_dependencies: dict = None,
                  recipes_default: dict = None) -> None:
@@ -46,20 +46,20 @@ class Experiment(AbstractExperiment):
         """
 
         # Informações provenientes do arquivo de configuração
-        self.experiment_dependencies = experiment_dependencies
-        self.recipes_default = recipes_default
-        self.experiment_obj = experiment_obj
-        self.experiment_id = experiment_obj['experiment_id']
+        self._experiment_dependencies = experiment_dependencies
+        self._recipes_default = recipes_default
+        self._experiment_obj = experiment_obj
+        self._experiment_id = experiment_obj['experiment_id']
 
         # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
-        self.task_factory = TaskFactory()
-        self.tasks = self.define_all_tasks()
+        self._task_factory = TaskFactory()
+        self._tasks = self.define_all_tasks()
 
         # Definição de todas as instâncias baseado no experimento
         instances_obj = self.create_experiment_instances(experiment_obj)
         self._set_attributes(instances_obj)
 
-        self.instances = None
+        self._instances = None
 
     @property
     def experiment_obj(self):
@@ -68,7 +68,7 @@ class Experiment(AbstractExperiment):
 
         @return: experiment_obj
         """
-        return self.experiment_obj
+        return self._experiment_obj
 
     @property
     def experiment_dependencies(self):
@@ -76,7 +76,7 @@ class Experiment(AbstractExperiment):
 
         @return:
         """
-        return self.experiment_dependencies
+        return self._experiment_dependencies
 
     @property
     def recipes_default(self):
@@ -84,7 +84,7 @@ class Experiment(AbstractExperiment):
 
         @return:
         """
-        return self.recipes_default
+        return self._recipes_default
 
     @recipes_default.setter
     def recipes_default(self, recipes):
@@ -93,7 +93,7 @@ class Experiment(AbstractExperiment):
         @param recipes:
         @return:
         """
-        self.recipes_default = recipes
+        self._recipes_default = recipes
 
     @experiment_dependencies.setter
     def experiment_dependencies(self, exp_dependencies):
@@ -102,7 +102,7 @@ class Experiment(AbstractExperiment):
         @param exp_dependencies:
         @return:
         """
-        self.experiment_dependencies = exp_dependencies
+        self._experiment_dependencies = exp_dependencies
 
     @experiment_obj.setter
     def experiment_obj(self, exp_obj):
@@ -111,7 +111,7 @@ class Experiment(AbstractExperiment):
         @param exp_obj:
         @return:
         """
-        self.experiment_obj = exp_obj
+        self._experiment_obj = exp_obj
 
     def define_all_tasks(self):
         """
@@ -120,12 +120,12 @@ class Experiment(AbstractExperiment):
         @return: dict
         """
         tasks = {
-            "dataset": self.task_factory.create("dataset"),
-            "preprocessing": self.task_factory.create("preprocessing"),
-            "algorithms": self.task_factory.create("algorithms"),
-            "metrics": self.task_factory.create("metrics"),
-            "results": self.task_factory.create("results"),
-            "metafeatures": self.task_factory.create("metafeatures")
+            "dataset": self._task_factory.create("dataset"),
+            "preprocessing": self._task_factory.create("preprocessing"),
+            "algorithms": self._task_factory.create("algorithms"),
+            "metrics": self._task_factory.create("metrics"),
+            "results": self._task_factory.create("results"),
+            "metafeatures": self._task_factory.create("metafeatures")
         }
         return tasks
 
@@ -141,8 +141,8 @@ class Experiment(AbstractExperiment):
         xperimentor = Xperimentor()
 
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
-            experiment_obj=self.experiment_obj,
-            experiment_dependencies=self.experiment_dependencies
+            experiment_obj=self._experiment_obj,
+            experiment_dependencies=self._experiment_dependencies
         )
 
         print("Xperimentor config obj")
@@ -150,22 +150,22 @@ class Experiment(AbstractExperiment):
 
         loader = Loader()
 
-        dataset = self.instances['datasets']
-        preprocessing = self.instances['preprocessing']
-        metafeatures = self.instances['metafeatures']
-        recommenders = self.instances['recommenders']
-        metrics = self.instances['metrics']
-        results = self.instances['results']
+        dataset = self._instances['datasets']
+        preprocessing = self._instances['preprocessing']
+        metafeatures = self._instances['metafeatures']
+        recommenders = self._instances['recommenders']
+        metrics = self._instances['metrics']
+        results = self._instances['results']
 
         loader.convert_to("csv", dataset.ratings, "ratings.csv")
 
         # Todas as possíveis tarefas do framework
-        dataset_task = self.tasks['dataset']
-        preprocessing_task = self.tasks['preprocessing']
-        algorithms_task = self.tasks['algorithms']
-        metrics_task = self.tasks['metrics']
-        results_task = self.tasks['results']
-        metafeatures_task = self.tasks['metafeatures']
+        dataset_task = self._tasks['dataset']
+        preprocessing_task = self._tasks['preprocessing']
+        algorithms_task = self._tasks['algorithms']
+        metrics_task = self._tasks['metrics']
+        results_task = self._tasks['results']
+        metafeatures_task = self._tasks['metafeatures']
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -178,23 +178,59 @@ class Experiment(AbstractExperiment):
 
     @property
     def datasets(self):
-        return self.datasets
+        return self._datasets
+
+    @datasets.setter
+    def datasets(self, ds):
+        self._datasets = ds
 
     @property
     def recommenders(self):
-        return self.recommenders
+        return self._recommenders
+
+    @recommenders.setter
+    def recommenders(self, rec):
+        self._recommenders = rec
 
     @property
     def preprocessing(self):
-        return self.preprocessing
+        return self._preprocessing
+
+    @preprocessing.setter
+    def preprocessing(self, ps):
+        self._preprocessing = ps
 
     @property
     def metrics(self):
-        return self.metrics
+        return self._metrics
+
+    @metrics.setter
+    def metrics(self, m):
+        self._metrics = m
 
     @property
     def results(self):
-        return self.results
+        return self._results
+
+    @results.setter
+    def results(self, r):
+        self._results = r
+
+    @property
+    def metafeatures(self):
+        return self._metafeatures
+
+    @metafeatures.setter
+    def metafeatures(self, meta):
+        self._metafeatures = meta
+
+    @property
+    def visualization(self):
+        return self.visualization
+
+    @visualization.setter
+    def visualization(self, v):
+        self._visualization = v
 
     def deploy_apps(self):
         task_executor = TaskExecutor()
@@ -208,13 +244,13 @@ class Experiment(AbstractExperiment):
         # xperimentor_output_deploy = xperimentor.deploy()
 
     def _set_attributes(self, instances: dict):
-        self.datasets = instances['datasets']
-        self.metafeatures = instances['metafeatures']
-        self.preprocessing = instances['preprocessing']
-        self.results = instances['results']
-        self.visualization = instances['visualization']
-        self.recommenders = instances['recommenders']
-        self.metrics = instances['metrics']
+        self._datasets = instances['datasets']
+        self._metafeatures = instances['metafeatures']
+        self._preprocessing = instances['preprocessing']
+        self._results = instances['results']
+        self._visualization = instances['visualization']
+        self._recommenders = instances['recommenders']
+        self._metrics = instances['metrics']
 
     def create_experiment_instances(self, config_obj) -> dict:
         """

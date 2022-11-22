@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def object_equals_type(obj, object_type):
     """
 
@@ -35,3 +37,9 @@ def is_structure_empty(structure):
         return True
 
     return False
+
+
+def get_project_root() -> Path:
+    root_path = Path(__file__).parent.parent
+    return root_path
+

@@ -1,6 +1,11 @@
 import pandas
 import pandas as pd
 import json
+import pathlib
+import os
+from src.utils import get_project_root
+
+ROOT_PATH = get_project_root()
 
 
 class Loader:
@@ -9,11 +14,13 @@ class Loader:
 
         """
 
+
+
     def load_json_file(self, path):
         """
 
         """
-        file = open(path)
+        file = open(ROOT_PATH.joinpath(path))
 
         return json.load(file)
 
@@ -39,13 +46,13 @@ class Loader:
         """
 
         """
-        return pandas.read_csv(path)
+        return pandas.read_csv(ROOT_PATH.joinpath(path))
 
     def load_excel_file(self, path):
         """
 
         """
-        return pandas.read_excel(io=path)
+        return pandas.read_excel(io=ROOT_PATH.joinpath(path))
 
     def convert_to(self, to, data, path):
         """
@@ -70,11 +77,14 @@ class Loader:
         """
 
         if isinstance(data, pandas.DataFrame):
-            return data.to_csv("data_storage/temp_files/" + path)
+            new_path = "data_storage/temp_files/" + path
+
+            return data.to_csv(ROOT_PATH.joinpath(new_path))
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_csv("data_storage/temp_files/" + path)
+                new_path = "data_storage/temp_files/" + path
+                return data.to_csv(ROOT_PATH.joinpath(new_path))
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
 
@@ -89,6 +99,7 @@ class Loader:
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_excel("data_storage/temp_files" + path)
+                new_path = "data_storage/temp_files/" + path
+                return data.to_excel(ROOT_PATH.joinpath(new_path))
             except:
                 raise Exception("Não foi possível converter para excel")

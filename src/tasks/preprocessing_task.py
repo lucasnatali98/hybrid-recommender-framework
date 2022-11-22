@@ -6,7 +6,7 @@ from src.tasks.task import Task
 
 class PreProcessingTask(Task):
     def __init__(self, args):
-        self.dataset = args[1]
+        self.dataset = args
 
     def check_args(self, args):
         """

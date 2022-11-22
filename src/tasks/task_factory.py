@@ -1,6 +1,5 @@
 import inspect
 import sys
-from src.tasks import *
 import importlib
 
 task_map = {
