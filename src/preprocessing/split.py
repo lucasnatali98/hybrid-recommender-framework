@@ -10,7 +10,6 @@ class SplitProcessing(AbstractPreProcessing):
         
         """
         super().__init__()
-        print(parameters)
         self.test_size = parameters['test_size']
         self.train_size = parameters['train_size']
         self.random_state = parameters['random_state']

@@ -8,7 +8,7 @@ class NormalizeProcessing(AbstractPreProcessing):
         """
 
         """
-        print("Normalize processing")
+
         self.norm = parameters['norm']
         self.axis = parameters['axis']
         self.copy = parameters['copy']
