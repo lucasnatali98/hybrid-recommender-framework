@@ -2,8 +2,8 @@ import sys
 import subprocess
 from src.data.loader import Loader
 from src.tasks.task import Task
-
 from src.experiments.experiment import Experiment
+from src.experiments.experiment_handler import ExperimentHandler
 
 
 class DatasetTask(Task):
@@ -19,13 +19,14 @@ class DatasetTask(Task):
         """
         pass
 
-    def run(self, dataset=None):
+    def run(self):
         """
+        Essa função irá realizar todos os processos definidos para o conjunto de dados
+        a partir do arquivo de configuração
 
         @return:
         """
-        # loader = Loader()
-        # dataset = loader.load_csv_file("data_storage/temp_files/ratings.csv")
+
         dataset = self._handle_with_dataset(self.dataset_instance)
         return dataset
 
@@ -35,18 +36,10 @@ class DatasetTask(Task):
 
 
 def main():
-    loader = Loader()
 
-    config_obj = loader.load_json_file("config.json")
-    experiments = config_obj['experiments']
-    cluster_info = config_obj['cluster_info']
-    recipes_default = config_obj['recipesDefault']
-    experiment_dependencies = config_obj['experiment_dependencies']
-    experiment = Experiment(
-        experiment_obj=experiments[0],
-        recipes_default=recipes_default,
-        experiment_dependencies=experiment_dependencies
-    )
+    exp_handler = ExperimentHandler()
+
+    experiment = exp_handler.create_experiment_instance()
 
     dataset_instance = experiment.datasets
 
@@ -57,4 +50,4 @@ def main():
     dataset_result = dataset_task.run()
     return dataset_result
 
-main()
+print(main())

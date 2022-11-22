@@ -40,6 +40,11 @@ def is_structure_empty(structure):
 
 
 def get_project_root() -> Path:
+    """
+    Função para retornar o caminho para o diretório root da aplicação
+
+    @return: Path: <your_local_path_to_hybrid_recommender_framework>
+    """
     root_path = Path(__file__).parent.parent
     return root_path
 
