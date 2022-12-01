@@ -173,9 +173,12 @@
               "module": "src.recommenders.item_knn",
               "class_name": "ItemKNN",
               "parameters": {
-                "param1": "",
-                "param2": "",
-                "param3": ""
+                "maxNumberNeighbors": 1,
+                "minNumberNeighbors": 2,
+                "saveNeighbors": 3.0,
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
               }
             },
             {
@@ -194,7 +197,9 @@
                 "maxNumberNeighbors": 1,
                 "minNumberNeighbors": 2,
                 "min_sim": "",
-                "feedback": "implicit"
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
               }
             }
           ]

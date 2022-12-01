@@ -136,7 +136,7 @@ class Experiment(AbstractExperiment):
 
         @return: Um arquivo YAML seguindo o padrão do Xperimentor
         """
-        self.instances = self.create_experiment_instances(self.experiment_obj)
+        self._instances = self.create_experiment_instances(self.experiment_obj)
 
         xperimentor = Xperimentor()
 

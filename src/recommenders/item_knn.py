@@ -1,4 +1,3 @@
-
 from src.recommenders.recommender import Recommender
 
 
@@ -7,9 +6,13 @@ class ItemKNN(Recommender):
         """
         
         """
-        print("Item KNN constructor")
-        print(parameters)
 
+        self.max_number_neighbors = parameters['maxNumberNeighbors']
+        self.min_number_neighbors = parameters['minNumberNeighbors']
+        self.save_nbrs = parameters['saveNeighbors']
+        self.feedback = parameters['feedback']
+        self.aggregate = parameters['aggregate']
+        self.use_ratings = parameters['use_ratings']
 
     def process_parameters(self, parameters: dict) -> dict:
         """
