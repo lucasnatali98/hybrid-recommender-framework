@@ -7,6 +7,8 @@ class BiasedSVD(Recommender):
 
         """
 
+        self.process_parameters(parameters)
+
         self.features = parameters['features']
         self.damping = parameters['damping']
         self.bias = parameters['bias']
@@ -19,7 +21,20 @@ class BiasedSVD(Recommender):
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        pass
+
+        default_keys = [
+            'damping',
+            'features',
+            'bias',
+            'algorithm'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
 
     def predict_for_users(self, users, items, ratings):
         """

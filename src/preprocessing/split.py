@@ -17,6 +17,27 @@ class SplitProcessing(AbstractPreProcessing):
         self.stratify = parameters['stratify']
 
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+
+        default_keys = [
+            'test_size',
+            'train_size',
+            'random_state'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
+
     def pre_processing(self, data, **kwargs):
         """
 
@@ -56,12 +77,4 @@ class SplitProcessing(AbstractPreProcessing):
         pass
 
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass
 
