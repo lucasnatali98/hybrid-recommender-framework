@@ -28,6 +28,24 @@ class EncodingProcessing(AbstractPreProcessing):
 
         self.encoding_type = encoding[0]
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        default_keys = [
+            'encoding_type'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
+
     def _create_encoding_instance(self):
         """
 
@@ -53,12 +71,5 @@ class EncodingProcessing(AbstractPreProcessing):
         data = data.reshape(1, -1)
         return encoding_instance.fit_transform(data)
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass
 

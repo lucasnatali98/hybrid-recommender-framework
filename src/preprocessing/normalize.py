@@ -8,12 +8,34 @@ class NormalizeProcessing(AbstractPreProcessing):
         """
 
         """
-
+        super().__init__()
+        self.process_parameters(parameters)
         self.norm = parameters['norm']
         self.axis = parameters['axis']
         self.copy = parameters['copy']
         self.return_norm = parameters['return_norm']
-        super().__init__()
+
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        default_keys = [
+            'norm',
+            'axis',
+            'copy',
+            'return_norm'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
 
     def pre_processing(self, data, **kwargs):
         """
@@ -34,12 +56,3 @@ class NormalizeProcessing(AbstractPreProcessing):
             return_norm=self.return_norm
         )
 
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass

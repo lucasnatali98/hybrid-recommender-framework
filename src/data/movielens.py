@@ -15,7 +15,7 @@ class MovieLens(AbstractDataSet):
 
     """
 
-    def __init__(self, config_obj: dict) -> None:
+    def __init__(self, parameters: dict) -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
 
@@ -23,20 +23,46 @@ class MovieLens(AbstractDataSet):
 
         """
         super().__init__()
-        proportion = str(config_obj['proportion'])
+        proportion = str(parameters['proportion'])
 
         if not self._is_proportion_valid(proportion):
             raise Exception(
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"
             )
 
-        self.config_obj = config_obj
+        self.config_obj = parameters
+        self.process_parameters(parameters)
+        self.folds = parameters['folds']
+        self.shuffle = parameters['shuffle']
+        self.random_state = parameters['random_state']
+        self.strategy = parameters['strategy']
+        self.filters = parameters['filters']
+
         self.proportion = proportion
         self.basePath = "data_storage/"
         self.dataset = self._get_dataset()
         self.genomeScores = None
         self.genomeTags = None
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        default_keys = [
+            'proportion',
+            'folds',
+            'strategy'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
     def _is_proportion_valid(self, proportion) -> bool:
         """
         Check if the proportion of movielens dataset is valid
@@ -213,14 +239,6 @@ class MovieLens(AbstractDataSet):
             self.tags,
         ]
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass
 
 
     @property
