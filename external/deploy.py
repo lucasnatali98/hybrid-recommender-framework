@@ -41,6 +41,8 @@ class Xperimentor:
 
 
 
+
+
         #Refactor
         self.xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
         self.xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
@@ -50,7 +52,7 @@ class Xperimentor:
         self.xperimentor_pattern_obj['recipes'][0]['uses']['Eval'] = self._set_eval_recipes(metrics)
         self.xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
-
+        print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
     def _set_database_recipes(self, database: dict) -> list:

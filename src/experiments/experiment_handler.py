@@ -36,17 +36,21 @@ class ExperimentHandler(Container):
     def process_parameters(self, parameters: dict) -> dict:
         """
 
+
         @param parameters: objeto com os parâmetros da classe
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        experiment = parameters[0]
-
+        #experiment = parameters[0]
+        pass
 
     def create_experiment_instance(self):
         """
-        Essa função cria uma instancia de um experimento a partir dos arquivos de configuração
-        @return:
+        Essa função cria uma instancia de um experimento a partir dos arquivos de configuração,
+        uma instancia de um experimento envolve todas as classes presentes no experimento, ou seja,
+        teremos instancia de um dataset, de diferentes pre-processamentos, algoritmos, dentre outros.
+
+        @return: Experiment
         """
 
         loader = Loader()
