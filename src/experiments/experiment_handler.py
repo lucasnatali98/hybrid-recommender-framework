@@ -11,6 +11,8 @@ class ExperimentHandler(Container):
         """
         super().__init__()
 
+        self.process_parameters(experiments)
+
         if experiments is None:
             pass
         else:
@@ -18,7 +20,6 @@ class ExperimentHandler(Container):
                 experiment_obj=experiments[0],
                 experiment_dependencies=experiment_dependencies,
                 recipes_default=recipes_default
-
             )
 
             # Insere na estrutura de armazenamento dos experimentos
@@ -39,7 +40,8 @@ class ExperimentHandler(Container):
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        pass
+        experiment = parameters[0]
+
 
     def create_experiment_instance(self):
         """
@@ -51,7 +53,9 @@ class ExperimentHandler(Container):
 
         config_obj = loader.load_json_file("config.json")
         experiments = config_obj['experiments']
+
         cluster_info = config_obj['cluster_info']
+
         recipes_default = config_obj['recipesDefault']
         experiment_dependencies = config_obj['experiment_dependencies']
         experiment = Experiment(
