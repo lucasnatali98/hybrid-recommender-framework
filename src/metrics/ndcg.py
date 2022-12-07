@@ -26,6 +26,14 @@ class NDCG(RankingMetric):
         """
         pass
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        pass
+
 
 class NDCGLenskit(RankingMetric):
     """

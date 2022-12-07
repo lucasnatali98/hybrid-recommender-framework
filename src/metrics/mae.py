@@ -60,3 +60,11 @@ class MAELensKit(PredictionMetric):
 
         """
         pass
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        pass

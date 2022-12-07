@@ -8,6 +8,14 @@ class StaticScatter(StaticPlot):
         """
         pass
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        pass
+
     def plot(self):
         """
 

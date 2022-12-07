@@ -31,6 +31,19 @@ task_map = {
 
 
 class TaskFactory:
+    """
+    Classe responsável pela criação de instancias de tarefas, essas tarefas são divididas assim como os módulos
+    desse framework, teremos tarefas dos seguintes tipos:
+
+    - Dataset task
+    - Preprocessing task
+    - Metafeatures task
+    - Metrics task
+    - Visualization task
+    - Results task
+
+
+    """
     def __init__(self) -> None:
         """
 
@@ -39,9 +52,10 @@ class TaskFactory:
 
     def create(self, task_type: str):
         """
+        Função para fazer a criação de cara tarefa
 
-        @param task_type:
-        @return:
+        @param task_type: tipo da tarefa de acordo com cada módulo do framework
+        @return: instance of task
         """
         task = task_map[task_type]
         task_module = task['module']
