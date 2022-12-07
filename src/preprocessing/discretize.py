@@ -23,3 +23,13 @@ class DiscretizeProcessing(AbstractPreProcessing):
         data = encoder.fit_transform(data)
 
         return data
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+        pass
+

@@ -11,6 +11,8 @@ define(function (require) {
   /* =================== private functions ================= */
 
   function generateTaskMap(tasks) {
+    console.log("tasks in generate task map: ")
+    console.log(tasks)
     let taskMap = new Map();
     for (const taskRawData of tasks) {
       const task = new Task(taskRawData);

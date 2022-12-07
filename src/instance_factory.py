@@ -31,9 +31,6 @@ class InstanceFactory:
         @param config_obj:
         """
 
-
-        print("Config object: ", config_obj)
-
         self.config_obj = config_obj
 
 
@@ -45,8 +42,11 @@ class InstanceFactory:
         @return: um dicionário contendo informações para que seja criada a instância
         """
         for key, value in self.config_obj.items():
-            if value['class'] == class_name:
-                return value
+            if isinstance(value, str):
+                pass
+            if isinstance(value, dict):
+                if value['class'] == class_name:
+                    return value
 
     def create_instance(self, instance: dict):
         """
@@ -67,7 +67,5 @@ class InstanceFactory:
         class_ = getattr(module, class_name)
 
         class_object = class_(class_parameters)
-
-
         return class_object
 

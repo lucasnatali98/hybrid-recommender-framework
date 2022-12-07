@@ -1,12 +1,14 @@
 from src.recommenders.recommender import Recommender
-
+from surprise import SlopeOne as SlopeOneSurprise
 
 class SlopeOne(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
         
         """
-        pass
+
+        self.slope_one = SlopeOneSurprise()
+
 
     def predict_for_users(self, users, items, ratings):
         """
@@ -16,7 +18,7 @@ class SlopeOne(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        raise Exception("O método não está implementado para essa classe")
 
     def predict(self, pairs, ratings):
         """
@@ -25,9 +27,9 @@ class SlopeOne(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, algorithm, user, n, candidates, ratings):
         """
 
         @param user:
@@ -36,14 +38,14 @@ class SlopeOne(Recommender):
         @param ratings:
         @return:
         """
-        pass
 
-    def fit(self):
+
+    def fit(self, data, **kwargs):
         """
 
         @return:
         """
-        pass
+        return self.slope_one.fit(data)
 
 
     def get_params(self, deep = True):

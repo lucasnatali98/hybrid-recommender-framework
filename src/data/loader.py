@@ -1,6 +1,11 @@
 import pandas
 import pandas as pd
 import json
+import pathlib
+import os
+from src.utils import get_project_root
+
+ROOT_PATH = get_project_root()
 
 
 class Loader:
@@ -8,14 +13,18 @@ class Loader:
         """
 
         """
+        pass
+
+
 
     def load_json_file(self, path):
         """
 
         """
-        file = open(path)
+        file = open(ROOT_PATH.joinpath(path))
 
         return json.load(file)
+
 
     def load_file(self, path, extension):
         """
@@ -38,15 +47,15 @@ class Loader:
         """
 
         """
-        return pandas.read_csv(path)
+        return pandas.read_csv(ROOT_PATH.joinpath(path))
 
     def load_excel_file(self, path):
         """
 
         """
-        return pandas.read_excel(io=path)
+        return pandas.read_excel(io=ROOT_PATH.joinpath(path))
 
-    def convert_to(self, to, data):
+    def convert_to(self, to, data, path):
         """
 
         """
@@ -54,29 +63,33 @@ class Loader:
 
         if to in to_possibilities:
             if to == "csv":
-                return self.convert_to_csv(data)
+                return self.convert_to_csv(data, path)
             if to == "excel":
-                return self.convert_to_excel(data)
+                return self.convert_to_excel(data, path)
 
         return None
 
-    def convert_to_csv(self, data):
+    def convert_to_csv(self, data, path):
         """
         Convert a dataframe to .csv file
 
         @data: pd.DataFrame
 
         """
+
         if isinstance(data, pandas.DataFrame):
-            return data.to_csv()
+            new_path = "data_storage/temp_files/" + path
+
+            return data.to_csv(ROOT_PATH.joinpath(new_path))
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_csv()
+                new_path = "data_storage/temp_files/" + path
+                return data.to_csv(ROOT_PATH.joinpath(new_path))
             except:
-                raise Exception("Deu erro m")
+                raise Exception("Não foi possível gravar o arquivo .csv")
 
-    def convert_to_excel(self, data):
+    def convert_to_excel(self, data, path):
         """
         Convert a dataframe to excel file
 
@@ -87,6 +100,7 @@ class Loader:
         else:
             try:
                 data = pd.DataFrame(data)
-                return data.to_excel()
+                new_path = "data_storage/temp_files/" + path
+                return data.to_excel(ROOT_PATH.joinpath(new_path))
             except:
-                raise Exception("deu erro ai")
+                raise Exception("Não foi possível converter para excel")

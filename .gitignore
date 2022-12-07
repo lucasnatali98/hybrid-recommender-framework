@@ -1,6 +1,7 @@
 /venv
 __pypache__/
-
+dist/
+build/
 data_storage/
 *.zip
 *.pyc
