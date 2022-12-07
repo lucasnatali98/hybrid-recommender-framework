@@ -7,7 +7,9 @@ from src.tasks.task_factory import TaskFactory
 
 
 class AbstractExperiment(ABC):
-
+    """
+    Interface para os experimentos
+    """
     @abstractmethod
     def run(self):
         """
@@ -28,7 +30,7 @@ class AbstractExperiment(ABC):
 class Experiment(AbstractExperiment):
     """
 
-        """
+    """
 
     _experiment_id: str
     _datasets: object
@@ -39,7 +41,7 @@ class Experiment(AbstractExperiment):
     _visualization: object
     _recommenders: object
 
-    def __init__(self, experiment_obj: dict, experiment_dependencies: dict = None,
+    def __init__(self, experiments: list, experiment_dependencies: dict = None,
                  recipes_default: dict = None) -> None:
         """
 
@@ -48,15 +50,14 @@ class Experiment(AbstractExperiment):
         # Informações provenientes do arquivo de configuração
         self._experiment_dependencies = experiment_dependencies
         self._recipes_default = recipes_default
-        self._experiment_obj = experiment_obj
-        self._experiment_id = experiment_obj['experiment_id']
+        self.experiments = experiments
 
         # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
         self._task_factory = TaskFactory()
         self._tasks = self.define_all_tasks()
 
         # Definição de todas as instâncias baseado no experimento
-        instances_obj = self.create_experiment_instances(experiment_obj)
+        instances_obj = self.create_experiment_instances(experiments)
         self._set_attributes(instances_obj)
 
         self._instances = None
@@ -127,6 +128,7 @@ class Experiment(AbstractExperiment):
             "results": self._task_factory.create("results"),
             "metafeatures": self._task_factory.create("metafeatures")
         }
+
         return tasks
 
     def run(self):
@@ -178,50 +180,104 @@ class Experiment(AbstractExperiment):
 
     @property
     def datasets(self):
+        """
+
+        @return:
+        """
         return self._datasets
 
     @datasets.setter
     def datasets(self, ds):
+        """
+
+        @param ds:
+        @return:
+        """
         self._datasets = ds
 
     @property
     def recommenders(self):
+        """
+
+        @return:
+        """
         return self._recommenders
 
     @recommenders.setter
     def recommenders(self, rec):
+        """
+
+        @param rec:
+        @return:
+        """
         self._recommenders = rec
 
     @property
     def preprocessing(self):
+        """
+
+        @return:
+        """
         return self._preprocessing
 
     @preprocessing.setter
     def preprocessing(self, ps):
+        """
+
+        @param ps:
+        @return:
+        """
         self._preprocessing = ps
 
     @property
     def metrics(self):
+        """
+
+        @return:
+        """
         return self._metrics
 
     @metrics.setter
     def metrics(self, m):
+        """
+
+        @param m:
+        @return:
+        """
         self._metrics = m
 
     @property
     def results(self):
+        """
+
+        @return:
+        """
         return self._results
 
     @results.setter
     def results(self, r):
+        """
+
+        @param r:
+        @return:
+        """
         self._results = r
 
     @property
     def metafeatures(self):
+        """
+
+        @return:
+        """
         return self._metafeatures
 
     @metafeatures.setter
     def metafeatures(self, meta):
+        """
+
+        @param meta:
+        @return:
+        """
         self._metafeatures = meta
 
     @property
@@ -243,7 +299,10 @@ class Experiment(AbstractExperiment):
         # xperimentor_output_build = xperimentor.build()
         # xperimentor_output_deploy = xperimentor.deploy()
 
-    def _set_attributes(self, instances: dict):
+    def _set_attributes(self, instances: list):
+
+        instances = instances[0]['exp1']
+        print("Instances: ", instances)
         self._datasets = instances['datasets']
         self._metafeatures = instances['metafeatures']
         self._preprocessing = instances['preprocessing']
@@ -252,7 +311,7 @@ class Experiment(AbstractExperiment):
         self._recommenders = instances['recommenders']
         self._metrics = instances['metrics']
 
-    def create_experiment_instances(self, config_obj) -> dict:
+    def create_experiment_instances(self, experiments) -> list:
         """
         Faz a criação de todas as instâncias do programa utilizando do arquivo de configuração
 
@@ -260,33 +319,66 @@ class Experiment(AbstractExperiment):
         @param config_obj:
         @return: dict
         """
+        instances = []
+        for experiment in experiments:
+            instance_factory = InstanceFactory(experiment)
 
-        instance_factory = InstanceFactory(config_obj)
+            dataset_class_name = experiment['dataset']['class']
+            preprocessing_class_name = experiment['preprocessing']['class']
+            metrics_class_name = experiment['metrics']['class']
+            metafeatures_class_name = experiment['metafeatures']['class']
+            recommenders_class_name = experiment['recommenders']['class']
+            visualization_class_name = experiment['visualization']['class']
+            results_class_name = experiment['results']['class']
 
-        dataset_dict = instance_factory.get_instance_from_config_obj("MovieLens")
+            experiment_id = experiment['experiment_id']
+            print("experiment id: ", experiment_id)
 
-        pre_processing_instance_dict = instance_factory.get_instance_from_config_obj("PreProcessingContainer")
+            experiment_classes = {
+                "dataset": dataset_class_name,
+                "preprocessing": preprocessing_class_name,
+                "metefeatures": metafeatures_class_name,
+                "metrics_class_name": metrics_class_name,
+                "recommenders_class_name": recommenders_class_name,
+                "visualization_class_name": visualization_class_name,
+                "results_class_name": results_class_name
+            }
 
-        metrics_instance_dict = instance_factory.get_instance_from_config_obj("MetricsContainer")
-        metafeatures_instance_dict = instance_factory.get_instance_from_config_obj("MetaFeatureContainer")
-        recommenders_instance_dict = instance_factory.get_instance_from_config_obj("RecommendersContainer")
-        visualization_instance_dict = instance_factory.get_instance_from_config_obj("VisualizationContainer")
-        results_instance_dict = instance_factory.get_instance_from_config_obj("ResultsContainer")
+            for key, value in experiment_classes.items():
+                instance = instance_factory.get_instance_from_config_obj(value)
+                dataset_instance = None
+                preprocessing_instance = None
+                metrics_instance = None
+                metafeatures_instance = None
+                visualization_instance = None
+                recommenders_instance = None
+                results_instance = None
 
-        dataset_instance = instance_factory.create_instance(dataset_dict)
-        preprocessing_instance = instance_factory.create_instance(pre_processing_instance_dict)
-        metrics_instance = instance_factory.create_instance(metrics_instance_dict)
-        metafeatures_instance = instance_factory.create_instance(metafeatures_instance_dict)
-        recommenders_instance = instance_factory.create_instance(recommenders_instance_dict)
-        visualization_instance = instance_factory.create_instance(visualization_instance_dict)
-        results_instance = instance_factory.create_instance(results_instance_dict)
+                if key == "dataset":
+                    dataset_instance = instance_factory.create_instance(instance)
+                if key == "preprocessing":
+                    preprocessing_instance = instance_factory.create_instance(instance)
+                if key == "metrics":
+                    metrics_instance = instance_factory.create_instance(instance)
+                if key == "metafeatures":
+                    metafeatures_instance = instance_factory.create_instance(instance)
+                if key == "visualization":
+                    visualization_instance = instance_factory.create_instance(instance)
+                if key == "recommenders":
+                    recommenders_instance = instance_factory.create_instance(instance)
+                if key == "results":
+                    results_instance = instance_factory.create_instance(instance)
 
-        return {
-            "datasets": dataset_instance,
-            "preprocessing": preprocessing_instance,
-            "metrics": metrics_instance,
-            "metafeatures": metafeatures_instance,
-            "visualization": visualization_instance,
-            "recommenders": recommenders_instance,
-            "results": results_instance
-        }
+                exp_obj = {}
+                exp_obj[experiment_id] = {
+                    "datasets": dataset_instance,
+                    "preprocessing": preprocessing_instance,
+                    "metrics": metrics_instance,
+                    "metafeatures": metafeatures_instance,
+                    "visualization": visualization_instance,
+                    "recommenders": recommenders_instance,
+                    "results": results_instance
+                }
+                instances.append(exp_obj)
+
+        return instances

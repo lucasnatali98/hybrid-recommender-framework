@@ -83,59 +83,114 @@
           "IC"
         ]
       },
-      "recipes": {
-        "id": "ExBC",
-        "pruning": [
-          "Fold",
-          "Eval"
-        ],
-        "uses": {
-        "DB": [
-          "Bookcrossing"
-        ],
-        "Fold": [
-          "F1234-5",
-          "F1235-4",
-          "F1245-3",
-          "F1345-2",
-          "F2345-1"
-        ],
-        "MF": [
-          "PCR",
-          "PR",
-          "GINI",
-          "PEARSON",
-          "PQMEAN",
-          "SD"
-        ],
-        "Alg": [
-          "Sigmoid",
-          "Biased",
-          "MF",
-          "Uknn",
-          "SVD",
-          "Latent",
-          "Factor",
-          "BiPolar",
-          "SO"
-        ],
-        "HF": [
-          "STREAM",
-          "FWLS",
-          "HR"
-        ],
-        "Eval": [
-          "RMSE",
-          "F1",
-          "EPC",
-          "EILD"
-        ],
-        "Stats": [
-          "mean",
-          "IC"
-        ]
-      }
+      "recipes": [
+        {
+          "id": "ExBC",
+          "pruning": [
+            "Fold",
+            "Eval"
+          ],
+          "uses": {
+            "DB": [
+              "Bookcrossing"
+            ],
+            "Fold": [
+              "F1234-5",
+              "F1235-4",
+              "F1245-3",
+              "F1345-2",
+              "F2345-1"
+            ],
+            "MF": [
+              "PCR",
+              "PR",
+              "GINI",
+              "PEARSON",
+              "PQMEAN",
+              "SD"
+            ],
+            "Alg": [
+              "Sigmoid",
+              "Biased",
+              "MF",
+              "Uknn",
+              "SVD",
+              "Latent",
+              "Factor",
+              "BiPolar",
+              "SO"
+            ],
+            "HF": [
+              "STREAM",
+              "FWLS",
+              "HR"
+            ],
+            "Eval": [
+              "RMSE",
+              "F1",
+              "EPC",
+              "EILD"
+            ],
+            "Stats": [
+              "mean",
+              "IC"
+            ]
+          }
+        },
+        {
+          "id": "ExBC",
+          "pruning": [
+            "Fold",
+            "Eval"
+          ],
+          "uses": {
+            "DB": [
+              "Bookcrossing"
+            ],
+            "Fold": [
+              "F1234-5",
+              "F1235-4",
+              "F1245-3",
+              "F1345-2",
+              "F2345-1"
+            ],
+            "MF": [
+              "PCR",
+              "PR",
+              "GINI",
+              "PEARSON",
+              "PQMEAN",
+              "SD"
+            ],
+            "Alg": [
+              "Sigmoid",
+              "Biased",
+              "MF",
+              "Uknn",
+              "SVD",
+              "Latent",
+              "Factor",
+              "BiPolar",
+              "SO"
+            ],
+            "HF": [
+              "STREAM",
+              "FWLS",
+              "HR"
+            ],
+            "Eval": [
+              "RMSE",
+              "F1",
+              "EPC",
+              "EILD"
+            ],
+            "Stats": [
+              "mean",
+              "IC"
+            ]
+          }
+        }
+      ]
     }
-  }
   ]
 }

@@ -17,7 +17,7 @@ class ExperimentHandler(Container):
             pass
         else:
             experiment = Experiment(
-                experiment_obj=experiments[0],
+                experiments=experiments,
                 experiment_dependencies=experiment_dependencies,
                 recipes_default=recipes_default
             )
@@ -63,7 +63,7 @@ class ExperimentHandler(Container):
         recipes_default = config_obj['recipesDefault']
         experiment_dependencies = config_obj['experiment_dependencies']
         experiment = Experiment(
-            experiment_obj=experiments[0],
+            experiments = experiments,
             recipes_default=recipes_default,
             experiment_dependencies=experiment_dependencies
         )

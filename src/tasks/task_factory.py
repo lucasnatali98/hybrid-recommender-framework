@@ -32,9 +32,17 @@ task_map = {
 
 class TaskFactory:
     def __init__(self) -> None:
+        """
+
+        """
         pass
 
     def create(self, task_type: str):
+        """
+
+        @param task_type:
+        @return:
+        """
         task = task_map[task_type]
         task_module = task['module']
         task_class_name = task['class_name']

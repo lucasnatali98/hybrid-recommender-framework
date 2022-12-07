@@ -41,6 +41,7 @@ class Xperimentor:
 
 
 
+        recipes_length = len(experiment_obj)
 
 
         #Refactor
