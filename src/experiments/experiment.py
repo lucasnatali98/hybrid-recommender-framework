@@ -123,6 +123,13 @@ class Experiment(AbstractExperiment):
         """
         self._experiment_obj = exp_obj
 
+    def define_all_tasks_commands(self, tasks: dict) -> dict:
+        """
+
+        @param tasks:
+        @return:
+        """
+        pass
     def define_all_tasks(self):
         """
         Cria um dicionário para mapear todas as tarefas
@@ -149,9 +156,6 @@ class Experiment(AbstractExperiment):
             for task in default_tasks:
                 tasks[exp_id].update({task: self._task_factory.create(task)})
 
-
-
-
         return tasks
 
     def run(self):
@@ -168,7 +172,8 @@ class Experiment(AbstractExperiment):
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
             experiments=self._experiments,
             experiment_dependencies=self._experiment_dependencies,
-            recipes_default=self._recipes_default
+            recipes_default=self._recipes_default,
+            cluster_info=self.cluster_info
         )
 
         print("Xperimentor config obj")

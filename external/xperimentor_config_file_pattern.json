@@ -1,12 +1,6 @@
 {
   "clusterIp": "",
-  "tasks": [
-    {
-      "id": "",
-      "command": "",
-      "deps": []
-    }
-  ],
+  "tasks": [],
   "recipeDefaults": {
     "DB": [],
     "Fold": [],

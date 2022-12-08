@@ -12,7 +12,9 @@ class Xperimentor:
 
     def convert_to_xperimentor_pattern(self, experiments: list,
                                        experiment_dependencies: dict = None,
-                                       recipes_default: dict = None):
+                                       recipes_default: dict = None,
+                                       cluster_info: dict = None,
+                                       tasks: dict = None):
         """
 
         @return:
@@ -20,6 +22,10 @@ class Xperimentor:
         print("convert to xperimentor pattern")
         qtd_experiments = len(experiments)
 
+        experiment_ids = list(map(lambda x: x['id'], experiment_dependencies))
+        print("experiment_ids: ", experiment_ids)
+
+        cluster_ip = cluster_info['clusterIp']
         for i in range(0, qtd_experiments):
             dataset = experiments[i]['dataset']
             metafeatures = experiments[i]['metafeatures']
@@ -44,6 +50,8 @@ class Xperimentor:
 
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
         self.xperimentor_pattern_obj['recipeDefaults'] = self.convert_recipes_default(recipes_default)
+        self.xperimentor_pattern_obj['clusterIp'] = cluster_ip
+
 
 
 

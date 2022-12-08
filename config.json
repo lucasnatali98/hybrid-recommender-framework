@@ -12,10 +12,6 @@
     {
       "id": "exp2",
       "deps": ["exp1"]
-    },
-    {
-      "id": "exp3",
-      "deps": ["exp2"]
     }
   ],
   "recipesDefault": {

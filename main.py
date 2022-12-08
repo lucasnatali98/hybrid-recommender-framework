@@ -6,24 +6,6 @@ import sys
 from src.data.data_handler import DataHandler
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.folds import Folds
-"""
-experiment_handler = ExperimentHandler(config_obj)
-
-for exp in expeiment_handler.data:
-    exp.run()
-
-"""
-
-"""
-O que eu preciso fazer no mais alto nível da aplicação é organizar o
-arquivo yaml na parte dos comandos com a execução de arquivos python
-então teriamos vários processos de acordo com as etapas do arquivo de 
-configuração.
-
-"""
-
-
-
 
 if __name__ == "__main__":
     loader = Loader()
@@ -37,8 +19,6 @@ if __name__ == "__main__":
 
     experiment_dependencies = config_obj['experiment_dependencies']
 
-
-    print("Inicializando execução do framework...")
     experiment_handler = ExperimentHandler(
         experiments=experiments,
         experiment_dependencies=experiment_dependencies,
@@ -50,13 +30,12 @@ if __name__ == "__main__":
     path_to_config_file = "";
 
     args = sys.argv
-    print("CMD arguments: ", args)
 
     if len(args) == 0:
         path_to_config_file = "config.json"
     else:
         path_to_config_file = args[1]
 
-    print("Path to config file: ", path_to_config_file)
+
 
 
