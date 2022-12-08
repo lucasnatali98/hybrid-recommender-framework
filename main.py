@@ -37,18 +37,15 @@ if __name__ == "__main__":
 
     experiment_dependencies = config_obj['experiment_dependencies']
 
-    print("Informações do Cluster")
-    print(cluster_info)
 
-
-    print("Dependências dos experimentos")
-    print(experiment_dependencies)
-
-
-
-    experiment_handler = ExperimentHandler(experiments)
+    print("Inicializando execução do framework...")
+    experiment_handler = ExperimentHandler(
+        experiments=experiments,
+        experiment_dependencies=experiment_dependencies,
+        recipes_default=recipes_default,
+        cluster_info=cluster_info
+    )
     experiment_results = experiment_handler.run_experiments()
-    print("Experiment Results: ", experiment_results)
 
     path_to_config_file = "";
 

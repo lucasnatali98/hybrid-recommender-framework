@@ -5,7 +5,10 @@ from src.data.loader import Loader
 
 
 class ExperimentHandler(Container):
-    def __init__(self, experiments=None, experiment_dependencies: dict = None, recipes_default: dict = None) -> None:
+    def __init__(self, experiments=None,
+                 experiment_dependencies: dict = None,
+                 recipes_default: dict = None,
+                 cluster_info: dict=None) -> None:
         """
 
         """
@@ -19,7 +22,8 @@ class ExperimentHandler(Container):
             experiment = Experiment(
                 experiments=experiments,
                 experiment_dependencies=experiment_dependencies,
-                recipes_default=recipes_default
+                recipes_default=recipes_default,
+                cluster_info=cluster_info
             )
 
             # Insere na estrutura de armazenamento dos experimentos
@@ -66,7 +70,8 @@ class ExperimentHandler(Container):
         experiment = Experiment(
             experiments = experiments,
             recipes_default=recipes_default,
-            experiment_dependencies=experiment_dependencies
+            experiment_dependencies=experiment_dependencies,
+            cluster_info=cluster_info
         )
 
         return experiment

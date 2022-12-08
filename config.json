@@ -1,7 +1,8 @@
 {
   "cluster_info": {
     "clusterName": "autopilot-cluster-1",
-    "projectID": "thematic-mapper-364320"
+    "projectID": "thematic-mapper-364320",
+    "clusterIp": "10.123.222.10"
   },
   "experiment_dependencies": [
     {

@@ -16,6 +16,13 @@ class VisualizationTask(Task):
         """
         pass
 
+    def check_args(self, args):
+        """
+
+        @param args:
+        @return:
+        """
+        pass
     def run(self):
         """
 

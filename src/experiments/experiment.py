@@ -43,10 +43,18 @@ class Experiment(AbstractExperiment):
     _experiments: list
 
     def __init__(self, experiments: list, experiment_dependencies: dict = None,
-                 recipes_default: dict = None) -> None:
+                 recipes_default: dict = None, cluster_info: dict = None) -> None:
         """
 
         """
+
+        #Informação do cluster
+        print(cluster_info)
+        self.cluster_info = cluster_info
+        self.cluster_ip = self.cluster_info['clusterIp']
+        self.cluster_name = self.cluster_info['clusterName']
+        self.project_id = self.cluster_info['projectID']
+
 
         # Informações provenientes do arquivo de configuração
         self._experiment_dependencies = experiment_dependencies
@@ -159,7 +167,8 @@ class Experiment(AbstractExperiment):
 
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
             experiments=self._experiments,
-            experiment_dependencies=self._experiment_dependencies
+            experiment_dependencies=self._experiment_dependencies,
+            recipes_default=self._recipes_default
         )
 
         print("Xperimentor config obj")

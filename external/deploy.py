@@ -32,7 +32,7 @@ class Xperimentor:
             clusterName = None
             projectId = None
 
-            self.xperimentor_pattern_obj['recipes'][i]['DB'] = self._set_database_recipes(dataset)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['DB'] = self._set_database_recipes(dataset)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['Fold'] = self._set_folds_recipes(folds)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
@@ -43,20 +43,29 @@ class Xperimentor:
 
 
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
-
-        self.xperimentor_pattern_obj['recipeDefaults']['DB'] = self._set_database_recipes(dataset)
-        self.xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(folds)
-        self.xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        self.xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(recommenders)
-        self.xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(hybrid)
-        self.xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(metrics)
-        self.xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
+        self.xperimentor_pattern_obj['recipeDefaults'] = self.convert_recipes_default(recipes_default)
 
 
 
         print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
+    def convert_recipes_default(self, recipes: dict) -> dict:
+        """
+
+        @param recipes:
+        @return:
+        """
+        new_recipes_default = {
+            "DB": recipes['database'],
+            "MF": recipes['metafeatures'],
+            "Eval": recipes['metrics'],
+            "Stats": recipes['results'],
+            "Alg": recipes['algorithms'],
+            "HF": recipes['hybrid'],
+            "Fold": recipes['folds']
+        }
+        return new_recipes_default
     def _set_database_recipes(self, database: dict) -> list:
         return [database['class']]
 
