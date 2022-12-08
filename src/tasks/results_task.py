@@ -2,7 +2,7 @@ import sys
 import subprocess
 
 from src.tasks.task import Task
-
+from src.experiments.experiment_handler import ExperimentHandler
 class ResultsTask(Task):
     def __init__(self, args = None):
         """
@@ -34,3 +34,13 @@ class ResultsTask(Task):
         @return:
         """
         return results
+
+
+
+def main():
+    exp_handler = ExperimentHandler()
+    experiment = exp_handler.create_experiment_instance()
+    results = experiment.results
+
+    results_task = ResultsTask(results)
+    results_task.run()

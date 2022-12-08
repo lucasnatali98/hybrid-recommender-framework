@@ -2,6 +2,7 @@ import sys
 import subprocess
 from src.data.loader import Loader
 from src.tasks.task import Task
+from src.experiments.experiment_handler import ExperimentHandler
 
 
 class PreProcessingTask(Task):
@@ -58,3 +59,14 @@ class PreProcessingTask(Task):
                 loader.convert_to("csv", value, "ytrain.csv")
             if key == 'y_test':
                 loader.convert_to("csv", value, 'ytest.csv')
+
+
+
+def main():
+    exp_handler = ExperimentHandler()
+    experiment = exp_handler.create_experiment_instance()
+    preprocessing = experiment.preprocessing
+    preprocessing_task = PreProcessingTask(preprocessing)
+
+    preprocessing_task.run()
+

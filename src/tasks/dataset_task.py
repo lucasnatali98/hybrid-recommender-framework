@@ -28,11 +28,17 @@ class DatasetTask(Task):
         @return:
         """
 
-        dataset = self._handle_with_dataset(self.dataset_instance)
+        dataset = self._handle_operations_dataset(self.dataset_instance)
         return dataset
 
-    def _handle_with_dataset(self, dataset):
+    def _handle_operations_dataset(self, dataset):
+        """
+
+        @param dataset:
+        @return:
+        """
         dataset = dataset.apply_filters()
+
         return dataset
 
 

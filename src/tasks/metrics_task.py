@@ -29,3 +29,14 @@ class MetricsTask(Task):
 
     def _handle_metrics_tasks(self, metrics):
         pass
+
+
+
+def main():
+    #Executa todas as métricas e salva os resultados
+    exp_handler = ExperimentHandler()
+    experiment = exp_handler.create_experiment_instance()
+    metrics = experiment.metrics
+    metrics_task = MetricsTask(metrics)
+
+    metrics_task.run()
