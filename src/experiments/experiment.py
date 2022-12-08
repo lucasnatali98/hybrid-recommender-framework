@@ -4,7 +4,7 @@ from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
-
+from src.utils import hrf_task_path
 
 class AbstractExperiment(ABC):
     """
@@ -129,7 +129,22 @@ class Experiment(AbstractExperiment):
         @param tasks:
         @return:
         """
-        pass
+        archives_tasks = [
+            "dataset_task.py",
+            "metrics_task.py",
+            "metafeatures_task.py",
+            "algorithms_task.py",
+            "visualization_task.py"
+            "preprocessing_task.py",
+            "results_task.py"
+        ]
+
+        command = None
+        tasks_path = hrf_task_path()
+        print(tasks_path)
+        dataset_command = "python " + tasks_path + "dataset_task.py";
+        metrics_command = ""
+
     def define_all_tasks(self):
         """
         Cria um dicionário para mapear todas as tarefas
