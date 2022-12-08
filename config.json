@@ -218,12 +218,24 @@
             {
               "module": "src.visualization.static_bar",
               "class_name": "StaticBar",
-              "parameters": {}
+              "parameters": {
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true
+                }
+              }
             },
             {
               "module": "src.visualization.interactive_bar",
               "class_name": "InteractiveBar",
-              "parameters": {}
+              "parameters": {
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true
+                }
+              }
             },
             {
               "module": "src.visualization.interactive_scatter",

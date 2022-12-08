@@ -4,7 +4,8 @@ from src.data.loader import Loader
 
 class Dataset(ABC):
     """
-    
+    Interface responsável por definir os métodos base das classes que representam
+    uma base de dados comum em sistemas de recomendação
     
     """
 

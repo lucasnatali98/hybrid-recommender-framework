@@ -12,6 +12,10 @@ class DatasetTask(Task):
 
     """
     def __init__(self, dataset):
+        """
+
+        @param dataset:
+        """
         self.dataset_instance = dataset
 
     def check_args(self, args):
