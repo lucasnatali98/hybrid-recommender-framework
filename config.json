@@ -84,13 +84,18 @@
               "class_name": "RMSE",
               "parameters": {
                 "sample_weight": "None",
-                "squared": true
+                "squared": true,
+                "missing": "error"
               }
             },
             {
               "module": "src.metrics.recall",
               "class_name": "Recall",
               "parameters": {
+                "labels": "None",
+                "average": "binary",
+                "sample_weight": "None",
+                "zero_division": "warn"
               }
             },
             {
@@ -99,6 +104,16 @@
               "parameters": {
                 "multioutput": "uniform_average"
               }
+            },
+            {
+              "module": "src.metrics.ndcg",
+              "class_name": "NDCG",
+              "parameters": {
+                "k": "None",
+                "sample_weight": "None",
+                "ignore_ties": false
+              }
+
             }
           ]
         }
