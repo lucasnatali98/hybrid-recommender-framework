@@ -119,7 +119,7 @@ class TaskExecutor:
 
         @return:
         """
-        output = subprocess.run(['sh', "external/task-executor/build.sh"])
+        output = subprocess.run(['sh', "external/TaskExecutor/build.sh"])
         print("-- Building Task Executor by shell script file -- ")
         if subprocess_output_is_correct(output) == True:
             print("The image was built successfully")
@@ -133,7 +133,7 @@ class TaskExecutor:
 
         @return:
         """
-        output = subprocess.run(['sh', "external/task-executor/deploy.sh"])
+        output = subprocess.run(['sh', "external/TaskExecutor/deploy.sh"])
         print("-- deploy Task Executor by shell script file -- ")
 
         if subprocess_output_is_correct(output) == True:
