@@ -15,7 +15,7 @@ task_map = {
         "module": "src.tasks.metafeatures_task",
         "class_name": "MetaFeaturesTask"
     },
-    "algorithms": {
+    "recommenders": {
         "module": "src.tasks.algorithms_task",
         "class_name": "AlgorithmsTask"
     },
@@ -26,6 +26,10 @@ task_map = {
     "results": {
         "module": "src.tasks.results_task",
         "class_name": "ResultsTask"
+    },
+    "visualization": {
+        "module": "src.tasks.visualization_task",
+        "class_name": "VisualizationTask"
     }
 }
 

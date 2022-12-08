@@ -8,4 +8,3 @@ def hrf_task_path():
     root_path = root_path.joinpath("tasks/")
     return root_path
 
-hrf_task_path()

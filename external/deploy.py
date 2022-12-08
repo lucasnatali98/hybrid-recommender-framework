@@ -10,22 +10,35 @@ class Xperimentor:
         self.xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
 
 
-    def convert_to_xperimentor_pattern(self, experiment_obj: dict, experiment_dependencies: dict = None):
+    def convert_to_xperimentor_pattern(self, experiments: list,
+                                       experiment_dependencies: dict = None,
+                                       recipes_default: dict = None):
         """
 
         @return:
         """
         print("convert to xperimentor pattern")
+        qtd_experiments = len(experiments)
 
-        dataset = experiment_obj['dataset']
-        metafeatures = experiment_obj['metafeatures']
-        hybrid = None
-        folds = None
-        recommenders = experiment_obj['recommenders']
-        metrics = experiment_obj['metrics']
-        results = experiment_obj['results']
-        clusterName = None
-        projectId = None
+        for i in range(0, qtd_experiments):
+            dataset = experiments[i]['dataset']
+            metafeatures = experiments[i]['metafeatures']
+            hybrid = None
+            folds = None
+            recommenders = experiments[i]['recommenders']
+            metrics = experiments[i]['metrics']
+            results = experiments[i]['results']
+            visualization = experiments[i]['visualization']
+            clusterName = None
+            projectId = None
+
+            self.xperimentor_pattern_obj['recipes'][i]['DB'] = self._set_database_recipes(dataset)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Fold'] = self._set_folds_recipes(folds)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Eval'] = self._set_eval_recipes(metrics)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Stats'] = self._set_stats_recipes(results)
 
 
 
@@ -40,18 +53,6 @@ class Xperimentor:
         self.xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
 
 
-
-        recipes_length = len(experiment_obj)
-
-
-        #Refactor
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Eval'] = self._set_eval_recipes(metrics)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
         print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj

@@ -29,7 +29,8 @@ class ExperimentHandler(Container):
         result = {}
         print("Quantidade de experimentos que serão executados: ", len(self.items))
         for experiment in self.items:
-            result[experiment._experiment_id] = experiment.run()
+            print(experiment.run())
+            #result[experiment._experiment_id] = experiment.run()
 
         return result
 

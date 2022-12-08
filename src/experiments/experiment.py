@@ -40,6 +40,7 @@ class Experiment(AbstractExperiment):
     _results: object
     _visualization: object
     _recommenders: object
+    _experiments: list
 
     def __init__(self, experiments: list, experiment_dependencies: dict = None,
                  recipes_default: dict = None) -> None:
@@ -50,7 +51,7 @@ class Experiment(AbstractExperiment):
         # Informações provenientes do arquivo de configuração
         self._experiment_dependencies = experiment_dependencies
         self._recipes_default = recipes_default
-        self.experiments = experiments
+        self._experiments = experiments
 
         # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
         self._task_factory = TaskFactory()
@@ -120,14 +121,28 @@ class Experiment(AbstractExperiment):
 
         @return: dict
         """
-        tasks = {
-            "dataset": self._task_factory.create("dataset"),
-            "preprocessing": self._task_factory.create("preprocessing"),
-            "algorithms": self._task_factory.create("algorithms"),
-            "metrics": self._task_factory.create("metrics"),
-            "results": self._task_factory.create("results"),
-            "metafeatures": self._task_factory.create("metafeatures")
-        }
+        tasks = {}
+        exp_id = None
+        default_tasks = [
+            'dataset',
+            'preprocessing',
+            'metrics',
+            'metafeatures',
+            'recommenders',
+            'visualization',
+            'results'
+        ]
+        for exp in self._experiments:
+            exp_keys = list(exp.keys())
+            exp_keys = list(filter(lambda x: x in default_tasks, exp_keys))
+            print(exp_keys)
+            exp_id = exp['experiment_id']
+            tasks.update({exp_id: {}})
+            for task in default_tasks:
+                tasks[exp_id].update({task: self._task_factory.create(task)})
+
+
+
 
         return tasks
 
@@ -138,12 +153,12 @@ class Experiment(AbstractExperiment):
 
         @return: Um arquivo YAML seguindo o padrão do Xperimentor
         """
-        self._instances = self.create_experiment_instances(self.experiment_obj)
+        self._instances = self.create_experiment_instances(self._experiments)
 
         xperimentor = Xperimentor()
 
         xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
-            experiment_obj=self._experiment_obj,
+            experiments=self._experiments,
             experiment_dependencies=self._experiment_dependencies
         )
 
@@ -152,22 +167,7 @@ class Experiment(AbstractExperiment):
 
         loader = Loader()
 
-        dataset = self._instances['datasets']
-        preprocessing = self._instances['preprocessing']
-        metafeatures = self._instances['metafeatures']
-        recommenders = self._instances['recommenders']
-        metrics = self._instances['metrics']
-        results = self._instances['results']
 
-        loader.convert_to("csv", dataset.ratings, "ratings.csv")
-
-        # Todas as possíveis tarefas do framework
-        dataset_task = self._tasks['dataset']
-        preprocessing_task = self._tasks['preprocessing']
-        algorithms_task = self._tasks['algorithms']
-        metrics_task = self._tasks['metrics']
-        results_task = self._tasks['results']
-        metafeatures_task = self._tasks['metafeatures']
 
     def process_parameters(self, parameters: dict) -> dict:
         """

@@ -48,3 +48,14 @@ def get_project_root() -> Path:
     root_path = Path(__file__).parent.parent
     return root_path
 
+
+def hrf_task_path():
+    """
+    Função responsável por gerar o path para a pasta de tarefas do projeto,
+    o resultado dessa função será usada para criar os commandos do xperimentor
+
+    @return: Path to tasks
+    """
+    root_path = get_project_root()
+    root_path = root_path.joinpath("tasks/")
+    return root_path
