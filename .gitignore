@@ -8,4 +8,4 @@ data_storage/
 .idea
 node_modules/
 kubernetes_config.json
-.idea
+*.idea
