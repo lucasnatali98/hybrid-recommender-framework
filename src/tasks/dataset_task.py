@@ -55,4 +55,6 @@ def main():
 
 
 logging.info(" => Iniciando a execução da tarefa dos datasets")
-print(main())
+new_dataset = main()
+new_dataset.to_csv()
+print(" => Finalizando a tarefa dos datasets")

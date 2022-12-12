@@ -4,7 +4,7 @@ from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
-from src.utils import hrf_task_path
+from src.utils import hrf_task_path, get_project_root
 
 class AbstractExperiment(ABC):
     """
@@ -123,6 +123,30 @@ class Experiment(AbstractExperiment):
         """
         self._experiment_obj = exp_obj
 
+    def generate_command(self, task_type: str) -> str:
+        """
+
+        @param task_type:
+        @return:
+        """
+        command = None
+        task_path = hrf_task_path()
+        if task_type == "dataset_task":
+            command = "python " + str(task_path) + "/dataset_task.py"
+        if task_type == "metrics_task":
+            command = "python " + str(task_path) + "/metrics_task.py"
+        if task_type == "metafeatures_task":
+            command = "python " + str(task_path) + "/metafeatures_task.py"
+        if task_type == "visualization_task":
+            command = "python " + str(task_path) + "/visualization_task.py"
+        if task_type == "algorithms_task":
+            command = "python " + str(task_path) + "/algorithms_task.py"
+        if task_type == "preprocessing_task":
+            command = "python " + str(task_path) + "/preprocessing_task.py"
+        if task_type == "results_task":
+            command = "python " + str(task_path) + "/results_task.py"
+
+        return command
     def define_all_tasks_commands(self, tasks: dict) -> dict:
         """
 
@@ -142,8 +166,24 @@ class Experiment(AbstractExperiment):
         command = None
         tasks_path = hrf_task_path()
         print(tasks_path)
-        dataset_command = "python " + tasks_path + "dataset_task.py";
-        metrics_command = ""
+        commands = {
+            "dataset": ["dataset_task", None],
+            "preprocessing": ["preprocessing_task", None],
+            "metafeatures": ["metafeatures_task", None],
+            "algorithms": ["algorithms_task", None],
+            "metrics": ["metrics_task", None],
+            "visualization": ["visualization_task", None],
+            "results": ["results_task", None]
+        }
+
+        for task in archives_tasks:
+            for key, value in commands.items():
+                print(key, value)
+                which_task = value[0]
+                command = self.generate_command(which_task)
+                value[1] = command
+
+        print(commands)
 
     def define_all_tasks(self):
         """
@@ -171,6 +211,9 @@ class Experiment(AbstractExperiment):
             for task in default_tasks:
                 tasks[exp_id].update({task: self._task_factory.create(task)})
 
+        tasks_commands = self.define_all_tasks_commands(tasks)
+        print(tasks_commands)
+
         return tasks
 
     def run(self):
@@ -195,6 +238,7 @@ class Experiment(AbstractExperiment):
         print(xperimentor_config_obj)
 
         loader = Loader()
+        return xperimentor_config_obj
 
 
 

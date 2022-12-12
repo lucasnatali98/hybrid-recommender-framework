@@ -70,3 +70,10 @@ def main():
 
     preprocessing_task.run()
 
+
+print(" => Inicio da tarefa de preprocessamento...")
+preprocessing_result = main()
+#save the preprocessing result
+
+print(" => Finalização da tarefa de preprocessamento...")
+
