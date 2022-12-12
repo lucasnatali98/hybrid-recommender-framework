@@ -40,3 +40,9 @@ def main():
     metrics_task = MetricsTask(metrics)
 
     metrics_task.run()
+
+
+print(" => Iniciando tarefa de cálculo das métricas")
+metrics = main()
+print(" => Finalizando tarefa de cálculo das métricas")
+

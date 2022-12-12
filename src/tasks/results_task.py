@@ -44,3 +44,8 @@ def main():
 
     results_task = ResultsTask(results)
     results_task.run()
+
+
+print(" => Iniciando tarefas de cálculos dos resultados")
+results = main()
+print(" => Finalizando tarefa de cálculo dos resultados")

@@ -33,3 +33,8 @@ def main():
     metafeatures = experiment.metafeatures
     metafeatures_task = MetaFeaturesTask(metafeatures)
     metafeatures_task.run()
+
+
+print(" => Iniciando tarefa de cálculo das metafeatures")
+metafeatures = main()
+print(" => Finalizando tarefa de cálculo das metafeatures")

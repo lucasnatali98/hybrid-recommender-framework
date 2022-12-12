@@ -44,3 +44,8 @@ def main():
     visualization = experiment.visualization
     visualization_task = VisualizationTask(visualization)
     visualization_task.run()
+
+print(" => Inicio da tarefa de visualização dos dados")
+visualization = main()
+print(" => Finalizando tarefa de visualização dos dados")
+
