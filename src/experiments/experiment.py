@@ -238,6 +238,7 @@ class Experiment(AbstractExperiment):
         print(xperimentor_config_obj)
 
         loader = Loader()
+        loader.convert_to(to="csv", )
         return xperimentor_config_obj
 
 

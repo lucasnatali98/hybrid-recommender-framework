@@ -17,16 +17,18 @@ class Loader:
 
 
 
-    def load_json_file(self, path):
+    def load_json_file(self, path: str):
         """
 
+        @param path:
+        @return:
         """
         file = open(ROOT_PATH.joinpath(path))
 
         return json.load(file)
 
 
-    def load_file(self, path, extension):
+    def load_file(self, path: str, extension: str):
         """
         Carrega um arquivo baseado em sua extensão
 
@@ -43,21 +45,29 @@ class Loader:
 
         return False
 
-    def load_csv_file(self, path):
+    def load_csv_file(self, path: str):
         """
 
+        @param path:
+        @return:
         """
         return pandas.read_csv(ROOT_PATH.joinpath(path))
 
-    def load_excel_file(self, path):
+    def load_excel_file(self, path: str):
         """
 
         """
         return pandas.read_excel(io=ROOT_PATH.joinpath(path))
 
-    def convert_to(self, to, data, path):
+    def convert_to(self, to: str, data: pd.DataFrame, path: str):
         """
 
+        Essa funçãoa faz a conversão de um dataframe em csv ou excel
+
+        @param to: tipo de arquivo: csv ou excel
+        @param data: dados a serem salvos: pd.DataFrame
+        @param path: caminho onde o arquivo será salvo
+        @return:
         """
         to_possibilities = ["csv", "excel"]
 
@@ -69,7 +79,7 @@ class Loader:
 
         return None
 
-    def convert_to_csv(self, data, path):
+    def convert_to_csv(self, data: pd.DataFrame, path: str):
         """
         Convert a dataframe to .csv file
 
@@ -89,7 +99,7 @@ class Loader:
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
 
-    def convert_to_excel(self, data, path):
+    def convert_to_excel(self, data: pd.DataFrame, path: str):
         """
         Convert a dataframe to excel file
 

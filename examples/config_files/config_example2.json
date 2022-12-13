@@ -1,16 +1,22 @@
 {
   "config": {
     "clusterIP": "",
-    "clusterName": ""
+    "clusterName": "",
+    "projectID": ""
   },
-  "experiment_dependencies": [],
+  "experiment_dependencies": [
+    {
+      "id": "exp1",
+      "deps": []
+    }
+  ],
   "recipesDefault": {
-    "database": [],
-    "metafeatures": [],
-    "metrics": [],
-    "hybrid": [],
-    "algorithms": [],
-    "results": [],
+    "database": ["MovieLens"],
+    "metafeatures": ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"],
+    "metrics": ["RMSE", "F1", "EPC", "EILD"],
+    "hybrid": ["STREAM", "FWLS"],
+    "algorithms": ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"],
+    "results": ["mean", "IC"],
     "folds": []
   },
   "experiments":[
