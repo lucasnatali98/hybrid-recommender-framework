@@ -3,6 +3,16 @@
     "clusterIP": "",
     "clusterName": ""
   },
+  "experiment_dependencies": [],
+  "recipesDefault": {
+    "database": [],
+    "metafeatures": [],
+    "metrics": [],
+    "hybrid": [],
+    "algorithms": [],
+    "results": [],
+    "folds": []
+  },
   "experiments":[
     {
       "experimentID": "",

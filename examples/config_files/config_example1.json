@@ -1,8 +1,11 @@
 {
-  "config": {
+  "cluster_info": {
     "clusterIP": "",
-    "clusterName": ""
+    "clusterName": "",
+    "projectID": ""
   },
+  "experiment_dependencies": [],
+  "recipesDefault": {},
   "experiments":[
     {
       "experimentID": "",
@@ -12,7 +15,7 @@
       "recommenders": {},
       "metrics": {},
       "results": {},
-      "visualizations": {}
+      "visualization": {}
     }
   ]
 }
