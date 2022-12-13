@@ -6,6 +6,7 @@ from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
 from src.utils import hrf_task_path, get_project_root
 
+
 class AbstractExperiment(ABC):
     """
     Interface para os experimentos
@@ -238,7 +239,13 @@ class Experiment(AbstractExperiment):
         print(xperimentor_config_obj)
 
         loader = Loader()
-        loader.convert_to(to="csv", )
+
+        with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
+            xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
+            print(xperimentor_yaml_file)
+
+
+
         return xperimentor_config_obj
 
 

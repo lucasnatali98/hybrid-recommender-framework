@@ -41,7 +41,7 @@ class VisualizationTask(Task):
 def main():
     exp_handler = ExperimentHandler()
     experiment = exp_handler.create_experiment_instance()
-    visualization = experiment.visualization
+    visualization = experiment._visualization
     visualization_task = VisualizationTask(visualization)
     visualization_task.run()
 

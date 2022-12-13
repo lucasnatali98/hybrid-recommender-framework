@@ -1,0 +1,57 @@
+clusterIp: 10.123.222.10
+recipeDefaults:
+  Alg:
+  - Sigmoid
+  - Biased
+  - MF
+  - Uknn
+  - SVD
+  - Latent
+  - Factor
+  - BiPolar
+  - SO
+  DB:
+  - MovieLens
+  Eval:
+  - RMSE
+  - F1
+  - EPC
+  - EILD
+  Fold: []
+  HF:
+  - STREAM
+  - FWLS
+  MF:
+  - PCR
+  - PR
+  - GINI
+  - PEARSON
+  - PQMEAN
+  - SD
+  Stats:
+  - mean
+  - IC
+recipes:
+- id: ''
+  pruning: []
+  uses:
+    Alg:
+    - ItemKNN
+    - SlopeOne
+    - UserKNN
+    DB:
+    - MovieLens
+    Eval:
+    - RMSE
+    - Recall
+    - MAE
+    - NDCG
+    Fold: []
+    HF: []
+    MF:
+    - Jaccard
+    - Gini
+    Stats:
+    - ANOVA
+    - ConfidenceInterval
+tasks: []
