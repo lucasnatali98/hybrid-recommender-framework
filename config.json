@@ -235,7 +235,8 @@
                 "plot_types": {
                   "ratings_by_user": true,
                   "ratings_by_movie": true,
-                  "items_predict": true
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
                 }
               }
             },
@@ -246,7 +247,8 @@
                 "plot_types": {
                   "ratings_by_user": true,
                   "ratings_by_movie": true,
-                  "items_predict": true
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
                 }
               }
             },

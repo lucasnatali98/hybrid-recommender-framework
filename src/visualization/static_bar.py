@@ -7,12 +7,12 @@ class StaticBar(StaticPlot):
         
         """
         parameters = self.process_parameters(parameters)
+        #Tipos de visualização que serão feitas
         self.plot_types = parameters['plot_types']
+
         self.ratings_by_user = self.plot_types['ratings_by_user']
         self.ratings_by_movie = self.plot_types['ratings_by_movie']
-
-
-
+        self.movie_ratings_distribution = self.plot()['movie_ratings_distribution']
 
     def process_parameters(self, parameters: dict) -> dict:
         """
