@@ -7,21 +7,31 @@ class MetaFeature(ABC):
         """
         
         """
-        pass
+
+        raise Exception("O método fit de MetaFeature não está implementado")
 
     @abstractmethod
     def predict(self):
         """
         
         """
-        pass
+        raise Exception("O método predict de MetaFeature não está implementado")
 
     @abstractmethod
     def update(self):
         """
         
         """
-        pass
+        raise Exception("O método update de MetaFeature não está implementado")
+
+    @abstractmethod
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        raise Exception("O método process_parameters de MetaFeature não está implementado")
 
 
 class ColaborativeMetaFeature(MetaFeature):
