@@ -8,7 +8,16 @@ class PreProcessing(ABC):
         """
         
         """
-        pass
+        raise Exception("O método pre_processing não foi implementado")
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        raise Exception("O método process_parameters não foi implementado")
+
 
 
 class AbstractPreProcessing(PreProcessing):
@@ -23,6 +32,15 @@ class AbstractPreProcessing(PreProcessing):
     def pre_processing(self, data, **kwargs):
         """
         
+        """
+        pass
+
+    @abstractmethod
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
         """
         pass
 

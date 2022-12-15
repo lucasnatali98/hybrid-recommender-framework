@@ -166,7 +166,7 @@ class Experiment(AbstractExperiment):
 
         command = None
         tasks_path = hrf_task_path()
-        print(tasks_path)
+
         commands = {
             "dataset": ["dataset_task", None],
             "preprocessing": ["preprocessing_task", None],
@@ -179,12 +179,12 @@ class Experiment(AbstractExperiment):
 
         for task in archives_tasks:
             for key, value in commands.items():
-                print(key, value)
                 which_task = value[0]
                 command = self.generate_command(which_task)
                 value[1] = command
 
-        print(commands)
+
+        return commands
 
     def define_all_tasks(self):
         """
@@ -206,14 +206,12 @@ class Experiment(AbstractExperiment):
         for exp in self._experiments:
             exp_keys = list(exp.keys())
             exp_keys = list(filter(lambda x: x in default_tasks, exp_keys))
-            print(exp_keys)
             exp_id = exp['experiment_id']
             tasks.update({exp_id: {}})
             for task in default_tasks:
                 tasks[exp_id].update({task: self._task_factory.create(task)})
 
         tasks_commands = self.define_all_tasks_commands(tasks)
-        print(tasks_commands)
 
         return tasks
 
@@ -235,16 +233,10 @@ class Experiment(AbstractExperiment):
             cluster_info=self.cluster_info
         )
 
-        print("Xperimentor config obj")
-        print(xperimentor_config_obj)
-
         loader = Loader()
 
         with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
             xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
-            print(xperimentor_yaml_file)
-
-
 
         return xperimentor_config_obj
 

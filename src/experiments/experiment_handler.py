@@ -32,7 +32,7 @@ class ExperimentHandler(Container):
     def run_experiments(self) -> dict:
         result = {}
         for experiment in self.items:
-            print(experiment.run())
+            print("run experiment: ", experiment.run())
             #result[experiment._experiment_id] = experiment.run()
 
         return result
