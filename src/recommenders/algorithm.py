@@ -11,7 +11,7 @@ class Algorithm(ABC):
         @param kwargs:
         @return:
         """
-        pass
+        raise Exception("O método fit de Algorithm não está implementado")
 
     @abstractmethod
     def get_params(self, deep = True):
@@ -21,3 +21,6 @@ class Algorithm(ABC):
         @return:
         """
         pass
+
+    def process_parameters(self, parameters: dict) -> dict:
+        raise Exception("O método process_parameters de Algorithm não está implementado")

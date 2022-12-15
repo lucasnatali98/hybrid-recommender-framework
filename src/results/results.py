@@ -7,7 +7,7 @@ class Results(ABC):
         """
         
         """
-        pass
+        raise Exception("O método get_results de Results não está implementado")
 
 class AbstractResults(Results):
 
