@@ -10,49 +10,71 @@ class Xperimentor:
         self.xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
 
 
-    def convert_to_xperimentor_pattern(self, experiment_obj: dict, experiment_dependencies: dict = None):
+    def convert_to_xperimentor_pattern(self, experiments: list,
+                                       experiment_dependencies: dict = None,
+                                       recipes_default: dict = None,
+                                       cluster_info: dict = None,
+                                       tasks: dict = None):
         """
 
         @return:
         """
         print("convert to xperimentor pattern")
+        qtd_experiments = len(experiments)
 
-        dataset = experiment_obj['dataset']
-        metafeatures = experiment_obj['metafeatures']
-        hybrid = None
-        folds = None
-        recommenders = experiment_obj['recommenders']
-        metrics = experiment_obj['metrics']
-        results = experiment_obj['results']
-        clusterName = None
-        projectId = None
+        experiment_ids = list(map(lambda x: x['id'], experiment_dependencies))
+        print("experiment_ids: ", experiment_ids)
+
+        cluster_ip = cluster_info['clusterIp']
+        for i in range(0, qtd_experiments):
+            exp_id = experiments[i]['experiment_id']
+            dataset = experiments[i]['dataset']
+            metafeatures = experiments[i]['metafeatures']
+            hybrid = experiments[i]['hybrid']
+            folds = None
+            recommenders = experiments[i]['recommenders']
+            metrics = experiments[i]['metrics']
+            results = experiments[i]['results']
+            visualization = experiments[i]['visualization']
+            clusterName = None
+            projectId = None
+            self.xperimentor_pattern_obj['recipes'][i]['id'] = exp_id
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['DB'] = self._set_database_recipes(dataset)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Fold'] = self._set_folds_recipes(folds)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Eval'] = self._set_eval_recipes(metrics)
+            self.xperimentor_pattern_obj['recipes'][i]['uses']['Stats'] = self._set_stats_recipes(results)
 
 
 
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
-
-        self.xperimentor_pattern_obj['recipeDefaults']['DB'] = self._set_database_recipes(dataset)
-        self.xperimentor_pattern_obj['recipeDefaults']['Fold'] = self._set_folds_recipes(folds)
-        self.xperimentor_pattern_obj['recipeDefaults']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        self.xperimentor_pattern_obj['recipeDefaults']['Alg'] = self._set_algorithms_recipes(recommenders)
-        self.xperimentor_pattern_obj['recipeDefaults']['HF'] = self._set_hybrid_recipes(hybrid)
-        self.xperimentor_pattern_obj['recipeDefaults']['Eval'] = self._set_eval_recipes(metrics)
-        self.xperimentor_pattern_obj['recipeDefaults']['Stats'] = self._set_stats_recipes(results)
+        self.xperimentor_pattern_obj['recipeDefaults'] = self.convert_recipes_default(recipes_default)
+        self.xperimentor_pattern_obj['clusterIp'] = cluster_ip
 
 
 
-        #Refactor
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['DB'] = self._set_database_recipes(dataset)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Fold'] = self._set_folds_recipes(folds)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Alg'] = self._set_algorithms_recipes(recommenders)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['HF'] = self._set_hybrid_recipes(hybrid)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Eval'] = self._set_eval_recipes(metrics)
-        self.xperimentor_pattern_obj['recipes'][0]['uses']['Stats'] = self._set_stats_recipes(results)
 
-
+        print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
+    def convert_recipes_default(self, recipes: dict) -> dict:
+        """
+
+        @param recipes:
+        @return:
+        """
+        new_recipes_default = {
+            "DB": recipes['database'],
+            "MF": recipes['metafeatures'],
+            "Eval": recipes['metrics'],
+            "Stats": recipes['results'],
+            "Alg": recipes['algorithms'],
+            "HF": recipes['hybrid'],
+            "Fold": recipes['folds']
+        }
+        return new_recipes_default
     def _set_database_recipes(self, database: dict) -> list:
         return [database['class']]
 
@@ -116,7 +138,7 @@ class TaskExecutor:
 
         @return:
         """
-        output = subprocess.run(['sh', "external/task-executor/build.sh"])
+        output = subprocess.run(['sh', "external/TaskExecutor/build.sh"])
         print("-- Building Task Executor by shell script file -- ")
         if subprocess_output_is_correct(output) == True:
             print("The image was built successfully")
@@ -130,7 +152,7 @@ class TaskExecutor:
 
         @return:
         """
-        output = subprocess.run(['sh', "external/task-executor/deploy.sh"])
+        output = subprocess.run(['sh', "external/TaskExecutor/deploy.sh"])
         print("-- deploy Task Executor by shell script file -- ")
 
         if subprocess_output_is_correct(output) == True:

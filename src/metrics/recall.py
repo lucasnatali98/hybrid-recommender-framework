@@ -26,6 +26,14 @@ class Recall(RankingMetric):
         """
         pass
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        pass
+
 class RecallScikit(RankingMetric):
     def __init__(self) -> None:
         """

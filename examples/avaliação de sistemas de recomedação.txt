@@ -1,0 +1,46 @@
+-> Avaliação;
+
+avaliar é muito dificil
+
+-> a personalização é dificil de se testar
+-> O desenvolvimento é caro
+-> O impacto na receita pode ser bem grande
+
+-> O que avaliar?
+ - eficiência do sistema (CLA)
+ - eficiência dos métodos
+ - utilidade e aplicabilidade
+
+ O foco da disciplina estará na eficiência dos métodos,
+
+
+-> Como avaliar (cientificamente):
+ Fazemos uma pergunta -> Revisão de bibliografia -> Levantamento de hipóteses
+ -> Realização dos experimentos -> Validação se funciona
+ -> Se não, realizamos mais experimentos
+ -> Se sim, quais são as conclusões?
+ -> A partir das conclusões, as hipoteses são suportadas?
+
+
+-> Experimentos offline:
+ - Utilização de dados históricos
+ - Dados são particionados em treino e teste
+ - Mais barato e mais rápido
+ - Menos realista e menos preciso
+ - Particionar em treino e teste
+ - Matriz de ratings (Usuário vs Itens)
+ - Posso fazer a partição baseada nos usuários (seleciono alguns deles para treinar, predizer para outros),
+ o problema é um possível user cold-start
+ - Posso fazer a partição baseada em itens também (ainda existe o problema de cold start)
+ - É possível fazer uma particição randômica (Perde em realismo, escolhemos baseado nos ratings)
+ - É possível fazer partição temporal (Ganha em realismo, pode-se testar múltiplas janelas de tempo)
+
+
+-> Métrics de avaliação:
+ - Acurácia de predição: Quão bem os ratings são preditos?
+  - tipicamente medido por métricas de erro
+  - preferência real é desconhecida
+ - Acurácia de ranqueamento: Quão boas são as ordenações dos itens?
+ - Suporte a decisão: Quantas coisas boas são recomendadas?
+
+

@@ -1,16 +1,16 @@
 import yaml
 import json
-from src.data.loader import Loader
 
 
-
-def json2yaml(file):
+def json2yaml(file: dict, stream):
     """
 
-    @param file:
+
+    @param file: dicionário com os dados
+    @param stream: arquivo
     @return:
     """
-    return yaml.dump(file, allow_unicode = True)
+    return yaml.dump(file, stream, allow_unicode = True)
 
 def yaml2json(file):
     """

@@ -17,6 +17,14 @@ class Gini(ColaborativeMetaFeature):
         self.fields = parameters['fields']
         self.items = parameters['items']
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        pass
+
     def fit(self):
         """
 

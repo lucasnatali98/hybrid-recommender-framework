@@ -11,7 +11,7 @@ class Metric(ABC):
         @param truth:
         @return:
         """
-        pass
+        raise Exception("O método evaluate de Metric não está implementado")
 
     @abstractmethod
     def check_missing(self, truth, missing):
@@ -21,7 +21,7 @@ class Metric(ABC):
         @param missing:
         @return:
         """
-        pass
+        raise Exception("O método check_missing de Metric não está implementado")
 
 
 class AbstractMetric(Metric):

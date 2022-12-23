@@ -1,4 +1,3 @@
-
 from src.recommenders.recommender import Recommender
 
 
@@ -7,9 +6,13 @@ class ItemKNN(Recommender):
         """
         
         """
-        print("Item KNN constructor")
-        print(parameters)
-
+        self.process_parameters(parameters)
+        self.max_number_neighbors = parameters['maxNumberNeighbors']
+        self.min_number_neighbors = parameters['minNumberNeighbors']
+        self.save_nbrs = parameters['saveNeighbors']
+        self.feedback = parameters['feedback']
+        self.aggregate = parameters['aggregate']
+        self.use_ratings = parameters['use_ratings']
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -18,7 +21,20 @@ class ItemKNN(Recommender):
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        pass
+
+        default_keys = [
+            'maxNumberNeighbors',
+            'minNumberNeighbors',
+            'saveNeighbors',
+            'feedback'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
 
     def predict_for_users(self, users, items, ratings):
         """

@@ -4,7 +4,8 @@ from src.data.loader import Loader
 
 class Dataset(ABC):
     """
-    
+    Interface responsável por definir os métodos base das classes que representam
+    uma base de dados comum em sistemas de recomendação
     
     """
 
@@ -13,21 +14,29 @@ class Dataset(ABC):
         """
         
         """
-        pass
+        raise Exception("O método ratings de Dataset não está implementado")
 
     @abstractmethod
     def users(self):
         """
         
         """
-        pass
+        raise Exception("O método users de Dataset não está implementado")
 
     @abstractmethod
     def items(self):
         """
         
         """
-        pass
+        raise Exception("O método items de Dataset não está implementado")
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+        raise Exception("O método process_parameters de Dataset não foi implementado")
 
 
 class AbstractDataSet(Dataset):

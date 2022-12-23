@@ -1,3 +1,5 @@
+from pathlib import Path
+
 def object_equals_type(obj, object_type):
     """
 
@@ -35,3 +37,25 @@ def is_structure_empty(structure):
         return True
 
     return False
+
+
+def get_project_root() -> Path:
+    """
+    Função para retornar o caminho para o diretório root da aplicação
+
+    @return: Path: <your_local_path_to_hybrid_recommender_framework>
+    """
+    root_path = Path(__file__).parent.parent
+    return root_path
+
+
+def hrf_task_path():
+    """
+    Função responsável por gerar o path para a pasta de tarefas do projeto,
+    o resultado dessa função será usada para criar os commandos do xperimentor
+
+    @return: Path to tasks
+    """
+    root_path = get_project_root()
+    root_path = root_path.joinpath("tasks/")
+    return root_path

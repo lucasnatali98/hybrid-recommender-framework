@@ -9,6 +9,7 @@ from flask import json
 from pygments import highlight, lexers, formatters
 
 
+
 def listen_stream(stream):
     output = ""
     with io.TextIOWrapper(stream, encoding="utf-8") as file:
@@ -26,6 +27,8 @@ def execute_task(task_info: dict) -> dict:
         'stdout': subprocess.PIPE,
         'stderr': subprocess.PIPE
     }
+
+
 
     # noinspection PySimplifyBooleanCheck
     if shell_mode == False:

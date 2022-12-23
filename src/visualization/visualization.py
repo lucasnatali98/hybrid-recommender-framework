@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 
 class Visualization(ABC):
     @abstractmethod
-    def parse(self, obj):
+    def process_parameters(self, parameters: dict) -> dict:
         """
 
         @param obj:
         @return:
         """
-        pass
+        raise Exception("O método process_parameters de Visualization não está implementado")
     
     @abstractmethod
     def plot(self):
@@ -16,12 +16,12 @@ class Visualization(ABC):
 
         @return:
         """
-        pass
+        raise Exception("O método plot de Visualization não está implementado")
 
 
 class AbstractVisualization(Visualization):
 
-    def parse(self, obj):
+    def process_parameters(self, parameters: dict) -> dict:
         """
 
         @param obj:
@@ -52,10 +52,10 @@ class TablePlot(AbstractVisualization):
         pass
 
 class StaticPlot(AbstractVisualization):
-    def parse(self, obj):
+    def process_parameters(self, parameters: dict) -> dict:
         """
 
-        @param obj:
+        @param parameters:
         @return:
         """
         pass
@@ -67,7 +67,7 @@ class StaticPlot(AbstractVisualization):
         pass
 
 class InteractivePlot(AbstractVisualization):
-    def parse(self, obj):
+    def process_parameters(self, parameters: dict) -> dict:
         """
 
         @param obj:

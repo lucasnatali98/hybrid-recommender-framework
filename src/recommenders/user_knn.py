@@ -8,6 +8,10 @@ class UserKNN(Recommender):
         """
         
         """
+
+        self.process_parameters(parameters)
+
+
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
@@ -19,6 +23,27 @@ class UserKNN(Recommender):
             feedback=self.feedback
         )
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters: objeto com os parâmetros da classe
+        @return: dicionário atualizado com esses mesmos parâmetros
+        """
+
+
+        default_keys = [
+            'maxNumberNeighbors',
+            'minNumberNeighbors',
+            'min_sim',
+            'feedback'
+        ]
+        parameters_keys = parameters.keys()
+
+        for key in default_keys:
+            if key not in parameters_keys:
+                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+
+        return parameters
     def predict_for_users(self, user, items, ratings=None):
         """
 
@@ -59,13 +84,5 @@ class UserKNN(Recommender):
     def recommend(self, user, n=None, candidates=None, ratings=None):
         pass
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass
 
 

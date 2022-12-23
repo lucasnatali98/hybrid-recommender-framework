@@ -1,6 +1,5 @@
 import inspect
 import sys
-from src.tasks import *
 import importlib
 
 task_map = {
@@ -16,7 +15,7 @@ task_map = {
         "module": "src.tasks.metafeatures_task",
         "class_name": "MetaFeaturesTask"
     },
-    "algorithms": {
+    "recommenders": {
         "module": "src.tasks.algorithms_task",
         "class_name": "AlgorithmsTask"
     },
@@ -27,15 +26,41 @@ task_map = {
     "results": {
         "module": "src.tasks.results_task",
         "class_name": "ResultsTask"
+    },
+    "visualization": {
+        "module": "src.tasks.visualization_task",
+        "class_name": "VisualizationTask"
     }
 }
 
 
 class TaskFactory:
+    """
+    Classe responsável pela criação de instancias de tarefas, essas tarefas são divididas assim como os módulos
+    desse framework, teremos tarefas dos seguintes tipos:
+
+    - Dataset task
+    - Preprocessing task
+    - Metafeatures task
+    - Metrics task
+    - Visualization task
+    - Results task
+
+
+    """
     def __init__(self) -> None:
+        """
+
+        """
         pass
 
     def create(self, task_type: str):
+        """
+        Função para fazer a criação de cara tarefa
+
+        @param task_type: tipo da tarefa de acordo com cada módulo do framework
+        @return: instance of task
+        """
         task = task_map[task_type]
         task_module = task['module']
         task_class_name = task['class_name']

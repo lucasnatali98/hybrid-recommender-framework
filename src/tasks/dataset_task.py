@@ -3,35 +3,62 @@ import subprocess
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment import Experiment
+from src.experiments.experiment_handler import ExperimentHandler
+import logging
+
 
 class DatasetTask(Task):
+    """
 
-    def __init__(self, args = None):
+    """
+    def __init__(self, dataset):
+        """
 
-        self.dataset_instance = experiment.datasets
-
+        @param dataset:
+        """
+        self.dataset_instance = dataset
 
     def check_args(self, args):
-        """
-
-        @param args:
-        @return:
-        """
-
-
+        pass
     def run(self):
         """
+        Essa função irá realizar todos os processos definidos para o conjunto de dados
+        a partir do arquivo de configuração
 
         @return:
         """
-        loader = Loader()
-        dataset = loader.load_csv_file("data_storage/temp_files/ratings.csv")
-        dataset = self._handle_with_dataset(dataset)
+
+        dataset = self._handle_operations_dataset(self.dataset_instance)
         return dataset
 
+    def _handle_operations_dataset(self, dataset):
+        """
 
-
-    def _handle_with_dataset(self, dataset):
+        @param dataset:
+        @return:
+        """
         dataset = dataset.apply_filters()
+
         return dataset
+
+
+def run_dataset_task():
+
+    exp_handler = ExperimentHandler()
+    experiment = exp_handler.create_experiment_instance()
+    dataset_instance = experiment.datasets
+    dataset_task = DatasetTask(dataset_instance)
+    ratings = dataset_instance.ratings
+
+    print(" => Iniciando a execução da tarefa dos datasets")
+    dataset_result = dataset_task.run()
+    print(" => Finalizando a tarefa dos datasets")
+    dataset_result.to_csv()
+    return dataset_result
+
+
+
+
+
+
 

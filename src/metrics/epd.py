@@ -14,3 +14,10 @@ class EPD(RankingMetric):
 
         """
         pass
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @return: dict
+        """
+        pass

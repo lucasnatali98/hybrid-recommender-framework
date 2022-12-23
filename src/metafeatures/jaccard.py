@@ -17,6 +17,15 @@ class Jaccard(ContentBasedMetaFeature):
         self.fields = parameters['fields']
 #        self.items = parameters['items']
 
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
+        """
+
+        return parameters
+
     def fit(self):
         """
 

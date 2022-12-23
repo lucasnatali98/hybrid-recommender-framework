@@ -40,6 +40,17 @@ class MAELensKit(PredictionMetric):
 
     def evaluate(self, predictions, truth):
         """
+        A função evaluate é responsável por aplicar a métrica MAE no resultados obtidos,
+        esses resultados envolvem as predições feitas e também um ground truth para garantir
+        a eficiencia da métrica
+
+        @param: predictions
+            -
+
+        @param: truth
+            -
+
+        @return Lenskit - MAE
 
         """
         return lenskit_predict.mae(predictions, truth)
@@ -47,5 +58,13 @@ class MAELensKit(PredictionMetric):
     def check_missing(self, truth, missing):
         """
 
+        """
+        pass
+
+    def process_parameters(self, parameters: dict) -> dict:
+        """
+
+        @param parameters:
+        @return:
         """
         pass

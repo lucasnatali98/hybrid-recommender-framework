@@ -37,4 +37,7 @@ class Recommender(Algorithm):
         """
         pass
 
+    def process_parameters(self, parameters: dict) -> dict:
+        pass
+
     

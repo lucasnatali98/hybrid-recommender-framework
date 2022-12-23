@@ -33,7 +33,7 @@ Esse framework faz uso de outros trabalhos de monografia, com isso, é important
 
 [Xperimentor](external/xperimentor/README.md)
 
-[Task-Executor](external/task-executor/README.md)
+[Task-Executor](external/TaskExecutor/README.md)
 
 [Metrics Calculator](external/MetricsCalculator/README.md)
 
