@@ -74,7 +74,23 @@
       },
       "hybrid": {
         "class": "HybridContainer",
-        "module": "src.hybrid."
+        "module": "src.hybrid.hybrid_container",
+        "parameters": {
+          "instances": [
+            {
+              "module": "src.hybrid.flws",
+              "class_name": "Flws",
+              "parameters": {}
+            },
+            {
+              "module": "src.hybrid.stream",
+              "class_name": "Stream",
+              "parameters": {
+
+              }
+            }
+          ]
+        }
       },
       "metrics": {
         "class": "MetricsContainer",
