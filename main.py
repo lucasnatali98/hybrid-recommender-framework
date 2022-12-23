@@ -31,7 +31,8 @@ if __name__ == "__main__":
         experiments=experiments,
         experiment_dependencies=experiment_dependencies,
         recipes_default=recipes_default,
-        cluster_info=cluster_info
+        cluster_info=cluster_info,
+        tasks=experiment_tasks
     )
 
     with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:

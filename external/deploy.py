@@ -19,7 +19,7 @@ class Xperimentor:
 
         @return:
         """
-        print("convert to xperimentor pattern")
+
         qtd_experiments = len(experiments)
 
         experiment_ids = list(map(lambda x: x['id'], experiment_dependencies))
@@ -54,8 +54,14 @@ class Xperimentor:
         self.xperimentor_pattern_obj['clusterIp'] = cluster_ip
 
 
+        tasks_aux = []
+        for i in range(0, len(tasks)):
+            tasks_aux.append({
+                "id": tasks[i]['task_name'],
+                "command": tasks[i]['command']
+            })
 
-
+        self.xperimentor_pattern_obj['tasks'] = tasks_aux
         print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
