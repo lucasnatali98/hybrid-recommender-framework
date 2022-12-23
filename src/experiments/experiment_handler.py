@@ -3,12 +3,13 @@ from src.shared.container import Container
 from typing import List
 from external.deploy import Xperimentor, TaskExecutor
 from src.data.loader import Loader
-
+from src.experiments.experiment_tasks import ExperimentTask
 
 class ExperimentHandler(Container):
     def __init__(self, experiments: list = None) -> None:
         super().__init__()
         self._experiments = []
+        self._experiment_tasks = ExperimentTask().define_all_tasks()
 
         for experiment in experiments:
             self.process_parameters(experiment)

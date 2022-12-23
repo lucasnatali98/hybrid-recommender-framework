@@ -21,6 +21,10 @@ if __name__ == "__main__":
 
     experiment_dependencies = config_obj['experiment_dependencies']
 
+    experiment_handler = ExperimentHandler(
+        experiments=experiments
+    )
+
     xperimentor = Xperimentor()
     xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
         experiments=experiments,
@@ -28,9 +32,7 @@ if __name__ == "__main__":
         recipes_default=recipes_default,
         cluster_info=cluster_info
     )
-    experiment_handler = ExperimentHandler(
-        experiments=experiments
-    )
+
     with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
         xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
 

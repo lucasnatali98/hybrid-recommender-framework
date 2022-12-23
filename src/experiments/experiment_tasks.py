@@ -13,6 +13,8 @@ class ExperimentTask:
         @return:
         """
         command = None
+        task_obj = task_type
+        task_type = task_type['task_name']
         task_path = hrf_task_path()
         if task_type == "dataset_task":
             command = "python " + str(task_path) + "/dataset_task.py"
@@ -29,7 +31,8 @@ class ExperimentTask:
         if task_type == "results_task":
             command = "python " + str(task_path) + "/results_task.py"
 
-        return command
+        task_obj['command'] = command
+        return task_obj
 
     def define_all_tasks_commands(self, tasks: dict) -> dict:
         """
@@ -74,18 +77,18 @@ class ExperimentTask:
         task_name = task_type + "_task"
         return {
             'task': task_type,
-            'task_name': task_name
+            'task_name': task_name,
             'command': None
         }
 
-    def create_tasks_structure(self, default_tasks: list):
+    def create_tasks_structure(self, default_tasks: list) -> list:
         tasks_structure = []
         for task in default_tasks:
             tasks_structure.append(self.create_task_object(task))
         return tasks_structure
 
 
-    def define_all_tasks(self):
+    def define_all_tasks(self) -> dict:
         """
         Cria um dicionário para mapear todas as tarefas
 
@@ -104,7 +107,5 @@ class ExperimentTask:
             'results'
         ]
         tasks_structure = self.create_tasks_structure(default_tasks)
-        print("Tasks structure")
-        print(tasks_structure)
-
         tasks_structure = list(map(self.generate_command, tasks_structure))
+        return tasks_structure
