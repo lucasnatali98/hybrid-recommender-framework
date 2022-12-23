@@ -42,19 +42,23 @@ class DatasetTask(Task):
         return dataset
 
 
-def main():
+def run_dataset_task():
 
     exp_handler = ExperimentHandler()
     experiment = exp_handler.create_experiment_instance()
     dataset_instance = experiment.datasets
     dataset_task = DatasetTask(dataset_instance)
     ratings = dataset_instance.ratings
+
+    print(" => Iniciando a execução da tarefa dos datasets")
     dataset_result = dataset_task.run()
+    print(" => Finalizando a tarefa dos datasets")
+    dataset_result.to_csv()
     return dataset_result
 
 
 
-logging.info(" => Iniciando a execução da tarefa dos datasets")
-new_dataset = main()
-new_dataset.to_csv()
-print(" => Finalizando a tarefa dos datasets")
+
+
+
+

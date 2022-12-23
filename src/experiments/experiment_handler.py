@@ -1,43 +1,23 @@
 from src.experiments.experiment import AbstractExperiment, Experiment
 from src.shared.container import Container
 from typing import List
+from external.deploy import Xperimentor, TaskExecutor
 from src.data.loader import Loader
 
 
 class ExperimentHandler(Container):
-    def __init__(self, experiments=None,
-                 experiment_dependencies: dict = None,
-                 recipes_default: dict = None,
-                 cluster_info: dict=None) -> None:
-        """
-
-        """
+    def __init__(self, experiments: list = None) -> None:
         super().__init__()
+        self._experiments = []
 
-        self.process_parameters(experiments)
+        for experiment in experiments:
+            self.process_parameters(experiment)
 
         if experiments is None:
             pass
         else:
-            experiment = Experiment(
-                experiments=experiments,
-                experiment_dependencies=experiment_dependencies,
-                recipes_default=recipes_default,
-                cluster_info=cluster_info
-            )
-
-            # Insere na estrutura de armazenamento dos experimentos
-            self.items.append(experiment)
-
-    def run_experiments(self) -> dict:
-        result = {}
-        for experiment in self.items:
-            print("run experiment: ", experiment.run())
-            #result[experiment._experiment_id] = experiment.run()
-
-        return result
-
-
+            #Chamar build experiments
+            self.build_experiments(experiments=experiments)
 
 
 
@@ -51,8 +31,27 @@ class ExperimentHandler(Container):
 
         #experiment = parameters[0]
         pass
+    def build_experiments(self, experiments: list):
+        """
+        Responsável por construir as instancias e o arquivo de configuração do Xperimentor
+        @param experiments:
+        @param experiment_dependencies:
+        @param recipes_default:
+        @param cluster_info:
+        @return:
+        """
+        for experiment in experiments:
+            self.create_experiment_instance(experiment)
 
-    def create_experiment_instance(self):
+    def run_experiments(self) -> dict:
+        result = {}
+        for experiment in self.items:
+            print("run experiment: ", experiment.run())
+            #result[experiment._experiment_id] = experiment.run()
+
+        return result
+
+    def create_experiment_instance(self, experiment: dict):
         """
         Essa função cria uma instancia de um experimento a partir dos arquivos de configuração,
         uma instancia de um experimento envolve todas as classes presentes no experimento, ou seja,
@@ -61,20 +60,8 @@ class ExperimentHandler(Container):
         @return: Experiment
         """
 
-        loader = Loader()
-
-        config_obj = loader.load_json_file("config.json")
-        experiments = config_obj['experiments']
-
-        cluster_info = config_obj['cluster_info']
-
-        recipes_default = config_obj['recipesDefault']
-        experiment_dependencies = config_obj['experiment_dependencies']
         experiment = Experiment(
-            experiments = experiments,
-            recipes_default=recipes_default,
-            experiment_dependencies=experiment_dependencies,
-            cluster_info=cluster_info
+            experiment = experiment,
         )
 
-        return experiment
+        self._experiments.append(experiment)

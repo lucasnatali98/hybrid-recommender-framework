@@ -6,6 +6,8 @@ import sys
 from src.data.data_handler import DataHandler
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.folds import Folds
+from src.tasks.dataset_task import run_dataset_task
+from external.deploy import Xperimentor
 
 if __name__ == "__main__":
     loader = Loader()
@@ -19,13 +21,21 @@ if __name__ == "__main__":
 
     experiment_dependencies = config_obj['experiment_dependencies']
 
-    experiment_handler = ExperimentHandler(
+    xperimentor = Xperimentor()
+    xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
         experiments=experiments,
         experiment_dependencies=experiment_dependencies,
         recipes_default=recipes_default,
         cluster_info=cluster_info
     )
-    experiment_results = experiment_handler.run_experiments()
+    experiment_handler = ExperimentHandler(
+        experiments=experiments
+    )
+    with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
+        xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
+
+
+   # experiment_results = experiment_handler.run_experiments()
 
     path_to_config_file = "";
 
@@ -37,5 +47,7 @@ if __name__ == "__main__":
         path_to_config_file = args[1]
 
 
+   # dataset_task = run_dataset_task()
+    print("Dataset task result")
 
 
