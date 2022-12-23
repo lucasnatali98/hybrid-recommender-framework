@@ -2,7 +2,6 @@ from src.experiments.experiment import AbstractExperiment, Experiment
 from src.shared.container import Container
 from typing import List
 from external.deploy import Xperimentor, TaskExecutor
-from src.data.loader import Loader
 from src.experiments.experiment_tasks import ExperimentTask
 
 class ExperimentHandler(Container):
@@ -10,9 +9,6 @@ class ExperimentHandler(Container):
         super().__init__()
         self._experiments = []
         self._experiment_tasks = ExperimentTask().define_all_tasks()
-
-        for experiment in experiments:
-            self.process_parameters(experiment)
 
         if experiments is None:
             pass
@@ -22,16 +18,6 @@ class ExperimentHandler(Container):
 
 
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        #experiment = parameters[0]
-        pass
     def build_experiments(self, experiments: list):
         """
         Responsável por construir as instancias e o arquivo de configuração do Xperimentor
@@ -41,6 +27,7 @@ class ExperimentHandler(Container):
         @param cluster_info:
         @return:
         """
+
         for experiment in experiments:
             self.create_experiment_instance(experiment)
 
@@ -62,7 +49,7 @@ class ExperimentHandler(Container):
         """
 
         experiment = Experiment(
-            experiment = experiment,
+            experiment = experiment
         )
 
         self._experiments.append(experiment)

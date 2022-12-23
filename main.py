@@ -1,12 +1,9 @@
 from src.data.loader import Loader
 from external.deploy import TaskExecutor, Xperimentor
 from src.parser import json2yaml
-import json
 import sys
-from src.data.data_handler import DataHandler
 from src.experiments.experiment_handler import ExperimentHandler
-from src.data.folds import Folds
-from src.tasks.dataset_task import run_dataset_task
+from src.experiments.experiment_tasks import ExperimentTask
 from external.deploy import Xperimentor
 
 if __name__ == "__main__":
@@ -24,6 +21,10 @@ if __name__ == "__main__":
     experiment_handler = ExperimentHandler(
         experiments=experiments
     )
+    experiment_task = ExperimentTask()
+    experiment_tasks = experiment_task.define_all_tasks()
+    print("Todas as tarefas do experimento")
+    print(experiment_tasks)
 
     xperimentor = Xperimentor()
     xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(

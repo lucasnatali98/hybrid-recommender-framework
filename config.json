@@ -72,6 +72,10 @@
           ]
         }
       },
+      "hybrid": {
+        "class": "HybridContainer",
+        "module": "src.hybrid."
+      },
       "metrics": {
         "class": "MetricsContainer",
         "module": "src.metrics.metrics_container",

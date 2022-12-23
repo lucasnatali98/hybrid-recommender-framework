@@ -27,9 +27,10 @@ class Xperimentor:
 
         cluster_ip = cluster_info['clusterIp']
         for i in range(0, qtd_experiments):
+            exp_id = experiments[i]['experiment_id']
             dataset = experiments[i]['dataset']
             metafeatures = experiments[i]['metafeatures']
-            hybrid = None
+            hybrid = experiments[i]['hybrid']
             folds = None
             recommenders = experiments[i]['recommenders']
             metrics = experiments[i]['metrics']
@@ -37,7 +38,7 @@ class Xperimentor:
             visualization = experiments[i]['visualization']
             clusterName = None
             projectId = None
-
+            self.xperimentor_pattern_obj['recipes'][i]['id'] = exp_id
             self.xperimentor_pattern_obj['recipes'][i]['uses']['DB'] = self._set_database_recipes(dataset)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['Fold'] = self._set_folds_recipes(folds)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['MF'] = self._set_metafeatures_recipes(metafeatures)
