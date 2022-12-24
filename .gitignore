@@ -2,6 +2,7 @@
 __pypache__/
 dist/
 build/
+experiment_output/
 data_storage/
 *.zip
 *.pyc

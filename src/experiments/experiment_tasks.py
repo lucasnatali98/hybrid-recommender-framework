@@ -16,6 +16,7 @@ class ExperimentTask:
         task_obj = task_type
         task_type = task_type['task_name']
         task_path = hrf_task_path()
+
         if task_type == "dataset_task":
             command = "python " + str(task_path) + "/dataset_task.py"
         if task_type == "metrics_task":

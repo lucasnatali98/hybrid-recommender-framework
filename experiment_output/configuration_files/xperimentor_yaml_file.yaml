@@ -57,17 +57,17 @@ recipes:
     - ANOVA
     - ConfidenceInterval
 tasks:
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/dataset_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/dataset_task.py
   id: dataset_task
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/preprocessing_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/preprocessing_task.py
   id: preprocessing_task
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/metrics_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/metrics_task.py
   id: metrics_task
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/metafeatures_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/metafeatures_task.py
   id: metafeatures_task
 - command: null
   id: recommenders_task
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/visualization_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/visualization_task.py
   id: visualization_task
-- command: python /home/lucas/Documentos/UFOP/monografia 2/projeto/hybrid-recommender-framework/tasks/results_task.py
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/results_task.py
   id: results_task

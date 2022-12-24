@@ -57,5 +57,5 @@ def hrf_task_path():
     @return: Path to tasks
     """
     root_path = get_project_root()
-    root_path = root_path.joinpath("tasks/")
+    root_path = root_path.joinpath("src/tasks/")
     return root_path
