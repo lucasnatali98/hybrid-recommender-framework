@@ -50,22 +50,29 @@ def run_dataset_task():
     exp_handler = ExperimentHandler(
         experiments=experiments
     )
+    """
+    Não posso passar chumbado qual o experimento é... ou eu descubro pelo arquivo de configuração
+    buscando pelo nome ou algo assim ou eu recebo como argumentos para executar o programa, essa opção
+    é menos viável visto que dependente de uma alteração no Xperimentor
+    """
     experiment = exp_handler.get_experiment("exp1")
-    print("Experiment typeof: ", experiment)
     experiment_instances = experiment.instances
-    print("Experiment_instances: ", experiment_instances)
-    #Não preciso criar instancias, porque elas já existem como um atributo da classe
 
     dataset_instance = experiment_instances['datasets']
 
-
     dataset_task = DatasetTask(dataset_instance)
-    ratings = dataset_instance.ratings
 
     print(" => Iniciando a execução da tarefa dos datasets")
     dataset_result = dataset_task.run()
+    print("Dataset resultante: ", dataset_result)
     print(" => Finalizando a tarefa dos datasets")
-    dataset_result.to_csv()
+
+    load_dataset = dataset_result.to_csv()
+
+    if load_dataset is None:
+        print("Ocorreu um problema na hora de salvar o dataset resultante")
+        return
+
     return dataset_result
 
 
