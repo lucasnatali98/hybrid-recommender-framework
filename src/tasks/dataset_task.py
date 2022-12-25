@@ -43,10 +43,22 @@ class DatasetTask(Task):
 
 
 def run_dataset_task():
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
 
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    dataset_instance = experiment.datasets
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
+    experiment = exp_handler.get_experiment("exp1")
+    print("Experiment typeof: ", experiment)
+    experiment_instances = experiment.instances
+    print("Experiment_instances: ", experiment_instances)
+    #Não preciso criar instancias, porque elas já existem como um atributo da classe
+
+    dataset_instance = experiment_instances['datasets']
+
+
     dataset_task = DatasetTask(dataset_instance)
     ratings = dataset_instance.ratings
 
@@ -56,6 +68,8 @@ def run_dataset_task():
     dataset_result.to_csv()
     return dataset_result
 
+
+run_dataset_task()
 
 
 

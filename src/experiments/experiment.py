@@ -30,28 +30,19 @@ class AbstractExperiment(ABC):
 
 
 class Experiment(AbstractExperiment):
-    """
-
-    """
-
-    _experiment_id: str
-    _datasets: object
-    _preprocessing: object
-    _metrics: object
-    _metafeatures: object
-    _results: object
-    _visualization: object
-    _recommenders: object
-    _experiment: dict
-    _experiment_dependencie: dict
-
     def __init__(self, experiment: dict) -> None:
         self._experiment = experiment
+        self._experiment_id = self._experiment.get('experiment_id')
+
 
         # Definição de todas as instâncias baseado no experimento
         instances_obj = self.create_experiment_instances(experiment)
         self._set_attributes(instances_obj)
-        self._instances = None
+        self._instances = instances_obj
+
+    @property
+    def instances(self) -> dict:
+        return self._instances
 
 
 
@@ -147,6 +138,9 @@ class Experiment(AbstractExperiment):
         return self._experiment_obj
 
     @property
+    def experiment_id(self):
+        return self._experiment_id
+    @property
     def experiment_dependencies(self):
         return self._experiment_dependencie
 
@@ -221,4 +215,5 @@ class Experiment(AbstractExperiment):
     @visualization.setter
     def visualization(self, v):
         self._visualization = v
+
 

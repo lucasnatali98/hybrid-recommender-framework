@@ -59,7 +59,6 @@ if __name__ == "__main__":
         print("dataset task command: ", dataset_task_command)
         command_path = dataset_task_command.split(" ")[1]
         print(command_path)
-        output = subprocess.call(['ls'],
-                                cwd="/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/",
+        output = subprocess.call([dataset_task_command],
                                 shell=True)
         print("Output do processo: ", output)

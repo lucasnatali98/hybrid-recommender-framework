@@ -39,6 +39,27 @@ class ExperimentHandler(Container):
 
         return result
 
+    def get_experiment(self, experiment_id: str):
+        for i in self._experiments:
+            print(i.experiment_id)
+        exp = list(filter(lambda x: x.experiment_id == experiment_id, self._experiments))
+        if len(exp) == 0:
+            return None
+
+        return exp[0]
+
+    def get_all_experiments(self):
+        return self._experiments
+
+    def remove_all(self):
+        return self._experiments.clear()
+
+    def remove(self, experiment_id):
+        exp = self.get_experiment(experiment_id)
+        if exp is None:
+            return False
+
+        self._experiments.remove(exp)
     def create_experiment_instance(self, experiment: dict):
         """
         Essa função cria uma instancia de um experimento a partir dos arquivos de configuração,
