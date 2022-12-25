@@ -1,6 +1,7 @@
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from sklearn.preprocessing import normalize
 import numpy as np
+import pandas as pd
 
 class NormalizeProcessing(AbstractPreProcessing):
 
@@ -48,11 +49,16 @@ class NormalizeProcessing(AbstractPreProcessing):
 
         X = np.array(data['rating']).reshape(-1,1)
 
-        return normalize(
+        normalized_data = normalize(
             X=X,
             norm=self.norm,
             axis=self.axis,
             copy=self.copy,
             return_norm=self.return_norm
         )
+        normalized_data = normalized_data.flatten()
+
+        data['rating'] = pd.Series(normalized_data)
+
+        return data
 

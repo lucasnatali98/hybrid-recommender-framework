@@ -51,7 +51,7 @@
               "class_name": "NormalizeProcessing",
               "parameters": {
                 "norm": "l2",
-                "axis": 1,
+                "axis": 0,
                 "copy": true,
                 "return_norm": false
 

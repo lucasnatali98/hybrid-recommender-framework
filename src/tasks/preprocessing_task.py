@@ -37,6 +37,7 @@ class PreProcessingTask(Task):
         @return:
         """
         execution_steps = {}
+        result = None
         items = preprocessing.items[0]
         print("Preprocessing items: ")
         print(items)
@@ -45,7 +46,10 @@ class PreProcessingTask(Task):
             result = item.pre_processing(dataset)
             execution_steps[class_name] = result
 
-        print("Execution Steps: ", execution_steps)
+        normalize_result = execution_steps['NormalizeProcessing']
+        print("Normalize result")
+        print(normalize_result)
+
         self._save_splited_dataset(execution_steps['SplitProcessing'])
         print("=> Todas as tarefas de pré-processamento foram realizadas e salvas em diretórios temporários\n")
 
