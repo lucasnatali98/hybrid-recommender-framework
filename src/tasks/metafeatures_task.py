@@ -39,7 +39,7 @@ def run_metafeatures_task():
     experiment = exp_handler.get_experiment("exp1")
     experiment_instances = experiment.instances
 
-    metafeatures_instance = experiment_instances['datasets']
+    metafeatures_instance = experiment_instances['metafeatures']
 
     metafeatures_task = MetaFeaturesTask(metafeatures_instance)
     metafeatures_task.run()
