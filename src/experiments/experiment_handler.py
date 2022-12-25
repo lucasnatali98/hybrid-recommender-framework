@@ -40,8 +40,6 @@ class ExperimentHandler(Container):
         return result
 
     def get_experiment(self, experiment_id: str):
-        for i in self._experiments:
-            print(i.experiment_id)
         exp = list(filter(lambda x: x.experiment_id == experiment_id, self._experiments))
         if len(exp) == 0:
             return None

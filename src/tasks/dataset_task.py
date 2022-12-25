@@ -63,16 +63,12 @@ def run_dataset_task():
 
     print(" => Iniciando a execução da tarefa dos datasets")
     dataset_result = dataset_task.run()
-    print("Dataset resultante: ", dataset_result)
-    print(" => Finalizando a tarefa dos datasets")
+
 
     path_to_save = hrf_experiment_output_path().joinpath("datasets/new_dataset.csv")
-    load_dataset = dataset_result.to_csv(path_to_save)
-    print("load dataset: ", load_dataset)
-    if load_dataset is None:
-        print("Ocorreu um problema na hora de salvar o dataset resultante")
-
-
+    print("path to save: ", path_to_save)
+    dataset_result.to_csv(path_to_save)
+    print(" => Finalizando a tarefa dos datasets")
     return dataset_result
 
 

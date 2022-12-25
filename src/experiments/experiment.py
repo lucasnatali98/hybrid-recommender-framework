@@ -96,7 +96,7 @@ class Experiment(AbstractExperiment):
         @param config_obj:
         @return: dict
         """
-        print("Experiment: ", experiment)
+
         instance_factory = InstanceFactory(experiment)
 
         dataset_class_name = experiment['dataset']['class']
