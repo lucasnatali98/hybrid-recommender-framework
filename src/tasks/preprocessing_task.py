@@ -62,18 +62,29 @@ class PreProcessingTask(Task):
 
 
 
-def main():
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    preprocessing = experiment.preprocessing
-    preprocessing_task = PreProcessingTask(preprocessing)
+def run_preprocessing_task():
+    loader = Loader
+    config_obj = loader.load_json_file("config.json")
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
 
+    experiment = exp_handler.get_experiment("exp1")
+    experiment_instances = experiment.instances
+    preprocessing_instance = experiment_instances['preprocessing']
+
+    preprocessing_task = PreProcessingTask(preprocessing_instance)
+
+    print(" => Inicio da tarefa de preprocessamento...")
     preprocessing_task.run()
 
+    # save the preprocessing result
 
-print(" => Inicio da tarefa de preprocessamento...")
-preprocessing_result = main()
-#save the preprocessing result
+    print(" => Finalização da tarefa de preprocessamento...")
 
-print(" => Finalização da tarefa de preprocessamento...")
 
+
+
+
+run_preprocessing_task()
