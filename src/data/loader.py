@@ -111,7 +111,7 @@ class Loader:
         else:
             try:
                 data = pd.DataFrame(data)
-                new_path = "experiment_output/temp_files/" + path
+                new_path = path
                 return data.to_excel(ROOT_PATH.joinpath(new_path))
             except:
                 raise Exception("Não foi possível converter para excel")
