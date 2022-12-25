@@ -1,11 +1,12 @@
 from src.recommenders.recommender import Recommender
-
+from lenskit.algorithms import item_knn
 
 class ItemKNN(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
         
         """
+
         self.process_parameters(parameters)
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
@@ -13,6 +14,15 @@ class ItemKNN(Recommender):
         self.feedback = parameters['feedback']
         self.aggregate = parameters['aggregate']
         self.use_ratings = parameters['use_ratings']
+
+        self.ItemKNN = item_knn.ItemItem(
+            nnbrs=self.max_number_neighbors,
+            min_nbrs=self.min_number_neighbors,
+            save_nbrs=self.save_nbrs,
+            feedback=self.feedback,
+            aggregate=self.aggregate,
+            use_ratings=self.use_ratings
+        )
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -44,7 +54,7 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.ItemKNN.predict_for_user(users, items, ratings)
 
     def predict(self, pairs, ratings):
         """
@@ -53,13 +63,13 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.ItemKNN.predict(pairs, ratings)
 
     def recommend(self, user, n, candidates, ratings):
         """
 
         @param user:
-        @param n:
+        @param n:;
         @param candidates:
         @param ratings:
         @return:
@@ -81,4 +91,4 @@ class ItemKNN(Recommender):
         @param kwargs:
         @return:
         """
-        pass
+        self.ItemKNN.fit(rating)
