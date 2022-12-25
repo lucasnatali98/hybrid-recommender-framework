@@ -2,7 +2,7 @@
 __pypache__/
 dist/
 build/
-experiment_output/
+*.csv
 data_storage/
 *.zip
 *.pyc
@@ -10,4 +10,3 @@ data_storage/
 node_modules/
 kubernetes_config.json
 *.idea
-*.txt

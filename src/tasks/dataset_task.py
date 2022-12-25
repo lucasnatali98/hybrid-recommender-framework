@@ -1,10 +1,9 @@
-import sys
-import subprocess
+
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment import Experiment
 from src.experiments.experiment_handler import ExperimentHandler
-import logging
+from src.utils import hrf_experiment_output_path
 
 
 class DatasetTask(Task):
@@ -67,11 +66,12 @@ def run_dataset_task():
     print("Dataset resultante: ", dataset_result)
     print(" => Finalizando a tarefa dos datasets")
 
-    load_dataset = dataset_result.to_csv()
-
+    path_to_save = hrf_experiment_output_path().joinpath("datasets/new_dataset.csv")
+    load_dataset = dataset_result.to_csv(path_to_save)
+    print("load dataset: ", load_dataset)
     if load_dataset is None:
         print("Ocorreu um problema na hora de salvar o dataset resultante")
-        return
+
 
     return dataset_result
 
