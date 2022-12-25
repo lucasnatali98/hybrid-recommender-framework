@@ -60,15 +60,13 @@ def run_dataset_task():
     dataset_instance = experiment_instances['datasets']
 
     dataset_task = DatasetTask(dataset_instance)
-
+    print("\n")
     print(" => Iniciando a execução da tarefa dos datasets")
     dataset_result = dataset_task.run()
-
-
     path_to_save = hrf_experiment_output_path().joinpath("datasets/new_dataset.csv")
-    print("path to save: ", path_to_save)
     dataset_result.to_csv(path_to_save)
     print(" => Finalizando a tarefa dos datasets")
+    print("\n")
     return dataset_result
 
 

@@ -25,8 +25,6 @@ if __name__ == "__main__":
     )
     experiment_task = ExperimentTask()
     experiment_tasks = experiment_task.define_all_tasks()
-    print("Todas as tarefas do experimento")
-    print(experiment_tasks)
 
     xperimentor = Xperimentor()
     xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(

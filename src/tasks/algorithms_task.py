@@ -27,7 +27,9 @@ class AlgorithmsTask(Task):
         return algorithms
 
     def _handle_algorithms_tasks(self, algorithms):
-        return algorithms
+        rating  = None
+        for algorithm in algorithms:
+            algorithm.fit()
 
 
 

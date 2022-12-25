@@ -38,22 +38,16 @@ class PreProcessingTask(Task):
         """
         execution_steps = {}
 
-        items = preprocessing.items[0]
+        items = preprocessing.items[0] # [[]]
 
-        """
-        Tenho que pensar em como fazer um preprocessamento sempre utilizando o resultado do outro preprocessamento
-        """
-
+        result = dataset
         for item in items:
             class_name = item.__class__.__name__
-            result = item.pre_processing(dataset)
+            result = item.pre_processing(result)
             execution_steps[class_name] = result
 
-        normalize_result = execution_steps['NormalizeProcessing']
-        print("Normalize result")
-        print(normalize_result.to_csv())
+        result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"))
 
-        #self._save_splited_dataset(execution_steps['SplitProcessing'])
         print("=> Todas as tarefas de pré-processamento foram realizadas e salvas em diretórios temporários\n")
 
 
@@ -69,11 +63,9 @@ def run_preprocessing_task():
     experiment = exp_handler.get_experiment("exp1")
     experiment_instances = experiment.instances
     preprocessing_instance = experiment_instances['preprocessing']
-    print("Preprocessing instance: ")
-    print(preprocessing_instance)
 
     preprocessing_task = PreProcessingTask(preprocessing_instance)
-
+    print("\n")
     print(" => Inicio da tarefa de preprocessamento...")
     preprocessing_task.run()
 
