@@ -60,16 +60,9 @@ def run_visualization_task():
 
     print(" => Iniciando a execução da tarefa da visualização dos dados")
     visualization_result = visualization_task.run()
-    print("Dataset resultante: ", visualization_result)
     print(" => Finalizando a tarefa de visualização dos dados")
 
-    load_dataset = dataset_result.to_csv()
-
-    if load_dataset is None:
-        print("Ocorreu um problema na hora de salvar o dataset resultante")
-        return
-
-    return dataset_result
+    return visualization_result
 
 
 run_visualization_task()
