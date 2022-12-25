@@ -94,7 +94,7 @@ class Loader:
             try:
                 data = pd.DataFrame(data)
                 new_path = path
-                return data.to_csv(ROOT_PATH.joinpath(new_path))
+                return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
 

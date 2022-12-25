@@ -1,8 +1,8 @@
 from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from pandas import DataFrame
-
-
+from src.data.loader import Loader
+from src.utils import hrf_experiment_output_path
 
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
@@ -16,14 +16,12 @@ class SplitProcessing(AbstractPreProcessing):
         self.shuffle = parameters['shuffle']
         self.stratify = parameters['stratify']
 
-
     def process_parameters(self, parameters: dict) -> dict:
         """
 
         @param parameters: objeto com os parâmetros da classe
         @return: dicionário atualizado com esses mesmos parâmetros
         """
-
 
         default_keys = [
             'test_size',
@@ -46,7 +44,7 @@ class SplitProcessing(AbstractPreProcessing):
         @return:
         """
         y = data['rating']
-        X = data.drop(columns = ['rating'], axis=1)
+        X = data.drop(columns=['rating'], axis=1)
 
         X_train, X_test, y_train, y_test = train_test_split(
             X,
@@ -57,13 +55,16 @@ class SplitProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             stratify=None)
 
-        #return X_train, X_test, y_train, y_test
-        return {
+        # return X_train, X_test, y_train, y_test
+        new_dfs = {
             'x_train': X_train,
             'x_test': X_test,
             'y_train': y_train,
             'y_test': y_test
         }
+
+        self._save_splited_dataset(new_dfs)
+        return data
 
     def row_based_splitting(self, data: DataFrame, partitions: int, rng_spec):
         """
@@ -76,5 +77,21 @@ class SplitProcessing(AbstractPreProcessing):
     def user_based_splitting(self):
         pass
 
+    def _save_splited_dataset(self, split_processing: dict):
+        """
 
-
+        @param split_processing:
+        @return:
+        """
+        loader = Loader()
+        preprocessing_experiment_output_path = hrf_experiment_output_path().joinpath("preprocessing/")
+        print("Preprocessing experiment output path: ", preprocessing_experiment_output_path)
+        for key, value in split_processing.items():
+            if key == 'x_train':
+                loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath("xtrain.csv"))
+            if key == 'x_test':
+                loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath("xtest.csv"))
+            if key == 'y_train':
+                loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath("ytrain.csv"))
+            if key == 'y_test':
+                loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath('ytest.csv'))

@@ -215,6 +215,10 @@ class MovieLens(AbstractDataSet):
 
     def apply_filters(self):
         filters = self.config_obj['filters']
+
+        if not filters:
+            return self.ratings
+
         qtd_ratings = filters['qtd_ratings']
         new_ratings = self.ratings[0:qtd_ratings]
         return new_ratings

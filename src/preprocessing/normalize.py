@@ -45,8 +45,6 @@ class NormalizeProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-
-
         X = np.array(data['rating']).reshape(-1,1)
 
         normalized_data = normalize(
