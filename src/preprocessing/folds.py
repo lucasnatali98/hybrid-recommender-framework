@@ -22,14 +22,21 @@ class FoldsProcessing(AbstractPreProcessing):
         self.random_state = parameters['random_state']
 
     def process_parameters(self, parameters: dict) -> dict:
-        default_keys = [
+        default_keys = {
             'folds',
             'strategy'
-        ]
+        }
+        parameters_keys_list = list(parameters.keys())
 
-        for key in parameters.keys():
-            if key not in default_keys:
-                raise KeyError("Você não informou a chave {} e ela é obrigatória".format(key))
+        parameters_keys = set()
+        for parameter in parameters_keys_list:
+            parameters_keys.add(parameter)
+
+        if default_keys.issubset(parameters_keys):
+            pass
+        else:
+            raise KeyError("Você não informou uma das chaves obrigatorias")
+
 
         return parameters
 
@@ -42,6 +49,8 @@ class FoldsProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             random_state=self.random_state
         )
+        print("folds preprocessing")
+        print(result)
 
         return result
 

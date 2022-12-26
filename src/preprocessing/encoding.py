@@ -35,14 +35,19 @@ class EncodingProcessing(AbstractPreProcessing):
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        default_keys = [
+        default_keys = {
             'encoding_type'
-        ]
-        parameters_keys = parameters.keys()
+        }
+        parameters_keys_list = list(parameters.keys())
 
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+        parameters_keys = set()
+        for parameter in parameters_keys_list:
+            parameters_keys.add(parameter)
+
+        if default_keys.issubset(parameters_keys):
+            pass
+        else:
+            raise KeyError("Você não informou uma das chaves obrigatorias")
 
         return parameters
 

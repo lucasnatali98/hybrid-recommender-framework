@@ -84,5 +84,8 @@ class UserKNN(Recommender):
     def recommend(self, user, n=None, candidates=None, ratings=None):
         pass
 
+    def get_params(self, deep = True):
+        pass
+
 
 

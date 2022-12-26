@@ -1,6 +1,6 @@
 from src.data.dataset import AbstractDataSet
 from dataclasses import dataclass
-from src.data.folds import Folds
+
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -32,10 +32,6 @@ class MovieLens(AbstractDataSet):
 
         self.config_obj = parameters
         self.process_parameters(parameters)
-        self.folds = parameters['folds']
-        self.shuffle = parameters['shuffle']
-        self.random_state = parameters['random_state']
-        self.strategy = parameters['strategy']
         self.filters = parameters['filters']
 
         self.proportion = proportion
@@ -53,8 +49,6 @@ class MovieLens(AbstractDataSet):
 
         default_keys = [
             'proportion',
-            'folds',
-            'strategy'
         ]
         parameters_keys = parameters.keys()
 
@@ -132,63 +126,24 @@ class MovieLens(AbstractDataSet):
         self.set_links(links)
 
     def set_ratings(self, ratings):
-        """
-
-        @param ratings:
-        @return:
-        """
         setattr(MovieLens, 'ratings', ratings)
 
     def set_links(self, links):
-        """
-
-        @param links:
-        @return:
-        """
-
         setattr(MovieLens, 'links', links)
 
     def set_items(self, items):
-        """
-
-        @param items:
-        @return:
-        """
-
         setattr(MovieLens, 'items', items)
 
     def set_users(self, users):
-        """
-
-        @param users:
-        @return:
-        """
-
         setattr(MovieLens, 'users', users)
 
     def set_tags(self, tags):
-        """
-
-        @param tags:
-        @return:
-        """
-
         setattr(MovieLens, 'tags', tags)
 
     def set_genome_tags(self, genome_tags):
-        """
-
-        @param genome_tags:
-        @return:
-        """
         setattr(MovieLens, 'genomeTags', genome_tags)
 
     def set_genome_scores(self, genome_scores):
-        """
-
-        @param genome_scores:
-        @return:
-        """
         setattr(MovieLens, 'genomeScores', genome_scores)
 
     def processing_datasets(self):
@@ -198,20 +153,6 @@ class MovieLens(AbstractDataSet):
         """
         pass
 
-    def generate_folds(self):
-        """
-
-        @return:
-        """
-        strategy = self.config_obj['strategy']
-        shuffle = self.config_obj['shuffle']
-        num_folds = self.config_obj['folds']
-        random_state = self.config_obj['random_state']
-
-        strategy = strategy.lower()
-        folds = Folds(strategy)
-
-        return folds.create_folds(self.ratings, n_splits=num_folds, shuffle=shuffle, random_state=random_state)
 
     def apply_filters(self):
         filters = self.config_obj['filters']
@@ -247,33 +188,16 @@ class MovieLens(AbstractDataSet):
 
     @property
     def ratings(self):
-        """
-
-        @return:
-        """
         return self.ratings
 
     @property
     def tags(self):
-        """
-
-        @return:
-        """
-
         return self.tags
 
     @property
     def links(self):
-        """
-
-        @return:
-        """
         return self.links
 
     @property
     def items(self):
-        """
-
-        @return:
-        """
         return self.items
