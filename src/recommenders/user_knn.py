@@ -1,5 +1,5 @@
 from src.recommenders.recommender import Recommender
-from lenskit.algorithms import user_knn, Recommender
+from lenskit.algorithms import user_knn
 from pandas import DataFrame
 
 

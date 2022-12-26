@@ -1,5 +1,5 @@
 from src.recommenders.recommender import Recommender
-
+from lenskit.algorithms import bias
 
 class Bias(Recommender):
     def __init__(self, parameters: dict) -> None:
@@ -13,6 +13,10 @@ class Bias(Recommender):
         self.items = parameters['items']
         self.users = parameters['users']
         self.damping = parameters['damping']
+        self.Bias = bias.Bias(
+            items=self.items,
+            users=self.users,
+        )
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -38,7 +42,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.Bias.predict_for_user(users, items, ratings)
 
     def predict(self, pairs, ratings):
         """
@@ -47,7 +51,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.Bias.predict(pairs, ratings)
 
     def recommend(self, user, n, candidates, ratings):
         """
@@ -75,4 +79,7 @@ class Bias(Recommender):
         @param kwargs:
         @return:
         """
-        pass
+        self.Bias.fit(rating)
+
+    def transform(self, rating):
+        return self.Bias.transform(rating)
