@@ -18,7 +18,8 @@ class FoldsProcessing(AbstractPreProcessing):
         parameters = self.process_parameters(parameters)
         self.number_of_folds = parameters['folds']
         self.strategy = parameters['strategy']
-
+        self.shuffle = parameters['shuffle']
+        self.random_state = parameters['random_state']
 
     def process_parameters(self, parameters: dict) -> dict:
         default_keys = [
@@ -34,6 +35,16 @@ class FoldsProcessing(AbstractPreProcessing):
 
     def pre_processing(self, data, **kwargs):
         folds = Folds(self.strategy)
+
+        result = folds.create_folds(
+            data=data,
+            n_splits=self.number_of_folds,
+            shuffle=self.shuffle,
+            random_state=self.random_state
+        )
+
+        return result
+
 
 class Folds:
     def __init__(self, strategy: str) -> None:
@@ -65,7 +76,8 @@ class Folds:
         @return:
         """
         pass
-    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs) -> None:
+
+    def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
         """
 
         @return:
@@ -91,6 +103,7 @@ class KFoldStrategy(Strategy):
         print('Create folds in KFold Strategy')
         kfold = KFold(n_splits=n_splits, shuffle=shuffle)
         return kfold
+
 
 class GroupKFoldStrategy(Strategy):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):
@@ -156,6 +169,7 @@ class ShuffleSplitStrategy(Strategy):
         print('Create folds in ShuffleSplit Strategy')
         shuffle_split = ShuffleSplit(n_splits=n_splits, random_state=random_state)
         return shuffle_split
+
 
 class StratifiedKFoldStrategy(Strategy):
     def create_folds(self, data, n_splits: int, shuffle: bool, random_state: int, **kwargs):

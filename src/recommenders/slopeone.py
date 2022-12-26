@@ -1,12 +1,13 @@
 from src.recommenders.recommender import Recommender
 from surprise import SlopeOne as SlopeOneSurprise
 
+
 class SlopeOne(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
         
         """
-
+        parameters = self.process_parameters(parameters);
         self.slope_one = SlopeOneSurprise()
 
 
