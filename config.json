@@ -73,6 +73,22 @@
                 "random_state": 42,
                 "strategy": "stratifiedshufflesplit"
               }
+            },
+            {
+              "module": "src.preprocessing.text",
+              "class_name": "TextProcessing",
+              "parameters": {
+                "apply_on": {
+
+                },
+                "remove_stop_words": true,
+                "tokenize_words": true,
+                "tokenize_sent": false,
+                "tf_idf": true,
+                "remove_caracters": true,
+                "unicode_sentences": true,
+                "pos_tagging": true
+              }
             }
 
           ]
