@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, StratifiedKFold, StratifiedShuffleSplit
 from sklearn.model_selection import StratifiedGroupKFold, KFold, ShuffleSplit
 from src.preprocessing.preprocessing import AbstractPreProcessing
-
+from src.utils import process_parameters
 
 class Strategy(ABC):
 
@@ -14,31 +14,17 @@ class Strategy(ABC):
 class FoldsProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict) -> None:
         super().__init__()
-
-        parameters = self.process_parameters(parameters)
+        default_keys = {
+            'folds',
+            'strategy'
+        }
+        parameters = process_parameters(parameters, default_keys)
         self.number_of_folds = parameters['folds']
         self.strategy = parameters['strategy']
         self.shuffle = parameters['shuffle']
         self.random_state = parameters['random_state']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        default_keys = {
-            'folds',
-            'strategy'
-        }
-        parameters_keys_list = list(parameters.keys())
 
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-
-
-        return parameters
 
     def pre_processing(self, data, **kwargs):
         folds = Folds(self.strategy)

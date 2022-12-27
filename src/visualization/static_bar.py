@@ -1,12 +1,13 @@
 from src.visualization.visualization import StaticPlot
-
+from src.utils import process_parameters
 
 class StaticBar(StaticPlot):
     def __init__(self, parameters: dict) -> None:
         """
         
         """
-        parameters = self.process_parameters(parameters)
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
         #Tipos de visualização que serão feitas
         self.plot_types = parameters['plot_types']
 
@@ -14,22 +15,6 @@ class StaticBar(StaticPlot):
         self.ratings_by_movie = self.plot_types['ratings_by_movie']
         self.movie_ratings_distribution = self.plot_types['movie_ratings_distribution']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        default_keys = [
-            'plot_types'
-        ]
-        parameters_keys = parameters.keys()
-
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
-
-        return parameters
 
     def plot(self):
         """

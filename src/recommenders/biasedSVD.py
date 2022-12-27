@@ -1,13 +1,16 @@
 from src.recommenders.recommender import Recommender
-
+from src.utils import process_parameters
 
 class BiasedSVD(Recommender):
     def __init__(self, parameters: dict) -> None:
-        """
+        default_keys = {
+            'damping',
+            'features',
+            'bias',
+            'algorithm'
+        }
 
-        """
-
-        self.process_parameters(parameters)
+        parameters = process_parameters(parameters, default_keys)
 
         self.features = parameters['features']
         self.damping = parameters['damping']
@@ -22,18 +25,18 @@ class BiasedSVD(Recommender):
         """
 
 
-        default_keys = [
-            'damping',
-            'features',
-            'bias',
-            'algorithm'
-        ]
-        parameters_keys = parameters.keys()
 
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
+        default_keys = set()
+        parameters_keys_list = list(parameters.keys())
 
+        parameters_keys = set()
+        for parameter in parameters_keys_list:
+            parameters_keys.add(parameter)
+
+        if default_keys.issubset(parameters_keys):
+            pass
+        else:
+            raise KeyError("Você não informou uma das chaves obrigatorias")
         return parameters
 
     def predict_for_users(self, users, items, ratings):

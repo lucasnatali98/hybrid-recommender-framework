@@ -1,6 +1,7 @@
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import user_knn
 from pandas import DataFrame
+from src.utils import process_parameters
 
 
 class UserKNN(Recommender):
@@ -9,7 +10,13 @@ class UserKNN(Recommender):
         
         """
 
-        self.process_parameters(parameters)
+        default_keys = {
+            'maxNumberNeighbors',
+            'minNumberNeighbors',
+            'min_sim',
+            'feedback'
+        }
+        parameters = process_parameters(parameters, default_keys)
 
 
         self.max_number_neighbors = parameters['maxNumberNeighbors']
@@ -23,27 +30,7 @@ class UserKNN(Recommender):
             feedback=self.feedback
         )
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-
-        default_keys = [
-            'maxNumberNeighbors',
-            'minNumberNeighbors',
-            'min_sim',
-            'feedback'
-        ]
-        parameters_keys = parameters.keys()
-
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
-
-        return parameters
     def predict_for_users(self, user, items, ratings=None):
         """
 

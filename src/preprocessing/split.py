@@ -2,7 +2,7 @@ from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from pandas import DataFrame
 from src.data.loader import Loader
-from src.utils import hrf_experiment_output_path
+from src.utils import hrf_experiment_output_path, process_parameters
 
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
@@ -10,36 +10,19 @@ class SplitProcessing(AbstractPreProcessing):
         
         """
         super().__init__()
+        default_keys = {
+            'test_size',
+            'train_size',
+            'random_state'
+        }
+        parameters = process_parameters(parameters, default_keys)
         self.test_size = parameters['test_size']
         self.train_size = parameters['train_size']
         self.random_state = parameters['random_state']
         self.shuffle = parameters['shuffle']
         self.stratify = parameters['stratify']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = {
-            'test_size',
-            'train_size',
-            'random_state'
-        }
-        parameters_keys_list = list(parameters.keys())
-
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Não foi informada uma das chaves necessárias")
-
-        return parameters
 
     def pre_processing(self, data, **kwargs):
         """

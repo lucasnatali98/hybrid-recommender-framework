@@ -2,7 +2,7 @@ from src.preprocessing.preprocessing import AbstractPreProcessing
 from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, LabelEncoder
 import pandas as pd
 import numpy as np
-
+from src.utils import process_parameters
 ENCODING_TYPES = [
     "ordinal",
     "label",
@@ -19,6 +19,10 @@ class EncodingProcessing(AbstractPreProcessing):
         @param encoding_type:
         """
         super().__init__()
+        default_keys = {
+            'encoding_type'
+        }
+        parameters = process_parameters(parameters, default_keys)
         encoding_type = parameters['encoding_type']
 
         encoding = list(filter(lambda x: x == encoding_type, ENCODING_TYPES))
@@ -28,28 +32,7 @@ class EncodingProcessing(AbstractPreProcessing):
 
         self.encoding_type = encoding[0]
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = {
-            'encoding_type'
-        }
-        parameters_keys_list = list(parameters.keys())
-
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-
-        return parameters
 
     def _create_encoding_instance(self):
         """

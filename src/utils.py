@@ -1,5 +1,19 @@
 from pathlib import Path
 
+
+def process_parameters(parameters: dict, default_keys: set) -> dict:
+    parameters_keys_list = list(parameters.keys())
+
+    parameters_keys = set()
+    for parameter in parameters_keys_list:
+        parameters_keys.add(parameter)
+
+    if default_keys.issubset(parameters_keys):
+        pass
+    else:
+        raise KeyError("Você não informou uma das chaves obrigatorias")
+    return parameters
+
 def object_equals_type(obj, object_type):
     """
 

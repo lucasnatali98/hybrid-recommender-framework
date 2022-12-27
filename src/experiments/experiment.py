@@ -4,7 +4,7 @@ from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
-from src.utils import hrf_task_path, get_project_root
+from src.utils import hrf_task_path, get_project_root, process_parameters
 
 
 class AbstractExperiment(ABC):
@@ -31,6 +31,16 @@ class AbstractExperiment(ABC):
 
 class Experiment(AbstractExperiment):
     def __init__(self, experiment: dict) -> None:
+        default_keys = {
+            'dataset',
+            'preprocessing',
+            'metrics',
+            'recommenders',
+            'results',
+            'visualization',
+            'metafeatures'
+        }
+        experiment = process_parameters(experiment, default_keys)
         self._experiment = experiment
         self._experiment_id = self._experiment.get('experiment_id')
 
@@ -56,27 +66,6 @@ class Experiment(AbstractExperiment):
         self._instances = self.create_experiment_instances(self._experiment)
         return self._instances
 
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = [
-            'dataset',
-            'preprocessing',
-            'metrics',
-            'recommenders',
-            'results',
-            'visualization',
-            'metafeatures'
-        ]
-
-        for key in parameters.keys():
-            if key not in default_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
 
     def _set_attributes(self, instances: dict):
         self._datasets = instances['datasets']

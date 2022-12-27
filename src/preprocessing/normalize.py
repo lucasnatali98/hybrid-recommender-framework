@@ -1,6 +1,7 @@
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from sklearn.preprocessing import normalize
 import numpy as np
+from src.utils import process_parameters
 import pandas as pd
 
 class NormalizeProcessing(AbstractPreProcessing):
@@ -10,38 +11,17 @@ class NormalizeProcessing(AbstractPreProcessing):
 
         """
         super().__init__()
-        self.process_parameters(parameters)
-        self.norm = parameters['norm']
-        self.axis = parameters['axis']
-        self.copy = parameters['copy']
-        self.return_norm = parameters['return_norm']
-
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
         default_keys = {
             'norm',
             'axis',
             'copy',
             'return_norm'
         }
-        parameters_keys_list = list(parameters.keys())
-
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-
-        return parameters
+        parameters = process_parameters(parameters, default_keys)
+        self.norm = parameters['norm']
+        self.axis = parameters['axis']
+        self.copy = parameters['copy']
+        self.return_norm = parameters['return_norm']
 
     def pre_processing(self, data, **kwargs):
         """

@@ -1,6 +1,5 @@
 from src.data.dataset import AbstractDataSet
-from dataclasses import dataclass
-
+from src.utils import process_parameters
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -23,6 +22,9 @@ class MovieLens(AbstractDataSet):
 
         """
         super().__init__()
+        default_keys = {
+            'proportion'
+        }
         proportion = str(parameters['proportion'])
 
         if not self._is_proportion_valid(proportion):
@@ -30,8 +32,9 @@ class MovieLens(AbstractDataSet):
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"
             )
 
+        parameters = process_parameters(parameters, default_keys)
+
         self.config_obj = parameters
-        self.process_parameters(parameters)
         self.filters = parameters['filters']
 
         self.proportion = proportion
@@ -47,10 +50,6 @@ class MovieLens(AbstractDataSet):
         @return: dicionário atualizado com esses mesmos parâmetros
         """
 
-        default_keys = {
-            'proportion'
-        }
-
         parameters_keys_list = list(parameters.keys())
 
         parameters_keys = set()
@@ -62,6 +61,7 @@ class MovieLens(AbstractDataSet):
         else:
             raise KeyError("Você não informou uma das chaves obrigatorias")
         return parameters
+
     def _is_proportion_valid(self, proportion) -> bool:
         """
         Check if the proportion of movielens dataset is valid
@@ -158,7 +158,6 @@ class MovieLens(AbstractDataSet):
         """
         pass
 
-
     def apply_filters(self):
         filters = self.config_obj['filters']
 
@@ -188,8 +187,6 @@ class MovieLens(AbstractDataSet):
             self.ratings,
             self.tags,
         ]
-
-
 
     @property
     def ratings(self):
