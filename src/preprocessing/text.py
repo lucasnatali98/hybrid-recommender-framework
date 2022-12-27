@@ -37,3 +37,30 @@ class TextProcessing(AbstractPreProcessing):
         @return:
         """
         pass
+
+    def remove_stop_words(self):
+        pass
+    def word_tokenizer(self):
+        pass
+    def sentence_tokenizer(self):
+        pass
+
+    def remove_duplicated_words(self):
+        pass
+
+    def pos_tagging(self):
+        pass
+    def named_entity_recognition(self):
+        pass
+
+    def tf_idf(self):
+        pass
+
+    def stemming(self):
+        pass
+
+    def lemmatization(self):
+        pass
+
+    def frequency(self):
+        pass

@@ -78,9 +78,7 @@
               "module": "src.preprocessing.text",
               "class_name": "TextProcessing",
               "parameters": {
-                "apply_on": {
-
-                },
+                "apply_on": {},
                 "remove_stop_words": true,
                 "tokenize_words": true,
                 "tokenize_sent": false,
