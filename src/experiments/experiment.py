@@ -4,7 +4,7 @@ from external.deploy import Xperimentor, TaskExecutor
 from src.parser import json2yaml, yaml2json
 from src.data.loader import Loader
 from src.tasks.task_factory import TaskFactory
-from src.utils import hrf_task_path, get_project_root
+from src.utils import hrf_task_path, get_project_root, process_parameters
 
 
 class AbstractExperiment(ABC):
@@ -30,28 +30,29 @@ class AbstractExperiment(ABC):
 
 
 class Experiment(AbstractExperiment):
-    """
-
-    """
-
-    _experiment_id: str
-    _datasets: object
-    _preprocessing: object
-    _metrics: object
-    _metafeatures: object
-    _results: object
-    _visualization: object
-    _recommenders: object
-    _experiment: dict
-    _experiment_dependencie: dict
-
     def __init__(self, experiment: dict) -> None:
+        default_keys = {
+            'dataset',
+            'preprocessing',
+            'metrics',
+            'recommenders',
+            'results',
+            'visualization',
+            'metafeatures'
+        }
+        experiment = process_parameters(experiment, default_keys)
         self._experiment = experiment
+        self._experiment_id = self._experiment.get('experiment_id')
+
 
         # Definição de todas as instâncias baseado no experimento
         instances_obj = self.create_experiment_instances(experiment)
         self._set_attributes(instances_obj)
-        self._instances = None
+        self._instances = instances_obj
+
+    @property
+    def instances(self) -> dict:
+        return self._instances
 
 
 
@@ -65,27 +66,6 @@ class Experiment(AbstractExperiment):
         self._instances = self.create_experiment_instances(self._experiment)
         return self._instances
 
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = [
-            'dataset',
-            'preprocessing',
-            'metrics',
-            'recommenders',
-            'results',
-            'visualization',
-            'metafeatures'
-        ]
-
-        for key in parameters.keys():
-            if key not in default_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
 
     def _set_attributes(self, instances: dict):
         self._datasets = instances['datasets']
@@ -105,7 +85,7 @@ class Experiment(AbstractExperiment):
         @param config_obj:
         @return: dict
         """
-        print("Experiment: ", experiment)
+
         instance_factory = InstanceFactory(experiment)
 
         dataset_class_name = experiment['dataset']['class']
@@ -146,6 +126,9 @@ class Experiment(AbstractExperiment):
     def experiment_obj(self):
         return self._experiment_obj
 
+    @property
+    def experiment_id(self):
+        return self._experiment_id
     @property
     def experiment_dependencies(self):
         return self._experiment_dependencie
@@ -221,4 +204,5 @@ class Experiment(AbstractExperiment):
     @visualization.setter
     def visualization(self, v):
         self._visualization = v
+
 

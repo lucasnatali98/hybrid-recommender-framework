@@ -35,13 +35,5 @@ class AbstractPreProcessing(PreProcessing):
         """
         pass
 
-    @abstractmethod
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        pass
 
 

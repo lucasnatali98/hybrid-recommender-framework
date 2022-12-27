@@ -1,4 +1,5 @@
 from src.metafeatures.metafeature import ContentBasedMetaFeature
+from src.utils import process_parameters
 
 
 class Cosine(ContentBasedMetaFeature):
@@ -7,6 +8,8 @@ class Cosine(ContentBasedMetaFeature):
         """
         
         """
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
         self.type = parameters['type']
         self.base_path = parameters['basePath']
         self.do_user = parameters['doUser']
@@ -17,14 +20,6 @@ class Cosine(ContentBasedMetaFeature):
         self.fields = parameters['fields']
         self.items = parameters['items']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-
-        return parameters
     def fit(self):
         """
 
@@ -38,6 +33,7 @@ class Cosine(ContentBasedMetaFeature):
         @return:
         """
         pass
+
     def update(self, obj):
         """
 

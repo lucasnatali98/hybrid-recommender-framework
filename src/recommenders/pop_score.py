@@ -1,11 +1,18 @@
 from src.recommenders.recommender import Recommender
-
+from src.utils import process_parameters
 
 class PopScore(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
 
         """
+        default_keys = {
+            'maxNumberNeighbors',
+            'minNumberNeighbors',
+            'saveNeighbors',
+            'feedback'
+        }
+        parameters = process_parameters(parameters, default_keys)
 
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
@@ -14,26 +21,6 @@ class PopScore(Recommender):
         self.aggregate = parameters['aggregate']
         self.use_ratings = parameters['use_ratings']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = [
-            'maxNumberNeighbors',
-            'minNumberNeighbors',
-            'saveNeighbors',
-            'feedback'
-        ]
-        parameters_keys = parameters.keys()
-
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
-
-        return parameters
 
     def predict_for_users(self, users, items, ratings):
         """

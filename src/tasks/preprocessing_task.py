@@ -3,11 +3,17 @@ import subprocess
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
+from src.utils import hrf_experiment_output_path, process_parameters
 
 
 class PreProcessingTask(Task):
-    def __init__(self, args):
-        self.dataset = args
+    def __init__(self, preprocessing, args=None):
+        self.experiment_output_path = hrf_experiment_output_path()
+        self.path_to_dataset = self.experiment_output_path.joinpath("datasets/new_dataset.csv")
+        self.path_to_preprocessing_output = self.experiment_output_path.joinpath("preprocessing/")
+        self.loader = Loader()
+        self.dataset = self.loader.load_csv_file(self.path_to_dataset)
+        self.preprocessing = preprocessing
 
     def check_args(self, args):
         """
@@ -22,9 +28,7 @@ class PreProcessingTask(Task):
 
         @return:
         """
-        pass
-        #self._handle_pre_processing_tasks(self.dataset, self.preprocessing)
-
+        self._handle_pre_processing_tasks(self.dataset, self.preprocessing)
 
     def _handle_pre_processing_tasks(self, dataset, preprocessing):
         """
@@ -34,46 +38,45 @@ class PreProcessingTask(Task):
         @return:
         """
         execution_steps = {}
-        items = preprocessing.items[0]
+
+        items = preprocessing.items[0]  # [[]]
+
+        result = dataset
         for item in items:
             class_name = item.__class__.__name__
-            result = item.pre_processing(dataset)
-            execution_steps[class_name] = result
+            temp = item.pre_processing(result)
 
-        self._save_splited_dataset(execution_steps['SplitProcessing'])
+            if temp is None:
+                continue
+            else:
+                result = temp
+                execution_steps[class_name] = result
+
+        result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"))
+
         print("=> Todas as tarefas de pré-processamento foram realizadas e salvas em diretórios temporários\n")
 
-    def _save_splited_dataset(self, split_processing: dict):
-        """
 
-        @param split_processing:
-        @return:
-        """
-        loader = Loader()
-        for key, value in split_processing.items():
-            if key == 'x_train':
-                loader.convert_to("csv", value, "xtrain.csv")
-            if key == 'x_test':
-                loader.convert_to("csv", value, "xtest.csv")
-            if key == 'y_train':
-                loader.convert_to("csv", value, "ytrain.csv")
-            if key == 'y_test':
-                loader.convert_to("csv", value, 'ytest.csv')
+def run_preprocessing_task():
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
 
+    experiment = exp_handler.get_experiment("exp1")
+    experiment_instances = experiment.instances
+    preprocessing_instance = experiment_instances['preprocessing']
 
-
-def main():
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    preprocessing = experiment.preprocessing
-    preprocessing_task = PreProcessingTask(preprocessing)
-
+    preprocessing_task = PreProcessingTask(preprocessing_instance)
+    print("\n")
+    print(" => Inicio da tarefa de preprocessamento...")
     preprocessing_task.run()
 
+    # save the preprocessing result
 
-print(" => Inicio da tarefa de preprocessamento...")
-preprocessing_result = main()
-#save the preprocessing result
+    print(" => Finalização da tarefa de preprocessamento...")
 
-print(" => Finalização da tarefa de preprocessamento...")
 
+run_preprocessing_task()

@@ -1,5 +1,19 @@
 from pathlib import Path
 
+
+def process_parameters(parameters: dict, default_keys: set) -> dict:
+    parameters_keys_list = list(parameters.keys())
+
+    parameters_keys = set()
+    for parameter in parameters_keys_list:
+        parameters_keys.add(parameter)
+
+    if default_keys.issubset(parameters_keys):
+        pass
+    else:
+        raise KeyError("Você não informou uma das chaves obrigatorias")
+    return parameters
+
 def object_equals_type(obj, object_type):
     """
 
@@ -57,5 +71,10 @@ def hrf_task_path():
     @return: Path to tasks
     """
     root_path = get_project_root()
-    root_path = root_path.joinpath("tasks/")
+    root_path = root_path.joinpath("src/tasks/")
+    return root_path
+
+def hrf_experiment_output_path():
+    root_path = get_project_root()
+    root_path = root_path.joinpath("experiment_output")
     return root_path

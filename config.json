@@ -32,12 +32,8 @@
         "module": "src.data.movielens",
         "parameters": {
           "proportion": "ml-latest-small",
-          "folds": 5,
-          "shuffle": false,
-          "random_state": 42,
-          "strategy": "kfold",
           "filters": {
-            "qtd_ratings": 100
+
           }
         }
       },
@@ -51,7 +47,7 @@
               "class_name": "NormalizeProcessing",
               "parameters": {
                 "norm": "l2",
-                "axis": 1,
+                "axis": 0,
                 "copy": true,
                 "return_norm": false
 
@@ -67,6 +63,16 @@
                 "shuffle": true,
                 "stratify": ""
               }
+            },
+            {
+              "module": "src.preprocessing.folds",
+              "class_name": "FoldsProcessing",
+              "parameters": {
+                "folds": 5,
+                "shuffle": false,
+                "random_state": 42,
+                "strategy": "stratifiedshufflesplit"
+              }
             }
 
           ]
@@ -80,7 +86,9 @@
             {
               "module": "src.hybrid.flws",
               "class_name": "Flws",
-              "parameters": {}
+              "parameters": {
+
+              }
             },
             {
               "module": "src.hybrid.stream",
@@ -217,11 +225,7 @@
             {
               "module": "src.recommenders.slopeone",
               "class_name": "SlopeOne",
-              "parameters": {
-                "param1": "",
-                "param2": "",
-                "param3": ""
-              }
+              "parameters": {}
             },
             {
               "module": "src.recommenders.user_knn",

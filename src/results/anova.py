@@ -1,6 +1,7 @@
 from src.results.results import AbstractResults
 import statsmodels.api as sm
 from statsmodels.formula.api import ols
+from src.utils import process_parameters
 
 
 class ANOVA(AbstractResults):
@@ -8,7 +9,8 @@ class ANOVA(AbstractResults):
         """
         
         """
-
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
         self.axis = parameters['axis']
         self.models = parameters['models']
         # Estimate of variance, If None, will be estimated from the largest model. Default is None.
@@ -33,13 +35,4 @@ class ANOVA(AbstractResults):
         )
 
         return result
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        pass
 

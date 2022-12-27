@@ -1,18 +1,9 @@
-
 from src.hybrid.hybrid import Hybrid
+from src.utils import process_parameters
 
 
 class HybridWeighted(Hybrid):
     def __init__(self, parameters: dict) -> None:
-        """
-        
-        """
-        pass
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        pass
+        super().__init__()
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)

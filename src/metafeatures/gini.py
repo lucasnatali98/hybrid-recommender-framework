@@ -1,5 +1,6 @@
 
 from src.metafeatures.metafeature import ColaborativeMetaFeature
+from src.utils import process_parameters
 
 
 class Gini(ColaborativeMetaFeature):
@@ -7,6 +8,8 @@ class Gini(ColaborativeMetaFeature):
         """
         
         """
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
         self.type = parameters['type']
         self.base_path = parameters['basePath']
         self.do_user = parameters['doUser']
@@ -17,13 +20,6 @@ class Gini(ColaborativeMetaFeature):
         self.fields = parameters['fields']
         self.items = parameters['items']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        pass
 
     def fit(self):
         """

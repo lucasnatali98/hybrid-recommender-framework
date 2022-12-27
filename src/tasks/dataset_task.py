@@ -1,16 +1,12 @@
-import sys
-import subprocess
+
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment import Experiment
 from src.experiments.experiment_handler import ExperimentHandler
-import logging
+from src.utils import hrf_experiment_output_path
 
 
 class DatasetTask(Task):
-    """
-
-    """
     def __init__(self, dataset):
         """
 
@@ -43,19 +39,35 @@ class DatasetTask(Task):
 
 
 def run_dataset_task():
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
 
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    dataset_instance = experiment.datasets
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
+    """
+    Não posso passar chumbado qual o experimento é... ou eu descubro pelo arquivo de configuração
+    buscando pelo nome ou algo assim ou eu recebo como argumentos para executar o programa, essa opção
+    é menos viável visto que dependente de uma alteração no Xperimentor
+    """
+    experiment = exp_handler.get_experiment("exp1")
+    experiment_instances = experiment.instances
+
+    dataset_instance = experiment_instances['datasets']
+
     dataset_task = DatasetTask(dataset_instance)
-    ratings = dataset_instance.ratings
-
+    print("\n")
     print(" => Iniciando a execução da tarefa dos datasets")
     dataset_result = dataset_task.run()
+    path_to_save = hrf_experiment_output_path().joinpath("datasets/new_dataset.csv")
+    dataset_result.to_csv(path_to_save)
     print(" => Finalizando a tarefa dos datasets")
-    dataset_result.to_csv()
+    print("\n")
     return dataset_result
 
+
+run_dataset_task()
 
 
 

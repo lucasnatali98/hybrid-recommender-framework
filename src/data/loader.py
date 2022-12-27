@@ -87,14 +87,14 @@ class Loader:
         """
 
         if isinstance(data, pandas.DataFrame):
-            new_path = "experiment_output/temp_files/" + path
+            new_path = path
 
             return data.to_csv(ROOT_PATH.joinpath(new_path))
         else:
             try:
                 data = pd.DataFrame(data)
-                new_path = "experiment_output/temp_files/" + path
-                return data.to_csv(ROOT_PATH.joinpath(new_path))
+                new_path = path
+                return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
 
@@ -111,7 +111,7 @@ class Loader:
         else:
             try:
                 data = pd.DataFrame(data)
-                new_path = "experiment_output/temp_files/" + path
+                new_path = path
                 return data.to_excel(ROOT_PATH.joinpath(new_path))
             except:
                 raise Exception("Não foi possível converter para excel")

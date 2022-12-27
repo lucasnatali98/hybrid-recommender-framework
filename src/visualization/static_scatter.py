@@ -1,4 +1,5 @@
 from src.visualization.visualization import StaticPlot
+from src.utils import process_parameters
 
 
 class StaticScatter(StaticPlot):
@@ -6,15 +7,10 @@ class StaticScatter(StaticPlot):
         """
         
         """
-        pass
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters:
-        @return:
-        """
-        pass
 
     def plot(self):
         """

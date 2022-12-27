@@ -1,12 +1,14 @@
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
+from src.data.loader import Loader
 
 class VisualizationTask(Task):
-    def __init__(self, args):
+    def __init__(self, visualization):
         """
 
         """
-        pass
+
+        self.visualization_instance = visualization
 
     def process_parameters(self, parameters: dict) -> dict:
         """
@@ -23,13 +25,14 @@ class VisualizationTask(Task):
         @return:
         """
         pass
+
     def run(self):
         """
 
         @return:
         """
-        pass
-
+        visualizations = self._handle_visualization_task(self.visualization_instance)
+        return visualizations
     def _handle_visualization_task(self, visualization):
         """
 
@@ -38,14 +41,28 @@ class VisualizationTask(Task):
         """
         return visualization
 
-def main():
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    visualization = experiment._visualization
-    visualization_task = VisualizationTask(visualization)
-    visualization_task.run()
 
-print(" => Inicio da tarefa de visualização dos dados")
-visualization = main()
-print(" => Finalizando tarefa de visualização dos dados")
+def run_visualization_task():
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
 
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
+
+    experiment = exp_handler.get_experiment("exp1")
+    experiment_instances = experiment.instances
+
+    visualization_instance = experiment_instances['datasets']
+
+    visualization_task = VisualizationTask(visualization_instance)
+
+    print(" => Iniciando a execução da tarefa da visualização dos dados")
+    visualization_result = visualization_task.run()
+    print(" => Finalizando a tarefa de visualização dos dados")
+
+    return visualization_result
+
+
+run_visualization_task()

@@ -32,7 +32,7 @@ recipeDefaults:
   - mean
   - IC
 recipes:
-- id: ''
+- id: exp1
   pruning: []
   uses:
     Alg:
@@ -47,11 +47,27 @@ recipes:
     - MAE
     - NDCG
     Fold: []
-    HF: []
+    HF:
+    - Flws
+    - Stream
     MF:
     - Jaccard
     - Gini
     Stats:
     - ANOVA
     - ConfidenceInterval
-tasks: []
+tasks:
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/dataset_task.py
+  id: dataset_task
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/preprocessing_task.py
+  id: preprocessing_task
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/metrics_task.py
+  id: metrics_task
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/metafeatures_task.py
+  id: metafeatures_task
+- command: null
+  id: recommenders_task
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/visualization_task.py
+  id: visualization_task
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/results_task.py
+  id: results_task

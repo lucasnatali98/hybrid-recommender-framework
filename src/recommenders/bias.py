@@ -1,34 +1,20 @@
 from src.recommenders.recommender import Recommender
+from lenskit.algorithms import bias
+from src.utils import process_parameters
 
 
 class Bias(Recommender):
     def __init__(self, parameters: dict) -> None:
-        """
-
-        """
-
-        #Se faltar algum parâmetro obrigatório vai levantar uma exceção
-        self.process_parameters(parameters)
+        default_keys = {'items', 'users', 'damping'}
+        parameters = process_parameters(parameters, default_keys)
 
         self.items = parameters['items']
         self.users = parameters['users']
         self.damping = parameters['damping']
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-
-        default_keys = ['items', 'users', 'damping']
-        parameters_keys = parameters.keys()
-
-        for key in default_keys:
-            if key not in parameters_keys:
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
-
-        return parameters
+        self.Bias = bias.Bias(
+            items=self.items,
+            users=self.users,
+        )
 
     def predict_for_users(self, users, items, ratings):
         """
@@ -38,7 +24,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.Bias.predict_for_user(users, items, ratings)
 
     def predict(self, pairs, ratings):
         """
@@ -47,7 +33,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.Bias.predict(pairs, ratings)
 
     def recommend(self, user, n, candidates, ratings):
         """
@@ -75,4 +61,7 @@ class Bias(Recommender):
         @param kwargs:
         @return:
         """
-        pass
+        self.Bias.fit(rating)
+
+    def transform(self, rating):
+        return self.Bias.transform(rating)

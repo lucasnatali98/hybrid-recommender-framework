@@ -24,14 +24,7 @@ class MetaFeature(ABC):
         """
         raise Exception("O método update de MetaFeature não está implementado")
 
-    @abstractmethod
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters:
-        @return:
-        """
-        raise Exception("O método process_parameters de MetaFeature não está implementado")
 
 
 class ColaborativeMetaFeature(MetaFeature):

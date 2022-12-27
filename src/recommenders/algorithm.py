@@ -22,5 +22,3 @@ class Algorithm(ABC):
         """
         pass
 
-    def process_parameters(self, parameters: dict) -> dict:
-        raise Exception("O método process_parameters de Algorithm não está implementado")

@@ -1,16 +1,15 @@
-import sys
-import subprocess
-
+from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
+
+
 class ResultsTask(Task):
-    def __init__(self, args = None):
+    def __init__(self, args=None):
         """
 
         @param args:
         """
         pass
-
 
     def check_args(self, args):
         """
@@ -36,16 +35,22 @@ class ResultsTask(Task):
         return results
 
 
+def run_results_task():
+    loader = Loader()
+    config_obj = loader.load_json_file("config.json")
+    experiments = config_obj['experiments']
+    exp_handler = ExperimentHandler(
+        experiments=experiments
+    )
 
-def main():
-    exp_handler = ExperimentHandler()
-    experiment = exp_handler.create_experiment_instance()
-    results = experiment.results
+    experiment = exp_handler.get_experiment("exp1")
+    experiment_instances = experiment.instances
+    results_instance = experiment_instances['results']
+    result_task = ResultsTask(results_instance)
+    print(" => Iniciando tarefas de cálculos dos resultados")
+    results = result_task.run()
+    print(" => Finalizando tarefa de cálculo dos resultados")
+    return results
 
-    results_task = ResultsTask(results)
-    results_task.run()
 
-
-print(" => Iniciando tarefas de cálculos dos resultados")
-results = main()
-print(" => Finalizando tarefa de cálculo dos resultados")
+run_results_task()

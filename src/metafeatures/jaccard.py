@@ -1,5 +1,5 @@
-
 from src.metafeatures.metafeature import ContentBasedMetaFeature
+from src.utils import process_parameters
 
 
 class Jaccard(ContentBasedMetaFeature):
@@ -7,6 +7,8 @@ class Jaccard(ContentBasedMetaFeature):
         """
         
         """
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
         self.type = parameters['type']
         self.base_path = parameters['basePath']
         self.do_user = parameters['doUser']
@@ -15,16 +17,8 @@ class Jaccard(ContentBasedMetaFeature):
         self.num_threads = parameters['numThreads']
         self.metric_parameter = parameters['metricParameter']
         self.fields = parameters['fields']
-#        self.items = parameters['items']
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-
-        return parameters
+    #        self.items = parameters['items']
 
     def fit(self):
         """
