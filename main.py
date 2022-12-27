@@ -49,7 +49,8 @@ if __name__ == "__main__":
     else:
         path_to_config_file = args[1]
 
-
+    print("experiment task")
+    print(experiment_tasks)
     dataset_task_command = list(filter(
         lambda x: x['task_name'] == 'dataset_task',
         experiment_tasks
@@ -89,7 +90,7 @@ if __name__ == "__main__":
                              shell=True)
     print("Output do processo - preprocessing_task", output)
 
-
+    print("recommenders_task_command: ", recommenders_task_command)
     output = subprocess.call([recommenders_task_command],
                              shell=True)
     print("Output do processo - recommenders_task", output)

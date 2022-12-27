@@ -25,7 +25,7 @@ class ExperimentTask:
             command = "python " + str(task_path) + "/metafeatures_task.py"
         if task_type == "visualization_task":
             command = "python " + str(task_path) + "/visualization_task.py"
-        if task_type == "algorithms_task":
+        if task_type == "recommenders_task":
             command = "python " + str(task_path) + "/algorithms_task.py"
         if task_type == "preprocessing_task":
             command = "python " + str(task_path) + "/preprocessing_task.py"

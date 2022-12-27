@@ -24,11 +24,16 @@ class AlgorithmsTask(Task):
 
         @return:
         """
-        dataset = pd.read_csv()
+        dataset_path = self.experiment_output_dir.joinpath("preprocessing/folds/train/train-fold-1.csv")
+        dataset = pd.read_csv(dataset_path)
+        print("Train fold 1")
+        print(dataset)
+
         algorithms = self._handle_algorithms_tasks(self.algorithm_instance, dataset)
+
         return algorithms
 
-    def _handle_algorithms_tasks(self, algorithms, dataset):
+    def _handle_algorithms_tasks(self, algorithms, dataset: pd.DataFrame):
         for algorithm in algorithms:
             # Percorrer todas
             algorithm.fit()
@@ -36,6 +41,8 @@ class AlgorithmsTask(Task):
             print("Algorithm name: ", algorithm_name)
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
             pickle.dump(algorithm, path)
+
+        return None
 
 
 def run_algorithms_task():
