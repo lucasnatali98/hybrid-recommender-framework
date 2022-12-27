@@ -1,6 +1,7 @@
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
+from src.utils import hrf_experiment_output_path
 class MetricsTask(Task):
     def __init__(self, metrics, args = None):
         """
@@ -8,6 +9,7 @@ class MetricsTask(Task):
         @param args:
         """
         self.metric_instances = metrics
+        self.experiment_output_dir = hrf_experiment_output_path()
 
     def check_args(self, args):
         """

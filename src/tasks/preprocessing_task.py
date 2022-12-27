@@ -8,9 +8,9 @@ from src.utils import hrf_experiment_output_path, process_parameters
 
 class PreProcessingTask(Task):
     def __init__(self, preprocessing, args=None):
-        self.experiment_output_path = hrf_experiment_output_path()
-        self.path_to_dataset = self.experiment_output_path.joinpath("datasets/new_dataset.csv")
-        self.path_to_preprocessing_output = self.experiment_output_path.joinpath("preprocessing/")
+        self.experiment_output_dir = hrf_experiment_output_path()
+        self.path_to_dataset = self.experiment_output_dir.joinpath("datasets/new_dataset.csv")
+        self.path_to_preprocessing_output = self.experiment_output_dir.joinpath("preprocessing/")
         self.loader = Loader()
         self.dataset = self.loader.load_csv_file(self.path_to_dataset)
         self.preprocessing = preprocessing

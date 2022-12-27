@@ -88,3 +88,8 @@ if __name__ == "__main__":
     output = subprocess.call([preprocessing_task_command],
                              shell=True)
     print("Output do processo - preprocessing_task", output)
+
+
+    output = subprocess.call([recommenders_task_command],
+                             shell=True)
+    print("Output do processo - recommenders_task", output)

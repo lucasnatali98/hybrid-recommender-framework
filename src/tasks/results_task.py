@@ -1,15 +1,16 @@
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
-
+from src.utils import hrf_experiment_output_path
 
 class ResultsTask(Task):
-    def __init__(self, args=None):
+    def __init__(self, results,  args=None):
         """
 
         @param args:
         """
-        pass
+        self.results = results
+        self.experiment_output_dir = hrf_experiment_output_path()
 
     def check_args(self, args):
         """

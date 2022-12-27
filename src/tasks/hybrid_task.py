@@ -3,6 +3,7 @@ import subprocess
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
+from src.utils import hrf_experiment_output_path
 class HybridTask(Task):
     def __init__(self, hybrid, args = None):
         """
@@ -10,6 +11,7 @@ class HybridTask(Task):
         @param args:
         """
         self.hybrid_instance = hybrid
+        self.experiment_output_dir = hrf_experiment_output_path()
 
     def check_args(self, args):
         """

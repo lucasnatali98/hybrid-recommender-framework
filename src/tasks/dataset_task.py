@@ -13,6 +13,7 @@ class DatasetTask(Task):
         @param dataset:
         """
         self.dataset_instance = dataset
+        self.experiment_output_dir = hrf_experiment_output_path()
 
     def check_args(self, args):
         pass
