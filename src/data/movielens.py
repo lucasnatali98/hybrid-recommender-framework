@@ -10,10 +10,6 @@ PROPORTION_POSSIBILITIES = {
 
 
 class MovieLens(AbstractDataSet):
-    """
-
-    """
-
     def __init__(self, parameters: dict) -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
@@ -49,7 +45,9 @@ class MovieLens(AbstractDataSet):
         @param parameters: objeto com os parâmetros da classe
         @return: dicionário atualizado com esses mesmos parâmetros
         """
-
+        default_keys = {
+            'proportion'
+        }
         parameters_keys_list = list(parameters.keys())
 
         parameters_keys = set()

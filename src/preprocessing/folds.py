@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, StratifiedKFold, StratifiedShuffleSplit
 from sklearn.model_selection import StratifiedGroupKFold, KFold, ShuffleSplit
 from src.preprocessing.preprocessing import AbstractPreProcessing
-from src.utils import process_parameters
+from src.utils import process_parameters, hrf_experiment_output_path
+
 
 class Strategy(ABC):
 
@@ -24,21 +25,36 @@ class FoldsProcessing(AbstractPreProcessing):
         self.shuffle = parameters['shuffle']
         self.random_state = parameters['random_state']
 
-
-
     def pre_processing(self, data, **kwargs):
         folds = Folds(self.strategy)
 
-        result = folds.create_folds(
+        folds_indexes = folds.create_folds(
             data=data,
             n_splits=self.number_of_folds,
             shuffle=self.shuffle,
             random_state=self.random_state
         )
         print("folds preprocessing")
-        print(result)
 
-        return result
+        folds_output_directory = "preprocessing/folds"
+        train_folds_output_directory = hrf_experiment_output_path().joinpath(folds_output_directory)
+        validation_folds_output_directory = hrf_experiment_output_path().joinpath(folds_output_directory)
+
+        train_folds_output_directory = train_folds_output_directory.joinpath("train/")
+        validation_folds_output_directory = validation_folds_output_directory.joinpath("validation/")
+
+        fold_counter = 1
+        for train_index, validation_index in folds_indexes:
+            train_df = data.loc[train_index, :]
+            validation_df = data.loc[validation_index, :]
+
+            train_folds_archive_name = train_folds_output_directory.joinpath("train-fold-{}".format(fold_counter))
+            validation_folds_archive_name = validation_folds_output_directory.joinpath(
+                "validation-fold-{}".format(fold_counter))
+
+            train_df.to_csv(train_folds_archive_name)
+            validation_df.to_csv(validation_folds_archive_name)
+            fold_counter = fold_counter + 1
 
 
 class Folds:
@@ -95,9 +111,10 @@ class KFoldStrategy(Strategy):
         @param kwargs:
         @return:
         """
+
         print('Create folds in KFold Strategy')
         kfold = KFold(n_splits=n_splits, shuffle=shuffle)
-        return kfold
+        return kfold.split(data)
 
 
 class GroupKFoldStrategy(Strategy):
@@ -113,7 +130,7 @@ class GroupKFoldStrategy(Strategy):
         """
         print('Create folds in GroupKFold Strategy')
         group_kfold = GroupKFold(n_splits=n_splits)
-        return group_kfold
+        return group_kfold.split(data)
 
 
 class StratifiedGroupKFoldsStrategy(Strategy):
@@ -129,7 +146,7 @@ class StratifiedGroupKFoldsStrategy(Strategy):
         """
         print('Create folds in StratifiedGroupKFolds Strategy')
         stratified_group_kfolds = StratifiedGroupKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
-        return stratified_group_kfolds
+        return stratified_group_kfolds.split(data)
 
 
 class StratifiedShuffleSplitStrategy(Strategy):
@@ -146,7 +163,7 @@ class StratifiedShuffleSplitStrategy(Strategy):
         """
         print('Create folds in StratifiedShuffleSPlit Strategy')
         stratified_shuffle_split = StratifiedShuffleSplit(n_splits=n_splits, random_state=random_state)
-        return stratified_shuffle_split
+        return stratified_shuffle_split.split(data)
 
 
 class ShuffleSplitStrategy(Strategy):
@@ -163,7 +180,7 @@ class ShuffleSplitStrategy(Strategy):
         """
         print('Create folds in ShuffleSplit Strategy')
         shuffle_split = ShuffleSplit(n_splits=n_splits, random_state=random_state)
-        return shuffle_split
+        return shuffle_split.split(data)
 
 
 class StratifiedKFoldStrategy(Strategy):
@@ -179,4 +196,4 @@ class StratifiedKFoldStrategy(Strategy):
         """
         print('Create folds in StratifiedKFold Strategy')
         stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=shuffle)
-        return stratified_kfold
+        return stratified_kfold.split(data)

@@ -7,9 +7,6 @@ from src.utils import hrf_experiment_output_path
 
 
 class DatasetTask(Task):
-    """
-
-    """
     def __init__(self, dataset):
         """
 
