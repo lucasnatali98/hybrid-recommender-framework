@@ -71,7 +71,7 @@
                 "folds": 5,
                 "shuffle": false,
                 "random_state": 42,
-                "strategy": "kfold"
+                "strategy": "stratifiedshufflesplit"
               }
             }
 
