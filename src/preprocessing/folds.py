@@ -48,9 +48,9 @@ class FoldsProcessing(AbstractPreProcessing):
             train_df = data.loc[train_index, :]
             validation_df = data.loc[validation_index, :]
 
-            train_folds_archive_name = train_folds_output_directory.joinpath("train-fold-{}".format(fold_counter))
+            train_folds_archive_name = train_folds_output_directory.joinpath("train-fold-{}.csv".format(fold_counter))
             validation_folds_archive_name = validation_folds_output_directory.joinpath(
-                "validation-fold-{}".format(fold_counter))
+                "validation-fold-{}.csv".format(fold_counter))
 
             train_df.to_csv(train_folds_archive_name)
             validation_df.to_csv(validation_folds_archive_name)
