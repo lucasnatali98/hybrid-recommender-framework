@@ -1,3 +1,5 @@
+import pandas as pd
+
 from src.data.dataset import AbstractDataSet
 from src.utils import process_parameters
 
@@ -6,7 +8,6 @@ PROPORTION_POSSIBILITIES = {
     "ml-latest",
     "ml-latest-small",
 }
-
 
 
 class MovieLens(AbstractDataSet):
@@ -59,6 +60,13 @@ class MovieLens(AbstractDataSet):
         else:
             raise KeyError("Você não informou uma das chaves obrigatorias")
         return parameters
+
+    def transform_columns_to_lenskit_pattern(self, dataset: pd.DataFrame) -> pd.DataFrame:
+        dataset = dataset.rename(columns={
+            "movieId": "item",
+            "userId": "user",
+        })
+        return dataset
 
     def _is_proportion_valid(self, proportion) -> bool:
         """
@@ -129,6 +137,7 @@ class MovieLens(AbstractDataSet):
         self.set_links(links)
 
     def set_ratings(self, ratings):
+        ratings = self.transform_columns_to_lenskit_pattern(ratings)
         setattr(MovieLens, 'ratings', ratings)
 
     def set_links(self, links):
@@ -178,6 +187,7 @@ class MovieLens(AbstractDataSet):
             self.set_mllatest()
         if self.proportion == "ml-latest-small":
             self._load_ml_latest_small()
+
 
         return [
             self.items,

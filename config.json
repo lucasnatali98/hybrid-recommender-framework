@@ -237,11 +237,6 @@
               }
             },
             {
-              "module": "src.recommenders.slopeone",
-              "class_name": "SlopeOne",
-              "parameters": {}
-            },
-            {
               "module": "src.recommenders.user_knn",
               "class_name": "UserKNN",
               "parameters": {

@@ -2,10 +2,6 @@ from src.shared.container import Container
 from src.shared.generic_factory import GenericFactory
 
 class RecommendersContainer(Container):
-    """
-
-    """
-
     def __init__(self, parameters: dict) -> None:
         """
         @type stages: list
