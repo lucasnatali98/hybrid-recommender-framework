@@ -30,13 +30,6 @@ class Dataset(ABC):
         """
         raise Exception("O método items de Dataset não está implementado")
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        raise Exception("O método process_parameters de Dataset não foi implementado")
 
 
 class AbstractDataSet(Dataset):

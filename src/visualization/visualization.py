@@ -1,14 +1,6 @@
 from abc import ABC, abstractmethod
 
 class Visualization(ABC):
-    @abstractmethod
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param obj:
-        @return:
-        """
-        raise Exception("O método process_parameters de Visualization não está implementado")
     
     @abstractmethod
     def plot(self):

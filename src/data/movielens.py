@@ -8,7 +8,7 @@ PROPORTION_POSSIBILITIES = {
 }
 
 
-@dataclass
+
 class MovieLens(AbstractDataSet):
     """
 
