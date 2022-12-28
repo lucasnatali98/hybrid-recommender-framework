@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 Esse exemplo foi extraido do seguinte tutorial:
 
 https://medium.com/analytics-vidhya/content-based-recommender-systems-in-python-2b330e01eb80
-
+git 
 """
 movielens = MovieLens({
     'proportion': 'ml-latest-small',
