@@ -18,7 +18,6 @@ class UserKNN(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
-
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
@@ -30,8 +29,7 @@ class UserKNN(Recommender):
             feedback=self.feedback
         )
 
-
-    def predict_for_users(self, user, items, ratings=None):
+    def predict_for_user(self, user, items, ratings=None):
         """
 
         @param users:
@@ -71,8 +69,5 @@ class UserKNN(Recommender):
     def recommend(self, user, n=None, candidates=None, ratings=None):
         pass
 
-    def get_params(self, deep = True):
+    def get_params(self, deep=True):
         pass
-
-
-

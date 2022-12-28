@@ -27,7 +27,7 @@ class Recommender(Algorithm):
         pass
 
     @abstractmethod
-    def predict_for_users(self, users, items, ratings):
+    def predict_for_user(self, user, items, ratings):
         """
 
         @param users:
@@ -37,7 +37,5 @@ class Recommender(Algorithm):
         """
         pass
 
-    def process_parameters(self, parameters: dict) -> dict:
-        pass
 
     

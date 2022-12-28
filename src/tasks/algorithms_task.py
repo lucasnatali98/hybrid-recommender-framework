@@ -1,10 +1,12 @@
 from src.experiments.experiment_handler import ExperimentHandler
 from lenskit.batch import recommend, predict
 from joblib import dump, load
+from lenskit import batch, topn, util
 from src.tasks.task import Task
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 import pandas as pd
+from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
 
 
@@ -46,20 +48,27 @@ class AlgorithmsTask(Task):
                                  dataset: pd.DataFrame,
                                  dataset_name: str,
                                  test_dataset: pd.DataFrame):
+
+        recs = None
         for algorithm in algorithms.items[0]:
             algorithm_name = algorithm.__class__.__name__
             print("Algorithm name: ", algorithm_name)
-            algorithm.fit(dataset)
+            print("Algorithm: ")
+            print(algorithm)
+
+            fittable = Recommender.adapt(algorithm)
+            fittable.fit(dataset)
+
 
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
             path = path.joinpath(algorithm_name + dataset_name + ".joblib")
-            dump(algorithm, path)
+            dump(fittable, path)
 
-            preds = predict(algorithm, test_dataset)
-            print("preds")
-            print(preds)
+            users = test_dataset.user.unique()
+            recs = batch.recommend(fittable, users, 100)
+            recs['Algorithm'] = algorithm_name
 
-        return None
+        return recs
 
 
 def run_algorithms_task():

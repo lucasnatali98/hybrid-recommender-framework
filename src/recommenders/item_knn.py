@@ -31,7 +31,7 @@ class ItemKNN(Recommender):
         )
 
 
-    def predict_for_users(self, users, items, ratings):
+    def predict_for_user(self, users, items, ratings):
         """
 
         @param users:
