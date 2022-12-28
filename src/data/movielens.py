@@ -105,7 +105,7 @@ class MovieLens(AbstractDataSet):
         """
 
         """
-        path = self.basePath + "ml-25m/"
+        path = self.basePath + "ml-latest/"
         movies = self.Loader.load_file(path=path + "movies", extension=".csv")
         links = self.Loader.load_file(path=path + "links", extension=".csv")
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
@@ -184,7 +184,7 @@ class MovieLens(AbstractDataSet):
         if self.proportion == "ml-25m":
             self._load_ml25m()
         if self.proportion == "ml-latest":
-            self.set_mllatest()
+            self._load_ml_latest()
         if self.proportion == "ml-latest-small":
             self._load_ml_latest_small()
 

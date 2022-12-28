@@ -31,7 +31,7 @@
         "class": "MovieLens",
         "module": "src.data.movielens",
         "parameters": {
-          "proportion": "ml-latest-small",
+          "proportion": "ml-latest",
           "filters": {
 
           }
