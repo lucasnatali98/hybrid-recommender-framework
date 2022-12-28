@@ -50,11 +50,19 @@ class AlgorithmsTask(Task):
                                  test_dataset: pd.DataFrame):
 
         recs = None
+        print("dataset: ")
+        print(dataset)
+
+        print("Test dataset: ")
+        print(test_dataset)
+
+
         for algorithm in algorithms.items[0]:
             algorithm_name = algorithm.__class__.__name__
             print("Algorithm name: ", algorithm_name)
             print("Algorithm: ")
             print(algorithm)
+            print(dataset.head())
 
             fittable = Recommender.adapt(algorithm)
             fittable.fit(dataset)

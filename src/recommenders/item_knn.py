@@ -25,13 +25,14 @@ class ItemKNN(Recommender):
             nnbrs=self.max_number_neighbors,
             min_nbrs=self.min_number_neighbors,
             save_nbrs=self.save_nbrs,
+            min_sim=0.0003,
             feedback=self.feedback,
             aggregate=self.aggregate,
             use_ratings=self.use_ratings
         )
 
 
-    def predict_for_user(self, users, items, ratings):
+    def predict_for_user(self, users, items, rating):
         """
 
         @param users:
@@ -39,8 +40,11 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-
-        return self.ItemKNN.predict_for_user(users, items, ratings)
+        print("Predict for user")
+        print("Users: ", users)
+        print("Items: ", items)
+        print("Ratings: ", rating)
+        return self.ItemKNN.predict_for_user(users, items, rating)
 
     def predict(self, pairs, ratings):
         """
