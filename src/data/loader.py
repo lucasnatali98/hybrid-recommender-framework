@@ -1,8 +1,6 @@
 import pandas
 import pandas as pd
 import json
-import pathlib
-import os
 from src.utils import get_project_root
 
 ROOT_PATH = get_project_root()
@@ -89,7 +87,7 @@ class Loader:
         if isinstance(data, pandas.DataFrame):
             new_path = path
 
-            return data.to_csv(ROOT_PATH.joinpath(new_path))
+            return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
         else:
             try:
                 data = pd.DataFrame(data)

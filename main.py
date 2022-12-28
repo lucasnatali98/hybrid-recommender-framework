@@ -6,10 +6,13 @@ from src.parser import json2yaml
 import sys
 from src.experiments.experiment_handler import ExperimentHandler
 from src.experiments.experiment_tasks import ExperimentTask
-from external.deploy import Xperimentor
+from external.deploy import Xperimentor, TaskExecutor
 
 if __name__ == "__main__":
     loader = Loader()
+
+    task_executor = TaskExecutor()
+
     config_obj = loader.load_json_file("config.json")
 
     experiments = config_obj['experiments']
@@ -48,6 +51,10 @@ if __name__ == "__main__":
         path_to_config_file = "config.json"
     else:
         path_to_config_file = args[1]
+
+    xperimentor.deploy()
+    task_executor.deploy()
+
 
     print("experiment task")
     print(experiment_tasks)
@@ -94,3 +101,4 @@ if __name__ == "__main__":
     output = subprocess.call([recommenders_task_command],
                              shell=True)
     print("Output do processo - recommenders_task", output)
+
