@@ -26,16 +26,26 @@ class AlgorithmsTask(Task):
 
         @return:
         """
-        dataset_path = self.experiment_output_dir.joinpath("preprocessing/folds/train/train-fold-1.csv")
-        dataset = pd.read_csv(dataset_path)
-        print("Train fold 1")
-        print(dataset)
+        train_dataset_path = self.experiment_output_dir.joinpath("preprocessing/folds/train/train-fold-1.csv")
+        test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
+        train_dataset = pd.read_csv(train_dataset_path)
+        test_dataset = pd.read_csv(test_dataset_path)
 
-        algorithms = self._handle_algorithms_tasks(self.algorithm_instance, dataset, 'fold-1')
+
+        algorithms = self._handle_algorithms_tasks(
+            self.algorithm_instance,
+            train_dataset,
+            'fold-1',
+            test_dataset
+        )
 
         return algorithms
 
-    def _handle_algorithms_tasks(self, algorithms: RecommendersContainer, dataset: pd.DataFrame, dataset_name: str = ""):
+    def _handle_algorithms_tasks(self,
+                                 algorithms: RecommendersContainer,
+                                 dataset: pd.DataFrame,
+                                 dataset_name: str,
+                                 test_dataset: pd.DataFrame):
         for algorithm in algorithms.items[0]:
             algorithm_name = algorithm.__class__.__name__
             print("Algorithm name: ", algorithm_name)
@@ -45,6 +55,9 @@ class AlgorithmsTask(Task):
             path = path.joinpath(algorithm_name + dataset_name + ".joblib")
             dump(algorithm, path)
 
+            preds = predict(algorithm, test_dataset)
+            print("preds")
+            print(preds)
 
         return None
 
@@ -68,4 +81,5 @@ def run_algorithms_task():
     print(" => Finalizando a tarefa dos algoritmos")
 
 
-run_algorithms_task()
+if __name__ == "__main__":
+    run_algorithms_task()
