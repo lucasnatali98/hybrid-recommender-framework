@@ -286,9 +286,16 @@
               }
             },
             {
-              "module": "src.visualization.interactive_scatter",
-              "class_name": "InteractiveScatter",
-              "parameters": {}
+              "module": "src.visualization.static_scatter",
+              "class_name": "StaticScatter",
+              "parameters": {
+                  "plot_types": {
+                    "ratings_by_user": true,
+                    "ratings_by_movie": true,
+                    "items_predict": true,
+                    "movie_ratings_distribution": true
+                  }
+              }
             }
           ]
         }

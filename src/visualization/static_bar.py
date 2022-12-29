@@ -12,7 +12,7 @@ class StaticBar(StaticPlot):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-        self.visualization_output_path = "visualization/static/bar"
+        self.visualization_output_path = "visualization/static/bar/"
         self.plot_types = parameters['plot_types']
 
         self.ratings_by_user = self.plot_types['ratings_by_user']
