@@ -67,7 +67,7 @@
             {
               "module": "src.preprocessing.folds",
               "class_name": "FoldsProcessing",
-              "parameters": {
+              "paramet]ers": {
                 "folds": 5,
                 "shuffle": false,
                 "random_state": 42,
@@ -78,12 +78,12 @@
               "module": "src.preprocessing.text",
               "class_name": "TextProcessing",
               "parameters": {
-                "apply_on": {},
+                "apply_on": ["genres"],
                 "remove_stop_words": true,
                 "tokenize_words": true,
                 "tokenize_sent": false,
                 "tf_idf": true,
-                "remove_caracters": true,
+                "remove_caracters": false,
                 "unicode_sentences": true,
                 "pos_tagging": true
               }

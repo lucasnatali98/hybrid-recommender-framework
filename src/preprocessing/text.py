@@ -1,3 +1,5 @@
+import nltk
+
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from src.utils import process_parameters
 from nltk.tokenize import word_tokenize, sent_tokenize
@@ -6,6 +8,7 @@ from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
 from nltk import ne_chunk
+import pandas as pd
 
 """
 Possíveis processos para aplicar em cima do texto:
@@ -26,9 +29,15 @@ Possíveis processos para aplicar em cima do texto:
 
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
-        default_keys = set()
+        default_keys = set('apply_on')
         super().__init__()
         parameters = process_parameters(parameters, default_keys)
+        self.apply_on = parameters['apply_on']
+        del parameters['apply_on']
+        self.parameters = parameters
+        self.stop_words = set(stopwords.words('english'))
+        self.tfidf = TfidfVectorizer()
+
 
     def pre_processing(self, data, **kwargs):
         """
@@ -36,20 +45,63 @@ class TextProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        pass
+        text_tasks = {
+            "remove_stop_words": self.remove_stop_words(data),
+            "pos_tagging": self.pos_tagging(),
+            "tf_idf": self.tf_idf(),
+            "stemming": self.stemming(),
+            "lemmatization": self.lemmatization()
+        }
+        parameters_keys = self.parameters.values()
+        print('parameters keys: ', parameters_keys)
 
-    def remove_stop_words(self):
-        pass
-    def word_tokenizer(self):
-        pass
+        new_dataset = None
+        for key in parameters_keys:
+            result = text_tasks[key]
+            print(result)
+
+
+
+
+    def remove_stop_words(self, data):
+        filtered_sentence = []
+        column_to_apply = self.apply_on
+        feature = data[column_to_apply]
+        for word in feature:
+            print("Word: ", word)
+            if word not in self.stop_words:
+                filtered_sentence.append(word)
+
+
+        return filtered_sentence
+    def word_tokenizer(self, data):
+        column_to_apply = self.apply_on
+        feature = data[column_to_apply]
+        words_array = []
+        for row in feature:
+            tokenized_row = word_tokenize(row)
+            words_array.append(tokenized_row)
+
+        words_serie = pd.Series(words_array)
+        name_new_feature = column_to_apply + "_tokenized"
+        data[name_new_feature] = words_serie
+        return data
+
     def sentence_tokenizer(self):
         pass
 
     def remove_duplicated_words(self):
         pass
 
-    def pos_tagging(self):
-        pass
+    def pos_tagging(self, data):
+        column_to_apply = self.apply_on
+        column_to_apply = column_to_apply + "_tonenized"
+        feature = data[column_to_apply]
+
+        pos_tagging_result = nltk.pos_tag(feature.values)
+
+
+        return pos_tagging_result
     def named_entity_recognition(self):
         pass
 

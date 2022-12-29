@@ -35,6 +35,7 @@ class StaticScatter(StaticPlot):
         self.ratings_by_user_plot(ratings)
         self.ratings_by_movie_plot(ratings)
 
+
     def ratings_by_user_plot(self, ratings: pd.DataFrame):
         print("ratings by user scatter plot")
         df = ratings.groupby(by=['user'], axis=0).count()
