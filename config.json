@@ -67,7 +67,7 @@
             {
               "module": "src.preprocessing.folds",
               "class_name": "FoldsProcessing",
-              "paramet]ers": {
+              "parameters": {
                 "folds": 5,
                 "shuffle": false,
                 "random_state": 42,
@@ -259,7 +259,14 @@
             {
               "module": "src.visualization.static_scatter",
               "class_name": "StaticScatter",
-              "parameters": {}
+              "parameters": {
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
+                }
+              }
             },
             {
               "module": "src.visualization.static_bar",

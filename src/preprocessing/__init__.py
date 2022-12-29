@@ -5,5 +5,6 @@ __all__ = [
     'preprocessing',
     'preprocessing_container',
     'split',
-    'text'
+    'text',
+    'folds'
 ]

@@ -10,7 +10,7 @@ from nltk import ne_chunk
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
-
+nltk.download('stopwords')
 
 
 """
@@ -32,7 +32,7 @@ Possíveis processos para aplicar em cima do texto:
 
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
-        default_keys = set('apply_on')
+        default_keys = {'apply_on'}
         super().__init__()
         parameters = process_parameters(parameters, default_keys)
         self.apply_on = parameters['apply_on']
@@ -40,7 +40,7 @@ class TextProcessing(AbstractPreProcessing):
         self.parameters = parameters
         self.stop_words = set(stopwords.words('english'))
         self.tfidf = TfidfVectorizer()
-        self.text_processing_output_path = "preprocessing/text/"
+        self.text_processing_output_path = hrf_experiment_output_path().joinpath("preprocessing/text/")
 
     def pre_processing(self, data, **kwargs):
         """
@@ -86,14 +86,24 @@ class TextProcessing(AbstractPreProcessing):
             words_array.append(tokenized_row)
 
         words_serie = pd.Series(words_array)
-        name_new_feature = column_to_apply + "_tokenized"
+        name_new_feature = column_to_apply + "word_tokens"
         data[name_new_feature] = words_serie
         return data
 
-    def sentence_tokenizer(self):
-        pass
+    def sentence_tokenizer(self, data):
+        column_to_apply = self.apply_on
+        feature = data[column_to_apply]
+        words_array = []
+        for row in feature:
+            tokenized_row = sent_tokenize(row)
+            words_array.append(tokenized_row)
 
-    def remove_duplicated_words(self):
+        words_serie = pd.Series(words_array)
+        name_new_feature = column_to_apply + "_sent_tokens"
+        data[name_new_feature] = words_serie
+        return data
+
+    def remove_duplicated_words(self, data):
         pass
 
     def pos_tagging(self, data):
@@ -114,15 +124,20 @@ class TextProcessing(AbstractPreProcessing):
 
 
         similarity_matrix = linear_kernel(feature_matrix, feature_matrix)
+
+        #Mapping pode ir para a parte do algoritmo
         mapping = pd.Series(data.index, index=feature_to_indexing)
 
+        similarity_matrix.to_csv(self.text_processing_output_path)
 
 
     def stemming(self):
         pass
 
     def lemmatization(self):
-        pass
+
+        lemmatizer = None
+
 
     def frequency(self, data):
         column_to_apply = self.apply_on
