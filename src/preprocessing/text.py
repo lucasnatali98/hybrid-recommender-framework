@@ -12,24 +12,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
 nltk.download('stopwords')
 
-
-"""
-Possíveis processos para aplicar em cima do texto:
-
-1. Remoção de stop-words
-2. Tokenização
-3. Stemming
-4. Lemmatization
-5. Remoção de caracteres indesejados
-6. Remoção de acentos
-7. Remoção de valores não alfanuméricos
-8. Remoção de valores duplicados
-9. TF-IDF
-10. Pos tagging
-11. Frequẽncia das palavras no documento
-12. Named Entity Reconignition
-"""
-
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
         default_keys = {'apply_on'}
@@ -52,8 +34,8 @@ class TextProcessing(AbstractPreProcessing):
             "remove_stop_words": self.remove_stop_words(data),
             "pos_tagging": self.pos_tagging(data),
             "tf_idf": self.tf_idf(data),
-            "stemming": self.stemming(),
-            "lemmatization": self.lemmatization()
+            "stemming": self.stemming(data),
+            "lemmatization": self.lemmatization(data)
         }
         parameters_keys = self.parameters.values()
         print('parameters keys: ', parameters_keys)
@@ -131,10 +113,10 @@ class TextProcessing(AbstractPreProcessing):
         similarity_matrix.to_csv(self.text_processing_output_path)
 
 
-    def stemming(self):
+    def stemming(self, data):
         pass
 
-    def lemmatization(self):
+    def lemmatization(self, data):
 
         lemmatizer = None
 

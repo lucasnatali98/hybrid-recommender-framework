@@ -35,7 +35,6 @@ class DatasetTask(Task):
         @return:
         """
         dataset = dataset.apply_filters()
-
         return dataset
 
 
@@ -56,13 +55,18 @@ def run_dataset_task():
     experiment_instances = experiment.instances
 
     dataset_instance = experiment_instances['datasets']
-
+    print("dataset instance: ", dataset_instance)
     dataset_task = DatasetTask(dataset_instance)
     print("\n")
     print(" => Iniciando a execução da tarefa dos datasets")
+
     dataset_result = dataset_task.run()
-    path_to_save = hrf_experiment_output_path().joinpath("datasets/new_dataset.csv")
-    dataset_result.to_csv(path_to_save)
+    path_to_save_ratings = hrf_experiment_output_path().joinpath("datasets/new_ratings_dataset.csv")
+    path_to_save_items = hrf_experiment_output_path().joinpath("datasets/items.csv")
+
+    dataset_result.to_csv(path_to_save_ratings, index=False)
+    dataset_instance.items.to_csv(path_to_save_items, index=False)
+
     print(" => Finalizando a tarefa dos datasets")
     print("\n")
     return dataset_result

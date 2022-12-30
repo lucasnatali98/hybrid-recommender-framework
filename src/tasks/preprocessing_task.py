@@ -9,7 +9,9 @@ from src.utils import hrf_experiment_output_path, process_parameters
 class PreProcessingTask(Task):
     def __init__(self, preprocessing, args=None):
         self.experiment_output_dir = hrf_experiment_output_path()
-        self.path_to_dataset = self.experiment_output_dir.joinpath("datasets/new_dataset.csv")
+
+        self.path_to_dataset = self.experiment_output_dir.joinpath("datasets/new_ratings_dataset.csv")
+        self.path_to_content_based_dataset = self.experiment_output_dir.joinpath("datasets/items.csv")
         self.path_to_preprocessing_output = self.experiment_output_dir.joinpath("preprocessing/")
         self.loader = Loader()
         self.dataset = self.loader.load_csv_file(self.path_to_dataset)
@@ -52,7 +54,7 @@ class PreProcessingTask(Task):
                 result = temp
                 execution_steps[class_name] = result
 
-        result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"))
+        result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"), index=False)
 
         print("=> Todas as tarefas de pré-processamento foram realizadas e salvas em diretórios temporários\n")
 

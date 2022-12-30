@@ -52,9 +52,6 @@ if __name__ == "__main__":
     else:
         path_to_config_file = args[1]
 
-    xperimentor.deploy()
-    task_executor.deploy()
-
 
     print("experiment task")
     print(experiment_tasks)

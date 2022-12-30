@@ -30,8 +30,8 @@ class AlgorithmsTask(Task):
         """
         train_dataset_path = self.experiment_output_dir.joinpath("preprocessing/folds/train/train-fold-1.csv")
         test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
-        train_dataset = pd.read_csv(train_dataset_path)
-        test_dataset = pd.read_csv(test_dataset_path)
+        train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
+        test_dataset = pd.read_csv(test_dataset_path, index_col=[0])
 
 
         algorithms = self._handle_algorithms_tasks(
