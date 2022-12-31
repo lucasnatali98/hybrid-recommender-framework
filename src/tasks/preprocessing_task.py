@@ -14,7 +14,7 @@ class PreProcessingTask(Task):
         self.path_to_content_based_dataset = self.experiment_output_dir.joinpath("datasets/items.csv")
         self.path_to_preprocessing_output = self.experiment_output_dir.joinpath("preprocessing/")
         self.loader = Loader()
-        self.dataset = self.loader.load_csv_file(self.path_to_dataset)
+
         self.preprocessing = preprocessing
 
     def check_args(self, args):
@@ -30,7 +30,11 @@ class PreProcessingTask(Task):
 
         @return:
         """
-        self._handle_pre_processing_tasks(self.dataset, self.preprocessing)
+
+        self.dataset_cf = self.loader.load_csv_file(self.path_to_dataset)
+        self.dataset_cb = self.loader.load_csv_file(self.path_to_content_based_dataset)
+
+        self._handle_pre_processing_tasks(self.dataset_cf, self.preprocessing)
 
     def _handle_pre_processing_tasks(self, dataset, preprocessing):
         """
@@ -46,13 +50,25 @@ class PreProcessingTask(Task):
         result = dataset
         for item in items:
             class_name = item.__class__.__name__
+
+            temp_cb = None
+            if class_name == "TextProcessing":
+                print("Content based dataset")
+                db = self.dataset_cb
+                print('db: ', db)
+                temp_cb = item.pre_processing(db)
+
             temp = item.pre_processing(result)
 
             if temp is None:
                 continue
             else:
-                result = temp
-                execution_steps[class_name] = result
+                if class_name == "TextProcessing" and temp_cb is not None:
+                    execution_steps[class_name] = temp_cb
+                    temp_cb.to_csv(self.path_to_preprocessing_output("content-based-dataset.csv"), index=False)
+                else:
+                    result = temp
+                    execution_steps[class_name] = result
 
         result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"), index=False)
 
