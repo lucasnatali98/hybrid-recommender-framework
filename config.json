@@ -78,14 +78,10 @@
               "module": "src.preprocessing.text",
               "class_name": "TextProcessing",
               "parameters": {
-                "apply_on": ["genres"],
+                "apply_on": "genres",
                 "remove_stop_words": true,
                 "tokenize_words": true,
-                "tokenize_sent": false,
                 "tf_idf": true,
-                "remove_caracters": false,
-                "unicode_sentences": true,
-                "pos_tagging": true,
                 "column_to_index": "title"
               }
             }

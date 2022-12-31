@@ -59,6 +59,9 @@ class FoldsProcessing(AbstractPreProcessing):
             fold_counter = fold_counter + 1
 
 
+        return data
+
+
 class Folds:
     def __init__(self, strategy: str) -> None:
         possible_strategies = {

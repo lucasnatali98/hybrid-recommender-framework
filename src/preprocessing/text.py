@@ -11,7 +11,6 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
 
-nltk.download('punkt')
 
 
 class TextProcessing(AbstractPreProcessing):
@@ -32,7 +31,7 @@ class TextProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-
+        print("Text pre_processing: ", data)
         data['genres'] = data['genres'].apply(
             lambda x: x.replace("|", " ")
         )
@@ -40,22 +39,29 @@ class TextProcessing(AbstractPreProcessing):
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
             "remove_stop_words": self.remove_stop_words,
-            "pos_tagging": self.pos_tagging,
+          #  "pos_tagging": self.pos_tagging,
             "tf_idf": self.tf_idf,
-            "stemming": self.stemming,
-            "lemmatization": self.lemmatization
+        #    "stemming": self.stemming,
+         #   "lemmatization": self.lemmatization
         }
 
-        parameters_keys = self.parameters.keys()
+        parameters_keys: list = list(self.parameters.keys())
+        parameters_keys = list(filter(
+            lambda x: x != "column_to_index",
+            parameters_keys
+        ))
         print('parameters keys: ', parameters_keys)
 
-        new_dataset = None
+
         result = data
         for key in parameters_keys:
-            text_function_result = text_tasks[key](result)
+            text_function_result = text_tasks[key](result, self.apply_on)
+            print("Text function result: ", text_function_result)
             result = text_function_result
 
         print("Resultado final:", result)
+
+        return result
 
     def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
         filtered_sentence = []
@@ -125,13 +131,16 @@ class TextProcessing(AbstractPreProcessing):
         feature_to_indexing = data[column_to_indexing]
         feature = data[column_to_apply]
         feature_matrix = self.tfidf.fit_transform(data)
-
+        print("Feature Matrix")
+        print(feature_matrix)
         similarity_matrix = linear_kernel(feature_matrix, feature_matrix)
 
         # Mapping pode ir para a parte do algoritmo
         mapping = pd.Series(data.index, index=feature_to_indexing)
-
-        similarity_matrix.to_csv(self.text_processing_output_path)
+        print("Similarity matrix")
+        print(similarity_matrix)
+        #similarity_matrix.to_csv(self.text_processing_output_path)
+        return data
 
     def stemming(self, data: pd.DataFrame) -> pd.DataFrame:
         pass

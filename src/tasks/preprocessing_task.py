@@ -44,31 +44,23 @@ class PreProcessingTask(Task):
         @return:
         """
         execution_steps = {}
-
         items = preprocessing.items[0]  # [[]]
-
         result = dataset
+
         for item in items:
             class_name = item.__class__.__name__
-
-            temp_cb = None
             if class_name == "TextProcessing":
-                print("Content based dataset")
                 db = self.dataset_cb
-                print('db: ', db)
                 temp_cb = item.pre_processing(db)
+                execution_steps[class_name] = temp_cb
+                temp_cb.to_csv(
+                    self.path_to_preprocessing_output.joinpath("content-based-dataset.csv"),
+                    index=False)
+                continue
 
             temp = item.pre_processing(result)
-
-            if temp is None:
-                continue
-            else:
-                if class_name == "TextProcessing" and temp_cb is not None:
-                    execution_steps[class_name] = temp_cb
-                    temp_cb.to_csv(self.path_to_preprocessing_output("content-based-dataset.csv"), index=False)
-                else:
-                    result = temp
-                    execution_steps[class_name] = result
+            result = temp
+            execution_steps[class_name] = result
 
         result.to_csv(self.path_to_preprocessing_output.joinpath("preprocessed_dataset.csv"), index=False)
 
