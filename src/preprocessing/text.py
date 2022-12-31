@@ -39,7 +39,6 @@ class TextProcessing(AbstractPreProcessing):
 
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
-            "tokenize_sent": self.sentence_tokenizer,
             "remove_stop_words": self.remove_stop_words,
             "pos_tagging": self.pos_tagging,
             "tf_idf": self.tf_idf,
@@ -58,7 +57,7 @@ class TextProcessing(AbstractPreProcessing):
 
         print("Resultado final:", result)
 
-    def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str):
+    def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
         filtered_sentence = []
         feature = data[column_to_apply]
 
@@ -66,7 +65,14 @@ class TextProcessing(AbstractPreProcessing):
             if word not in self.stop_words:
                 filtered_sentence.append(word)
 
-        return filtered_sentence
+        if len(filtered_sentence) == 0:
+            return pd.DataFrame()
+        else:
+            filtered_sentence = pd.Series(filtered_sentence)
+
+        data[column_to_apply] = filtered_sentence
+
+        return data
 
     def word_tokenizer(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
         feature = data[column_to_apply]

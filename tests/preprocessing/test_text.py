@@ -4,6 +4,7 @@ from src.preprocessing.text import TextProcessing
 from nltk.tokenize import word_tokenize, sent_tokenize
 import pandas as pd
 import numpy as np
+from nltk.corpus import stopwords
 
 movies = MovieLens({
     'proportion': "ml-latest-small",
@@ -71,3 +72,14 @@ class TestTextProcessing:
         non_duplicated_values = set(non_duplicated_values)
 
         categories_set = set(categories.values)
+
+    def test_remove_stop_words(self):
+        stopwords_english = set(stopwords.words('english'))
+        stopwords_english_values = pd.Series(list(stopwords_english))
+        stop_df = pd.DataFrame(columns=['stop_words'])
+        stop_df['stop_words'] = stopwords_english_values
+
+        dataframe = text_processing.remove_stop_words(stop_df, 'stop_words')
+
+        assert isinstance(dataframe, pd.DataFrame) is True
+        assert dataframe.empty is True
