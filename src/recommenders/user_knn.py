@@ -1,15 +1,13 @@
 from src.recommenders.recommender import Recommender
-from lenskit.algorithms import user_knn
+from lenskit.algorithms import user_knn, Recommender as LenskitRecommender
 from pandas import DataFrame
+from lenskit.algorithms.ranking import TopN
 from src.utils import process_parameters
+from lenskit import batch
 
 
 class UserKNN(Recommender):
     def __init__(self, parameters: dict) -> None:
-        """
-        
-        """
-
         default_keys = {
             'maxNumberNeighbors',
             'minNumberNeighbors',
@@ -18,6 +16,7 @@ class UserKNN(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
+        print("User KNN - parameters: ", parameters)
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
@@ -29,6 +28,7 @@ class UserKNN(Recommender):
             feedback=self.feedback
         )
 
+
     def predict_for_user(self, user, items, ratings=None):
         """
 
@@ -37,6 +37,8 @@ class UserKNN(Recommender):
         @param ratings:
         @return:
         """
+        print("Predict for user - user knn")
+        print("ratings: ", ratings)
         return self.user_knn.predict_for_user(
             user,
             items,
@@ -64,10 +66,19 @@ class UserKNN(Recommender):
         @return:
         """
         self.user_knn.fit(ratings)
-        return self.user_knn
 
-    def recommend(self, user, n=None, candidates=None, ratings=None):
-        pass
+    def recommend(self, algorithm, users, n=None, candidates=None, n_jobs=None):
+        print("Item KNN - recommend function")
+        print('algorithm: ', algorithm)
+        print('users: ', users)
+        print('n: ', n)
+        print('candidates: ', candidates)
+        print('n_jobs: ', n_jobs)
+        print('\n')
+        algorithm = LenskitRecommender.adapt(algorithm)
+        recs = batch.recommend(algorithm, users, n)
+        print("recs: ", recs)
+        return recs
 
     def get_params(self, deep=True):
         pass

@@ -94,8 +94,8 @@ if __name__ == "__main__":
                              shell=True)
     print("Output do processo - preprocessing_task", output)
 
-    #print("recommenders_task_command: ", recommenders_task_command)
-    #output = subprocess.call([recommenders_task_command],
-     #                        shell=True)
-    #print("Output do processo - recommenders_task", output)
+    print("recommenders_task_command: ", recommenders_task_command)
+    output = subprocess.call([recommenders_task_command],
+                             shell=True)
+    print("Output do processo - recommenders_task", output)
 

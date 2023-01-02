@@ -1,7 +1,6 @@
 from src.experiments.experiment_handler import ExperimentHandler
-from lenskit.batch import recommend, predict
 from joblib import dump, load
-from lenskit import batch, topn, util
+from lenskit.algorithms.ranking import TopN
 from src.tasks.task import Task
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
@@ -43,6 +42,17 @@ class AlgorithmsTask(Task):
 
         return algorithms
 
+
+    def topn_process(self, algorithm, ratings: pd.DataFrame):
+        print("topn process")
+        user_item = ratings.drop(columns=['rating'])
+        print("user_item")
+        print(user_item)
+        top_n = TopN(algorithm)
+        preds = top_n.predict(user_item, ratings)
+        return preds
+
+
     def _handle_algorithms_tasks(self,
                                  algorithms: RecommendersContainer,
                                  dataset: pd.DataFrame,
@@ -50,12 +60,6 @@ class AlgorithmsTask(Task):
                                  test_dataset: pd.DataFrame):
 
         recs = None
-        print("dataset: ")
-        print(dataset)
-
-        print("Test dataset: ")
-        print(test_dataset)
-
 
         for algorithm in algorithms.items[0]:
             algorithm_name = algorithm.__class__.__name__
@@ -64,16 +68,16 @@ class AlgorithmsTask(Task):
             print(algorithm)
             print(dataset.head())
 
-            fittable = Recommender.adapt(algorithm)
-            fittable.fit(dataset)
-
+            algorithm.fit(dataset)
 
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
             path = path.joinpath(algorithm_name + dataset_name + ".joblib")
-            dump(fittable, path)
+            dump(algorithm, path)
 
-            users = test_dataset.user.unique()
-            recs = batch.recommend(fittable, users, 100)
+            preds = self.topn_process(algorithm, dataset)
+            print("predictions: ", preds)
+
+
             recs['Algorithm'] = algorithm_name
 
         return recs

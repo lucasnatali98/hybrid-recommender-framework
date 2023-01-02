@@ -1,11 +1,12 @@
 from src.recommenders.recommender import Recommender
-from lenskit.algorithms import item_knn
+from lenskit.algorithms import item_knn, Recommender as LenskitRecommender
+from lenskit.algorithms.ranking import TopN
+from lenskit import batch
 from src.utils import process_parameters
 
 
 class ItemKNN(Recommender):
     def __init__(self, parameters: dict) -> None:
-
         default_keys = {
             'maxNumberNeighbors',
             'minNumberNeighbors',
@@ -21,6 +22,8 @@ class ItemKNN(Recommender):
         self.aggregate = parameters['aggregate']
         self.use_ratings = parameters['use_ratings']
 
+
+        print("Item KNN - parameters: ", parameters)
         self.ItemKNN = item_knn.ItemItem(
             nnbrs=self.max_number_neighbors,
             min_nbrs=self.min_number_neighbors,
@@ -30,9 +33,12 @@ class ItemKNN(Recommender):
             aggregate=self.aggregate,
             use_ratings=self.use_ratings
         )
+        self.ItemKNN = LenskitRecommender.adapt(self.ItemKNN)
 
 
-    def predict_for_user(self, users, items, rating):
+
+
+    def predict_for_user(self, users, items, rating=None):
         """
 
         @param users:
@@ -40,9 +46,7 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        print("Predict for user")
-        print("Users: ", users)
-        print("Items: ", items)
+        print("Predict for user - item knn")
         print("Ratings: ", rating)
         return self.ItemKNN.predict_for_user(users, items, rating)
 
@@ -55,7 +59,7 @@ class ItemKNN(Recommender):
         """
         return self.ItemKNN.predict(pairs, ratings)
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, algorithm, users, n, candidates=None, n_jobs=None):
         """
 
         @param user:
@@ -64,7 +68,16 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        print("Item KNN - recommend function")
+        print('algorithm: ', algorithm)
+        print('users: ', users)
+        print('n: ', n)
+        print('candidates: ', candidates)
+        print('n_jobs: ', n_jobs)
+        print('\n')
+        algorithm = LenskitRecommender.adapt(algorithm)
+        recs = batch.recommend(algorithm, users, n)
+        return recs
 
     def get_params(self, deep=True):
         """
