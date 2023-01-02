@@ -239,7 +239,7 @@
               "parameters": {
                 "maxNumberNeighbors": 1,
                 "minNumberNeighbors": 2,
-                "min_sim": "",
+                "min_sim": 0,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true

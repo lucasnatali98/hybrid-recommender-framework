@@ -1,9 +1,13 @@
+from lenskit.algorithms.basic import UnratedItemCandidateSelector
+
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import user_knn, Recommender as LenskitRecommender
 from pandas import DataFrame
 from lenskit.algorithms.ranking import TopN
 from src.utils import process_parameters
-from lenskit import batch
+from lenskit.algorithms.user_knn import UserUser
+import pandas as pd
+
 
 
 class UserKNN(Recommender):
@@ -23,10 +27,11 @@ class UserKNN(Recommender):
         self.feedback = parameters['feedback']
         self.user_knn = user_knn.UserUser(
             nnbrs=self.max_number_neighbors,
-            min_nbrs=self.min_number_neighbors,
-            min_sim=self.min_sim,
-            feedback=self.feedback
+           # min_nbrs=self.min_number_neighbors, #parâmetro dando problema
+           # min_sim=self.min_sim,
+           # feedback=self.feedback
         )
+
 
 
     def predict_for_user(self, user, items, ratings=None):
@@ -65,7 +70,7 @@ class UserKNN(Recommender):
         @param kwargs:
         @return:
         """
-        self.user_knn.fit(ratings)
+        return self.user_knn.fit(ratings)
 
     def recommend(self, algorithm, users, n=None, candidates=None, n_jobs=None):
         print("Item KNN - recommend function")
@@ -75,10 +80,23 @@ class UserKNN(Recommender):
         print('candidates: ', candidates)
         print('n_jobs: ', n_jobs)
         print('\n')
-        algorithm = LenskitRecommender.adapt(algorithm)
-        recs = batch.recommend(algorithm, users, n)
-        print("recs: ", recs)
-        return recs
+#        algorithm = LenskitRecommender.adapt(algorithm)
+        select = UnratedItemCandidateSelector()
+
+
+        top_n = TopN(algorithm, select)
+
+
+        print("topn: ", top_n)
+        for user in users:
+            print("user: ", user)
+            recs = top_n.recommend(
+                user=user,
+                n=10,
+            )
+            print("recs: ", recs)
+
+        return ""
 
     def get_params(self, deep=True):
         pass
