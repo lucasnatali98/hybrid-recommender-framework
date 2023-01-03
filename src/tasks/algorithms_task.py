@@ -11,14 +11,15 @@ import pandas as pd
 from lenskit.batch import predict, recommend
 from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
+import os
 
 
 class AlgorithmsTask(Task):
     def __init__(self, algorithm: RecommendersContainer, args=None):
-        self.algorithm_instance: RecommendersContainer = algorithm
+        self.algorithm_instances: RecommendersContainer = algorithm
 
         self.experiment_output_dir = hrf_experiment_output_path()
-
+        self.preprocessing_output_dir = self.experiment_output_dir.joinpath("preprocessing/")
         self.algorithms_output_dir = self.experiment_output_dir.joinpath("models/results/")
         self.predictions_output_dir = self.algorithms_output_dir.joinpath("predictions/")
         self.rankings_output_dir = self.algorithms_output_dir.joinpath("rankings/")
@@ -32,24 +33,67 @@ class AlgorithmsTask(Task):
         """
         pass
 
+    def get_fold_file_names(self, fold_type: str) -> list:
+        if fold_type not in ['train', 'validation']:
+            raise Exception("O valor de fold_type está invalido, tente: train ou validation")
+
+        folds_directory = self.preprocessing_output_dir.joinpath("folds/{}/".format(fold_type))
+        file_names = []
+        for path in os.scandir(folds_directory):
+            if path.is_file():
+                file_names.append(path.name)
+
+        return file_names
+
     def run(self):
         """
 
         @return:
         """
-        train_dataset_path = self.experiment_output_dir.joinpath("preprocessing/folds/train/train-fold-1.csv")
-        test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
-        train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
-        test_dataset = pd.read_csv(test_dataset_path)
+        try:
+            train_fold_files = self.get_fold_file_names('train')
+            validation_fold_files = self.get_fold_file_names('validation')
+            print("train_fold_files: ", train_fold_files)
+            print("validation_fold_files: ", validation_fold_files)
+            fold_files = zip(train_fold_files, validation_fold_files)
+            print("fold files: ", fold_files)
 
-        algorithms = self.handle_algorithms_tasks(
-            self.algorithm_instance,
-            train_dataset[0:2000],
-            'fold-1',
-            test_dataset
-        )
+            if len(train_fold_files) == 0:
+                raise Exception("Os arquivos de fold de treino não foram encontrados")
 
-        return algorithms
+            test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
+            test_dataset = pd.read_csv(test_dataset_path)
+
+            for train_file, validation_file in fold_files:
+                train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
+                validation_dataset_path = self.preprocessing_output_dir.joinpath("folds/validation").joinpath(
+                    validation_file)
+                print("train path: ", train_dataset_path)
+                print("validation path: ", validation_dataset_path)
+
+                train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
+                validation_dataset = pd.read_csv(validation_dataset_path, index_col=[0])
+
+                print("validation dataset")
+                print(validation_dataset)
+                print("\n")
+
+                fold_name = train_file.split(".")
+                fold_name = fold_name[0]
+
+                algorithms = self.handle_algorithms_tasks(
+                    self.algorithm_instances,
+                    train_dataset[0:1000],
+                    fold_name,
+                    validation_dataset
+                )
+
+            return True
+
+
+
+        except Exception as e:
+            print(e)
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
         users = np.unique(ratings['user'].values)
@@ -75,8 +119,8 @@ class AlgorithmsTask(Task):
             recs['algorithm'] = pd.Series(algorithm_name)
             topn_dataframe = pd.concat([topn_dataframe, recs], ignore_index=True)
 
-        topn_dataframe.to_csv(self.algorithms_output_dir.joinpath("ranking.csv"), index=False)
         return topn_dataframe
+
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
@@ -95,10 +139,12 @@ class AlgorithmsTask(Task):
             algorithm.fit(dataset)
 
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
-            path = path.joinpath(algorithm_name + dataset_name + ".joblib")
+            path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
             dump(algorithm, path)
 
-            self.topn_process(algorithm, dataset)
+            topn_result = self.topn_process(algorithm, dataset)
+            topn_result.to_csv(self.rankings_output_dir.joinpath("ranking.csv"), index=False)
+
             dataset_copy = dataset.copy()
             dataset_copy.drop(columns=['rating'], inplace=True)
 
@@ -109,7 +155,6 @@ class AlgorithmsTask(Task):
 
             recs = algorithm.recommend(users, 10)
             recs.to_csv(self.recommendations_output_dir.joinpath("recommendations.csv"), index=False)
-
 
             print("recs - task: ", recs)
 

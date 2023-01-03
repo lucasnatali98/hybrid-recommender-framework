@@ -20,7 +20,6 @@ class UserKNN(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
-        print("User KNN - parameters: ", parameters)
         self.max_number_neighbors = parameters['maxNumberNeighbors']
         self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
