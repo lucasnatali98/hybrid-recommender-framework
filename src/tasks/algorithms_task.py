@@ -143,18 +143,21 @@ class AlgorithmsTask(Task):
             dump(algorithm, path)
 
             topn_result = self.topn_process(algorithm, dataset)
-            topn_result.to_csv(self.rankings_output_dir.joinpath("ranking.csv"), index=False)
+            ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
+            topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
 
             dataset_copy = dataset.copy()
             dataset_copy.drop(columns=['rating'], inplace=True)
 
             preds = predict(algorithm, dataset)
-            preds.to_csv(self.predictions_output_dir.joinpath("predictions.csv"), index=False)
+            prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
+            preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
             print(preds)
             users = np.unique(test_dataset['user'].values)
 
             recs = algorithm.recommend(users, 10)
-            recs.to_csv(self.recommendations_output_dir.joinpath("recommendations.csv"), index=False)
+            recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
+            recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
 
             print("recs - task: ", recs)
 
