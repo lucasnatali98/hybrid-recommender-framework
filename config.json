@@ -42,17 +42,7 @@
         "class": "PreProcessingContainer",
         "parameters": {
           "instances": [
-            {
-              "module": "src.preprocessing.normalize",
-              "class_name": "NormalizeProcessing",
-              "parameters": {
-                "norm": "l2",
-                "axis": 0,
-                "copy": true,
-                "return_norm": false
 
-              }
-            },
             {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",

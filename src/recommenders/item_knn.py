@@ -46,8 +46,6 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        print("Predict for user - item knn")
-        print("Ratings: ", rating)
         return self.ItemKNN.predict_for_user(users, items, rating)
 
     def predict(self, pairs, ratings):
@@ -57,6 +55,7 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
+
         return self.ItemKNN.predict(pairs, ratings)
 
     def recommend(self, algorithm, users, n, candidates=None, n_jobs=None):

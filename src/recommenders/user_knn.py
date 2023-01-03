@@ -50,18 +50,16 @@ class UserKNN(Recommender):
             ratings
         )
 
-    def predict(self, user, items, ratings=None):
+    def predict(self, pairs, ratings):
         """
 
         @param user:
         @param items:
         @return:
         """
-        return self.user_knn.predict_for_user(
-            user,
-            items,
-            ratings
-        )
+        return self.user_knn.predict(
+            pairs,
+            ratings)
 
     def fit(self, ratings: DataFrame, **kwargs):
         """
@@ -73,13 +71,7 @@ class UserKNN(Recommender):
         return self.user_knn.fit(ratings)
 
     def recommend(self, algorithm, users, n=None, candidates=None, n_jobs=None):
-        print("Item KNN - recommend function")
-        print('algorithm: ', algorithm)
-        print('users: ', users)
-        print('n: ', n)
-        print('candidates: ', candidates)
-        print('n_jobs: ', n_jobs)
-        print('\n')
+
 
         select = UnratedItemCandidateSelector()
 

@@ -43,7 +43,6 @@ class TestUserKNN:
         print(topn_dataframe)
         number_of_items_rankeds = 10
         for u in users:
-            print("Usuário ID: ", u)
             recs = top_n.recommend(
                 u,
                 number_of_items_rankeds,
