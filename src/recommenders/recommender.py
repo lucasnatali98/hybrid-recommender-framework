@@ -1,12 +1,12 @@
-
 from abc import abstractmethod
+import pandas as pd
 from src.recommenders.algorithm import Algorithm
 
 
 class Recommender(Algorithm):
 
     @abstractmethod
-    def recommend(self, algorithm, users, n, candidates, ratings):
+    def recommend(self, users, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param n:

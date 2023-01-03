@@ -3,6 +3,7 @@ from lenskit.algorithms import item_knn, Recommender as LenskitRecommender
 from lenskit.algorithms.ranking import TopN
 from lenskit import batch
 from src.utils import process_parameters
+import pandas as pd
 
 
 class ItemKNN(Recommender):
@@ -22,8 +23,6 @@ class ItemKNN(Recommender):
         self.aggregate = parameters['aggregate']
         self.use_ratings = parameters['use_ratings']
 
-
-        print("Item KNN - parameters: ", parameters)
         self.ItemKNN = item_knn.ItemItem(
             nnbrs=self.max_number_neighbors,
             min_nbrs=self.min_number_neighbors,
@@ -34,9 +33,6 @@ class ItemKNN(Recommender):
             use_ratings=self.use_ratings
         )
         self.ItemKNN = LenskitRecommender.adapt(self.ItemKNN)
-
-
-
 
     def predict_for_user(self, users, items, rating=None):
         """
@@ -58,7 +54,7 @@ class ItemKNN(Recommender):
 
         return self.ItemKNN.predict(pairs, ratings)
 
-    def recommend(self, algorithm, users, n, candidates=None, n_jobs=None):
+    def recommend(self, users, n, candidates=None, n_jobs=None) -> pd.DataFrame:
         """
 
         @param user:
@@ -67,16 +63,26 @@ class ItemKNN(Recommender):
         @param ratings:
         @return:
         """
-        print("Item KNN - recommend function")
-        print('algorithm: ', algorithm)
-        print('users: ', users)
-        print('n: ', n)
-        print('candidates: ', candidates)
-        print('n_jobs: ', n_jobs)
-        print('\n')
-        algorithm = LenskitRecommender.adapt(algorithm)
-        recs = batch.recommend(algorithm, users, n)
-        return recs
+
+        print("ItemKNN recommend")
+        recommendation_dataframe = pd.DataFrame(
+            columns=['user', 'item', 'score', 'algorithm_name']
+        )
+        for user in users:
+            recommendation_to_user = self.ItemKNN.recommend(user, n)
+
+            names = pd.Series([self.__class__.__name__] * n)
+            user_id_list = pd.Series([user] * n)
+
+            recommendation_to_user['algorithm_name'] = names
+            recommendation_to_user['user'] = user_id_list
+
+            recommendation_dataframe = pd.concat(
+                [recommendation_dataframe, recommendation_to_user],
+                ignore_index=True
+            )
+
+        return recommendation_dataframe
 
     def get_params(self, deep=True):
         """

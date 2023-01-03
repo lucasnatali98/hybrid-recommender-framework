@@ -1,6 +1,6 @@
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
-
+import pandas as pd
 class PopScore(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
@@ -41,7 +41,7 @@ class PopScore(Recommender):
         """
         pass
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, users, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param user:

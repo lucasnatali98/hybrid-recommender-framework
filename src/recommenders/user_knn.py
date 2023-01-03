@@ -25,12 +25,14 @@ class UserKNN(Recommender):
         self.min_number_neighbors = parameters['minNumberNeighbors']
         self.min_sim = parameters['min_sim']
         self.feedback = parameters['feedback']
+
         self.user_knn = user_knn.UserUser(
             nnbrs=self.max_number_neighbors,
            # min_nbrs=self.min_number_neighbors, #parâmetro dando problema
            # min_sim=self.min_sim,
            # feedback=self.feedback
         )
+        self.user_knn = LenskitRecommender.adapt(self.user_knn)
 
 
 
@@ -68,24 +70,26 @@ class UserKNN(Recommender):
         """
         return self.user_knn.fit(ratings)
 
-    def recommend(self, algorithm, users, n=None, candidates=None, n_jobs=None):
-
-
-        select = UnratedItemCandidateSelector()
-
-
-        top_n = TopN(algorithm, select)
-
-
+    def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:
+        print("UserKNN recommend")
+        recommendation_dataframe = pd.DataFrame(
+            columns = ['user', 'item', 'score', 'algorithm_name']
+        )
         for user in users:
-            print("user: ", user)
-            recs = top_n.recommend(
-                user=user,
-                n=10,
-            )
-            print("recs: ", recs)
+            recommendation_to_user = self.user_knn.recommend(user, n)
 
-        return ""
+            names = pd.Series([self.__class__.__name__] * n)
+            user_id_list = pd.Series([user] * n)
+
+            recommendation_to_user['algorithm_name'] = names
+            recommendation_to_user['user'] = user_id_list
+
+            recommendation_dataframe = pd.concat(
+                [recommendation_dataframe, recommendation_to_user],
+                ignore_index=True
+            )
+
+        return recommendation_dataframe
 
     def get_params(self, deep=True):
         pass

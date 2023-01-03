@@ -1,5 +1,6 @@
 from lenskit.algorithms.basic import UnratedItemCandidateSelector
 import numpy as np
+from lenskit import batch
 from src.experiments.experiment_handler import ExperimentHandler
 from joblib import dump, load
 from lenskit.algorithms.ranking import TopN
@@ -14,9 +15,14 @@ from src.recommenders.recommenders_container import RecommendersContainer
 
 class AlgorithmsTask(Task):
     def __init__(self, algorithm: RecommendersContainer, args=None):
-        self.experiment_output_dir = hrf_experiment_output_path()
         self.algorithm_instance: RecommendersContainer = algorithm
+
+        self.experiment_output_dir = hrf_experiment_output_path()
+
         self.algorithms_output_dir = self.experiment_output_dir.joinpath("models/results/")
+        self.predictions_output_dir = self.algorithms_output_dir.joinpath("predictions/")
+        self.rankings_output_dir = self.algorithms_output_dir.joinpath("rankings/")
+        self.recommendations_output_dir = self.algorithms_output_dir.joinpath("recommendations/")
 
     def check_args(self, args):
         """
@@ -97,13 +103,15 @@ class AlgorithmsTask(Task):
             dataset_copy.drop(columns=['rating'], inplace=True)
 
             preds = predict(algorithm, dataset)
-            preds.to_csv(self.algorithms_output_dir.joinpath("predictions.csv"))
+            preds.to_csv(self.predictions_output_dir.joinpath("predictions.csv"), index=False)
             print(preds)
             users = np.unique(test_dataset['user'].values)
-            candidates = test_dataset['item'].values
-            recs = recommend(algorithm, users, 10, candidates)
-            print("recs")
-            print(recs)
+
+            recs = algorithm.recommend(users, 10)
+            recs.to_csv(self.recommendations_output_dir.joinpath("recommendations.csv"), index=False)
+
+
+            print("recs - task: ", recs)
 
         return preds
 

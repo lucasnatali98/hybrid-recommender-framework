@@ -1,7 +1,7 @@
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import bias
 from src.utils import process_parameters
-
+import pandas as pd
 
 class Bias(Recommender):
     def __init__(self, parameters: dict) -> None:
@@ -35,7 +35,7 @@ class Bias(Recommender):
         """
         return self.Bias.predict(pairs, ratings)
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, user, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param user:
