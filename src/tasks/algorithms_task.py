@@ -7,7 +7,7 @@ from src.tasks.task import Task
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 import pandas as pd
-from lenskit.batch import predict
+from lenskit.batch import predict, recommend
 from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
 
@@ -38,7 +38,7 @@ class AlgorithmsTask(Task):
 
         algorithms = self.handle_algorithms_tasks(
             self.algorithm_instance,
-            train_dataset[0:1000],
+            train_dataset[0:2000],
             'fold-1',
             test_dataset
         )
@@ -97,8 +97,13 @@ class AlgorithmsTask(Task):
             dataset_copy.drop(columns=['rating'], inplace=True)
 
             preds = predict(algorithm, dataset)
-
-            print("predictions: ", preds)
+            preds.to_csv(self.algorithms_output_dir.joinpath("predictions.csv"))
+            print(preds)
+            users = np.unique(test_dataset['user'].values)
+            candidates = test_dataset['item'].values
+            recs = recommend(algorithm, users, 10, candidates)
+            print("recs")
+            print(recs)
 
         return preds
 

@@ -42,8 +42,6 @@ class UserKNN(Recommender):
         @param ratings:
         @return:
         """
-        print("Predict for user - user knn")
-        print("ratings: ", ratings)
         return self.user_knn.predict_for_user(
             user,
             items,
