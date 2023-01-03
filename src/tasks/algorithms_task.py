@@ -1,3 +1,5 @@
+from lenskit.algorithms.basic import UnratedItemCandidateSelector
+import numpy as np
 from src.experiments.experiment_handler import ExperimentHandler
 from joblib import dump, load
 from lenskit.algorithms.ranking import TopN
@@ -44,14 +46,28 @@ class AlgorithmsTask(Task):
 
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
-        print("topn process")
-        user_item = ratings.drop(columns=['rating'])
-        print("user_item")
-        print(user_item)
-        top_n = TopN(algorithm)
-        preds = top_n.predict(user_item, ratings)
-        return preds
+        users = np.unique(ratings['user'].values)
+        items = ratings['item'].values
 
+        algorithm.fit(ratings)
+        select = UnratedItemCandidateSelector()
+
+        top_n = TopN(algorithm, select)
+        number_of_items_rankeds = 10
+        for u in users:
+            recs = top_n.recommend(
+                u,
+                number_of_items_rankeds,
+                items
+            )
+
+            user_id = [u] * number_of_items_rankeds
+            algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
+            recs['user'] = pd.Series(user_id)
+            recs['algorithm'] = algorithm_name
+            topn_dataframe = pd.concat([topn_dataframe, recs], ignore_index=True)
+
+            print(topn_dataframe)
 
     def _handle_algorithms_tasks(self,
                                  algorithms: RecommendersContainer,
@@ -68,14 +84,15 @@ class AlgorithmsTask(Task):
             print(algorithm)
             print(dataset.head())
 
+
             algorithm.fit(dataset)
 
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
             path = path.joinpath(algorithm_name + dataset_name + ".joblib")
             dump(algorithm, path)
 
-            preds = self.topn_process(algorithm, dataset)
-            print("predictions: ", preds)
+            self.topn_process(algorithm, dataset)
+            #print("predictions: ", preds)
 
 
             recs['Algorithm'] = algorithm_name

@@ -80,14 +80,13 @@ class UserKNN(Recommender):
         print('candidates: ', candidates)
         print('n_jobs: ', n_jobs)
         print('\n')
-#        algorithm = LenskitRecommender.adapt(algorithm)
+
         select = UnratedItemCandidateSelector()
 
 
         top_n = TopN(algorithm, select)
 
 
-        print("topn: ", top_n)
         for user in users:
             print("user: ", user)
             recs = top_n.recommend(
