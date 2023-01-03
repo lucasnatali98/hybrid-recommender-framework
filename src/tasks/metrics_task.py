@@ -5,12 +5,16 @@ from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 from lenskit import topn
+from src.metrics.cross_validation import CrossValidation
 class MetricsTask(Task):
     def __init__(self, metrics, args = None):
         """
 
         @param args:
         """
+        self.cross_validation = CrossValidation({
+
+        })
         self.metric_instances = metrics
         self.experiment_output_dir = hrf_experiment_output_path()
         self.predictions_output_path = hrf_experiment_output_path().joinpath(
