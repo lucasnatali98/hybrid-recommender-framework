@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-
+import panda as pd
 
 class Metric(ABC):
 
     @abstractmethod
-    def evaluate(self, predictions, truth):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series):
         """
 
         @param predictions:
@@ -14,7 +14,7 @@ class Metric(ABC):
         raise Exception("O método evaluate de Metric não está implementado")
 
     @abstractmethod
-    def check_missing(self, truth, missing):
+    def check_missing(self, truth: pd.Series, missing):
         """
 
         @param truth:
@@ -26,7 +26,7 @@ class Metric(ABC):
 
 class AbstractMetric(Metric):
     @abstractmethod
-    def evaluate(self, predictions, truth):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series):
         """
 
         @param predictions:
@@ -36,7 +36,7 @@ class AbstractMetric(Metric):
         pass
 
     @abstractmethod
-    def check_missing(self, truth, missing):
+    def check_missing(self, truth: pd.Series, missing):
         """
 
         @param truth:
@@ -48,7 +48,7 @@ class AbstractMetric(Metric):
 class PredictionMetric(AbstractMetric):
 
     @abstractmethod
-    def evaluate(self, predictions, truth):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series):
         """
 
         @param predictions:
@@ -58,7 +58,7 @@ class PredictionMetric(AbstractMetric):
         pass
 
     @abstractmethod
-    def check_missing(self, truth, missing):
+    def check_missing(self, truth: pd.Series, missing):
         """
 
         @param truth:
@@ -70,7 +70,7 @@ class PredictionMetric(AbstractMetric):
 
 class RankingMetric(AbstractMetric):
     @abstractmethod
-    def evaluate(self, predictions, truth):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series):
         """
 
         @param predictions:
@@ -80,7 +80,7 @@ class RankingMetric(AbstractMetric):
         pass
 
     @abstractmethod
-    def check_missing(self, truth, missing):
+    def check_missing(self, truth: pd.Series, missing):
         """
 
         @param truth:

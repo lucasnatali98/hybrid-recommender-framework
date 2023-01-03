@@ -134,7 +134,6 @@ class AlgorithmsTask(Task):
             print("Algorithm name: ", algorithm_name)
             print("Algorithm: ")
             print(algorithm)
-            print(dataset.head())
 
             algorithm.fit(dataset)
 

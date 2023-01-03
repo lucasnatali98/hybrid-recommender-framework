@@ -1,7 +1,10 @@
+import pandas as pd
+
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
+from lenskit import topn
 class MetricsTask(Task):
     def __init__(self, metrics, args = None):
         """
@@ -10,6 +13,12 @@ class MetricsTask(Task):
         """
         self.metric_instances = metrics
         self.experiment_output_dir = hrf_experiment_output_path()
+        self.predictions_output_path = hrf_experiment_output_path().joinpath(
+            "models/results/predictions/"
+        )
+        self.evaluate_output_path = hrf_experiment_output_path().joinpath(
+            "evaluate/"
+        )
 
     def check_args(self, args):
         """
@@ -26,6 +35,30 @@ class MetricsTask(Task):
         """
         metrics = self._handle_metrics_tasks(self.metric_instances)
         return metrics
+
+
+    def topn_evaluation(self, metrics: list, recommendations: pd.DataFrame,  dataset_test: pd.DataFrame) -> pd.DataFrame:
+        print("topn_evaluation")
+        topn_metrics = {
+            'ndcg': topn.ndcg,
+            'dcg': topn.dcg,
+            'precision': topn.precision,
+            'recall': topn.recall,
+            'hit': topn.hit
+        }
+
+        all_recs = recommendations
+        test_data = dataset_test
+
+        topn_analysis = topn.RecListAnalysis()
+        for metric in metrics:
+            m = topn_metrics[metric]
+            topn_analysis.add_metric(m)
+
+        results = topn_analysis.compute(all_recs, test_data)
+        print("")
+        return results
+
 
     def _handle_metrics_tasks(self, metrics):
         return metrics
