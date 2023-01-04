@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import panda as pd
+import pandas as pd
 
 class Metric(ABC):
 

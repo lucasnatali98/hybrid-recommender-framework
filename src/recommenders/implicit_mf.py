@@ -1,22 +1,27 @@
 from src.recommenders.recommender import Recommender
-from lenskit.algorithms import bias
+from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskit
 from src.utils import process_parameters
 import pandas as pd
 
-class Bias(Recommender):
-    def __init__(self, parameters: dict) -> None:
-        default_keys = {'items', 'users', 'damping'}
-        parameters = process_parameters(parameters, default_keys)
 
-        self.items = parameters['items']
-        self.users = parameters['users']
-        self.damping = parameters['damping']
-        self.Bias = bias.Bias(
-            items=self.items,
-            users=self.users,
+class ImplicitMF(Recommender):
+
+    def __init__(self, parameters: dict) -> None:
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
+        self.features = parameters['features']
+        self.iterations = parameters['iterations']
+        self.reg = parameters['reg']  # regularization factor
+        self.weight = parameters['weight']
+        self.use_ratings = parameters['use_ratings']
+        self.ImplicitMF = ImplicitMFLenskit(
+            features=self.features,
+            iterations=self.iterations,
+            reg=self.reg,
+            weight=self.weight
         )
 
-    def predict_for_user(self, user, items, ratings):
+    def predict_for_users(self, user, items, ratings):
         """
 
         @param users:
@@ -24,7 +29,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        return self.Bias.predict_for_user(user, items, ratings)
+        self.ImplicitMF.predict_for_user(user, items, ratings)
 
     def predict(self, pairs, ratings):
         """
@@ -33,9 +38,9 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        return self.Bias.predict(pairs, ratings)
+        pass
 
-    def recommend(self, user, n, candidates, ratings) -> pd.DataFrame:
+    def recommend(self, users, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param user:
@@ -61,7 +66,5 @@ class Bias(Recommender):
         @param kwargs:
         @return:
         """
-        self.Bias.fit(rating)
 
-    def transform(self, rating):
-        return self.Bias.transform(rating)
+        self.ImplicitMF.fit(rating)

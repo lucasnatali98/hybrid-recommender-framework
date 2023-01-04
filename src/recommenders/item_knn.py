@@ -27,7 +27,7 @@ class ItemKNN(Recommender):
             nnbrs=self.max_number_neighbors,
             min_nbrs=self.min_number_neighbors,
             save_nbrs=self.save_nbrs,
-            min_sim=0.0003,
+            min_sim=0.03,
             feedback=self.feedback,
             aggregate=self.aggregate,
             use_ratings=self.use_ratings

@@ -13,4 +13,8 @@ class TestNDCG:
     def test_evaluate(self):
         predictions = pd.Series()
         truth = pd.Series()
-        ndcg.evaluate(predictions, truth)
+        result = ndcg.evaluate(predictions, truth)
+        print(result)
+
+    def test_check_missing(self):
+        pass

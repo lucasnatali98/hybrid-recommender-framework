@@ -45,6 +45,15 @@ class AlgorithmsTask(Task):
 
         return file_names
 
+    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):
+        print("predict_to_users")
+
+        for user in users:
+            result = algorithm.predict_for_user(user, items, rating)
+
+
+
+
     def run(self):
         """
 
@@ -83,9 +92,9 @@ class AlgorithmsTask(Task):
 
                 algorithms = self.handle_algorithms_tasks(
                     self.algorithm_instances,
-                    train_dataset[0:1000],
+                    train_dataset.sample(1000),
                     fold_name,
-                    validation_dataset
+                    validation_dataset.sample(1000)
                 )
 
             return True
@@ -134,7 +143,9 @@ class AlgorithmsTask(Task):
             print("Algorithm name: ", algorithm_name)
             print("Algorithm: ")
             print(algorithm)
-
+            print("dataset")
+            print(dataset.head())
+            print("dataset_name:", dataset_name)
             algorithm.fit(dataset)
 
             path = hrf_experiment_output_path().joinpath("models/trained_models/")
@@ -142,16 +153,26 @@ class AlgorithmsTask(Task):
             dump(algorithm, path)
 
             topn_result = self.topn_process(algorithm, dataset)
+            print("topn_result")
+            print(topn_result)
             ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
             topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+
+            users = dataset['user'].values
+            items = dataset['item'].values
+            predict_result = self.predict_to_users(algorithm, users, items)
+
+            print("predict result")
+            print(predict_result)
 
             dataset_copy = dataset.copy()
             dataset_copy.drop(columns=['rating'], inplace=True)
 
             preds = predict(algorithm, dataset)
+            print("predictions: ")
+            print(preds)
             prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
             preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
-            print(preds)
             users = np.unique(test_dataset['user'].values)
 
             recs = algorithm.recommend(users, 10)

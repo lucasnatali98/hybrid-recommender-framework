@@ -215,9 +215,9 @@
               "module": "src.recommenders.item_knn",
               "class_name": "ItemKNN",
               "parameters": {
-                "maxNumberNeighbors": 1,
-                "minNumberNeighbors": 2,
-                "saveNeighbors": 3.0,
+                "maxNumberNeighbors": 20,
+                "minNumberNeighbors": 4,
+                "saveNeighbors": 6.0,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true
@@ -227,12 +227,33 @@
               "module": "src.recommenders.user_knn",
               "class_name": "UserKNN",
               "parameters": {
-                "maxNumberNeighbors": 1,
-                "minNumberNeighbors": 2,
-                "min_sim": 0,
+                "maxNumberNeighbors": 12,
+                "minNumberNeighbors": 4,
+                "min_sim": 0.3,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true
+              }
+            },
+            {
+              "module": "src.recommenders.pop_score",
+              "class_name": "PopScore",
+              "parameters": {
+                "score_method": "quantile"
+              }
+            },
+            {
+              "module": "",
+              "class_name": "",
+              "parameters": {
+
+              }
+            },
+            {
+              "module": "",
+              "class_name": "",
+              "parameters": {
+
               }
             }
           ]

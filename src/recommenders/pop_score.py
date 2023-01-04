@@ -1,5 +1,6 @@
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
+from lenskit.algorithms.basic import PopScore as PopScoreLenskit
 import pandas as pd
 class PopScore(Recommender):
     def __init__(self, parameters: dict) -> None:
@@ -14,12 +15,9 @@ class PopScore(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
-        self.max_number_neighbors = parameters['maxNumberNeighbors']
-        self.min_number_neighbors = parameters['minNumberNeighbors']
-        self.save_nbrs = parameters['saveNeighbors']
-        self.feedback = parameters['feedback']
-        self.aggregate = parameters['aggregate']
-        self.use_ratings = parameters['use_ratings']
+
+
+        self.PopScore = PopScoreLenskit()
 
 
     def predict_for_users(self, users, items, ratings):
