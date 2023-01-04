@@ -9,12 +9,18 @@ class ScikitSVD(Recommender):
         parameters = process_parameters(parameters, default_keys)
 
         self.features = parameters['features']
-        self.iterations = parameters['iterations']
-        self.reg = parameters['reg']  # regularization factor
-        self.weight = parameters['weight']
-        self.use_ratings = parameters['use_ratings']
+        self.damping = parameters['damping']
+        self.bias = parameters['bias']  # regularization factor
+        self.algorithm = parameters['algorithm']
 
-        self.BiasedSVD = BiasedSVD()
+
+        self.BiasedSVD = BiasedSVD(
+            features=self.features,
+            damping=self.damping,
+            bias=self.bias,
+            algorithm=self.algorithm
+
+        )
 
     def predict_for_user(self, user, items, ratings=None):
         """
