@@ -12,6 +12,7 @@ from lenskit.batch import predict, recommend
 from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
 import os
+import traceback
 
 
 class AlgorithmsTask(Task):
@@ -108,8 +109,13 @@ class AlgorithmsTask(Task):
         except Exception as e:
             print("Aconteceu uma exceção")
             print(e)
+            print(traceback.print_exc())
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
+
+        if algorithm.__class__.__name__ == "RandomItem": #Verificar se posso evitar isso
+            return None
+
         users = np.unique(ratings['user'].values)
         items = ratings['item'].values
 
@@ -157,14 +163,14 @@ class AlgorithmsTask(Task):
 
             topn_result = self.topn_process(algorithm, dataset)
             ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
-            topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+            if topn_result is not None:
+                topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
 
             users = dataset['user'].values
             items = dataset['item'].values
             #predict_result = self.predict_to_users(algorithm, users, items)
 
-            #print("predict result")
-            #print(predict_result)
+
 
             dataset_copy = dataset.copy()
             dataset_copy.drop(columns=['rating'], inplace=True)

@@ -7,11 +7,28 @@ def test_hrf_experiment_output_task():
     experiment_path = "experiment_output/"
     isEqual = hrf_path == root_path.joinpath(experiment_path)
     print("isEqual: ", isEqual)
-    assert isEqual == True
+    assert isEqual is True
     experiment_path = "experiment/"
     isEqual = hrf_path == root_path.joinpath(experiment_path)
-    assert isEqual == False
+    assert isEqual is False
 
+
+def test_convert_json_attribute_values_to_python():
+    parameters = {
+        "key1": "None",
+        "key2": "true",
+        "key3": "false",
+        "key4": 44.0
+    }
+    to_python_attrs = convert_json_attribute_values_to_python(parameters)
+    print("to python attrs: ", to_python_attrs)
+
+    isIncorrectValue = False
+    for value in to_python_attrs.values():
+        if value == "None" or value == "true" or value == "false":
+            isIncorrectValue = True
+
+    assert isIncorrectValue == False
 def test_process_parameters():
     parameters = {
         'key1': "",

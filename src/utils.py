@@ -2,6 +2,7 @@ from pathlib import Path
 
 
 def process_parameters(parameters: dict, default_keys: set) -> dict:
+    parameters = convert_json_attribute_values_to_python(parameters)
     parameters_keys_list = list(parameters.keys())
 
     parameters_keys = set()
@@ -15,6 +16,19 @@ def process_parameters(parameters: dict, default_keys: set) -> dict:
         raise KeyError("Você não informou uma das chaves obrigatorias: ", default_keys)
     return parameters
 
+def convert_json_attribute_values_to_python(parameters: dict) -> dict:
+    new_parameters = {}
+    for key, value in parameters.items():
+        if value == "None":
+            new_parameters[key] = None
+        elif value == "true":
+            new_parameters[key] = True
+        elif value == "false":
+            new_parameters[key] = False
+        else:
+            new_parameters[key] = value
+
+    return new_parameters
 def object_equals_type(obj, object_type):
     """
 
