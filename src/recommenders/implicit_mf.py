@@ -35,7 +35,7 @@ class ImplicitMF(Recommender):
         @param ratings:
         @return:
         """
-        self.ImplicitMF.predict_for_user(user, items, ratings)
+        return self.ImplicitMF.predict_for_user(user, items, ratings)
 
     def predict(self, pairs, ratings):
         """

@@ -177,8 +177,6 @@ class AlgorithmsTask(Task):
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
-                if dataset is None:
-                    print("Eita, é NONE O DATASET")
                 preds = predict(algorithm, dataset)
 
                 print("predictions: ")

@@ -58,7 +58,7 @@ class ScikitSVD(Recommender):
         @param kwargs:
         @return:
         """
-        return self.BiasedSVD.fit(ratings)
+        self.BiasedSVD.fit(ratings)
 
     def recommend(self, users, n=None, candidates=None, n_jobs=None):
         print("ScikitSVD recommend")
