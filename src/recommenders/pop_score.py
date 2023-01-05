@@ -35,7 +35,7 @@ class PopScore(Recommender):
         """
         return self.PopScore.predict(pairs, ratings)
 
-    def recommend(self, user, n, candidates, ratings) -> DataFrame:
+    def recommend(self, user, n, candidates = None, ratings = None) -> DataFrame:
         """
 
         @param user:

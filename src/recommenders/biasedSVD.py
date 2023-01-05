@@ -36,7 +36,7 @@ class BiasedSVD(Recommender):
         """
         pass
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, user, n, candidates=None, ratings=None):
         """
 
         @param user:

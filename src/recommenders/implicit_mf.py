@@ -44,7 +44,7 @@ class ImplicitMF(Recommender):
         """
         return self.ImplicitMF.predict(pairs, ratings)
 
-    def recommend(self, user, n, candidates, ratings) -> pd.DataFrame:
+    def recommend(self, user, n, candidates = None, ratings = None) -> pd.DataFrame:
         """
 
         @param user:

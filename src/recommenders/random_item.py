@@ -14,7 +14,7 @@ class RandomItem(Recommender):
     def fit(self, ratings: pd.DataFrame, **kwargs):
         self.random_item.fit(ratings)
 
-    def recommend(self, users, n, candidates, ratings):
+    def recommend(self, users, n, candidates = None, ratings = None):
         return self.random_item.recommend(users, n, candidates, ratings)
 
     def predict_for_user(self, user, items, ratings=None):

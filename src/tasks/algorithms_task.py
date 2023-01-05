@@ -45,7 +45,7 @@ class AlgorithmsTask(Task):
 
         return file_names
 
-    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):
+    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None): #tá errado
         print("predict_to_users")
 
         predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
@@ -54,12 +54,15 @@ class AlgorithmsTask(Task):
         number_of_items_rankeds = 10
         for u in users:
             prediction_result = algorithm.predict_for_user(u, items, rating)
+            print("prediction result: ", prediction_result)
             user_id = [u] * number_of_items_rankeds
             algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
             prediction_result['user'] = pd.Series(user_id)
             prediction_result['algorithm'] = pd.Series(algorithm_name)
             predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
 
+
+        print("finished predict to user")
         return predictions_df
 
 
@@ -158,10 +161,10 @@ class AlgorithmsTask(Task):
 
             users = dataset['user'].values
             items = dataset['item'].values
-            predict_result = self.predict_to_users(algorithm, users, items)
+            #predict_result = self.predict_to_users(algorithm, users, items)
 
-            print("predict result")
-            print(predict_result)
+            #print("predict result")
+            #print(predict_result)
 
             dataset_copy = dataset.copy()
             dataset_copy.drop(columns=['rating'], inplace=True)
