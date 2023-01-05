@@ -46,11 +46,10 @@ class AlgorithmsTask(Task):
 
         return file_names
 
-    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None): #tá errado
+    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
         print("predict_to_users")
 
         predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
-
 
         number_of_items_rankeds = 10
         for u in users:
@@ -62,10 +61,8 @@ class AlgorithmsTask(Task):
             prediction_result['algorithm'] = pd.Series(algorithm_name)
             predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
 
-
         print("finished predict to user")
         return predictions_df
-
 
     def run(self):
         """
@@ -91,7 +88,6 @@ class AlgorithmsTask(Task):
                 train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
                 validation_dataset = pd.read_csv(validation_dataset_path, index_col=[0])
 
-
                 fold_name = train_file.split(".")
                 fold_name = fold_name[0]
 
@@ -112,34 +108,41 @@ class AlgorithmsTask(Task):
             print(traceback.print_exc())
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
+        print("TopN Process:")
+        print("ratings: ", ratings)
+        try:
+            if algorithm.__class__.__name__ == "RandomItem":  # Verificar se posso evitar isso
+                return None
 
-        if algorithm.__class__.__name__ == "RandomItem": #Verificar se posso evitar isso
+            users = np.unique(ratings['user'].values)
+            items = ratings['item'].values
+
+            select = UnratedItemCandidateSelector()
+
+            topn_dataframe = pd.DataFrame(columns=['user', 'item', 'score'])
+
+            top_n = TopN(algorithm, select)
+            number_of_items_rankeds = 10
+            for u in users:
+                recs = top_n.recommend(
+                    u,
+                    number_of_items_rankeds,
+                    items
+                )
+
+                user_id = [u] * number_of_items_rankeds
+                algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
+                recs['user'] = pd.Series(user_id)
+                recs['algorithm'] = pd.Series(algorithm_name)
+                topn_dataframe = pd.concat([topn_dataframe, recs], ignore_index=True)
+
+            return topn_dataframe
+
+        except Exception as err:
+            print("Exceção na função: topn_process")
+            print("Erro: ", err)
+            print(traceback.print_exc())
             return None
-
-        users = np.unique(ratings['user'].values)
-        items = ratings['item'].values
-
-        algorithm.fit(ratings)
-        select = UnratedItemCandidateSelector()
-
-        topn_dataframe = pd.DataFrame(columns=['user', 'item', 'score'])
-
-        top_n = TopN(algorithm, select)
-        number_of_items_rankeds = 10
-        for u in users:
-            recs = top_n.recommend(
-                u,
-                number_of_items_rankeds,
-                items
-            )
-
-            user_id = [u] * number_of_items_rankeds
-            algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
-            recs['user'] = pd.Series(user_id)
-            recs['algorithm'] = pd.Series(algorithm_name)
-            topn_dataframe = pd.concat([topn_dataframe, recs], ignore_index=True)
-
-        return topn_dataframe
 
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
@@ -147,50 +150,58 @@ class AlgorithmsTask(Task):
                                 dataset_name: str,
                                 test_dataset: pd.DataFrame):
 
-        for algorithm in algorithms.items[0]:
-            algorithm_name = algorithm.__class__.__name__
-            print("Algorithm name: ", algorithm_name)
-            print("Algorithm: ")
-            print(algorithm)
-            print("dataset")
-            print(dataset.head())
-            print("dataset_name:", dataset_name)
-            algorithm.fit(dataset)
+        try:
+            for algorithm in algorithms.items[0]:
+                algorithm_name = algorithm.__class__.__name__
+                print("Algorithm name: ", algorithm_name)
+                print("Algorithm: ")
+                print(algorithm)
+                print("dataset")
+                print(dataset.head())
+                print("dataset_name:", dataset_name)
+                algorithm.fit(dataset)
 
-            path = hrf_experiment_output_path().joinpath("models/trained_models/")
-            path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
-            dump(algorithm, path)
+                path = hrf_experiment_output_path().joinpath("models/trained_models/")
+                path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
+                dump(algorithm, path)
 
-            topn_result = self.topn_process(algorithm, dataset)
-            ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
-            if topn_result is not None:
-                topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+                topn_result = self.topn_process(algorithm, dataset)
+                ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
+                if topn_result is not None:
+                    topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
 
-            users = dataset['user'].values
-            items = dataset['item'].values
-            #predict_result = self.predict_to_users(algorithm, users, items)
+                users = dataset['user'].values
+                items = dataset['item'].values
+                # predict_result = self.predict_to_users(algorithm, users, items)
 
+                dataset_copy = dataset.copy()
+                dataset_copy.drop(columns=['rating'], inplace=True)
 
+                if dataset is None:
+                    print("Eita, é NONE O DATASET")
+                preds = predict(algorithm, dataset)
 
-            dataset_copy = dataset.copy()
-            dataset_copy.drop(columns=['rating'], inplace=True)
+                print("predictions: ")
+                print(preds)
 
-            preds = predict(algorithm, dataset)
-            print("predictions: ")
-            print(preds)
-            prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
-            preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
-            users = np.unique(test_dataset['user'].values)
+                if preds is not None:
+                    prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
+                    preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
 
-            recs = algorithm.recommend(users, 10)
-            recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
-            recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+                users = np.unique(test_dataset['user'].values)
 
-            print("recs - task: ", recs)
+                recs = algorithm.recommend(users, 10)
+                if recs is not None:
+                    recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
+                    recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
 
+            return True
 
-
-        return True
+        except Exception as err:
+            print("Uma exceção aconteceu na função handle_algorithms_tasks")
+            print("Error: ", err)
+            print(traceback.print_exc())
+            return None
 
 
 def run_algorithms_task():

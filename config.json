@@ -243,11 +243,6 @@
               }
             },
             {
-              "module": "src.recommenders.random_item",
-              "class_name": "RandomItem",
-              "parameters": {}
-            },
-            {
               "module": "src.recommenders.biasedSVD",
               "class_name": "BiasedSVD",
               "parameters": {

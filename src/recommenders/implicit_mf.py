@@ -1,3 +1,5 @@
+import traceback
+
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskit
 from lenskit.algorithms import Recommender as LenskitRecommender
@@ -44,7 +46,7 @@ class ImplicitMF(Recommender):
         """
         return self.ImplicitMF.predict(pairs, ratings)
 
-    def recommend(self, users, n, candidates = None, ratings = None) -> DataFrame:
+    def recommend(self, users, n, candidates = None, ratings = None):
         """
 
         @param user:
@@ -53,24 +55,31 @@ class ImplicitMF(Recommender):
         @param ratings:
         @return:
         """
-        recommendation_dataframe = DataFrame(
-            columns=['user', 'item', 'score', 'algorithm_name']
-        )
-        for user in users:
-            recommendation_to_user = self.ImplicitMF.recommend(user, n)
-
-            names = Series([self.__class__.__name__] * n)
-            user_id_list = Series([user] * n)
-
-            recommendation_to_user['algorithm_name'] = names
-            recommendation_to_user['user'] = user_id_list
-
-            recommendation_dataframe = concat(
-                [recommendation_dataframe, recommendation_to_user],
-                ignore_index=True
+        try:
+            recommendation_dataframe = DataFrame(
+                columns=['user', 'item', 'score', 'algorithm_name']
             )
+            for user in users:
+                recommendation_to_user = self.ImplicitMF.recommend(user, n)
 
-        return recommendation_dataframe
+                names = Series([self.__class__.__name__] * n)
+                user_id_list = Series([user] * n)
+
+                recommendation_to_user['algorithm_name'] = names
+                recommendation_to_user['user'] = user_id_list
+
+                recommendation_dataframe = concat(
+                    [recommendation_dataframe, recommendation_to_user],
+                    ignore_index=True
+                )
+
+            return recommendation_dataframe
+        except Exception as e:
+            print("Aconteceu uma exceção na função recommend de ImplicitMF")
+            print("Error: ", e)
+            print(traceback.print_exc())
+            return None
+
 
     def get_params(self, deep=True):
         """

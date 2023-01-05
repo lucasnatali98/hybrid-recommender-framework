@@ -1,3 +1,4 @@
+import traceback
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
 from pandas import DataFrame, Series, concat
@@ -51,24 +52,31 @@ class BiasedSVD(Recommender):
         @param ratings:
         @return:
         """
-        recommendation_dataframe = DataFrame(
-            columns=['user', 'item', 'score', 'algorithm_name']
-        )
-        for user in users:
-            recommendation_to_user = self.PopScore.recommend(user, n)
-
-            names = Series([self.__class__.__name__] * n)
-            user_id_list = Series([user] * n)
-
-            recommendation_to_user['algorithm_name'] = names
-            recommendation_to_user['user'] = user_id_list
-
-            recommendation_dataframe = concat(
-                [recommendation_dataframe, recommendation_to_user],
-                ignore_index=True
+        try:
+            recommendation_dataframe = DataFrame(
+                columns=['user', 'item', 'score', 'algorithm_name']
             )
+            for user in users:
+                recommendation_to_user = self.BiasedMF.recommend(user, n)
 
-        return recommendation_dataframe
+                names = Series([self.__class__.__name__] * n)
+                user_id_list = Series([user] * n)
+
+                recommendation_to_user['algorithm_name'] = names
+                recommendation_to_user['user'] = user_id_list
+
+                recommendation_dataframe = concat(
+                    [recommendation_dataframe, recommendation_to_user],
+                    ignore_index=True
+                )
+
+            return recommendation_dataframe
+        except Exception as e:
+            print("Uma exceção aconteceu na função recommnd de BiasedSVD")
+            print("Error: ", e)
+            print(traceback.print_exc())
+            return None
+
 
     def get_params(self, deep=True):
         """

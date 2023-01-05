@@ -1,3 +1,5 @@
+import traceback
+
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
 from lenskit.algorithms.svd import BiasedSVD
@@ -58,26 +60,33 @@ class ScikitSVD(Recommender):
         """
         return self.BiasedSVD.fit(ratings)
 
-    def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:
-        print("UserKNN recommend")
-        recommendation_dataframe = pd.DataFrame(
-            columns=['user', 'item', 'score', 'algorithm_name']
-        )
-        for user in users:
-            recommendation_to_user = self.BiasedSVD.recommend(user, n)
+    def recommend(self, users, n=None, candidates=None, n_jobs=None):
+        print("ScikitSVD recommend")
 
-            names = pd.Series([self.__class__.__name__] * n)
-            user_id_list = pd.Series([user] * n)
-
-            recommendation_to_user['algorithm_name'] = names
-            recommendation_to_user['user'] = user_id_list
-
-            recommendation_dataframe = pd.concat(
-                [recommendation_dataframe, recommendation_to_user],
-                ignore_index=True
+        try:
+            recommendation_dataframe = pd.DataFrame(
+                columns=['user', 'item', 'score', 'algorithm_name']
             )
+            for user in users:
+                recommendation_to_user = self.BiasedSVD.recommend(user, n)
 
-        return recommendation_dataframe
+                names = pd.Series([self.__class__.__name__] * n)
+                user_id_list = pd.Series([user] * n)
+
+                recommendation_to_user['algorithm_name'] = names
+                recommendation_to_user['user'] = user_id_list
+
+                recommendation_dataframe = pd.concat(
+                    [recommendation_dataframe, recommendation_to_user],
+                    ignore_index=True
+                )
+
+            return recommendation_dataframe
+        except Exception as e:
+            print("Aconteceu uma exceção na função recommend de ScikitSVD")
+            print("Error: ", e)
+            print(traceback.print_exc())
+            return None
 
     def get_params(self, deep=True):
         pass

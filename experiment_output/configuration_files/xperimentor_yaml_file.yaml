@@ -39,7 +39,6 @@ recipes:
     - ItemKNN
     - UserKNN
     - PopScore
-    - RandomItem
     - BiasedSVD
     - ScikitSVD
     - ImplicitMF
