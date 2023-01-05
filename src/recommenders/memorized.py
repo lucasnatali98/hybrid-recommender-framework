@@ -1,25 +1,20 @@
+
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
-from lenskit.algorithms.svd import BiasedSVD
-import pandas as pd
+from lenskit.algorithms.basic import Memorized as MemorizedLenskit
+from lenskit.algorithms import  Recommender as LenskitRecommender
 
+from pandas import DataFrame, Series
 
-class ScikitSVD(Recommender):
+class Memorized(Recommender):
+
     def __init__(self, parameters: dict) -> None:
-        default_keys = {
-            "features"
-        }
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-        self.features = parameters['features']
-        self.damping = parameters['damping']
-        # self.bias = parameters['bias']  # regularization factor
-        # self.algorithm = parameters['algorithm']
-
-        self.BiasedSVD = BiasedSVD(
-            features=self.features,
-            damping=self.damping,
-        )
+        self.parameters = parameters
+        self.Memorized = MemorizedLenskit(self.parameters['scores'])
+        self.Memorized = LenskitRecommender.adapt(self.Memorized)
 
     def predict_for_user(self, user, items, ratings=None):
         """
@@ -29,7 +24,7 @@ class ScikitSVD(Recommender):
         @param ratings:
         @return:
         """
-        return self.BiasedSVD.predict_for_user(
+        return self.Memorized.predict_for_user(
             user,
             items,
             ratings
@@ -42,29 +37,29 @@ class ScikitSVD(Recommender):
         @param items:
         @return:
         """
-        return self.BiasedSVD.predict(
+        return self.Memorized.predict(
             pairs,
             ratings)
 
-    def fit(self, ratings: pd.DataFrame, **kwargs):
+    def fit(self, ratings: DataFrame, **kwargs):
         """
 
         @param ratings:
         @param kwargs:
         @return:
         """
-        return self.BiasedSVD.fit(ratings)
+        return self.Memorized.fit(ratings)
 
     def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:
         print("UserKNN recommend")
-        recommendation_dataframe = pd.DataFrame(
+        recommendation_dataframe = DataFrame(
             columns=['user', 'item', 'score', 'algorithm_name']
         )
         for user in users:
-            recommendation_to_user = self.BiasedSVD.recommend(user, n)
+            recommendation_to_user = self.Memorized.recommend(user, n)
 
-            names = pd.Series([self.__class__.__name__] * n)
-            user_id_list = pd.Series([user] * n)
+            names = Series([self.__class__.__name__] * n)
+            user_id_list = Series([user] * n)
 
             recommendation_to_user['algorithm_name'] = names
             recommendation_to_user['user'] = user_id_list

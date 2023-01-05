@@ -7,21 +7,22 @@ import pandas as pd
 class ImplicitMF(Recommender):
 
     def __init__(self, parameters: dict) -> None:
-        default_keys = set()
+        default_keys = {
+            "features",
+            "iterations"
+        }
         parameters = process_parameters(parameters, default_keys)
         self.features = parameters['features']
         self.iterations = parameters['iterations']
-        self.reg = parameters['reg']  # regularization factor
-        self.weight = parameters['weight']
-        self.use_ratings = parameters['use_ratings']
+       # self.reg = parameters['reg']  # regularization factor
+       # self.weight = parameters['weight']
+       # self.use_ratings = parameters['use_ratings']
         self.ImplicitMF = ImplicitMFLenskit(
             features=self.features,
-            iterations=self.iterations,
-            reg=self.reg,
-            weight=self.weight
+            iterations=self.iterations
         )
 
-    def predict_for_users(self, user, items, ratings):
+    def predict_for_user(self, user, items, ratings):
         """
 
         @param users:

@@ -243,17 +243,34 @@
               }
             },
             {
-              "module": "",
-              "class_name": "",
+              "module": "src.recommenders.random_item",
+              "class_name": "RandomItem",
+              "parameters": {}
+            },
+            {
+              "module": "src.recommenders.biasedSVD",
+              "class_name": "BiasedSVD",
               "parameters": {
-
+                "damping":  5,
+                "iterations": 20,
+                "features": 10,
+                "bias": true
               }
             },
             {
-              "module": "",
-              "class_name": "",
+              "module": "src.recommenders.scikit_svd",
+              "class_name": "ScikitSVD",
               "parameters": {
-
+                "features": 20,
+                "damping": 5
+              }
+            },
+            {
+              "module": "src.recommenders.implicit_mf",
+              "class_name": "ImplicitMF",
+              "parameters": {
+                "features": 20,
+                "iterations": 20
               }
             }
           ]

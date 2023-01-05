@@ -4,42 +4,20 @@ from src.utils import process_parameters
 class BiasedSVD(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = {
-            'damping',
-            'features',
-            'bias',
-            'algorithm'
+            'iterations',
+            'features'
         }
 
         parameters = process_parameters(parameters, default_keys)
 
         self.features = parameters['features']
         self.damping = parameters['damping']
-        self.bias = parameters['bias']
-        self.algorithm = parameters['algorithm']
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
+#        self.bias = parameters['bias']
+#       self.algorithm = parameters['algorithm']
 
 
 
-        default_keys = set()
-        parameters_keys_list = list(parameters.keys())
-
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-        return parameters
-
-    def predict_for_users(self, users, items, ratings):
+    def predict_for_user(self, users, items, ratings):
         """
 
         @param users:

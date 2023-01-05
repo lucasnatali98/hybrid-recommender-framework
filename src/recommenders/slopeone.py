@@ -1,13 +1,14 @@
 from src.recommenders.recommender import Recommender
 from surprise import SlopeOne as SlopeOneSurprise
-
+from src.utils import process_parameters
 
 class SlopeOne(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
         
         """
-        parameters = self.process_parameters(parameters);
+        default_keys = set()
+        parameters = process_parameters(parameters);
         self.slope_one = SlopeOneSurprise()
 
 
@@ -30,7 +31,7 @@ class SlopeOne(Recommender):
         """
         return
 
-    def recommend(self, algorithm, user, n, candidates, ratings):
+    def recommend(self, users, n, candidates, ratings):
         """
 
         @param user:
@@ -39,6 +40,7 @@ class SlopeOne(Recommender):
         @param ratings:
         @return:
         """
+        return None
 
 
     def fit(self, data, **kwargs):

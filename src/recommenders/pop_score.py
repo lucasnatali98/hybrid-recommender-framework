@@ -7,12 +7,7 @@ class PopScore(Recommender):
         """
 
         """
-        default_keys = {
-            'maxNumberNeighbors',
-            'minNumberNeighbors',
-            'saveNeighbors',
-            'feedback'
-        }
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
 
@@ -20,7 +15,7 @@ class PopScore(Recommender):
         self.PopScore = PopScoreLenskit()
 
 
-    def predict_for_users(self, users, items, ratings):
+    def predict_for_user(self, users, items, ratings):
         """
 
         @param users:

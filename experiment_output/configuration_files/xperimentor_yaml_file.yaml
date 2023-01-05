@@ -38,6 +38,11 @@ recipes:
     Alg:
     - ItemKNN
     - UserKNN
+    - PopScore
+    - RandomItem
+    - BiasedSVD
+    - ScikitSVD
+    - ImplicitMF
     DB:
     - MovieLens
     Eval:
