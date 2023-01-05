@@ -1,6 +1,7 @@
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
 from lenskit.algorithms.svd import BiasedSVD
+from lenskit.algorithms import Recommender as LenskitRecommender
 import pandas as pd
 
 
@@ -20,6 +21,8 @@ class ScikitSVD(Recommender):
             features=self.features,
             damping=self.damping,
         )
+
+        self.BiasedSVD = LenskitRecommender.adapt(self.BiasedSVD)
 
     def predict_for_user(self, user, items, ratings=None):
         """

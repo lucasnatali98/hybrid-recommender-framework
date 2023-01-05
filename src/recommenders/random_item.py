@@ -17,7 +17,7 @@ class RandomItem(Recommender):
     def recommend(self, users, n, candidates, ratings):
         return self.random_item.recommend(users, n, candidates, ratings)
 
-    def predict_for_user(self, user, items, ratings):
+    def predict_for_user(self, user, items, ratings=None):
         raise Exception("RandomItem - predict_for_user não foi implementado")
 
     def predict(self, pairs, ratings):

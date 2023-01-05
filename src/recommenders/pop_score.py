@@ -1,7 +1,10 @@
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
+from lenskit.algorithms import Recommender as LenskitRecommender
 from lenskit.algorithms.basic import PopScore as PopScoreLenskit
-import pandas as pd
+from pandas import DataFrame, Series
+
+
 class PopScore(Recommender):
     def __init__(self, parameters: dict) -> None:
         """
@@ -10,12 +13,10 @@ class PopScore(Recommender):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-
-
         self.PopScore = PopScoreLenskit()
+        self.PopScore = LenskitRecommender.adapt(self.PopScore)
 
-
-    def predict_for_user(self, users, items, ratings):
+    def predict_for_user(self, user, items, ratings=None):
         """
 
         @param users:
@@ -23,18 +24,18 @@ class PopScore(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.PopScore.predict_for_user(user, items, ratings)
 
-    def predict(self, pairs, ratings):
+    def predict(self, pairs: DataFrame, ratings):
         """
 
         @param pairs:
         @param ratings:
         @return:
         """
-        pass
+        return self.PopScore.predict(pairs, ratings)
 
-    def recommend(self, users, n, candidates, ratings) -> pd.DataFrame:
+    def recommend(self, user, n, candidates, ratings) -> DataFrame:
         """
 
         @param user:
@@ -43,7 +44,7 @@ class PopScore(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.PopScore.recommend(user, n)
 
     def get_params(self, deep=True):
         """
@@ -53,11 +54,11 @@ class PopScore(Recommender):
         """
         pass
 
-    def fit(self, rating, **kwargs):
+    def fit(self, rating: DataFrame, **kwargs):
         """
 
         @param rating:
         @param kwargs:
         @return:
         """
-        pass
+        self.PopScore.fit(rating)

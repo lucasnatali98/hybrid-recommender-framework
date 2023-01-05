@@ -17,7 +17,7 @@ class BiasedSVD(Recommender):
 
 
 
-    def predict_for_user(self, users, items, ratings):
+    def predict_for_user(self, users, items, ratings=None):
         """
 
         @param users:

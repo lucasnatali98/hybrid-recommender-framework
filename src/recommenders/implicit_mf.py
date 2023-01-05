@@ -1,5 +1,6 @@
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskit
+from lenskit.algorithms import Recommender as LenskitRecommender
 from src.utils import process_parameters
 import pandas as pd
 
@@ -22,7 +23,9 @@ class ImplicitMF(Recommender):
             iterations=self.iterations
         )
 
-    def predict_for_user(self, user, items, ratings):
+        self.ImplicitMF = LenskitRecommender.adapt(self.ImplicitMF)
+
+    def predict_for_user(self, user, items, ratings=None):
         """
 
         @param users:
@@ -39,9 +42,9 @@ class ImplicitMF(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.ImplicitMF.predict(pairs, ratings)
 
-    def recommend(self, users, n, candidates, ratings) -> pd.DataFrame:
+    def recommend(self, user, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param user:
@@ -50,7 +53,7 @@ class ImplicitMF(Recommender):
         @param ratings:
         @return:
         """
-        pass
+        return self.ImplicitMF.recommend(user, n)
 
     def get_params(self, deep=True):
         """

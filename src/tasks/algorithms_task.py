@@ -48,10 +48,19 @@ class AlgorithmsTask(Task):
     def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):
         print("predict_to_users")
 
-        for user in users:
-            result = algorithm.predict_for_user(user, items, rating)
+        predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
 
 
+        number_of_items_rankeds = 10
+        for u in users:
+            prediction_result = algorithm.predict_for_user(u, items, rating)
+            user_id = [u] * number_of_items_rankeds
+            algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
+            prediction_result['user'] = pd.Series(user_id)
+            prediction_result['algorithm'] = pd.Series(algorithm_name)
+            predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
+
+        return predictions_df
 
 
     def run(self):
@@ -62,10 +71,7 @@ class AlgorithmsTask(Task):
         try:
             train_fold_files = self.get_fold_file_names('train')
             validation_fold_files = self.get_fold_file_names('validation')
-            print("train_fold_files: ", train_fold_files)
-            print("validation_fold_files: ", validation_fold_files)
             fold_files = zip(train_fold_files, validation_fold_files)
-            print("fold files: ", fold_files)
 
             if len(train_fold_files) == 0:
                 raise Exception("Os arquivos de fold de treino não foram encontrados")
@@ -77,15 +83,10 @@ class AlgorithmsTask(Task):
                 train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
                 validation_dataset_path = self.preprocessing_output_dir.joinpath("folds/validation").joinpath(
                     validation_file)
-                print("train path: ", train_dataset_path)
-                print("validation path: ", validation_dataset_path)
 
                 train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
                 validation_dataset = pd.read_csv(validation_dataset_path, index_col=[0])
 
-                print("validation dataset")
-                print(validation_dataset)
-                print("\n")
 
                 fold_name = train_file.split(".")
                 fold_name = fold_name[0]
@@ -102,6 +103,7 @@ class AlgorithmsTask(Task):
 
 
         except Exception as e:
+            print("Aconteceu uma exceção")
             print(e)
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
@@ -136,8 +138,6 @@ class AlgorithmsTask(Task):
                                 dataset_name: str,
                                 test_dataset: pd.DataFrame):
 
-        recs = None
-
         for algorithm in algorithms.items[0]:
             algorithm_name = algorithm.__class__.__name__
             print("Algorithm name: ", algorithm_name)
@@ -153,8 +153,6 @@ class AlgorithmsTask(Task):
             dump(algorithm, path)
 
             topn_result = self.topn_process(algorithm, dataset)
-            print("topn_result")
-            print(topn_result)
             ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
             topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
 
@@ -181,7 +179,9 @@ class AlgorithmsTask(Task):
 
             print("recs - task: ", recs)
 
-        return preds
+
+
+        return True
 
 
 def run_algorithms_task():
