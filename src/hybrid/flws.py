@@ -10,3 +10,10 @@ class FLWS(HybridWeighted):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
+
+    def run(self):
+        """
+
+        @return:
+        """
+

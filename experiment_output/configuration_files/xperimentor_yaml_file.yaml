@@ -36,12 +36,7 @@ recipes:
   pruning: []
   uses:
     Alg:
-    - ItemKNN
-    - UserKNN
-    - PopScore
-    - BiasedSVD
-    - ScikitSVD
-    - ImplicitMF
+    - ContentBasedRecommender
     DB:
     - MovieLens
     Eval:

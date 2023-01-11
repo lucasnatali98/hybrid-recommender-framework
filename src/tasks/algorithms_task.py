@@ -80,6 +80,11 @@ class AlgorithmsTask(Task):
             test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
             test_dataset = pd.read_csv(test_dataset_path)
 
+            content_based_df_path = self.experiment_output_dir.joinpath("preprocessing/content-based-dataset.csv")
+            content_based_df = pd.read_csv(content_based_df_path)
+            print("Content based df: ")
+            print(content_based_df)
+
             for train_file, validation_file in fold_files:
                 train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
                 validation_dataset_path = self.preprocessing_output_dir.joinpath("folds/validation").joinpath(
@@ -95,7 +100,8 @@ class AlgorithmsTask(Task):
                     self.algorithm_instances,
                     train_dataset.sample(1000),
                     fold_name,
-                    validation_dataset.sample(1000)
+                    validation_dataset.sample(1000),
+                    content_based_df
                 )
 
             return True
@@ -144,11 +150,21 @@ class AlgorithmsTask(Task):
             print(traceback.print_exc())
             return None
 
+    def _recommend_to_content_based(self, algorithm, algorithm_name, dataset, dataset_name):
+
+        algorithm.fit(dataset)
+
+        recs = algorithm.recommend(None, 0, dataset)
+
+        if recs is not None:
+            recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
+            recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
                                 dataset_name: str,
-                                test_dataset: pd.DataFrame):
+                                test_dataset: pd.DataFrame,
+                                content_based_dataset: pd.DataFrame):
 
         try:
             for algorithm in algorithms.items[0]:
@@ -159,6 +175,15 @@ class AlgorithmsTask(Task):
                 print("dataset")
                 print(dataset.head())
                 print("dataset_name:", dataset_name)
+
+                if algorithm_name == "ContentBasedRecommender":
+                    print("O algoritmo é baseado em conteúdo")
+                    self._recommend_to_content_based(
+                        algorithm, algorithm_name, content_based_dataset, "movies"
+                    )
+                    continue
+
+
                 algorithm.fit(dataset)
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")

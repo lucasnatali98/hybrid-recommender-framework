@@ -12,6 +12,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel
 
 
+# Relavancia dos dados
+
 
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
@@ -31,7 +33,6 @@ class TextProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        print("Text pre_processing: ", data)
         data['genres'] = data['genres'].apply(
             lambda x: x.replace("|", " ")
         )
@@ -40,7 +41,6 @@ class TextProcessing(AbstractPreProcessing):
             "tokenize_words": self.word_tokenizer,
             "remove_stop_words": self.remove_stop_words,
           #  "pos_tagging": self.pos_tagging,
-            "tf_idf": self.tf_idf,
         #    "stemming": self.stemming,
          #   "lemmatization": self.lemmatization
         }
@@ -50,16 +50,13 @@ class TextProcessing(AbstractPreProcessing):
             lambda x: x != "column_to_index",
             parameters_keys
         ))
-        print('parameters keys: ', parameters_keys)
 
 
         result = data
         for key in parameters_keys:
             text_function_result = text_tasks[key](result, self.apply_on)
-            print("Text function result: ", text_function_result)
-            result = text_function_result
 
-        print("Resultado final:", result)
+            result = text_function_result
 
         return result
 
@@ -146,7 +143,6 @@ class TextProcessing(AbstractPreProcessing):
         pass
 
     def lemmatization(self, data: pd.DataFrame) -> pd.DataFrame:
-
         lemmatizer = None
 
     def frequency(self, data: pd.DataFrame, column_to_apply: str):

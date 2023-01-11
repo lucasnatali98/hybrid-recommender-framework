@@ -71,6 +71,7 @@
                 "apply_on": "genres",
                 "remove_stop_words": true,
                 "tokenize_words": true,
+                "tf_idf": true,
                 "column_to_index": "title"
               }
             }
@@ -210,7 +211,63 @@
         "module": "src.recommenders.recommenders_container",
         "parameters": {
           "instances": [
-
+            {
+              "module": "src.recommenders.item_knn",
+              "class_name": "ItemKNN",
+              "parameters": {
+                "maxNumberNeighbors": 20,
+                "minNumberNeighbors": 4,
+                "saveNeighbors": 6.0,
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
+              }
+            },
+            {
+              "module": "src.recommenders.user_knn",
+              "class_name": "UserKNN",
+              "parameters": {
+                "maxNumberNeighbors": 12,
+                "minNumberNeighbors": 4,
+                "min_sim": 0.3,
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
+              }
+            },
+            {
+              "module": "src.recommenders.pop_score",
+              "class_name": "PopScore",
+              "parameters": {
+                "score_method": "quantile"
+              }
+            },
+            {
+              "module": "src.recommenders.biasedSVD",
+              "class_name": "BiasedSVD",
+              "parameters": {
+                "damping":  5,
+                "iterations": 20,
+                "features": 10,
+                "bias": true
+              }
+            },
+            {
+              "module": "src.recommenders.scikit_svd",
+              "class_name": "ScikitSVD",
+              "parameters": {
+                "features": 20,
+                "damping": 5
+              }
+            },
+            {
+              "module": "src.recommenders.implicit_mf",
+              "class_name": "ImplicitMF",
+              "parameters": {
+                "features": 20,
+                "iterations": 20
+              }
+            },
             {
               "module": "src.recommenders.content_based_recommender",
               "class_name": "ContentBasedRecommender",

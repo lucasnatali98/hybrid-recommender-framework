@@ -47,6 +47,7 @@ print(mapping)
 def recommend_movies(movie_input):
     movie_index = mapping[movie_input]
     similarity_score = list(enumerate(similarity_matrix[movie_index]))
+    print(similarity_score)
     similarity_score = sorted(similarity_score, key=lambda x: x[1], reverse=True)
     similarity_score = similarity_score[1:15]
     movie_indices = [i[0] for i in similarity_score]
