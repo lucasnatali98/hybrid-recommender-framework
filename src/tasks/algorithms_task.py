@@ -195,9 +195,6 @@ class AlgorithmsTask(Task):
                 if topn_result is not None:
                     topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
 
-                users = dataset['user'].values
-                items = dataset['item'].values
-                # predict_result = self.predict_to_users(algorithm, users, items)
 
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
