@@ -6,13 +6,15 @@ from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 from lenskit import topn
 from src.metrics.cross_validation import CrossValidation
+
+
 class MetricsTask(Task):
-    def __init__(self, metrics, args = None):
+    def __init__(self, metrics, args=None):
         """
 
         @param args:
         """
-
+        """
         self.cross_validation = CrossValidation({
             'lib': '',
             'metrics': '',
@@ -23,8 +25,8 @@ class MetricsTask(Task):
             'return_estimator': '',
             'error_score': ''
         })
+        """
         self.metric_instances = metrics
-
 
         self.predictions_output_path = hrf_experiment_output_path().joinpath(
             "models/results/predictions/"
@@ -55,7 +57,6 @@ class MetricsTask(Task):
         metrics = self.handle_metrics_tasks(self.metric_instances)
         return metrics
 
-
     def get_truth_data_file_names(self):
         """
         Vai buscar todos os arquivos de validação (folds) e usa-los para testar as
@@ -69,13 +70,13 @@ class MetricsTask(Task):
             if path.is_file():
                 file_names.append(path.name)
 
-
         return file_names
+
     def get_results_file_names(self, result_type: str) -> list:
         if result_type not in ['recommendations', 'predictions', 'rankings']:
             raise Exception("O valor de fold_type está invalido, tente: train ou validation")
 
-        folds_directory = self.algorithms_output_dir.joinpath("{}.csv".format(result_type))
+        folds_directory = self.algorithms_output_dir.joinpath("{}/".format(result_type))
         file_names = []
         for path in os.scandir(folds_directory):
             if path.is_file():
@@ -83,7 +84,13 @@ class MetricsTask(Task):
 
         return file_names
 
-    def topn_evaluation(self, metrics: list, recommendations: pd.DataFrame,  dataset_test: pd.DataFrame) -> pd.DataFrame:
+    def evaluate_predictions(self, prediction: pd.DataFrame, truth: pd.DataFrame):
+        pass
+
+    def topn_evaluation(self,
+                        metrics,
+                        recommendations: pd.DataFrame,
+                        dataset_test: pd.DataFrame) -> pd.DataFrame:
         print("topn_evaluation")
         topn_metrics = {
             'ndcg': topn.ndcg,
@@ -91,55 +98,67 @@ class MetricsTask(Task):
             'precision': topn.precision,
             'recall': topn.recall,
             'hit': topn.hit
+
         }
 
         all_recs = recommendations
         test_data = dataset_test
-
+        metrics = ['ndcg', 'dcg', 'recall']
         topn_analysis = topn.RecListAnalysis()
         for metric in metrics:
             m = topn_metrics[metric]
             topn_analysis.add_metric(m)
 
         results = topn_analysis.compute(all_recs, test_data)
-        print("topn analysis result: ", results)
         return results
 
-
-
-    def handle_metrics_tasks(self, metrics):
+    def handle_with_recommendation_results(self, metrics):
+        print("=> Handle with recommendation results \n")
         rec_files = self.get_results_file_names('recommendations')
-        pred_files = self.get_results_file_names('predictions')
-        ranking_files = self.get_results_file_names('rankings')
         truth_files = self.get_truth_data_file_names()
-        results_files = zip(pred_files, rec_files, ranking_files, truth_files)
 
-        for pred, rec, rank, truth_files in results_files:
-            print("prediction path: ", pred)
-            print("recommendation path: ", rec)
-            print("ranking path: ", rank)
-            print("truth files: ", truth_files)
+        for file in rec_files:
+            rec_path = self.recommendations_output_dir.joinpath(file)
+            recommendation = pd.read_csv(rec_path)
+            file_name_elements = file.split("-")
+            if file_name_elements[0] == "ContentBasedRecommender":
+                continue
 
-            prediction = pd.read_csv(pred)
-            recommendation = pd.read_csv(rec)
-            ranking = pd.read_csv(rank)
-            validation = pd.read_csv(ranking)
+            fold_number = file.split("-")[3]
+            truth_path = self.preprocessing_output_dir.joinpath("folds/validation/")
+            truth_path = truth_path.joinpath("validation-fold-{}.csv".format(fold_number))
+            print("truth_path: ", truth_path)
+            truth_df = pd.read_csv(truth_path)
+            print("truth df: ", truth_df)
 
-            self.topn_evaluation(
+            topn_result = self.topn_evaluation(
                 metrics,
                 recommendation,
-                validation
+                truth_df
             )
 
-            cv_result = self.cross_validation.evaluation_sklearn()
-            print("cross validation result")
-            print(cv_result)
+            topn_result.to_csv(self.evaluate_output_path.joinpath("TopN-{}".format(file)))
 
+    def handle_with_prediction_results(self):
+        pred_files = self.get_results_file_names('predictions')
+        truth_files = self.get_truth_data_file_names()
+        for file in pred_files:
+            print("prediction path: ", file)
 
+            fold_number = file.split("-")[3]
+            pred_path = self.predictions_output_path.joinpath(file)
+            prediction = pd.read_csv(pred_path)
+            truth_path = self.preprocessing_output_dir.joinpath("folds/validation/")
+            truth_path = truth_path.joinpath("validation-fold-{}.csv".format(fold_number))
+            print("truth_path: ", truth_path)
+            truth_df = pd.read_csv(truth_path, index_col=[0])
+            print("truth df: ", truth_df)
 
-        return metrics
+            self.evaluate_predictions(prediction, truth_df)
 
-
+    def handle_metrics_tasks(self, metrics):
+        self.handle_with_prediction_results()
+        self.handle_with_recommendation_results(metrics)
 
 def run_metrics_task():
     loader = Loader()

@@ -157,7 +157,7 @@ class AlgorithmsTask(Task):
         recs = algorithm.recommend(None, 0, dataset)
 
         if recs is not None:
-            recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
+            recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations-content-based.csv"
             recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,

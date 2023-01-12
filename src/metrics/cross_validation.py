@@ -10,11 +10,11 @@ class CrossValidation:
         @param parameters:
         """
         default_keys = set()
-        parameters = self.process_parameters(parameters, default_keys)
+        parameters = process_parameters(parameters, default_keys)
         self.lib = parameters['lib']
         self.metrics = parameters['metrics']
         self.algorithm = parameters['algorithm']
-        self.X = parameters['x']
+        self.X = parameters['X']
         self.y = parameters['y']
         self.cv = parameters['cv']
         self.return_train_score = parameters['return_train_score']

@@ -33,6 +33,7 @@ class TextProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
+        #Isso aqui precisa mudar
         data['genres'] = data['genres'].apply(
             lambda x: x.replace("|", " ")
         )

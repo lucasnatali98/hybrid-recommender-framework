@@ -1,4 +1,5 @@
 from pathlib import Path
+from pandas import DataFrame, Series
 
 
 def process_parameters(parameters: dict, default_keys: set) -> dict:
@@ -16,10 +17,15 @@ def process_parameters(parameters: dict, default_keys: set) -> dict:
         raise KeyError("Você não informou uma das chaves obrigatorias: ", default_keys)
     return parameters
 
+
 def convert_json_attribute_values_to_python(parameters: dict) -> dict:
     new_parameters = {}
     for key, value in parameters.items():
-        if value == "None":
+        if isinstance(value, DataFrame):
+            new_parameters[key] = value
+        elif isinstance(value, Series):
+            new_parameters[key] = value
+        elif value == "None":
             new_parameters[key] = None
         elif value == "true":
             new_parameters[key] = True
@@ -29,6 +35,8 @@ def convert_json_attribute_values_to_python(parameters: dict) -> dict:
             new_parameters[key] = value
 
     return new_parameters
+
+
 def object_equals_type(obj, object_type):
     """
 
@@ -40,6 +48,7 @@ def object_equals_type(obj, object_type):
         return True
 
     return False
+
 
 def subprocess_output_is_correct(output):
     """
@@ -54,6 +63,8 @@ def subprocess_output_is_correct(output):
         return True
 
     return False
+
+
 def is_structure_empty(structure):
     """
     Essa função faz a verificação se uma determinada estrutura está vazia
@@ -88,6 +99,7 @@ def hrf_task_path():
     root_path = get_project_root()
     root_path = root_path.joinpath("src/tasks/")
     return root_path
+
 
 def hrf_experiment_output_path():
     root_path = get_project_root()
