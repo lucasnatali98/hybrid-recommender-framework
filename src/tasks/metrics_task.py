@@ -5,6 +5,7 @@ from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 from lenskit import topn
+from lenskit.metrics.predict import user_metric, global_metric, rmse, mae
 from src.metrics.cross_validation import CrossValidation
 
 

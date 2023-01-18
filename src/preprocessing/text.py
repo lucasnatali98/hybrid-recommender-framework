@@ -33,7 +33,7 @@ class TextProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        #Isso aqui precisa mudar
+        # Isso aqui precisa mudar
         data['genres'] = data['genres'].apply(
             lambda x: x.replace("|", " ")
         )
@@ -41,9 +41,9 @@ class TextProcessing(AbstractPreProcessing):
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
             "remove_stop_words": self.remove_stop_words,
-          #  "pos_tagging": self.pos_tagging,
-        #    "stemming": self.stemming,
-         #   "lemmatization": self.lemmatization
+            #  "pos_tagging": self.pos_tagging,
+            #    "stemming": self.stemming,
+            #   "lemmatization": self.lemmatization
         }
 
         parameters_keys: list = list(self.parameters.keys())
@@ -51,7 +51,6 @@ class TextProcessing(AbstractPreProcessing):
             lambda x: x != "column_to_index",
             parameters_keys
         ))
-
 
         result = data
         for key in parameters_keys:
@@ -122,6 +121,7 @@ class TextProcessing(AbstractPreProcessing):
         return pos_tagging_result
 
     def named_entity_recognition(self):
+
         pass
 
     def tf_idf(self, data: pd.DataFrame, column_to_apply: str):
@@ -137,14 +137,46 @@ class TextProcessing(AbstractPreProcessing):
         mapping = pd.Series(data.index, index=feature_to_indexing)
         print("Similarity matrix")
         print(similarity_matrix)
-        #similarity_matrix.to_csv(self.text_processing_output_path)
+        # similarity_matrix.to_csv(self.text_processing_output_path)
         return data
 
-    def stemming(self, data: pd.DataFrame) -> pd.DataFrame:
-        pass
+    def stemming(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
 
-    def lemmatization(self, data: pd.DataFrame) -> pd.DataFrame:
-        lemmatizer = None
+        pst = PorterStemmer()
+
+        new_serie = []
+        stemmed_words = []
+        for row in data[column_to_apply]:
+            for word in row:
+                stemmed_words.append(pst.stem(word))
+            new_serie.append(stemmed_words)
+
+        new_serie = pd.Series(new_serie)
+
+        if new_column == "":
+            data[column_to_apply] = new_serie
+        else:
+            data[new_column] = new_serie
+
+        return data
+
+    def lemmatization(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
+        lemmatizer = WordNetLemmatizer()
+        new_serie = []
+
+        for row in data[column_to_apply]:
+            new_words = []
+            for word in row:
+                new_words.append(lemmatizer.lemmatize(word))
+            new_serie.append(new_words)
+
+        new_serie = pd.Series(new_serie)
+        if new_column == "":
+            data[column_to_apply] = new_serie
+        else:
+            data[new_column] = new_serie
+
+        return data
 
     def frequency(self, data: pd.DataFrame, column_to_apply: str):
         feature = data[column_to_apply]
