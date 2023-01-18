@@ -27,7 +27,7 @@
 	<process>								<!-- Um processo corresponde a uma métrica a ser processada -->
 		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
 		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
-		<basePath>/home/carlos/BD/</basePath>
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator</basePath>
 
 		<doUser/>
 		<doItem/>
@@ -65,7 +65,7 @@
 	<process>
 		<type>content-based</type>
 		<index/>					<!-- A presença deste parâmetro em um processo CB indica que vamos fazer indexação dos dados pelo Lucene. Isto deve ser feito em um processo separado. O cálculo de métricas CB depende de existir uma indexação prévia -->
-		<basePath>/home/carlos/BD/</basePath>
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator</basePath>
 		<indexFolder>index-directory</indexFolder>      <!-- Diretorio onde criar o indice do Lucene, relativo ao basePath -->
 		<resourceFile>u.overview.genres</resourceFile>	<!-- Conteudo textual dos itens -->
 		<separatorCharacter>\|</separatorCharacter>     <!-- caractere separador dos campos de cada item no arquivo textual (se for | tem que ser escapado com \| ) -->
@@ -84,7 +84,7 @@
 		<doItem/>
 		<type>content-based</type>
 		<metric>Entropy</metric>			<!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
-		<basePath>/home/carlos/BD/</basePath>
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator</basePath>
 		<outputFolder>Test2/</outputFolder>
 		<indexFolder>index-directory</indexFolder>	<!-- diretorio onde foi feita a indexação dos dados pelo Lucene -->
 		<numThreads>0</numThreads>
