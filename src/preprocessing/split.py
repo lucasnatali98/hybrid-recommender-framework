@@ -16,11 +16,11 @@ class SplitProcessing(AbstractPreProcessing):
             'random_state'
         }
         parameters = process_parameters(parameters, default_keys)
-        self.test_size = parameters['test_size']
-        self.train_size = parameters['train_size']
-        self.random_state = parameters['random_state']
-        self.shuffle = parameters['shuffle']
-        self.stratify = parameters['stratify']
+        self.test_size = parameters.get('test_size')
+        self.train_size = parameters.get('train_size')
+        self.random_state = parameters.get('random_state')
+        self.shuffle = parameters.get('shuffle')
+        self.stratify = parameters.get('stratify')
 
 
 

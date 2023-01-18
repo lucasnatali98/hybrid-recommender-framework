@@ -12,7 +12,7 @@ class VisualizationContainer(Container):
 
         """
         super().__init__()
-        visualizations = parameters['instances']
+        visualizations = parameters.get('instances')
 
         if len(visualizations) == 0:
             pass

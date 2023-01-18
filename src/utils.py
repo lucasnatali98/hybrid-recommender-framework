@@ -1,4 +1,6 @@
 from pathlib import Path
+
+import pandas as pd
 from pandas import DataFrame, Series
 
 
@@ -36,6 +38,10 @@ def convert_json_attribute_values_to_python(parameters: dict) -> dict:
 
     return new_parameters
 
+
+def create_user_item_rating_matrix(data: pd.DataFrame) -> pd.DataFrame:
+    for row in data.itertuples():
+        print(row)
 
 def object_equals_type(obj, object_type):
     """

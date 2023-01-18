@@ -13,11 +13,11 @@ class StaticBar(StaticPlot):
         parameters = process_parameters(parameters, default_keys)
 
         self.visualization_output_path = "visualization/static/bar/"
-        self.plot_types = parameters['plot_types']
+        self.plot_types = parameters.get('plot_types')
 
-        self.ratings_by_user = self.plot_types['ratings_by_user']
-        self.ratings_by_movie = self.plot_types['ratings_by_movie']
-        self.movie_ratings_distribution = self.plot_types['movie_ratings_distribution']
+        self.ratings_by_user = self.plot_types.get('ratings_by_user')
+        self.ratings_by_movie = self.plot_types.get('ratings_by_movie')
+        self.movie_ratings_distribution = self.plot_types.get('movie_ratings_distribution')
 
     def plot(self):
         """

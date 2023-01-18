@@ -18,10 +18,10 @@ class NormalizeProcessing(AbstractPreProcessing):
             'return_norm'
         }
         parameters = process_parameters(parameters, default_keys)
-        self.norm = parameters['norm']
-        self.axis = parameters['axis']
-        self.copy = parameters['copy']
-        self.return_norm = parameters['return_norm']
+        self.norm = parameters.get('norm')
+        self.axis = parameters.get('axis')
+        self.copy = parameters.get('copy')
+        self.return_norm = parameters.get('return_norm')
 
     def pre_processing(self, data, **kwargs):
         """

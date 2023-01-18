@@ -9,7 +9,7 @@ class MetaFeatureContainer(Container):
         """
         super().__init__()
 
-        metafeatures = parameters['instances']
+        metafeatures = parameters.get('instances')
 
         if len(metafeatures) == 0:
             pass

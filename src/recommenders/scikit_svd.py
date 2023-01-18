@@ -14,8 +14,8 @@ class ScikitSVD(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
-        self.features = parameters['features']
-        self.damping = parameters['damping']
+        self.features = parameters.get('features')
+        self.damping = parameters.get('damping')
         # self.bias = parameters['bias']  # regularization factor
         # self.algorithm = parameters['algorithm']
 

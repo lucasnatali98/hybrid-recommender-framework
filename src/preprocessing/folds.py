@@ -21,9 +21,9 @@ class FoldsProcessing(AbstractPreProcessing):
         }
         parameters = process_parameters(parameters, default_keys)
         self.number_of_folds = parameters['folds']
-        self.strategy = parameters['strategy']
-        self.shuffle = parameters['shuffle']
-        self.random_state = parameters['random_state']
+        self.strategy = parameters.get('strategy')
+        self.shuffle = parameters.get('shuffle')
+        self.random_state = parameters.get('random_state')
 
     def pre_processing(self, data, **kwargs):
         folds = Folds(self.strategy)

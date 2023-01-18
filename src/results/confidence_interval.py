@@ -11,11 +11,11 @@ class ConfidenceInterval(AbstractResults):
         """
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.loc = parameters['loc']
-        self.sigma = parameters['sigma']
-        self.scale = parameters['scale']
-        self.type = parameters['type']
-        self.alpha = parameters['alpha']
+        self.loc = parameters.get('loc')
+        self.sigma = parameters.get('sigma')
+        self.scale = parameters.get('scale')
+        self.type = parameters.get('type')
+        self.alpha = parameters.get('alpha')
 
     def get_results(self):
         """

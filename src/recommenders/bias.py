@@ -8,9 +8,9 @@ class Bias(Recommender):
         default_keys = {'items', 'users', 'damping'}
         parameters = process_parameters(parameters, default_keys)
 
-        self.items = parameters['items']
-        self.users = parameters['users']
-        self.damping = parameters['damping']
+        self.items = parameters.get('items')
+        self.users = parameters.get('users')
+        self.damping = parameters.get('damping')
         self.Bias = bias.Bias(
             items=self.items,
             users=self.users,

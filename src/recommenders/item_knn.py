@@ -16,12 +16,12 @@ class ItemKNN(Recommender):
         }
 
         parameters = process_parameters(parameters, default_keys)
-        self.max_number_neighbors = parameters['maxNumberNeighbors']
-        self.min_number_neighbors = parameters['minNumberNeighbors']
-        self.save_nbrs = parameters['saveNeighbors']
-        self.feedback = parameters['feedback']
-        self.aggregate = parameters['aggregate']
-        self.use_ratings = parameters['use_ratings']
+        self.max_number_neighbors = parameters.get('maxNumberNeighbors')
+        self.min_number_neighbors = parameters.get('minNumberNeighbors')
+        self.save_nbrs = parameters.get('saveNeighbors')
+        self.feedback = parameters.get('feedback')
+        self.aggregate = parameters.get('aggregate')
+        self.use_ratings = parameters.get('use_ratings')
 
         self.ItemKNN = item_knn.ItemItem(
             nnbrs=self.max_number_neighbors,

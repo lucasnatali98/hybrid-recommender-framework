@@ -9,7 +9,7 @@ class RecommendersContainer(Container):
         """
 
         super().__init__()
-        recommenders = parameters['instances']
+        recommenders = parameters.get('instances')
 
         if len(recommenders) == 0:
             pass

@@ -11,17 +11,17 @@ class ANOVA(AbstractResults):
         """
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.axis = parameters['axis']
-        self.models = parameters['models']
+        self.axis = parameters.get('axis')
+        self.models = parameters.get('models')
         # Estimate of variance, If None, will be estimated from the largest model. Default is None.
-        self.scale = parameters['scale']
+        self.scale = parameters.get('scale')
         # Test statistics to provide. Default is “F”. -> F, Chisp, Cp
-        self.test = parameters['test']
+        self.test = parameters.get('test')
         # The type of Anova test to perform. See notes.
-        self.typ = parameters['typ']
+        self.typ = parameters.get('typ')
         # Use heteroscedasticity-corrected coefficient covariance matrix. If robust covariance is desired, it is recommended to use hc3.
         # possibities = hc0,hc1, hc2, hc3, None
-        self.robust = parameters['robust']
+        self.robust = parameters.get('robust')
 
     def get_results(self):
         """

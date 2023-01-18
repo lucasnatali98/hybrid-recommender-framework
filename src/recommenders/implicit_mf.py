@@ -15,8 +15,8 @@ class ImplicitMF(Recommender):
             "iterations"
         }
         parameters = process_parameters(parameters, default_keys)
-        self.features = parameters['features']
-        self.iterations = parameters['iterations']
+        self.features = parameters.get('features')
+        self.iterations = parameters.get('iterations')
        # self.reg = parameters['reg']  # regularization factor
        # self.weight = parameters['weight']
        # self.use_ratings = parameters['use_ratings']

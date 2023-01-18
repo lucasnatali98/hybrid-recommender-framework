@@ -11,15 +11,15 @@ class CrossValidation:
         """
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.lib = parameters['lib']
-        self.metrics = parameters['metrics']
-        self.algorithm = parameters['algorithm']
-        self.X = parameters['X']
-        self.y = parameters['y']
-        self.cv = parameters['cv']
-        self.return_train_score = parameters['return_train_score']
-        self.return_estimator = parameters['return_estimator']
-        self.error_score = parameters['error_score']
+        self.lib = parameters.get('lib')
+        self.metrics = parameters.get('metrics')
+        self.algorithm = parameters.get('algorithm')
+        self.X = parameters.get('X')
+        self.y = parameters.get('y')
+        self.cv = parameters.get('cv')
+        self.return_train_score = parameters.get('return_train_score')
+        self.return_estimator = parameters.get('return_estimator')
+        self.error_score = parameters.get('error_score')
 
     def evaluation_surprise(self):
         """

@@ -20,7 +20,7 @@ class TextProcessing(AbstractPreProcessing):
         default_keys = {'apply_on'}
         super().__init__()
         parameters = process_parameters(parameters, default_keys)
-        self.apply_on = parameters['apply_on']
+        self.apply_on = parameters.get('apply_on')
         del parameters['apply_on']
         self.parameters = parameters
         self.stop_words = set(stopwords.words('english'))
@@ -124,21 +124,7 @@ class TextProcessing(AbstractPreProcessing):
 
         pass
 
-    def tf_idf(self, data: pd.DataFrame, column_to_apply: str):
-        column_to_indexing = "title"
-        feature_to_indexing = data[column_to_indexing]
-        feature = data[column_to_apply]
-        feature_matrix = self.tfidf.fit_transform(data)
-        print("Feature Matrix")
-        print(feature_matrix)
-        similarity_matrix = linear_kernel(feature_matrix, feature_matrix)
 
-        # Mapping pode ir para a parte do algoritmo
-        mapping = pd.Series(data.index, index=feature_to_indexing)
-        print("Similarity matrix")
-        print(similarity_matrix)
-        # similarity_matrix.to_csv(self.text_processing_output_path)
-        return data
 
     def stemming(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
 

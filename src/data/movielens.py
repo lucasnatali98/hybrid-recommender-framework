@@ -32,7 +32,7 @@ class MovieLens(AbstractDataSet):
         parameters = process_parameters(parameters, default_keys)
 
         self.config_obj = parameters
-        self.filters = parameters['filters'] or None
+        self.filters = parameters.get('filters', None)
 
         self.proportion = proportion
         self.basePath = "data_storage/"

@@ -1,5 +1,19 @@
 import pytest
 from src.utils import *
+from src.data.movielens import MovieLens
+
+
+movielens = MovieLens({
+    'proportion': "ml-latest-small"
+})
+ratings = movielens.ratings
+
+
+
+def test_create_user_item_rating_matrix():
+    user_item_matrix = create_user_item_rating_matrix(ratings)
+    print("user item matrix")
+    print(user_item_matrix)
 
 def test_hrf_experiment_output_task():
     hrf_path = hrf_experiment_output_path()

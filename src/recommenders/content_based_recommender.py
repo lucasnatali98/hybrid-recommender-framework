@@ -13,11 +13,11 @@ class ContentBasedRecommender(Recommender):
         default_keys = {'feature', 'count_items'}
         parameters = process_parameters(parameters, default_keys)
         self.parameters = parameters
-        self.feature = parameters['feature']
+        self.feature = parameters.get('feature')
         self.similarity_matrix = None
         self.tfidf = TfidfVectorizer(stop_words='english')
         self.mapping = None
-        self.count_items = parameters['count_items'] #Quantidade de itens para recomendar
+        self.count_items = parameters.get('count_items') #Quantidade de itens para recomendar
 
     def predict_for_user(self, user, items, ratings=None):
         """

@@ -66,16 +66,30 @@ class Loader:
         @param path: caminho onde o arquivo será salvo
         @return:
         """
-        to_possibilities = ["csv", "excel"]
+        to_possibilities = ["csv", "excel", "txt"]
 
         if to in to_possibilities:
             if to == "csv":
                 return self.convert_to_csv(data, path)
             if to == "excel":
                 return self.convert_to_excel(data, path)
+            if to == "txt":
+                return self.convert_to_text(data, path)
 
         return None
 
+    def convert_to_text(self, data:pd.DataFrame, path: str):
+        if isinstance(data, pandas.DataFrame):
+            new_path = path
+
+            return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
+        else:
+            try:
+                data = pd.DataFrame(data)
+                new_path = path
+                return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
+            except:
+                raise Exception("Não foi possível gravar o arquivo .csv")
     def convert_to_csv(self, data: pd.DataFrame, path: str):
         """
         Converte um DataFrame do Pandas em um arquivo csv

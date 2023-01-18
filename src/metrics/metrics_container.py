@@ -13,7 +13,7 @@ class MetricsContainer(Container):
 
         """
         super().__init__()
-        metrics = parameters['instances']
+        metrics = parameters.get('instances')
 
         if len(metrics) == 0:
             pass

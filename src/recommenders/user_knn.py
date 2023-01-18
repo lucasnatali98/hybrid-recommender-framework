@@ -20,10 +20,10 @@ class UserKNN(Recommender):
         }
         parameters = process_parameters(parameters, default_keys)
 
-        self.max_number_neighbors = parameters['maxNumberNeighbors']
-        self.min_number_neighbors = parameters['minNumberNeighbors']
-        self.min_sim = parameters['min_sim']
-        self.feedback = parameters['feedback']
+        self.max_number_neighbors = parameters.get('maxNumberNeighbors')
+        self.min_number_neighbors = parameters.get('minNumberNeighbors')
+        self.min_sim = parameters.get('min_sim')
+        self.feedback = parameters.get('feedback')
 
         self.user_knn = user_knn.UserUser(
             nnbrs=self.max_number_neighbors,
