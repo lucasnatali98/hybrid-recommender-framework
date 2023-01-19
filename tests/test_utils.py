@@ -11,7 +11,7 @@ ratings = movielens.ratings
 
 
 def test_create_user_item_rating_matrix():
-    user_item_matrix = create_user_item_rating_matrix(ratings)
+    user_item_matrix = create_user_item_rating_matrix(ratings) #Problema de memória
     print("user item matrix")
     print(user_item_matrix)
 

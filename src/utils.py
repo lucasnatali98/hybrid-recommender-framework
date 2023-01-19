@@ -40,8 +40,9 @@ def convert_json_attribute_values_to_python(parameters: dict) -> dict:
 
 
 def create_user_item_rating_matrix(data: pd.DataFrame) -> pd.DataFrame:
-    for row in data.itertuples():
-        print(row)
+    user_item_ratings = pd.DataFrame(index=data['user'].values, columns=data['item'].values)
+    print(user_item_ratings)
+
 
 def object_equals_type(obj, object_type):
     """

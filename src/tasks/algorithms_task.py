@@ -98,9 +98,9 @@ class AlgorithmsTask(Task):
 
                 algorithms = self.handle_algorithms_tasks(
                     self.algorithm_instances,
-                    train_dataset.sample(1000),
+                    train_dataset,
                     fold_name,
-                    validation_dataset.sample(1000),
+                    validation_dataset,
                     content_based_df
                 )
 
