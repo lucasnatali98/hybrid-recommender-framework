@@ -6,15 +6,12 @@ class Relevance:
         self.factor = factor
 
     def select_ratings_by_relevance(self, database: pd.DataFrame, factor: float):
-        pass
+        return database.loc[database['rating'] >= factor]
 
     def most_popular_item(self, database: pd.DataFrame, user_id):
         filtered_database = database.loc[database['user'] == user_id]
-        print("filtered database")
-        print(filtered_database)
-
         items = self._get_items(filtered_database)
-        self._define_value_counts(items)
+        return self._define_value_counts(items)
 
     def _get_items(self, database: pd.DataFrame) -> pd.Series:
         items = database.get('item', None)
