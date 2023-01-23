@@ -1,7 +1,6 @@
 from src.shared.container import Container
 from src.shared.generic_factory import GenericFactory
 
-
 class DatasetContainer(Container):
     def __init__(self, parameters: dict) -> None:
         super().__init__()

@@ -5,38 +5,32 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.probability import FreqDist
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer, TfidfTransformer
-from nltk import ne_chunk
+
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics.pairwise import linear_kernel
-
-
-# Relavancia dos dados
 
 
 class TextProcessing(AbstractPreProcessing):
-    def __init__(self, parameters: dict):
-        default_keys = {'apply_on'}
+    def __init__(self, parameters: dict) -> None:
         super().__init__()
+
+        default_keys = {'column_to_apply'}
         parameters = process_parameters(parameters, default_keys)
-        self.apply_on = parameters.get('apply_on')
-        del parameters['apply_on']
+
+        self.column_to_apply = parameters.get('column_to_apply')
+
         self.parameters = parameters
         self.stop_words = set(stopwords.words('english'))
-        self.tfidf = TfidfVectorizer()
+
         self.text_processing_output_path = hrf_experiment_output_path().joinpath("preprocessing/text/")
 
-    def pre_processing(self, data: pd.DataFrame, **kwargs):
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         """
 
         @param data:
         @return:
         """
-        # Isso aqui precisa mudar
-        data['genres'] = data['genres'].apply(
-            lambda x: x.replace("|", " ")
-        )
+
+        data = self.clean_data(data, 'genres')
 
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
@@ -54,13 +48,19 @@ class TextProcessing(AbstractPreProcessing):
 
         result = data
         for key in parameters_keys:
-            text_function_result = text_tasks[key](result, self.apply_on)
+            text_function_result = text_tasks[key](result, self.column_to_apply)
 
             result = text_function_result
 
         return result
 
-    def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+    def clean_data(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+        data[column_to_apply] = data[column_to_apply].apply(
+            lambda x: x.replace("|", " ")
+        )
+        return data
+
+    def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
         filtered_sentence = []
         feature = data[column_to_apply]
 
@@ -73,11 +73,10 @@ class TextProcessing(AbstractPreProcessing):
         else:
             filtered_sentence = pd.Series(filtered_sentence)
 
-        data[column_to_apply] = filtered_sentence
-
+        data = self._set_result_in_dataframe_column(data, filtered_sentence, column_to_apply, new_column)
         return data
 
-    def word_tokenizer(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+    def word_tokenizer(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
         feature = data[column_to_apply]
         words_array = []
         for row in feature:
@@ -85,11 +84,10 @@ class TextProcessing(AbstractPreProcessing):
             words_array.append(tokenized_row)
 
         words_serie = pd.Series(words_array)
-        name_new_feature = column_to_apply + "_word_tokens"
-        data[name_new_feature] = words_serie
+        data = self._set_result_in_dataframe_column(data, words_serie, column_to_apply, new_column)
         return data
 
-    def sentence_tokenizer(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+    def sentence_tokenizer(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
         feature = data[column_to_apply]
         words_array = []
         for row in feature:
@@ -97,11 +95,10 @@ class TextProcessing(AbstractPreProcessing):
             words_array.append(tokenized_row)
 
         words_serie = pd.Series(words_array)
-        name_new_feature = column_to_apply + "_sent_tokens"
-        data[name_new_feature] = words_serie
+        data = self._set_result_in_dataframe_column(data, words_serie, column_to_apply, new_column)
         return data
 
-    def remove_duplicated_words(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+    def remove_duplicated_words(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
         feature = data[column_to_apply]
         words_without_duplicates = []
         new_column_values = []
@@ -111,7 +108,7 @@ class TextProcessing(AbstractPreProcessing):
             new_column_values.append(words_without_duplicates)
 
         new_column_values = pd.Series(new_column_values)
-        data['words_without_duplicates'] = new_column_values
+        data = self._set_result_in_dataframe_column(data, new_column_values, column_to_apply, new_column)
         return data
 
     def pos_tagging(self, data: pd.DataFrame, column_to_apply: str):
@@ -121,15 +118,10 @@ class TextProcessing(AbstractPreProcessing):
         return pos_tagging_result
 
     def named_entity_recognition(self):
-
         pass
 
-
-
     def stemming(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
-
         pst = PorterStemmer()
-
         new_serie = []
         stemmed_words = []
         for row in data[column_to_apply]:
@@ -138,18 +130,12 @@ class TextProcessing(AbstractPreProcessing):
             new_serie.append(stemmed_words)
 
         new_serie = pd.Series(new_serie)
-
-        if new_column == "":
-            data[column_to_apply] = new_serie
-        else:
-            data[new_column] = new_serie
-
+        data = self._set_result_in_dataframe_column(data, new_serie, column_to_apply, new_column)
         return data
 
     def lemmatization(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:
         lemmatizer = WordNetLemmatizer()
         new_serie = []
-
         for row in data[column_to_apply]:
             new_words = []
             for word in row:
@@ -157,14 +143,22 @@ class TextProcessing(AbstractPreProcessing):
             new_serie.append(new_words)
 
         new_serie = pd.Series(new_serie)
-        if new_column == "":
-            data[column_to_apply] = new_serie
-        else:
-            data[new_column] = new_serie
 
+        data = self._set_result_in_dataframe_column(data, new_serie, column_to_apply, new_column)
         return data
 
     def frequency(self, data: pd.DataFrame, column_to_apply: str):
         feature = data[column_to_apply]
         freq_dist = FreqDist(feature.values)
         return freq_dist
+
+    def _set_result_in_dataframe_column(self, data: pd.DataFrame,
+                                        result: pd.Series,
+                                        column_to_apply: str,
+                                        new_column: str) -> pd.DataFrame:
+        if new_column == "":
+            data[column_to_apply] = result
+        else:
+            data[new_column] = result
+
+        return data

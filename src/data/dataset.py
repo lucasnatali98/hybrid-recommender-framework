@@ -47,10 +47,8 @@ class AbstractDataSet(Dataset):
     def ratings(self):
         return self.ratings
 
-
     def users(self):
         return self.users
-
 
     def items(self):
         return self.items

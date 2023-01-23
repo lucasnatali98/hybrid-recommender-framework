@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from pandas import DataFrame
@@ -6,9 +7,6 @@ from src.utils import hrf_experiment_output_path, process_parameters
 
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
-        """
-        
-        """
         super().__init__()
         default_keys = {
             'test_size',
@@ -24,7 +22,7 @@ class SplitProcessing(AbstractPreProcessing):
 
 
 
-    def pre_processing(self, data, **kwargs):
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         """
 
         @param **kwargs:
@@ -43,7 +41,6 @@ class SplitProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             stratify=None)
 
-        # return X_train, X_test, y_train, y_test
         new_dfs = {
             'x_train': X_train,
             'x_test': X_test,
@@ -54,27 +51,17 @@ class SplitProcessing(AbstractPreProcessing):
         self._save_splited_dataset(new_dfs)
         return data
 
-    def row_based_splitting(self, data: DataFrame, partitions: int, rng_spec):
+    def _save_splited_dataset(self, splitted_dataframes: dict) -> None:
         """
-
-
-        @return:
-        """
-        pass
-
-    def user_based_splitting(self):
-        pass
-
-    def _save_splited_dataset(self, split_processing: dict):
-        """
+        Função responsável por fazer o armazenamento dentro da saída do experimento das divisões feitas
+        no dataframe original
 
         @param split_processing:
-        @return:
+        @return: None
         """
         loader = Loader()
         preprocessing_experiment_output_path = hrf_experiment_output_path().joinpath("preprocessing/")
-        print("Preprocessing experiment output path: ", preprocessing_experiment_output_path)
-        for key, value in split_processing.items():
+        for key, value in splitted_dataframes.items():
             if key == 'x_train':
                 loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath("xtrain.csv"))
             if key == 'x_test':

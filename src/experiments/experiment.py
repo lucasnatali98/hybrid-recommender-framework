@@ -1,24 +1,12 @@
 from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
-from external.deploy import Xperimentor, TaskExecutor
-from src.parser import json2yaml, yaml2json
-from src.data.loader import Loader
-from src.tasks.task_factory import TaskFactory
-from src.utils import hrf_task_path, get_project_root, process_parameters
+from src.utils import process_parameters
 
 
 class AbstractExperiment(ABC):
     """
     Interface para os experimentos
     """
-
-    @abstractmethod
-    def run(self):
-        """
-
-        @return:
-        """
-        pass
 
     @abstractmethod
     def run(self):
@@ -68,13 +56,13 @@ class Experiment(AbstractExperiment):
 
 
     def _set_attributes(self, instances: dict):
-        self._datasets = instances['datasets']
-        self._metafeatures = instances['metafeatures']
-        self._preprocessing = instances['preprocessing']
-        self._results = instances['results']
-        self._visualization = instances['visualization']
-        self._recommenders = instances['recommenders']
-        self._metrics = instances['metrics']
+        self._datasets = instances.get('datasets')
+        self._metafeatures = instances.get('metafeatures')
+        self._preprocessing = instances.get('preprocessing')
+        self._results = instances.get('results')
+        self._visualization = instances.get('visualization')
+        self._recommenders = instances.get('recommenders')
+        self._metrics = instances.get('metrics')
 
 
     def create_experiment_instances(self, experiment: dict) -> dict:

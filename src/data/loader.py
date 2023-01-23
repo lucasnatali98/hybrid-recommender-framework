@@ -82,12 +82,18 @@ class Loader:
         if isinstance(data, pandas.DataFrame):
             new_path = path
 
-            return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
+            return data.to_csv(
+                ROOT_PATH.joinpath(new_path),
+                index=False,
+                sep=' ',
+                mode='a'
+            )
         else:
             try:
                 data = pd.DataFrame(data)
                 new_path = path
-                return data.to_csv(ROOT_PATH.joinpath(new_path), index=False)
+                return data.to_csv(
+                    ROOT_PATH.joinpath(new_path), index=False)
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
     def convert_to_csv(self, data: pd.DataFrame, path: str):

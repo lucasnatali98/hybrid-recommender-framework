@@ -68,7 +68,7 @@
               "module": "src.preprocessing.text",
               "class_name": "TextProcessing",
               "parameters": {
-                "apply_on": "genres",
+                "column_to_apply": "genres",
                 "remove_stop_words": true,
                 "tokenize_words": true,
                 "column_to_index": "title"
