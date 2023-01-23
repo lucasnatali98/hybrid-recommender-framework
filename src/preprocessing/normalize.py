@@ -16,10 +16,10 @@ class NormalizeProcessing(AbstractPreProcessing):
         }
         parameters = process_parameters(parameters, default_keys)
         self.column_to_apply = parameters.get("column_to_apply", 'rating')
-        self.norm = parameters.get('norm')
-        self.axis = parameters.get('axis')
-        self.copy = parameters.get('copy')
-        self.return_norm = parameters.get('return_norm')
+        self.norm = parameters.get('norm', 'l2')
+        self.axis = parameters.get('axis', 1)
+        self.copy = parameters.get('copy', True)
+        self.return_norm = parameters.get('return_norm', False)
 
     def pre_processing(self, data: pd.DataFrame, **kwargs):
         """

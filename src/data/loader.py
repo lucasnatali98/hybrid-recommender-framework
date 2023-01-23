@@ -86,7 +86,7 @@ class Loader:
                 ROOT_PATH.joinpath(new_path),
                 index=False,
                 sep=' ',
-                mode='a'
+                mode='w'
             )
         else:
             try:
