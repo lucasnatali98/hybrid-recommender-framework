@@ -10,6 +10,8 @@ class MissingProcessing(AbstractPreProcessing):
         self.parameters = parameters
         self.preprocessing_output_dir = hrf_experiment_output_path().joinpath("preprocessing/")
 
+    def check_missing_values(self, data: pd.DataFrame):
+        pass
     def check_none(self, data: pd.DataFrame):
         item = data['item']
         rating = data['rating']
@@ -36,7 +38,7 @@ class MissingProcessing(AbstractPreProcessing):
 
 
 
-    def pre_processing(self, data: pd.DataFrame, **kwargs):
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         print("missing processing")
         is_null = data.isnull().sum().values.any()
         is_na = data.isna().sum().values.any()
