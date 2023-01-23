@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class Algorithm(ABC):
 
     @abstractmethod
-    def fit(self, rating, **kwargs):
+    def fit(self, rating, **kwargs) -> None:
         """
 
         @param rating:

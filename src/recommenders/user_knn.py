@@ -60,7 +60,7 @@ class UserKNN(Recommender):
             pairs,
             ratings)
 
-    def fit(self, ratings: DataFrame, **kwargs):
+    def fit(self, ratings: DataFrame, **kwargs) -> None:
         """
 
         @param ratings:

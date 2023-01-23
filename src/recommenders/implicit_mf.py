@@ -89,7 +89,7 @@ class ImplicitMF(Recommender):
         """
         pass
 
-    def fit(self, rating, **kwargs):
+    def fit(self, rating, **kwargs) -> None:
         """
 
         @param rating:

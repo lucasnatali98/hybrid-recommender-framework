@@ -41,13 +41,7 @@ class Memorized(Recommender):
             pairs,
             ratings)
 
-    def fit(self, ratings: DataFrame, **kwargs):
-        """
-
-        @param ratings:
-        @param kwargs:
-        @return:
-        """
+    def fit(self, ratings: DataFrame, **kwargs) -> None:
         return self.Memorized.fit(ratings)
 
     def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:

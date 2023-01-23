@@ -51,7 +51,7 @@ class ScikitSVD(Recommender):
             pairs,
             ratings)
 
-    def fit(self, ratings: pd.DataFrame, **kwargs):
+    def fit(self, ratings: pd.DataFrame, **kwargs) -> None:
         """
 
         @param ratings:

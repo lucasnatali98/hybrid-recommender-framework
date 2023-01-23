@@ -38,7 +38,7 @@ class ContentBasedRecommender(Recommender):
         """
         pass
 
-    def fit(self, ratings: DataFrame, **kwargs):
+    def fit(self, ratings: DataFrame, **kwargs) -> None:
         """
 
         @param ratings:
