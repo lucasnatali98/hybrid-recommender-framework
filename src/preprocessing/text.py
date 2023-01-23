@@ -15,12 +15,9 @@ class TextProcessing(AbstractPreProcessing):
 
         default_keys = {'column_to_apply'}
         parameters = process_parameters(parameters, default_keys)
-
         self.column_to_apply = parameters.get('column_to_apply')
-
         self.parameters = parameters
         self.stop_words = set(stopwords.words('english'))
-
         self.text_processing_output_path = hrf_experiment_output_path().joinpath("preprocessing/text/")
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
@@ -30,26 +27,22 @@ class TextProcessing(AbstractPreProcessing):
         @return:
         """
 
-        data = self.clean_data(data, 'genres')
+        data = self.clean_data(data, self.column_to_apply)
 
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
             "remove_stop_words": self.remove_stop_words,
-            #  "pos_tagging": self.pos_tagging,
-            #    "stemming": self.stemming,
-            #   "lemmatization": self.lemmatization
         }
 
         parameters_keys: list = list(self.parameters.keys())
         parameters_keys = list(filter(
-            lambda x: x != "column_to_index",
+            lambda x: x != "column_to_index" and x != "column_to_apply",
             parameters_keys
         ))
 
         result = data
         for key in parameters_keys:
-            text_function_result = text_tasks[key](result, self.column_to_apply)
-
+            text_function_result = text_tasks[key](result, self.column_to_apply, "")
             result = text_function_result
 
         return result

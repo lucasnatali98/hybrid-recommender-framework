@@ -8,6 +8,29 @@ from src.experiments.experiment_handler import ExperimentHandler
 from src.experiments.experiment_tasks import ExperimentTask
 from external.deploy import Xperimentor, TaskExecutor
 
+
+def get_task_commands(experiment_tasks):
+    all_comands = {
+        'dataset_task': '',
+        'preprocessing_task': '',
+        'recommenders_task': '',
+        'metrics_task': '',
+        'metafeatures_task': '',
+        'results_task': '',
+        'visualization_task': ''
+    }
+    keys = all_comands.keys()
+
+    for task_name in keys:
+        command = list(filter(
+            lambda x: x['task_name'] == task_name,
+            experiment_tasks
+        ))[0]['command']
+
+        all_comands[task_name] = command
+
+    return all_comands
+
 if __name__ == "__main__":
     loader = Loader()
 
@@ -30,6 +53,7 @@ if __name__ == "__main__":
     experiment_tasks = experiment_task.define_all_tasks()
 
     xperimentor = Xperimentor()
+
     xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
         experiments=experiments,
         experiment_dependencies=experiment_dependencies,
@@ -55,6 +79,16 @@ if __name__ == "__main__":
 
     print("experiment task")
     print(experiment_tasks)
+
+
+    all_commands = get_task_commands(experiment_tasks)
+
+
+    for key, value in all_commands.items():
+        output = subprocess.call([value], shell=True)
+        print("Output do processo - {}: ".format(key), output)
+
+    """
     dataset_task_command = list(filter(
         lambda x: x['task_name'] == 'dataset_task',
         experiment_tasks
@@ -84,8 +118,8 @@ if __name__ == "__main__":
         lambda x: x['task_name'] == 'visualization_task',
         experiment_tasks
     ))[0]['command']
-
-    output = subprocess.call([dataset_task_command],
+    
+     output = subprocess.call([dataset_task_command],
                              shell=True)
 
     print("Output do processo - dataset_task: ", output)
@@ -98,4 +132,8 @@ if __name__ == "__main__":
     output = subprocess.call([recommenders_task_command],
                              shell=True)
     print("Output do processo - recommenders_task", output)
+    """
+
+
+
 
