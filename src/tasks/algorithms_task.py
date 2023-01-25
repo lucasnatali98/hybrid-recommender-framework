@@ -98,9 +98,9 @@ class AlgorithmsTask(Task):
 
                 algorithms = self.handle_algorithms_tasks(
                     self.algorithm_instances,
-                    train_dataset,
+                    train_dataset.sample(1000),
                     fold_name,
-                    validation_dataset,
+                    validation_dataset.sample(1000),
                     content_based_df
                 )
 
@@ -109,13 +109,10 @@ class AlgorithmsTask(Task):
 
 
         except Exception as e:
-            print("Aconteceu uma exceção")
             print(e)
             print(traceback.print_exc())
 
     def topn_process(self, algorithm, ratings: pd.DataFrame):
-        print("TopN Process:")
-        print("ratings: ", ratings)
         try:
             if algorithm.__class__.__name__ == "RandomItem":  # Verificar se posso evitar isso
                 return None
@@ -145,8 +142,7 @@ class AlgorithmsTask(Task):
             return topn_dataframe
 
         except Exception as err:
-            print("Exceção na função: topn_process")
-            print("Erro: ", err)
+            print(err)
             print(traceback.print_exc())
             return None
 
@@ -188,7 +184,7 @@ class AlgorithmsTask(Task):
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")
                 path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
-                dump(algorithm, path)
+                dump(algorithm.fittable, path)
 
                 topn_result = self.topn_process(algorithm, dataset)
                 ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
@@ -198,10 +194,7 @@ class AlgorithmsTask(Task):
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
-                preds = predict(algorithm, dataset)
-
-                print("predictions: ")
-                print(preds)
+                preds = predict(algorithm.fittable, dataset)
 
                 if preds is not None:
                     prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
