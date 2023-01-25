@@ -6,7 +6,20 @@ from src.utils import process_parameters
 import pandas as pd
 
 
-class ItemKNN(Recommender):
+class ItemKNN:
+    def __init__(self, parameters: dict) -> None:
+        default_keys = {
+            'lib'
+        }
+
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib', 'lenskit')
+
+        if self.lib == 'lenskit':
+            self.fittable = LenskitItemKNN(parameters)
+
+
+class LenskitItemKNN(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = {
             'maxNumberNeighbors',

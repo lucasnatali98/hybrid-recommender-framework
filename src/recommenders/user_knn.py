@@ -1,16 +1,23 @@
-from lenskit.algorithms.basic import UnratedItemCandidateSelector
-
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import user_knn, Recommender as LenskitRecommender
 from pandas import DataFrame
-from lenskit.algorithms.ranking import TopN
 from src.utils import process_parameters
-from lenskit.algorithms.user_knn import UserUser
 import pandas as pd
 
 
+class UserKNN:
+    def __init__(self, parameters: dict) -> None:
+        default_keys = {
+            'lib'
+        }
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib', 'lenskit')
 
-class UserKNN(Recommender):
+        if self.lib == 'lenskit':
+            self.fittable = LenskitUserKNN(parameters)
+
+
+class LenskitUserKNN(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = {
             'maxNumberNeighbors',
@@ -27,13 +34,11 @@ class UserKNN(Recommender):
 
         self.user_knn = user_knn.UserUser(
             nnbrs=self.max_number_neighbors,
-           # min_nbrs=self.min_number_neighbors, #parâmetro dando problema
-           # min_sim=self.min_sim,
-           # feedback=self.feedback
+            # min_nbrs=self.min_number_neighbors, #parâmetro dando problema
+            # min_sim=self.min_sim,
+            # feedback=self.feedback
         )
         self.user_knn = LenskitRecommender.adapt(self.user_knn)
-
-
 
     def predict_for_user(self, user, items, ratings=None):
         """
@@ -72,7 +77,7 @@ class UserKNN(Recommender):
     def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:
         print("UserKNN recommend")
         recommendation_dataframe = pd.DataFrame(
-            columns = ['user', 'item', 'score', 'algorithm_name']
+            columns=['user', 'item', 'score', 'algorithm_name']
         )
         for user in users:
             recommendation_to_user = self.user_knn.recommend(user, n)

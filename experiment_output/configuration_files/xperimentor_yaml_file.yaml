@@ -37,6 +37,8 @@ recipes:
   uses:
     Alg:
     - ContentBasedRecommender
+    - ItemKNN
+    - UserKNN
     DB:
     - MovieLens
     Eval:
@@ -50,6 +52,7 @@ recipes:
     - Stream
     MF:
     - Jaccard
+    - Gini
     - Gini
     Stats:
     - ANOVA

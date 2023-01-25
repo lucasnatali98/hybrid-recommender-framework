@@ -53,7 +53,7 @@ class AlgorithmsTask(Task):
 
         number_of_items_rankeds = 10
         for u in users:
-            prediction_result = algorithm.predict_for_user(u, items, rating)
+            prediction_result = algorithm.fittable.predict_for_user(u, items, rating)
             print("prediction result: ", prediction_result)
             user_id = [u] * number_of_items_rankeds
             algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
@@ -127,7 +127,7 @@ class AlgorithmsTask(Task):
 
             topn_dataframe = pd.DataFrame(columns=['user', 'item', 'score'])
 
-            top_n = TopN(algorithm, select)
+            top_n = TopN(algorithm.fittable, select)
             number_of_items_rankeds = 10
             for u in users:
                 recs = top_n.recommend(
@@ -159,6 +159,7 @@ class AlgorithmsTask(Task):
         if recs is not None:
             recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations-content-based.csv"
             recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
@@ -183,8 +184,7 @@ class AlgorithmsTask(Task):
                     )
                     continue
 
-
-                algorithm.fit(dataset)
+                algorithm.fittable.fit(dataset)
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")
                 path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
@@ -194,7 +194,6 @@ class AlgorithmsTask(Task):
                 ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
                 if topn_result is not None:
                     topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
-
 
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
@@ -210,7 +209,7 @@ class AlgorithmsTask(Task):
 
                 users = np.unique(test_dataset['user'].values)
 
-                recs = algorithm.recommend(users, 10)
+                recs = algorithm.fittable.recommend(users, 10)
                 if recs is not None:
                     recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
                     recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)

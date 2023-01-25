@@ -11,21 +11,52 @@
     },
     {
       "id": "exp2",
-      "deps": ["exp1"]
+      "deps": [
+        "exp1"
+      ]
     }
   ],
   "recipesDefault": {
-    "database": ["MovieLens"],
-    "metafeatures": ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"],
-    "metrics": ["RMSE", "F1", "EPC", "EILD"],
-    "hybrid": ["STREAM", "FWLS"],
-    "algorithms": ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"],
-    "results": ["mean", "IC"],
+    "database": [
+      "MovieLens"
+    ],
+    "metafeatures": [
+      "PCR",
+      "PR",
+      "GINI",
+      "PEARSON",
+      "PQMEAN",
+      "SD"
+    ],
+    "metrics": [
+      "RMSE",
+      "F1",
+      "EPC",
+      "EILD"
+    ],
+    "hybrid": [
+      "STREAM",
+      "FWLS"
+    ],
+    "algorithms": [
+      "Sigmoid",
+      "Biased",
+      "MF",
+      "Uknn",
+      "SVD",
+      "Latent",
+      "Factor",
+      "BiPolar",
+      "SO"
+    ],
+    "results": [
+      "mean",
+      "IC"
+    ],
     "folds": []
   },
   "experiments": [
     {
-
       "experiment_id": "exp1",
       "dataset": {
         "class": "MovieLens",
@@ -33,7 +64,6 @@
         "parameters": {
           "proportion": "ml-latest-small",
           "filters": {
-
           }
         }
       },
@@ -42,7 +72,6 @@
         "class": "PreProcessingContainer",
         "parameters": {
           "instances": [
-
             {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",
@@ -74,7 +103,6 @@
                 "column_to_index": "title"
               }
             }
-
           ]
         }
       },
@@ -87,14 +115,12 @@
               "module": "src.hybrid.flws",
               "class_name": "Flws",
               "parameters": {
-
               }
             },
             {
               "module": "src.hybrid.stream",
               "class_name": "Stream",
               "parameters": {
-
               }
             }
           ]
@@ -139,7 +165,6 @@
                 "sample_weight": "None",
                 "ignore_ties": false
               }
-
             }
           ]
         }
@@ -154,7 +179,7 @@
             "doItemUser": true,
             "basePath": "",
             "resourceFile": "",
-            "partitionLength":  1,
+            "partitionLength": 1,
             "outputFolder": "",
             "bufferSize": 1000,
             "numThreads": 0,
@@ -176,7 +201,9 @@
                   "value": ""
                 },
                 "fields": [
-                  "1", "2", "3"
+                  "1",
+                  "2",
+                  "3"
                 ],
                 "items": []
               }
@@ -231,13 +258,38 @@
         "module": "src.recommenders.recommenders_container",
         "parameters": {
           "instances": [
-
             {
               "module": "src.recommenders.content_based_recommender",
               "class_name": "ContentBasedRecommender",
               "parameters": {
                 "feature": "title",
                 "count_items": 15
+              }
+            },
+            {
+              "module": "src.recommenders.item_knn",
+              "class_name": "ItemKNN",
+              "parameters": {
+                "lib": "lenskit",
+                "maxNumberNeighbors": 20,
+                "minNumberNeighbors": 4,
+                "saveNeighbors": 6.0,
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
+              }
+            },
+             {
+              "module": "src.recommenders.user_knn",
+              "class_name": "UserKNN",
+              "parameters": {
+                "lib": "lenskit",
+                "maxNumberNeighbors": 12,
+                "minNumberNeighbors": 4,
+                "min_sim": 0.3,
+                "feedback": "implicit",
+                "aggregate": "weighted-average",
+                "use_ratings": true
               }
             }
           ]
@@ -288,12 +340,12 @@
               "module": "src.visualization.static_scatter",
               "class_name": "StaticScatter",
               "parameters": {
-                  "plot_types": {
-                    "ratings_by_user": true,
-                    "ratings_by_movie": true,
-                    "items_predict": true,
-                    "movie_ratings_distribution": true
-                  }
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
+                }
               }
             }
           ]
