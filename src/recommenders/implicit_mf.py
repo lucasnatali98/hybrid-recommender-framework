@@ -1,14 +1,24 @@
 import traceback
-
 from src.recommenders.recommender import Recommender
-from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskit
+from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskitAlgorithm
 from lenskit.algorithms import Recommender as LenskitRecommender
 from src.utils import process_parameters
 from pandas import DataFrame, Series, concat
 
 
-class ImplicitMF(Recommender):
+class ImplicitMF:
+    def __init__(self, parameters: dict) -> None:
+        default_keys = {
+            'lib'
+        }
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib', 'lenskit')
 
+        if self.lib == 'lenskit':
+            self.fittable = ImplicitMFLenskit(parameters)
+
+
+class ImplicitMFLenskit(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = {
             "features",
@@ -17,10 +27,10 @@ class ImplicitMF(Recommender):
         parameters = process_parameters(parameters, default_keys)
         self.features = parameters.get('features')
         self.iterations = parameters.get('iterations')
-       # self.reg = parameters['reg']  # regularization factor
-       # self.weight = parameters['weight']
-       # self.use_ratings = parameters['use_ratings']
-        self.ImplicitMF = ImplicitMFLenskit(
+        # self.reg = parameters['reg']  # regularization factor
+        # self.weight = parameters['weight']
+        # self.use_ratings = parameters['use_ratings']
+        self.ImplicitMF = ImplicitMFLenskitAlgorithm(
             features=self.features,
             iterations=self.iterations
         )
@@ -46,7 +56,7 @@ class ImplicitMF(Recommender):
         """
         return self.ImplicitMF.predict(pairs, ratings)
 
-    def recommend(self, users, n, candidates = None, ratings = None):
+    def recommend(self, users, n, candidates=None, ratings=None):
         """
 
         @param user:
@@ -79,7 +89,6 @@ class ImplicitMF(Recommender):
             print("Error: ", e)
             print(traceback.print_exc())
             return None
-
 
     def get_params(self, deep=True):
         """

@@ -6,8 +6,20 @@ from lenskit.algorithms import  Recommender as LenskitRecommender
 
 from pandas import DataFrame, Series
 
-class Memorized(Recommender):
+class Memorized:
+    def __init__(self, parameters: dict) -> None:
+        default_keys = {
+            'lib'
+        }
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib', 'lenskit')
 
+        if self.lib == 'lenskit':
+            self.fittable = MemorizedLenskit(parameters)
+
+
+
+class MemorizedLenskit(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)

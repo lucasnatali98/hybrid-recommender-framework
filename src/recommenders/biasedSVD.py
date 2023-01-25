@@ -6,7 +6,18 @@ from lenskit.algorithms.als import BiasedMF
 from lenskit.algorithms import Recommender as LenskitRecommender
 
 
-class BiasedSVD(Recommender):
+class BiasedSVD:
+    def __init__(self, parameters: dict) -> None:
+        default_keys = {
+            'lib'
+        }
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib', 'lenskit')
+
+        if self.lib == 'lenskit':
+            self.fittable = BiasedSVDLenskit(parameters)
+
+class BiasedSVDLenskit(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = {
             'iterations',
