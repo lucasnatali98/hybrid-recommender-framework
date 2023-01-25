@@ -88,6 +88,27 @@ class ExperimentTask:
             tasks_structure.append(self.create_task_object(task))
         return tasks_structure
 
+    def get_task_commands(self, experiment_tasks):
+        all_comands = {
+            'dataset_task': '',
+            'preprocessing_task': '',
+            'recommenders_task': '',
+            'metrics_task': '',
+            'metafeatures_task': '',
+            'results_task': '',
+            'visualization_task': ''
+        }
+        keys = all_comands.keys()
+
+        for task_name in keys:
+            command = list(filter(
+                lambda x: x['task_name'] == task_name,
+                experiment_tasks
+            ))[0]['command']
+
+            all_comands[task_name] = command
+
+        return all_comands
 
     def define_all_tasks(self) -> dict:
         """
