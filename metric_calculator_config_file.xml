@@ -40,6 +40,86 @@
 			</item>
 		</items>
 	</process>
+    <process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratingsNorm.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+    <process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratingsNorm.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+    <process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratingsNorm.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+    <process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratingsNorm.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+    <process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratingsNorm.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
 
 
 	<!-- Métricas CF atualmente implementadas: -->
