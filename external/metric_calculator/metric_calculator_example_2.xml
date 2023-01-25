@@ -79,25 +79,6 @@
 		<userPreferenceFile>ratingsNorm.txt</userPreferenceFile> <!-- arquivo de ratings para obter as avaliações de cada usuario -->
 	</process>
 
-	<process>						<!-- Processo CB sem o parametro 'index' significa calculo de meta-feature CB -->
-		<doUser/>
-		<doItem/>
-		<type>content-based</type>
-		<metric>Entropy</metric>			<!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
-		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/external/metric_calculator/</basePath>
-		<outputFolder>Test2/</outputFolder>
-		<indexFolder>index-directory</indexFolder>	<!-- diretorio onde foi feita a indexação dos dados pelo Lucene -->
-		<numThreads>0</numThreads>
-		<metricParameter>				<!-- Algumas metricas podem possuir parametros especificos, que sao adicionados aqui atraves de id e valor, conforme descrito adiante -->
-			<id>nomeParametro</id>
-			<value>valor</value>
-		</metricParameter>
-		<fields> <!-- Campos a serem utilizados no calculo. Omissao indica todos os campos -->
-			<field>1</field>
-			<field>2</field>
-			<field>3</field>
-		</fields>
-	</process>
 
 
 	<!-- Métricas CB atualmente implementadas: -->

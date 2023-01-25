@@ -10,6 +10,7 @@ movielens = MovieLens({
     'proportion': 'ml-latest-small'
 })
 ratings = movielens.ratings
+movies = movielens.items
 normalize_process = NormalizeProcessing({
     'norm': 'l2',
     'axis': 0,
@@ -29,7 +30,11 @@ class TestLoader:
 
         ratings_normalized = normalize_process.pre_processing(ratings)
         print(ratings_normalized)
+
         ratings_path = metrics_calculator_path.joinpath("ratings.txt")
         ratings_norm_path = metrics_calculator_path.joinpath("ratingsNorm.txt")
+        movies_path = metrics_calculator_path.joinpath("genres.txt")
+
         loader.convert_to_text(ratings, ratings_path)
         loader.convert_to_text(ratings_normalized, ratings_norm_path)
+        loader.convert_to_text(movies, movies_path)

@@ -85,7 +85,8 @@ class Loader:
             return data.to_csv(
                 ROOT_PATH.joinpath(new_path),
                 index=False,
-                sep=' ',
+                header=False,
+                sep='\t',
                 mode='w'
             )
         else:

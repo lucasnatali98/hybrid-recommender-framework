@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import pandas as pd
 from pandas import DataFrame, Series
 
@@ -109,6 +108,20 @@ def hrf_task_path():
 
 
 def hrf_experiment_output_path():
+    """
+    Função responsável por retornar o path para o diretório "experiment_output/"
+    @return:
+    """
     root_path = get_project_root()
     root_path = root_path.joinpath("experiment_output")
+    return root_path
+
+def hrf_external_path():
+    """
+    Função responsável por retornar o path para o diretório "external"
+
+    @return: path
+    """
+    root_path = get_project_root()
+    root_path = root_path.joinpath("external")
     return root_path

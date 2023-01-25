@@ -4,10 +4,15 @@ from src.utils import process_parameters
 
 class Jaccard(ContentBasedMetaFeature):
     def __init__(self, parameters: dict) -> None:
-        """
-        
-        """
-        default_keys = set()
+
+        default_keys = {
+            'type',
+            'basePath',
+            'doUser',
+            'doItem',
+            'doItemUser',
+            'metricParameter',
+        }
         parameters = process_parameters(parameters, default_keys)
         self.type = parameters.get('type')
         self.base_path = parameters.get('basePath')
