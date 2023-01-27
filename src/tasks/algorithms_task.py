@@ -46,6 +46,15 @@ class AlgorithmsTask(Task):
 
         return file_names
 
+    def get_default_files_to_train_and_test(self):
+        default_splitted_files = {
+            "xtrain": self.preprocessing_output_dir.joinpath('xtrain.csv'),
+            "xtest": self.preprocessing_output_dir.joinpath('xtest.csv'),
+            "ytest": self.preprocessing_output_dir.joinpath('ytest.csv'),
+            "ytrain": self.preprocessing_output_dir.joinpath('ytrain.csv')
+        }
+        return default_splitted_files
+
     def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
         print("predict_to_users")
 
@@ -64,49 +73,97 @@ class AlgorithmsTask(Task):
         print("finished predict to user")
         return predictions_df
 
+    def check_if_folds_is_empty(self) -> bool:
+        """
+        Função para verificar se os folds existem, com o objetivo de decidir se eles serõo usados
+        ou se a aplicação vai utilizar os dados a partir de sua divisão normal.
+
+        @return: bool
+        """
+
+        folds_path = self.preprocessing_output_dir.joinpath(
+            "folds/train/"
+        )
+
+        folds_dir = os.listdir(folds_path)
+
+        if len(folds_dir) == 0:
+            return True
+
+        return False
+
+    def fold_execution(self):
+        train_fold_files = self.get_fold_file_names('train')
+        validation_fold_files = self.get_fold_file_names('validation')
+        fold_files = zip(train_fold_files, validation_fold_files)
+
+        if len(train_fold_files) == 0:
+            raise Exception("Os arquivos de fold de treino não foram encontrados")
+
+        test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
+        test_dataset = pd.read_csv(test_dataset_path)
+
+        content_based_df_path = self.experiment_output_dir.joinpath("preprocessing/content-based-dataset.csv")
+        content_based_df = pd.read_csv(content_based_df_path)
+        print("Content based df: ")
+        print(content_based_df)
+
+        for train_file, validation_file in fold_files:
+            train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
+            validation_dataset_path = self.preprocessing_output_dir.joinpath("folds/validation").joinpath(
+                validation_file)
+
+            train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
+            validation_dataset = pd.read_csv(validation_dataset_path, index_col=[0])
+
+            fold_name = train_file.split(".")
+            fold_name = fold_name[0]
+
+            algorithms = self.handle_algorithms_tasks(
+                self.algorithm_instances,
+                train_dataset.sample(1000),
+                fold_name,
+                validation_dataset.sample(1000),
+                content_based_df
+            )
+
+        return True
+
+    def default_execution(self):
+        files_path = self.get_default_files_to_train_and_test()
+        try:
+            xtrain = pd.read_csv(files_path.get('xtrain'))
+            ytrain = pd.read_csv(files_path.get('ytrain'))
+            ytest = pd.read_csv(files_path.get('ytest'))
+            xtest = pd.read_csv(files_path.get('xtest'))
+
+            algorithms = self.handle_algorithms_task_default(
+                algorithms=self.algorithm_instances,
+                xtrain=xtrain,
+                xtest=xtest,
+                ytrain=ytrain,
+                ytest=ytest,
+                train_dataset_name='xtrain'
+            )
+
+            return algorithms
+        except Exception as e:
+            print(e)
+
     def run(self):
         """
 
         @return:
         """
         try:
-            train_fold_files = self.get_fold_file_names('train')
-            validation_fold_files = self.get_fold_file_names('validation')
-            fold_files = zip(train_fold_files, validation_fold_files)
 
-            if len(train_fold_files) == 0:
-                raise Exception("Os arquivos de fold de treino não foram encontrados")
-
-            test_dataset_path = self.experiment_output_dir.joinpath("preprocessing/xtest.csv")
-            test_dataset = pd.read_csv(test_dataset_path)
-
-            content_based_df_path = self.experiment_output_dir.joinpath("preprocessing/content-based-dataset.csv")
-            content_based_df = pd.read_csv(content_based_df_path)
-            print("Content based df: ")
-            print(content_based_df)
-
-            for train_file, validation_file in fold_files:
-                train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
-                validation_dataset_path = self.preprocessing_output_dir.joinpath("folds/validation").joinpath(
-                    validation_file)
-
-                train_dataset = pd.read_csv(train_dataset_path, index_col=[0])
-                validation_dataset = pd.read_csv(validation_dataset_path, index_col=[0])
-
-                fold_name = train_file.split(".")
-                fold_name = fold_name[0]
-
-                algorithms = self.handle_algorithms_tasks(
-                    self.algorithm_instances,
-                    train_dataset.sample(1000),
-                    fold_name,
-                    validation_dataset.sample(1000),
-                    content_based_df
-                )
-
-            return True
-
-
+            is_folds_directory_exists = self.check_if_folds_is_empty()
+            if is_folds_directory_exists is True:
+                result = self.fold_execution()
+                return result
+            else:
+                result = self.default_execution()
+                return result
 
         except Exception as e:
             print(e)
@@ -155,6 +212,68 @@ class AlgorithmsTask(Task):
         if recs is not None:
             recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations-content-based.csv"
             recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+
+    def handle_algorithms_task_default(self,
+                                       algorithms: RecommendersContainer,
+                                       xtrain: pd.DataFrame = pd.DataFrame(),
+                                       xtest: pd.DataFrame = pd.DataFrame(),
+                                       ytrain: pd.Series = pd.Series(),
+                                       ytest: pd.Series = pd.Series(),
+                                       content_based_dataset: pd.DataFrame = pd.DataFrame(),
+                                       train_dataset_name: str = ""
+                                       ):
+
+        try:
+            for algorithm in algorithms.items[0]:
+                algorithm_name = algorithm.__class__.__name__
+                print("Algorithm name: ", algorithm_name)
+                print("Algorithm: ")
+                print(algorithm)
+                print("dataset")
+                print(xtrain.head())
+                print("dataset_name:", train_dataset_name)
+
+                if algorithm_name == "ContentBasedRecommender":
+                    print("O algoritmo é baseado em conteúdo")
+                    self._recommend_to_content_based(
+                        algorithm, algorithm_name, content_based_dataset, "movies"
+                    )
+                    continue
+
+                algorithm.fittable.fit(xtrain)
+
+                path = hrf_experiment_output_path().joinpath("models/trained_models/")
+                path = path.joinpath(algorithm_name + "-" + train_dataset_name + ".joblib")
+                dump(algorithm.fittable, path)
+
+                topn_result = self.topn_process(algorithm, xtrain)
+                ranking_file_name = algorithm_name + "-" + train_dataset_name + "-" + "ranking.csv"
+                if topn_result is not None:
+                    topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+
+                dataset_copy = xtrain.copy()
+                dataset_copy.drop(columns=['rating'], inplace=True)
+
+                preds = predict(algorithm.fittable, xtrain)
+
+                if preds is not None:
+                    prediction_file_name = algorithm_name + "-" + train_dataset_name + "-" + "predictions.csv"
+                    preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
+
+                users = np.unique(xtest['user'].values)
+
+                recs = algorithm.fittable.recommend(users, 10)
+                if recs is not None:
+                    recommendation_file_name = algorithm_name + "-" + train_dataset_name + "-" + "recommendations.csv"
+                    recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+
+            return True
+
+        except Exception as err:
+            print("Uma exceção aconteceu na função handle_algorithms_tasks")
+            print("Error: ", err)
+            print(traceback.print_exc())
+            return None
 
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,

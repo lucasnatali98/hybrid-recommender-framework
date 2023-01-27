@@ -1,5 +1,4 @@
 import subprocess
-
 from src.utils import hrf_external_path
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
