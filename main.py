@@ -57,9 +57,6 @@ if __name__ == "__main__":
 
     """
     metafeature_command = all_commands.get('metafeatures_task', None)
-    if metafeature_command is None:
-        print("Deu merda nas metafeatures")
-
     output = subprocess.call([metafeature_command], shell=True)
     """
 

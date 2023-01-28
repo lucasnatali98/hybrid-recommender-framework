@@ -73,17 +73,6 @@
         "parameters": {
           "instances": [
             {
-              "module": "src.preprocessing.split",
-              "class_name": "SplitProcessing",
-              "parameters": {
-                "train_size": 70,
-                "test_size": 30,
-                "random_state": 42,
-                "shuffle": true,
-                "stratify": ""
-              }
-            },
-            {
               "module": "src.preprocessing.folds",
               "class_name": "FoldsProcessing",
               "parameters": {
@@ -259,11 +248,12 @@
         "parameters": {
           "instances": [
             {
-              "module": "src.recommenders.content_based_recommender",
-              "class_name": "ContentBasedRecommender",
+              "module": "src.recommenders.implicit_mf",
+              "class_name": "ImplicitMF",
               "parameters": {
-                "feature": "title",
-                "count_items": 15
+                "lib": "lenskit",
+                "features": 20,
+                "iterations": 30
               }
             },
             {

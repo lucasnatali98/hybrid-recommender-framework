@@ -25,8 +25,8 @@ class ImplicitMFLenskit(Recommender):
             "iterations"
         }
         parameters = process_parameters(parameters, default_keys)
-        self.features = parameters.get('features')
-        self.iterations = parameters.get('iterations')
+        self.features = parameters.get('features') #int
+        self.iterations = parameters.get('iterations') #int
         # self.reg = parameters['reg']  # regularization factor
         # self.weight = parameters['weight']
         # self.use_ratings = parameters['use_ratings']

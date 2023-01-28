@@ -11,22 +11,6 @@ from src.metrics.cross_validation import CrossValidation
 
 class MetricsTask(Task):
     def __init__(self, metrics, args=None):
-        """
-
-        @param args:
-        """
-        """
-        self.cross_validation = CrossValidation({
-            'lib': '',
-            'metrics': '',
-            'X': '',
-            'y': '',
-            'cv': '',
-            'return_train_score': '',
-            'return_estimator': '',
-            'error_score': ''
-        })
-        """
         self.metric_instances = metrics
 
         self.predictions_output_path = hrf_experiment_output_path().joinpath(
@@ -92,7 +76,7 @@ class MetricsTask(Task):
                         metrics,
                         recommendations: pd.DataFrame,
                         dataset_test: pd.DataFrame) -> pd.DataFrame:
-        print("topn_evaluation")
+
         topn_metrics = {
             'ndcg': topn.ndcg,
             'dcg': topn.dcg,
@@ -128,8 +112,7 @@ class MetricsTask(Task):
             fold_number = file.split("-")[3]
             truth_path = self.preprocessing_output_dir.joinpath("folds/validation/")
             truth_path = truth_path.joinpath("validation-fold-{}.csv".format(fold_number))
-            print("truth_path: ", truth_path)
-            truth_df = pd.read_csv(truth_path)
+            truth_df = pd.read_csv(truth_path, index_col=[0])
             print("truth df: ", truth_df)
 
             topn_result = self.topn_evaluation(

@@ -1,6 +1,5 @@
 from lenskit.algorithms.basic import UnratedItemCandidateSelector
 import numpy as np
-from lenskit import batch
 from src.experiments.experiment_handler import ExperimentHandler
 from joblib import dump, load
 from lenskit.algorithms.ranking import TopN
@@ -56,10 +55,7 @@ class AlgorithmsTask(Task):
         return default_splitted_files
 
     def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
-        print("predict_to_users")
-
         predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
-
         number_of_items_rankeds = 10
         for u in users:
             prediction_result = algorithm.fittable.predict_for_user(u, items, rating)
@@ -86,11 +82,10 @@ class AlgorithmsTask(Task):
         )
 
         folds_dir = os.listdir(folds_path)
-
         if len(folds_dir) == 0:
-            return True
+            return False
 
-        return False
+        return True
 
     def fold_execution(self):
         train_fold_files = self.get_fold_file_names('train')
@@ -105,8 +100,6 @@ class AlgorithmsTask(Task):
 
         content_based_df_path = self.experiment_output_dir.joinpath("preprocessing/content-based-dataset.csv")
         content_based_df = pd.read_csv(content_based_df_path)
-        print("Content based df: ")
-        print(content_based_df)
 
         for train_file, validation_file in fold_files:
             train_dataset_path = self.preprocessing_output_dir.joinpath("folds/train/").joinpath(train_file)
@@ -121,9 +114,9 @@ class AlgorithmsTask(Task):
 
             algorithms = self.handle_algorithms_tasks(
                 self.algorithm_instances,
-                train_dataset.sample(1000),
+                train_dataset,
                 fold_name,
-                validation_dataset.sample(1000),
+                validation_dataset,
                 content_based_df
             )
 
@@ -151,10 +144,6 @@ class AlgorithmsTask(Task):
             print(e)
 
     def run(self):
-        """
-
-        @return:
-        """
         try:
 
             is_folds_directory_exists = self.check_if_folds_is_empty()
@@ -204,11 +193,8 @@ class AlgorithmsTask(Task):
             return None
 
     def _recommend_to_content_based(self, algorithm, algorithm_name, dataset, dataset_name):
-
         algorithm.fit(dataset)
-
         recs = algorithm.recommend(None, 0, dataset)
-
         if recs is not None:
             recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations-content-based.csv"
             recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
@@ -217,8 +203,8 @@ class AlgorithmsTask(Task):
                                        algorithms: RecommendersContainer,
                                        xtrain: pd.DataFrame = pd.DataFrame(),
                                        xtest: pd.DataFrame = pd.DataFrame(),
-                                       ytrain: pd.Series = pd.Series(),
-                                       ytest: pd.Series = pd.Series(),
+                                       ytrain: pd.Series = None,
+                                       ytest: pd.Series = None,
                                        content_based_dataset: pd.DataFrame = pd.DataFrame(),
                                        train_dataset_name: str = ""
                                        ):
@@ -227,14 +213,11 @@ class AlgorithmsTask(Task):
             for algorithm in algorithms.items[0]:
                 algorithm_name = algorithm.__class__.__name__
                 print("Algorithm name: ", algorithm_name)
-                print("Algorithm: ")
-                print(algorithm)
                 print("dataset")
                 print(xtrain.head())
                 print("dataset_name:", train_dataset_name)
 
                 if algorithm_name == "ContentBasedRecommender":
-                    print("O algoritmo é baseado em conteúdo")
                     self._recommend_to_content_based(
                         algorithm, algorithm_name, content_based_dataset, "movies"
                     )
@@ -270,7 +253,6 @@ class AlgorithmsTask(Task):
             return True
 
         except Exception as err:
-            print("Uma exceção aconteceu na função handle_algorithms_tasks")
             print("Error: ", err)
             print(traceback.print_exc())
             return None
@@ -286,14 +268,11 @@ class AlgorithmsTask(Task):
             for algorithm in algorithms.items[0]:
                 algorithm_name = algorithm.__class__.__name__
                 print("Algorithm name: ", algorithm_name)
-                print("Algorithm: ")
-                print(algorithm)
                 print("dataset")
                 print(dataset.head())
                 print("dataset_name:", dataset_name)
 
                 if algorithm_name == "ContentBasedRecommender":
-                    print("O algoritmo é baseado em conteúdo")
                     self._recommend_to_content_based(
                         algorithm, algorithm_name, content_based_dataset, "movies"
                     )
@@ -321,6 +300,7 @@ class AlgorithmsTask(Task):
 
                 users = np.unique(test_dataset['user'].values)
 
+                # Tenho que padronizar quantas recomendações serão feitas
                 recs = algorithm.fittable.recommend(users, 10)
                 if recs is not None:
                     recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
@@ -329,7 +309,6 @@ class AlgorithmsTask(Task):
             return True
 
         except Exception as err:
-            print("Uma exceção aconteceu na função handle_algorithms_tasks")
             print("Error: ", err)
             print(traceback.print_exc())
             return None
