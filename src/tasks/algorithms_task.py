@@ -17,7 +17,7 @@ import traceback
 class AlgorithmsTask(Task):
     def __init__(self, algorithm: RecommendersContainer, args=None):
         self.algorithm_instances: RecommendersContainer = algorithm
-
+        self.number_of_recommendations = self.algorithm_instances.number_of_recommendations
         self.experiment_output_dir = hrf_experiment_output_path()
         self.preprocessing_output_dir = self.experiment_output_dir.joinpath("preprocessing/")
         self.algorithms_output_dir = self.experiment_output_dir.joinpath("models/results/")
@@ -58,7 +58,7 @@ class AlgorithmsTask(Task):
         predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
         number_of_items_rankeds = 10
         for u in users:
-            prediction_result = algorithm.fittable.predict_for_user(u, items, rating)
+            prediction_result = algorithm.predict_for_user(u, items, rating)
             print("prediction result: ", prediction_result)
             user_id = [u] * number_of_items_rankeds
             algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
@@ -66,7 +66,6 @@ class AlgorithmsTask(Task):
             prediction_result['algorithm'] = pd.Series(algorithm_name)
             predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
 
-        print("finished predict to user")
         return predictions_df
 
     def check_if_folds_is_empty(self) -> bool:
@@ -145,7 +144,6 @@ class AlgorithmsTask(Task):
 
     def run(self):
         try:
-
             is_folds_directory_exists = self.check_if_folds_is_empty()
             if is_folds_directory_exists is True:
                 result = self.fold_execution()
@@ -170,8 +168,8 @@ class AlgorithmsTask(Task):
 
             topn_dataframe = pd.DataFrame(columns=['user', 'item', 'score'])
 
-            top_n = TopN(algorithm.fittable, select)
-            number_of_items_rankeds = 10
+            top_n = TopN(algorithm, select)
+            number_of_items_rankeds = self.number_of_recommendations
             for u in users:
                 recs = top_n.recommend(
                     u,
@@ -213,8 +211,6 @@ class AlgorithmsTask(Task):
             for algorithm in algorithms.items[0]:
                 algorithm_name = algorithm.__class__.__name__
                 print("Algorithm name: ", algorithm_name)
-                print("dataset")
-                print(xtrain.head())
                 print("dataset_name:", train_dataset_name)
 
                 if algorithm_name == "ContentBasedRecommender":
@@ -223,11 +219,11 @@ class AlgorithmsTask(Task):
                     )
                     continue
 
-                algorithm.fittable.fit(xtrain)
+                algorithm.fit(xtrain)
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")
                 path = path.joinpath(algorithm_name + "-" + train_dataset_name + ".joblib")
-                dump(algorithm.fittable, path)
+                dump(algorithm, path)
 
                 topn_result = self.topn_process(algorithm, xtrain)
                 ranking_file_name = algorithm_name + "-" + train_dataset_name + "-" + "ranking.csv"
@@ -237,7 +233,7 @@ class AlgorithmsTask(Task):
                 dataset_copy = xtrain.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
-                preds = predict(algorithm.fittable, xtrain)
+                preds = predict(algorithm, xtrain)
 
                 if preds is not None:
                     prediction_file_name = algorithm_name + "-" + train_dataset_name + "-" + "predictions.csv"
@@ -245,7 +241,7 @@ class AlgorithmsTask(Task):
 
                 users = np.unique(xtest['user'].values)
 
-                recs = algorithm.fittable.recommend(users, 10)
+                recs = algorithm.recommend(users, self.number_of_recommendations)
                 if recs is not None:
                     recommendation_file_name = algorithm_name + "-" + train_dataset_name + "-" + "recommendations.csv"
                     recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
@@ -268,17 +264,15 @@ class AlgorithmsTask(Task):
             for algorithm in algorithms.items[0]:
                 algorithm_name = algorithm.__class__.__name__
                 print("Algorithm name: ", algorithm_name)
-                print("dataset")
-                print(dataset.head())
                 print("dataset_name:", dataset_name)
-
+                print("Number of recomendations: ", algorithm.number_of_recommendations)
                 if algorithm_name == "ContentBasedRecommender":
                     self._recommend_to_content_based(
                         algorithm, algorithm_name, content_based_dataset, "movies"
                     )
                     continue
 
-                algorithm.fittable.fit(dataset)
+                algorithm.fit(dataset)
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")
                 path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
@@ -292,7 +286,7 @@ class AlgorithmsTask(Task):
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
-                preds = predict(algorithm.fittable, dataset)
+                preds = predict(algorithm, dataset)
 
                 if preds is not None:
                     prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
@@ -301,7 +295,7 @@ class AlgorithmsTask(Task):
                 users = np.unique(test_dataset['user'].values)
 
                 # Tenho que padronizar quantas recomendações serão feitas
-                recs = algorithm.fittable.recommend(users, 10)
+                recs = algorithm.recommend(users, self.number_of_recommendations)
                 if recs is not None:
                     recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
                     recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)

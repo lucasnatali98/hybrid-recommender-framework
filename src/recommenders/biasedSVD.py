@@ -11,7 +11,7 @@ class BiasedSVD(Recommender):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-class BiasedSVDLenskit(Recommender):
+class LenskitBiasedSVD(Recommender):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
         default_keys = {

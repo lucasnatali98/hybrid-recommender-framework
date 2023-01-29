@@ -10,8 +10,9 @@ class ImplicitMF(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
+        self.number_of_recommendations = None
 
-class ImplicitMFLenskit(ImplicitMF):
+class LenskitImplicitMF(ImplicitMF):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
         default_keys = {

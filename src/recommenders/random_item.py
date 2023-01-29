@@ -13,7 +13,7 @@ class RandomItem(Recommender):
         parameters = process_parameters(parameters, default_keys)
 
 
-class RandomItemLenskit(RandomItem):
+class LenskitRandomItem(RandomItem):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
         default_keys = set()

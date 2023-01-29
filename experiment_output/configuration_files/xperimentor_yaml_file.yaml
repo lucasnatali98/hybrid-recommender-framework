@@ -36,9 +36,9 @@ recipes:
   pruning: []
   uses:
     Alg:
-    - ImplicitMF
-    - ItemKNN
-    - UserKNN
+    - LenskitImplicitMF
+    - LenskitItemKNN
+    - LenskitUserKNN
     DB:
     - MovieLens
     Eval:

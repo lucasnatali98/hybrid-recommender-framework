@@ -18,9 +18,6 @@ metrics_instance = experiment_instances['metrics']
 metrics_task = MetricsTask(metrics_instance)
 
 
-recommendations_df =
-truth_df =
-
 
 class TestMetricsTask:
     def test_topn_evaluate(self):
@@ -31,8 +28,6 @@ class TestMetricsTask:
                 "hit",
                 "precision",
                 "recall"
-            ],
-            recommendations=,
-            dataset_test=
+            ]
         )
-        pass
+

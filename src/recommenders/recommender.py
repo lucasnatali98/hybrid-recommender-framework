@@ -4,7 +4,7 @@ from src.recommenders.algorithm import Algorithm
 
 
 class Recommender(Algorithm):
-
+    number_of_recommendations = None
     @abstractmethod
     def recommend(self, users, n, candidates = None, ratings = None) -> pd.DataFrame:
         """

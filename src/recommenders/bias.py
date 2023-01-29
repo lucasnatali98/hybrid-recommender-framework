@@ -8,7 +8,7 @@ class Bias(Recommender):
         parameters = process_parameters(parameters, default_keys)
 
 
-class BiasLenskit(Bias):
+class LenskitBias(Bias):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
         default_keys = {'items', 'users', 'damping'}

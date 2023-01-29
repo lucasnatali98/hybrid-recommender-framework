@@ -246,6 +246,7 @@
         "class": "RecommendersContainer",
         "module": "src.recommenders.recommenders_container",
         "parameters": {
+          "number_of_recommendations": 10,
           "instances": [
             {
               "module": "src.recommenders.implicit_mf",
