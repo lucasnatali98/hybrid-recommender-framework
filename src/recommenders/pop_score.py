@@ -5,24 +5,15 @@ from lenskit.algorithms.basic import PopScore as PopScoreLenskit
 from pandas import DataFrame, Series, concat
 
 
-class PopScore:
+class PopScore(Recommender):
     def __init__(self, parameters: dict) -> None:
-        default_keys = {
-            'lib'
-        }
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.lib = parameters.get('lib', 'lenskit')
-
-        if self.lib == 'lenskit':
-            self.fittable = PopScoreLenskit(parameters)
 
 
-
-class PopScoreLenskit(Recommender):
+class LenskitPopScore(PopScore):
     def __init__(self, parameters: dict) -> None:
-        """
-
-        """
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 

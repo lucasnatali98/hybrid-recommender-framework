@@ -2,7 +2,6 @@ from src.preprocessing.preprocessing import AbstractPreProcessing
 from src.utils import process_parameters, hrf_experiment_output_path
 import pandas as pd
 
-
 class MissingProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
         super().__init__()
@@ -37,7 +36,7 @@ class MissingProcessing(AbstractPreProcessing):
             print("Não existe nenhum valor None na base")
             return data
         else:
-            print("É... tem valor None na base, melhor tratar")
+            print("")
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         print("missing processing")
@@ -46,6 +45,7 @@ class MissingProcessing(AbstractPreProcessing):
         print("Verifica is_null no dataframe: ", is_null)
         print("Verifica is_na no dataframe: ", is_na)
         data = self.check_none(data)
+
         if is_na is False and is_null is False:
             return data
 

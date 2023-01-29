@@ -6,20 +6,14 @@ from src.utils import process_parameters
 from pandas import DataFrame, Series, concat
 
 
-class ImplicitMF:
+class ImplicitMF(Recommender):
     def __init__(self, parameters: dict) -> None:
-        default_keys = {
-            'lib'
-        }
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.lib = parameters.get('lib', 'lenskit')
 
-        if self.lib == 'lenskit':
-            self.fittable = ImplicitMFLenskit(parameters)
-
-
-class ImplicitMFLenskit(Recommender):
+class ImplicitMFLenskit(ImplicitMF):
     def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = {
             "features",
             "iterations"

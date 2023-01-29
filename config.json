@@ -249,18 +249,16 @@
           "instances": [
             {
               "module": "src.recommenders.implicit_mf",
-              "class_name": "ImplicitMF",
+              "class_name": "LenskitImplicitMF",
               "parameters": {
-                "lib": "lenskit",
                 "features": 20,
                 "iterations": 30
               }
             },
             {
               "module": "src.recommenders.item_knn",
-              "class_name": "ItemKNN",
+              "class_name": "LenskitItemKNN",
               "parameters": {
-                "lib": "lenskit",
                 "maxNumberNeighbors": 20,
                 "minNumberNeighbors": 4,
                 "saveNeighbors": 6.0,
@@ -271,9 +269,8 @@
             },
              {
               "module": "src.recommenders.user_knn",
-              "class_name": "UserKNN",
+              "class_name": "LenskitUserKNN",
               "parameters": {
-                "lib": "lenskit",
                 "maxNumberNeighbors": 12,
                 "minNumberNeighbors": 4,
                 "min_sim": 0.3,

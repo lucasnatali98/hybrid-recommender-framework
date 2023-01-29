@@ -7,20 +7,15 @@ from pandas import DataFrame, Series, concat
 
 
 
-class RandomItem:
+class RandomItem(Recommender):
     def __init__(self, parameters: dict) -> None:
-        default_keys = {
-            'lib'
-        }
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.lib = parameters.get('lib', 'lenskit')
-
-        if self.lib == 'lenskit':
-            self.fittable = RandomItemLenskit(parameters)
 
 
-class RandomItemLenskit(Recommender):
+class RandomItemLenskit(RandomItem):
     def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.parameters = parameters
