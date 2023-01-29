@@ -56,10 +56,9 @@ class AlgorithmsTask(Task):
 
     def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
         predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
-        number_of_items_rankeds = 10
+        number_of_items_rankeds = self.number_of_recommendations
         for u in users:
             prediction_result = algorithm.predict_for_user(u, items, rating)
-            print("prediction result: ", prediction_result)
             user_id = [u] * number_of_items_rankeds
             algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
             prediction_result['user'] = pd.Series(user_id)
@@ -226,25 +225,38 @@ class AlgorithmsTask(Task):
                 dump(algorithm, path)
 
                 topn_result = self.topn_process(algorithm, xtrain)
-                ranking_file_name = algorithm_name + "-" + train_dataset_name + "-" + "ranking.csv"
                 if topn_result is not None:
-                    topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+                    self.save_results(
+                        'ranking',
+                        topn_result,
+                        algorithm_name,
+                        train_dataset_name,
+                        'csv'
+                    )
 
                 dataset_copy = xtrain.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
                 preds = predict(algorithm, xtrain)
-
                 if preds is not None:
-                    prediction_file_name = algorithm_name + "-" + train_dataset_name + "-" + "predictions.csv"
-                    preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
-
+                    self.save_results(
+                        'predictions',
+                        preds,
+                        algorithm_name,
+                        train_dataset_name,
+                        'csv'
+                    )
                 users = np.unique(xtest['user'].values)
 
                 recs = algorithm.recommend(users, self.number_of_recommendations)
                 if recs is not None:
-                    recommendation_file_name = algorithm_name + "-" + train_dataset_name + "-" + "recommendations.csv"
-                    recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+                    self.save_results(
+                        'recommendations',
+                        recs,
+                        algorithm_name,
+                        train_dataset_name,
+                        'csv'
+                    )
 
             return True
 
@@ -252,6 +264,28 @@ class AlgorithmsTask(Task):
             print("Error: ", err)
             print(traceback.print_exc())
             return None
+
+    def save_results(self, result_type: str, result, algorithm_name: str, dataset_name: str, extension: str):
+        possible_result_types = ['ranking, predictions', 'recommendations']
+        if result_type not in possible_result_types:
+            raise Exception(
+                "Não foi possível realizar o armazenamento do resultado de tipo {}".format(result_type)
+            )
+
+        dirs = {
+            'predictions': self.predictions_output_dir,
+            'recommendations': self.recommendations_output_dir,
+            'ranking': self.rankings_output_dir
+        }
+
+        dir_to_save = dirs.get(result_type, None)
+        if dir_to_save is None:
+            raise Exception(
+                "Não foi possivel obter o diretório para salvar os resultados"
+            )
+
+        file_name = "{}-{}-predictions.{}".format(algorithm_name, dataset_name, extension)
+        result.to_csv(dir_to_save.joinpath(file_name), index=False)
 
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
@@ -265,7 +299,7 @@ class AlgorithmsTask(Task):
                 algorithm_name = algorithm.__class__.__name__
                 print("Algorithm name: ", algorithm_name)
                 print("dataset_name:", dataset_name)
-                print("Number of recomendations: ", algorithm.number_of_recommendations)
+
                 if algorithm_name == "ContentBasedRecommender":
                     self._recommend_to_content_based(
                         algorithm, algorithm_name, content_based_dataset, "movies"
@@ -276,29 +310,42 @@ class AlgorithmsTask(Task):
 
                 path = hrf_experiment_output_path().joinpath("models/trained_models/")
                 path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
-                dump(algorithm.fittable, path)
+                dump(algorithm, path)
 
                 topn_result = self.topn_process(algorithm, dataset)
-                ranking_file_name = algorithm_name + "-" + dataset_name + "-" + "ranking.csv"
                 if topn_result is not None:
-                    topn_result.to_csv(self.rankings_output_dir.joinpath(ranking_file_name), index=False)
+                    self.save_results(
+                        'ranking',
+                        topn_result,
+                        algorithm_name,
+                        dataset_name,
+                        'csv'
+                    )
 
                 dataset_copy = dataset.copy()
                 dataset_copy.drop(columns=['rating'], inplace=True)
 
                 preds = predict(algorithm, dataset)
-
                 if preds is not None:
-                    prediction_file_name = algorithm_name + "-" + dataset_name + "-" + "predictions.csv"
-                    preds.to_csv(self.predictions_output_dir.joinpath(prediction_file_name), index=False)
+                    self.save_results(
+                        'predictions',
+                        preds,
+                        algorithm_name,
+                        dataset_name,
+                        'csv'
+                    )
 
                 users = np.unique(test_dataset['user'].values)
 
-                # Tenho que padronizar quantas recomendações serão feitas
                 recs = algorithm.recommend(users, self.number_of_recommendations)
                 if recs is not None:
-                    recommendation_file_name = algorithm_name + "-" + dataset_name + "-" + "recommendations.csv"
-                    recs.to_csv(self.recommendations_output_dir.joinpath(recommendation_file_name), index=False)
+                    self.save_results(
+                        'recommendations',
+                        recs,
+                        algorithm_name,
+                        dataset_name,
+                        'csv'
+                    )
 
             return True
 
