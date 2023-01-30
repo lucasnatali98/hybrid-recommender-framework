@@ -2,10 +2,27 @@ from src.recommenders.recommender import Recommender
 from lenskit.algorithms import bias
 from src.utils import process_parameters
 import pandas as pd
+
+
 class Bias(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
+
+    def recommend(self, users, n, candidates=None, ratings=None) -> pd.DataFrame:
+        raise NotImplementedError
+
+    def predict(self, pairs, ratings):
+        raise NotImplementedError
+
+    def predict_for_user(self, user, items, ratings):
+        raise NotImplementedError
+
+    def fit(self, rating, **kwargs) -> None:
+        raise NotImplementedError
+
+    def get_params(self, deep=True):
+        raise NotImplementedError
 
 
 class LenskitBias(Bias):
