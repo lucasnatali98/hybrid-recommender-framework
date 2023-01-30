@@ -1,10 +1,10 @@
-
 from src.recommenders.recommender import Recommender
 from src.utils import process_parameters
 from lenskit.algorithms.basic import Memorized as MemorizedLenskit
-from lenskit.algorithms import  Recommender as LenskitRecommender
+from lenskit.algorithms import Recommender as LenskitRecommender
 
 from pandas import DataFrame, Series
+
 
 class Memorized(Recommender):
     def __init__(self, parameters: dict) -> None:

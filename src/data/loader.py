@@ -8,12 +8,9 @@ ROOT_PATH = get_project_root()
 
 class Loader:
     def __init__(self) -> None:
-        """
-
-        """
         pass
 
-    def load_json_file(self, path: str):
+    def load_json_file(self, path: str, **kwargs):
         """
 
         @param path:
@@ -23,7 +20,7 @@ class Loader:
 
         return json.load(file)
 
-    def load_file(self, path: str, extension: str):
+    def load_file(self, path: str, extension: str, **kwargs):
         """
         Carrega um arquivo baseado em sua extensão
 
@@ -40,7 +37,7 @@ class Loader:
 
         return False
 
-    def load_csv_file(self, path: str):
+    def load_csv_file(self, path: str, **kwargs):
         """
 
         @param path: caminho do arquivo csv que será carregado
@@ -78,7 +75,7 @@ class Loader:
 
         return None
 
-    def convert_to_text(self, data:pd.DataFrame, path: str):
+    def convert_to_text(self, data: pd.DataFrame, path: str, **kwargs):
         if isinstance(data, pandas.DataFrame):
             new_path = path
 
@@ -97,7 +94,8 @@ class Loader:
                     ROOT_PATH.joinpath(new_path), index=False)
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
-    def convert_to_csv(self, data: pd.DataFrame, path: str):
+
+    def convert_to_csv(self, data: pd.DataFrame, path: str, **kwargs):
         """
         Converte um DataFrame do Pandas em um arquivo csv
         @param data: dataframe pandas
@@ -117,7 +115,7 @@ class Loader:
             except:
                 raise Exception("Não foi possível gravar o arquivo .csv")
 
-    def convert_to_excel(self, data: pd.DataFrame, path: str):
+    def convert_to_excel(self, data: pd.DataFrame, path: str, **kwargs):
         """
         Converte um DataFrame do Pandas em um arquivo excel
         @param data: dataframe pandas

@@ -199,6 +199,7 @@ class MovieLens(AbstractDataSet):
             self.tags,
         ]
 
+
     @property
     def ratings(self):
         return self.ratings
@@ -214,3 +215,7 @@ class MovieLens(AbstractDataSet):
     @property
     def items(self):
         return self.items
+
+    @property
+    def users(self):
+        return None

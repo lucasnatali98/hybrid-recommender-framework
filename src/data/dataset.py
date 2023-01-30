@@ -6,30 +6,31 @@ class Dataset(ABC):
     """
     Interface responsável por definir os métodos base das classes que representam
     uma base de dados comum em sistemas de recomendação
-    
     """
 
+    @property
     @abstractmethod
     def ratings(self):
         """
         
         """
-        raise Exception("O método ratings de Dataset não está implementado")
+        pass
 
+    @property
     @abstractmethod
     def users(self):
         """
         
         """
-        raise Exception("O método users de Dataset não está implementado")
+        pass
 
+    @property
     @abstractmethod
     def items(self):
         """
         
         """
-        raise Exception("O método items de Dataset não está implementado")
-
+        pass
 
 
 class AbstractDataSet(Dataset):
@@ -44,13 +45,17 @@ class AbstractDataSet(Dataset):
 
         self.Loader = Loader()
 
+    @property
+    @abstractmethod
     def ratings(self):
-        return self.ratings
+        raise NotImplementedError
 
+    @property
+    @abstractmethod
     def users(self):
-        return self.users
+        raise NotImplementedError
 
+    @property
+    @abstractmethod
     def items(self):
-        return self.items
-
-
+        raise NotImplementedError

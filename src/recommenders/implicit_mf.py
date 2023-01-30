@@ -1,4 +1,5 @@
 import traceback
+import pandas as pd
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms.als import ImplicitMF as ImplicitMFLenskitAlgorithm
 from lenskit.algorithms import Recommender as LenskitRecommender
