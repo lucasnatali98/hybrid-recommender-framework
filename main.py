@@ -55,10 +55,6 @@ if __name__ == "__main__":
 
     all_commands = experiment_task.get_task_commands(experiment_tasks)
 
-    """
-    metafeature_command = all_commands.get('metafeatures_task', None)
-    output = subprocess.call([metafeature_command], shell=True)
-    """
 
     for key, value in all_commands.items():
         output = subprocess.call([value], shell=True)

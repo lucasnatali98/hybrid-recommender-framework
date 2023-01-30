@@ -55,7 +55,6 @@ def run_dataset_task():
     experiment_instances = experiment.instances
 
     dataset_instance = experiment_instances['datasets']
-    print("dataset instance: ", dataset_instance)
     dataset_task = DatasetTask(dataset_instance)
     print("\n")
     print(" => Iniciando a execução da tarefa dos datasets")

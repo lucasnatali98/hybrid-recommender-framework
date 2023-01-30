@@ -12,7 +12,7 @@ class Dataset(ABC):
     @abstractmethod
     def ratings(self):
         """
-        
+
         """
         pass
 
@@ -34,15 +34,7 @@ class Dataset(ABC):
 
 
 class AbstractDataSet(Dataset):
-    def __init__(self, items=None, ratings=None, links=None, tags=None):
-        """
-
-        @param items:
-        @param ratings:
-        @param links:
-        @param tags:
-        """
-
+    def __init__(self):
         self.Loader = Loader()
 
     @property

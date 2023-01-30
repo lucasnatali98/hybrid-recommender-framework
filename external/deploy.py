@@ -23,7 +23,6 @@ class Xperimentor:
         qtd_experiments = len(experiments)
 
         experiment_ids = list(map(lambda x: x['id'], experiment_dependencies))
-        print("experiment_ids: ", experiment_ids)
 
         cluster_ip = cluster_info['clusterIp']
         for i in range(0, qtd_experiments):
@@ -62,7 +61,6 @@ class Xperimentor:
             })
 
         self.xperimentor_pattern_obj['tasks'] = tasks_aux
-        print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
     def convert_recipes_default(self, recipes: dict) -> dict:

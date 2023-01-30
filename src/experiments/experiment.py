@@ -32,7 +32,6 @@ class Experiment(AbstractExperiment):
         self._experiment = experiment
         self._experiment_id = self._experiment.get('experiment_id')
 
-
         # Definição de todas as instâncias baseado no experimento
         instances_obj = self.create_experiment_instances(experiment)
         self._set_attributes(instances_obj)
@@ -41,8 +40,6 @@ class Experiment(AbstractExperiment):
     @property
     def instances(self) -> dict:
         return self._instances
-
-
 
     def run(self):
         """
@@ -54,7 +51,6 @@ class Experiment(AbstractExperiment):
         self._instances = self.create_experiment_instances(self._experiment)
         return self._instances
 
-
     def _set_attributes(self, instances: dict):
         self._datasets = instances.get('datasets')
         self._metafeatures = instances.get('metafeatures')
@@ -63,7 +59,6 @@ class Experiment(AbstractExperiment):
         self._visualization = instances.get('visualization')
         self._recommenders = instances.get('recommenders')
         self._metrics = instances.get('metrics')
-
 
     def create_experiment_instances(self, experiment: dict) -> dict:
         """
@@ -117,6 +112,7 @@ class Experiment(AbstractExperiment):
     @property
     def experiment_id(self):
         return self._experiment_id
+
     @property
     def experiment_dependencies(self):
         return self._experiment_dependencie
@@ -192,5 +188,3 @@ class Experiment(AbstractExperiment):
     @visualization.setter
     def visualization(self, v):
         self._visualization = v
-
-
