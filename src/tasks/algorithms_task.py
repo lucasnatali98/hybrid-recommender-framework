@@ -287,6 +287,10 @@ class AlgorithmsTask(Task):
         file_name = "{}-{}-predictions.{}".format(algorithm_name, dataset_name, extension)
         result.to_csv(dir_to_save.joinpath(file_name), index=False)
 
+    def save_trained_model(self, algorithm, algorithm_name: str, dataset_name: str):
+        path = hrf_experiment_output_path().joinpath("models/trained_models/")
+        path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
+        dump(algorithm, path)
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
@@ -308,9 +312,7 @@ class AlgorithmsTask(Task):
 
                 algorithm.fit(dataset)
 
-                path = hrf_experiment_output_path().joinpath("models/trained_models/")
-                path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
-                dump(algorithm, path)
+                self.save_trained_model(algorithm, algorithm_name, dataset_name)
 
                 topn_result = self.topn_process(algorithm, dataset)
                 if topn_result is not None:
