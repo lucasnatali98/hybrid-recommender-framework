@@ -73,6 +73,18 @@
         "parameters": {
           "instances": [
             {
+              "module": "src.preprocessing.split",
+              "class_name": "SplitProcessing",
+              "parameters": {
+                "target": "rating",
+                "train_size": 70,
+                "test_size": 30,
+                "random_state": 42,
+                "shuffle": true,
+                "stratify": ""
+              }
+            },
+            {
               "module": "src.preprocessing.folds",
               "class_name": "FoldsProcessing",
               "parameters": {
@@ -263,6 +275,7 @@
                 "maxNumberNeighbors": 20,
                 "minNumberNeighbors": 4,
                 "saveNeighbors": 6.0,
+                "min_sim": 0.03,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true

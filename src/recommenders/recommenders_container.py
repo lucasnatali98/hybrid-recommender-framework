@@ -14,5 +14,3 @@ class RecommendersContainer(Container):
             self.recommender_factory = GenericFactory(parameters)
             self.insert(0, self.recommender_factory.create)
 
-    def _apply_number_of_recs_to_recommenders(self):
-        pass

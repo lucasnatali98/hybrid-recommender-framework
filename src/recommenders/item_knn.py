@@ -1,7 +1,5 @@
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import item_knn, Recommender as LenskitRecommender
-from lenskit.algorithms.ranking import TopN
-from lenskit import batch
 from src.utils import process_parameters
 import pandas as pd
 
@@ -29,12 +27,13 @@ class LenskitItemKNN(ItemKNN):
         self.feedback = parameters.get('feedback')
         self.aggregate = parameters.get('aggregate')
         self.use_ratings = parameters.get('use_ratings')
+        self.min_sim = parameters.get('min_sim', 0.03)
 
         self.ItemKNN = item_knn.ItemItem(
             nnbrs=self.max_number_neighbors,
             min_nbrs=self.min_number_neighbors,
             save_nbrs=self.save_nbrs,
-            min_sim=0.03,
+            min_sim=self.min_sim,
             feedback=self.feedback,
             aggregate=self.aggregate,
             use_ratings=self.use_ratings
@@ -42,36 +41,12 @@ class LenskitItemKNN(ItemKNN):
         self.ItemKNN = LenskitRecommender.adapt(self.ItemKNN)
 
     def predict_for_user(self, users, items, rating=None):
-        """
-
-        @param users:
-        @param items:
-        @param ratings:
-        @return:
-        """
         return self.ItemKNN.predict_for_user(users, items, rating)
 
     def predict(self, pairs, ratings):
-        """
-
-        @param pairs:
-        @param ratings:
-        @return:
-        """
-
         return self.ItemKNN.predict(pairs, ratings)
 
     def recommend(self, users, n, candidates=None, n_jobs=None) -> pd.DataFrame:
-        """
-
-        @param user:
-        @param n:;
-        @param candidates:
-        @param ratings:
-        @return:
-        """
-
-        print("ItemKNN recommend")
         recommendation_dataframe = pd.DataFrame(
             columns=['user', 'item', 'score', 'algorithm_name']
         )
@@ -91,19 +66,8 @@ class LenskitItemKNN(ItemKNN):
 
         return recommendation_dataframe
 
-    def get_params(self, deep=True):
-        """
-
-        @param deep:
-        @return:
-        """
-        pass
-
     def fit(self, rating, **kwargs) -> None:
-        """
-
-        @param rating:
-        @param kwargs:
-        @return:
-        """
         self.ItemKNN.fit(rating)
+
+    def get_params(self, deep=True):
+        pass

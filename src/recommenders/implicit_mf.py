@@ -10,7 +10,7 @@ class ImplicitMF(Recommender):
     def __init__(self, parameters: dict) -> None:
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
-        self.number_of_recommendations = None
+
 
 class LenskitImplicitMF(ImplicitMF):
     def __init__(self, parameters: dict) -> None:
@@ -20,46 +20,23 @@ class LenskitImplicitMF(ImplicitMF):
             "iterations"
         }
         parameters = process_parameters(parameters, default_keys)
-        self.features = parameters.get('features') #int
-        self.iterations = parameters.get('iterations') #int
-        # self.reg = parameters['reg']  # regularization factor
-        # self.weight = parameters['weight']
-        # self.use_ratings = parameters['use_ratings']
+        self.features = parameters.get('features')  # int
+        self.iterations = parameters.get('iterations')  # int
+
         self.ImplicitMF = ImplicitMFLenskitAlgorithm(
             features=self.features,
             iterations=self.iterations
-        )
+        )#reg,weight, use_ratings
 
         self.ImplicitMF = LenskitRecommender.adapt(self.ImplicitMF)
 
     def predict_for_user(self, user, items, ratings=None):
-        """
-
-        @param users:
-        @param items:
-        @param ratings:
-        @return:
-        """
         return self.ImplicitMF.predict_for_user(user, items, ratings)
 
     def predict(self, pairs, ratings):
-        """
-
-        @param pairs:
-        @param ratings:
-        @return:
-        """
         return self.ImplicitMF.predict(pairs, ratings)
 
     def recommend(self, users, n, candidates=None, ratings=None):
-        """
-
-        @param user:
-        @param n:
-        @param candidates:
-        @param ratings:
-        @return:
-        """
         try:
             recommendation_dataframe = DataFrame(
                 columns=['user', 'item', 'score', 'algorithm_name']
@@ -86,19 +63,7 @@ class LenskitImplicitMF(ImplicitMF):
             return None
 
     def get_params(self, deep=True):
-        """
-
-        @param deep:
-        @return:
-        """
         pass
 
     def fit(self, rating, **kwargs) -> None:
-        """
-
-        @param rating:
-        @param kwargs:
-        @return:
-        """
-
         self.ImplicitMF.fit(rating)

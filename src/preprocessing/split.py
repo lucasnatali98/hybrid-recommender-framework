@@ -1,27 +1,26 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
-from pandas import DataFrame
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path, process_parameters
+
 
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
         super().__init__()
         default_keys = {
+            'target',
             'test_size',
             'train_size',
             'random_state'
         }
         parameters = process_parameters(parameters, default_keys)
-        self.target = parameters.get('target')
+        self.target = parameters.get('target', 'rating')
         self.test_size = parameters.get('test_size')
         self.train_size = parameters.get('train_size')
         self.random_state = parameters.get('random_state')
         self.shuffle = parameters.get('shuffle')
         self.stratify = parameters.get('stratify')
-
-
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         """
@@ -30,8 +29,8 @@ class SplitProcessing(AbstractPreProcessing):
         @param data:
         @return:
         """
-        y = data['rating']
-        X = data.drop(columns=['rating'], axis=1)
+        y = data[self.target]
+        X = data.drop(columns=[self.target], axis=1)
 
         X_train, X_test, y_train, y_test = train_test_split(
             X,

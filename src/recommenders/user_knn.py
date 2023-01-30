@@ -50,27 +50,14 @@ class LenskitUserKNN(UserKNN):
         )
 
     def predict(self, pairs, ratings):
-        """
-
-        @param user:
-        @param items:
-        @return:
-        """
         return self.user_knn.predict(
             pairs,
             ratings)
 
     def fit(self, ratings: DataFrame, **kwargs) -> None:
-        """
-
-        @param ratings:
-        @param kwargs:
-        @return:
-        """
         return self.user_knn.fit(ratings)
 
     def recommend(self, users, n=None, candidates=None, n_jobs=None) -> pd.DataFrame:
-        print("UserKNN recommend")
         recommendation_dataframe = pd.DataFrame(
             columns=['user', 'item', 'score', 'algorithm_name']
         )
