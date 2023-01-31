@@ -8,7 +8,7 @@ class PreProcessing(ABC):
         """
         
         """
-        raise Exception("O método pre_processing não foi implementado")
+        pass
 
 
 class AbstractPreProcessing(PreProcessing):
@@ -18,4 +18,4 @@ class AbstractPreProcessing(PreProcessing):
 
     @abstractmethod
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
-        pass
+        raise NotImplementedError
