@@ -47,7 +47,7 @@ class TextProcessing(AbstractPreProcessing):
 
         return result
 
-    def clean_data(self, data: pd.DataFrame, column_to_apply: str) -> pd.DataFrame:
+    def clean_data(self, data: pd.DataFrame, column_to_apply: str, items_to_replace: dict = {}) -> pd.DataFrame:
         data[column_to_apply] = data[column_to_apply].apply(
             lambda x: x.replace("|", " ")
         )
