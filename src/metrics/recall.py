@@ -13,10 +13,7 @@ class Recall(RankingMetric):
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         raise NotImplementedError
 
-    def check_missing(self, truth: pd.Series, missing):
-        if missing == 'error' and truth.isna().any():
-            missing = truth.isna().sum()
-            raise ValueError('missing truth for {} predictions'.format(missing))
+
 
 
 class LenskitRecall(Recall):
@@ -36,4 +33,4 @@ class ScikitRecall(Recall):
         parameters = process_parameters(parameters, default_keys)
 
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
-        return recall_score()
+        return recall_score(truth, predictions)

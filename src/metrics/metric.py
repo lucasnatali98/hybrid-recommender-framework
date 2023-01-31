@@ -21,7 +21,7 @@ class Metric(ABC):
         @param missing:
         @return:
         """
-        raise Exception("O método check_missing de Metric não está implementado")
+        pass
 
 
 class AbstractMetric(Metric):
@@ -38,12 +38,14 @@ class AbstractMetric(Metric):
     @abstractmethod
     def check_missing(self, truth: pd.Series, missing):
         """
-
-        @param truth:
-        @param missing:
-        @return:
-        """
-        pass
+                        Check for missing truth values.
+                        Args:
+                            truth: the series of truth values
+                            missing: what to do with missing values
+                        """
+        if missing == 'error' and truth.isna().any():
+            missing = truth.isna().sum()
+            raise ValueError('missing truth for {} predictions'.format(missing))
 
 class PredictionMetric(AbstractMetric):
 
@@ -57,16 +59,6 @@ class PredictionMetric(AbstractMetric):
         """
         pass
 
-    @abstractmethod
-    def check_missing(self, truth: pd.Series, missing):
-        """
-
-        @param truth:
-        @param missing:
-        @return:
-        """
-        pass
-
 
 class RankingMetric(AbstractMetric):
     @abstractmethod
@@ -75,16 +67,6 @@ class RankingMetric(AbstractMetric):
 
         @param predictions:
         @param truth:
-        @return:
-        """
-        pass
-
-    @abstractmethod
-    def check_missing(self, truth: pd.Series, missing):
-        """
-
-        @param truth:
-        @param missing:
         @return:
         """
         pass
