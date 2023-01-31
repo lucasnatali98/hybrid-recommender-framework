@@ -1,7 +1,5 @@
-
 from src.data.loader import Loader
 from src.tasks.task import Task
-from src.experiments.experiment import Experiment
 from src.experiments.experiment_handler import ExperimentHandler
 from src.utils import hrf_experiment_output_path
 
@@ -17,6 +15,7 @@ class DatasetTask(Task):
 
     def check_args(self, args):
         pass
+
     def run(self):
         """
         Essa função irá realizar todos os processos definidos para o conjunto de dados
@@ -71,10 +70,5 @@ def run_dataset_task():
     return dataset_result
 
 
-run_dataset_task()
-
-
-
-
-
-
+if __name__ == "__main__":
+    run_dataset_task()

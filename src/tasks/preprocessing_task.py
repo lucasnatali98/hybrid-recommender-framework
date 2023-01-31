@@ -87,6 +87,8 @@ def run_preprocessing_task():
     # save the preprocessing result
 
     print(" => Finalização da tarefa de preprocessamento...")
+    print('\n')
 
 
-run_preprocessing_task()
+if __name__ == "__main__":
+    run_preprocessing_task()

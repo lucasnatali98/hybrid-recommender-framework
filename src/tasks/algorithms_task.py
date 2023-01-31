@@ -374,6 +374,7 @@ def run_algorithms_task():
     algorithms_task.run()
 
     print(" => Finalizando a tarefa dos algoritmos")
+    print("\n")
 
 
 if __name__ == "__main__":

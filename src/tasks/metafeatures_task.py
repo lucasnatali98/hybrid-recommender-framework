@@ -67,6 +67,8 @@ def run_metafeatures_task():
     metafeatures_task = MetaFeaturesTask(metafeatures_instance)
     metafeatures_task.run()
     print(" => Finalizando tarefa de cálculo das metafeatures")
+    print("\n")
 
 
-run_metafeatures_task()
+if __name__ == "__main__":
+    run_metafeatures_task()

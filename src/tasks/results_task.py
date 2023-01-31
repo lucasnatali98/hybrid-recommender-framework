@@ -51,7 +51,8 @@ def run_results_task():
     print(" => Iniciando tarefas de cálculos dos resultados")
     results = result_task.run()
     print(" => Finalizando tarefa de cálculo dos resultados")
+    print("\n")
     return results
 
-
-run_results_task()
+if __name__ == "__main__":
+    run_results_task()

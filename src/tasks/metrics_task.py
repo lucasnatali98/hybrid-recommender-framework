@@ -160,9 +160,12 @@ def run_metrics_task():
     metrics_task = MetricsTask(metrics_instance)
 
     print(" => Iniciando tarefa de cálculo das métricas")
-    print(" => Finalizando tarefa de cálculo das métricas")
 
     metrics_task.run()
 
+    print(" => Finalizando tarefa de cálculo das métricas")
+    print("\n")
 
-run_metrics_task()
+
+if __name__ == "__main__":
+    run_metrics_task()

@@ -13,7 +13,7 @@ class PreProcessingContainer(Container):
         stages = parameters.get('instances')
 
         if len(stages) == 0:
-            raise Exception("Deve ser definido pelo menos um preprocessamento")
+            pass
         else:
             self.processing_factory = GenericFactory(parameters)
             self.insert(0, self.processing_factory.create)

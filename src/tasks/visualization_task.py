@@ -61,8 +61,9 @@ def run_visualization_task():
     print(" => Iniciando a execução da tarefa da visualização dos dados")
     visualization_result = visualization_task.run()
     print(" => Finalizando a tarefa de visualização dos dados")
-
+    print("\n")
     return visualization_result
 
 
-run_visualization_task()
+if __name__ == "__main__":
+    run_visualization_task()
