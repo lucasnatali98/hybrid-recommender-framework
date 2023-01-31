@@ -1,10 +1,11 @@
 from src.utils import hrf_task_path
 from src.tasks.task_factory import TaskFactory
+
+
 class ExperimentTask:
     def __init__(self):
         # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
         self._task_factory = TaskFactory()
-
 
     def generate_command(self, task_type: str) -> str:
         """

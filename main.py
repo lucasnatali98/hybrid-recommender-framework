@@ -5,9 +5,7 @@ import sys
 from src.experiments.experiment_handler import ExperimentHandler
 from src.experiments.experiment_tasks import ExperimentTask
 from external.deploy import Xperimentor, TaskExecutor
-
-
-
+from src.utils import beautify_subprocess_output_response
 
 if __name__ == "__main__":
     loader = Loader()
@@ -43,7 +41,6 @@ if __name__ == "__main__":
     with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
         xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
 
-
     path_to_config_file = "";
 
     args = sys.argv
@@ -55,10 +52,7 @@ if __name__ == "__main__":
 
     all_commands = experiment_task.get_task_commands(experiment_tasks)
 
-
     for key, value in all_commands.items():
         output = subprocess.call([value], shell=True)
-        print("Output do processo - {}: ".format(key), output)
-
-
-
+        beautify_output = beautify_subprocess_output_response(output)
+        print("Output do processo: {}: ".format(key), beautify_output)

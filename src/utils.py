@@ -38,9 +38,12 @@ def convert_json_attribute_values_to_python(parameters: dict) -> dict:
     return new_parameters
 
 
-def create_user_item_rating_matrix(data: pd.DataFrame) -> pd.DataFrame:
-    user_item_ratings = pd.DataFrame(index=data['user'].values, columns=data['item'].values)
-    print(user_item_ratings)
+def beautify_subprocess_output_response(output):
+    if output == 1:
+        return "Concluído com erros na execução"
+    else:
+        return "Concluído com sucesso"
+
 
 
 def object_equals_type(obj, object_type):
