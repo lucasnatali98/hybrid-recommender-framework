@@ -9,7 +9,7 @@ class RecommendersContainer(Container):
         self.number_of_recommendations = parameters.get('number_of_recommendations')
 
         if len(recommenders) == 0:
-            pass
+            raise Exception("Deve ser definido pelo menos um algoritmo de recomendação")
         else:
             self.recommender_factory = GenericFactory(parameters)
             self.insert(0, self.recommender_factory.create)

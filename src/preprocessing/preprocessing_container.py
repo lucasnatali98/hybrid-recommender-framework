@@ -10,10 +10,10 @@ class PreProcessingContainer(Container):
         """
 
         super().__init__()
-        stages = parameters['instances']
+        stages = parameters.get('instances')
 
         if len(stages) == 0:
-            pass
+            raise Exception("Deve ser definido pelo menos um preprocessamento")
         else:
             self.processing_factory = GenericFactory(parameters)
             self.insert(0, self.processing_factory.create)
