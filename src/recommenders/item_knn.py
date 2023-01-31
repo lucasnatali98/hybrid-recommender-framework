@@ -30,18 +30,15 @@ class LenskitItemKNN(ItemKNN):
         super().__init__(parameters)
         default_keys = {
             'maxNumberNeighbors',
-            'minNumberNeighbors',
-            'saveNeighbors',
-            'feedback'
         }
 
         parameters = process_parameters(parameters, default_keys)
         self.max_number_neighbors = parameters.get('maxNumberNeighbors')
-        self.min_number_neighbors = parameters.get('minNumberNeighbors')
-        self.save_nbrs = parameters.get('saveNeighbors')
-        self.feedback = parameters.get('feedback')
-        self.aggregate = parameters.get('aggregate')
-        self.use_ratings = parameters.get('use_ratings')
+        self.min_number_neighbors = parameters.get('minNumberNeighbors', 1)
+        self.save_nbrs = parameters.get('saveNeighbors', None)
+        self.feedback = parameters.get('feedback', 'explicit')
+        self.aggregate = parameters.get('aggregate', 'weighted-average')
+        self.use_ratings = parameters.get('use_ratings', True)
         self.min_sim = parameters.get('min_sim', 0.03)
 
         self.ItemKNN = item_knn.ItemItem(

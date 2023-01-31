@@ -4,20 +4,17 @@ import numpy as np
 from src.utils import process_parameters
 import pandas as pd
 
+
 class NormalizeProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict) -> None:
-
         super().__init__()
         default_keys = {
             'norm',
-            'axis',
-            'copy',
-            'return_norm'
         }
         parameters = process_parameters(parameters, default_keys)
         self.column_to_apply = parameters.get("column_to_apply", 'rating')
         self.norm = parameters.get('norm', 'l2')
-        self.axis = parameters.get('axis', 1)
+        self.axis = parameters.get('axis', 0)
         self.copy = parameters.get('copy', True)
         self.return_norm = parameters.get('return_norm', False)
 
@@ -31,7 +28,7 @@ class NormalizeProcessing(AbstractPreProcessing):
         @return: um novo dataframe com uma coluna que contém o resultado da normalizaçãp
         """
 
-        X = np.array(data[self.column_to_apply]).reshape(-1,1)
+        X = np.array(data[self.column_to_apply]).reshape(-1, 1)
 
         normalized_data = normalize(
             X=X,
@@ -43,4 +40,3 @@ class NormalizeProcessing(AbstractPreProcessing):
         normalized_data = normalized_data.flatten()
         data[self.column_to_apply] = pd.Series(normalized_data)
         return data
-
