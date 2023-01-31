@@ -2,6 +2,8 @@ from sklearn.model_selection import cross_validate as cross_validate_sklearn
 from surprise.model_selection import cross_validate as cross_validate_surprise
 from sklearn.model_selection import cross_val_score
 from src.utils import process_parameters
+
+
 class CrossValidation:
 
     def __init__(self, parameters: dict) -> None:
@@ -27,6 +29,7 @@ class CrossValidation:
         @return:
         """
         pass
+
     def evaluation_sklearn(self):
         """
 
@@ -39,6 +42,3 @@ class CrossValidation:
             scoring=self.metrics
         )
         return scores
-
-
-

@@ -14,7 +14,7 @@ class MAE(PredictionMetric):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:

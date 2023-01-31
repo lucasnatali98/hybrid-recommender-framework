@@ -10,7 +10,7 @@ class RMSE(PredictionMetric):
         self.parameters = parameters
 
 
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:

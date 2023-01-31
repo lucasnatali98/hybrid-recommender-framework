@@ -4,14 +4,14 @@ import pandas as pd
 class Metric(ABC):
 
     @abstractmethod
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:
         @param truth:
         @return:
         """
-        raise Exception("O método evaluate de Metric não está implementado")
+        pass
 
     @abstractmethod
     def check_missing(self, truth: pd.Series, missing):
@@ -26,7 +26,7 @@ class Metric(ABC):
 
 class AbstractMetric(Metric):
     @abstractmethod
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:
@@ -48,7 +48,7 @@ class AbstractMetric(Metric):
 class PredictionMetric(AbstractMetric):
 
     @abstractmethod
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:
@@ -70,7 +70,7 @@ class PredictionMetric(AbstractMetric):
 
 class RankingMetric(AbstractMetric):
     @abstractmethod
-    def evaluate(self, predictions: pd.Series, truth: pd.Series):
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
 
         @param predictions:
