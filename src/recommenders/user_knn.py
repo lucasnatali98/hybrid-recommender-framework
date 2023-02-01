@@ -28,7 +28,6 @@ class UserKNN(Recommender):
         raise NotImplementedError
 
 
-
 class LenskitUserKNN(UserKNN):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
@@ -52,6 +51,10 @@ class LenskitUserKNN(UserKNN):
             # feedback=self.feedback
         )
         self.user_knn = LenskitRecommender.adapt(self.user_knn)
+
+    @property
+    def recommender(self):
+        return self.user_knn
 
     def predict_for_user(self, user, items, ratings=None):
         """

@@ -5,7 +5,6 @@ from lenskit.batch import recommend, predict
 
 
 class Batch(ABC):
-
     @abstractmethod
     def recommend(self, algorithm, users=None, n=None, candidates=None, n_jobs=None):
         pass

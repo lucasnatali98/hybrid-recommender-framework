@@ -83,3 +83,7 @@ class LenskitImplicitMF(ImplicitMF):
 
     def fit(self, rating, **kwargs) -> None:
         self.ImplicitMF.fit(rating)
+
+    @property
+    def recommender(self):
+        return self.ImplicitMF

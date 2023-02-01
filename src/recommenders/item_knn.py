@@ -83,3 +83,7 @@ class LenskitItemKNN(ItemKNN):
 
     def get_params(self, deep=True):
         pass
+
+    @property
+    def recommender(self):
+        return self.ItemKNN
