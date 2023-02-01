@@ -4,6 +4,7 @@ from src.preprocessing.text import TextProcessing
 from src.recommenders.item_knn import LenskitItemKNN
 from src.metrics.recall import LenskitRecall, ScikitRecall
 from src.metrics.rmse import LenskitRMSE, ScikitRMSE
+from src.recommenders.batch import LenskitBatch
 import numpy as np
 import pandas as pd
 
@@ -11,7 +12,10 @@ movielens = MovieLens({
     'proportion': "ml-latest-small"
 })
 
+lenskit_batch = LenskitBatch()
+
 ratings = movielens.ratings
+ratings.drop(columns=['timestamp'], inplace=True)
 movies = movielens.items
 
 normalize_processing = NormalizeProcessing({
@@ -20,9 +24,9 @@ normalize_processing = NormalizeProcessing({
     'axis': 0
 })
 
-normalized_ratings = normalize_processing.pre_processing(ratings)
-normalized_ratings.sample(1000)
-normalized_ratings
+
+
+
 text_processing = TextProcessing({
     'column_to_apply': 'genres',
     'remove_stop_words': True,
@@ -32,23 +36,16 @@ text_processing = TextProcessing({
 movies2 = text_processing.pre_processing(movies)
 
 item_knn = LenskitItemKNN({
-    'maxNumberNeighbors': 20,
+    'maxNumberNeighbors': 10,
 })
 
-items = normalized_ratings['item'].values
-users = normalized_ratings['user'].values
+items = ratings['item'].values
+users = ratings['user'].values
+
 print("usuários no total: ", users)
 print("usuários únicos: ", np.unique(users))
 unique_users = np.unique(users)
 user = unique_users[0]
-
-item_knn.fit(normalized_ratings)
-
-predict_to_user = item_knn.predict_for_user(user, items)
-predict_to_user = predict_to_user[predict_to_user.notna()]
-sorted_predicted_values_to_user = sorted(predict_to_user, reverse=True)
-print(sorted_predicted_values_to_user)
-
 
 lenskit_rmse = LenskitRMSE({
     "sample_weight": None,
@@ -73,10 +70,26 @@ scikit_recall = ScikitRecall({
     "zero_division": "warn"
 })
 
-flag_series = pd.Series()
+ratings_by_itemid = ratings.drop(columns=['user'])
+ratings_by_itemid = ratings_by_itemid.set_index('item')
+
+
+item_knn.fit(ratings)
+
+
+batch_predicted_result = lenskit_batch.predict(item_knn.ItemKNN, ratings[['user', 'item']])
+print(batch_predicted_result)
+
+predict_to_user = item_knn.predict_for_user(user, items)
+predict_to_user = predict_to_user[predict_to_user.notna()]
+print(predict_to_user)
+
+
+
+
+flag_series = pd.Series(dtype=float)
 
 recall_evaluate = lenskit_recall.evaluate(
     predictions=flag_series,
     truth=flag_series
 )
-

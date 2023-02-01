@@ -21,7 +21,6 @@ class MetaFeaturesTask(Task):
             self.metrics_calculator_jar_path,
             self.metrics_calculator_config_file_path
         )
-        print(command)
         return command
 
     def check_args(self, args):
@@ -42,6 +41,7 @@ class MetaFeaturesTask(Task):
 
     def _handle_metafeatures_tasks(self, metafeatures):
         command = self.create_command_to_metrics_calculator()
+
         output = subprocess.call(
             [command],
             shell=True

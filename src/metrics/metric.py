@@ -36,7 +36,6 @@ class AbstractMetric(Metric):
         """
         pass
 
-    @abstractmethod
     def check_missing(self, truth: pd.Series, missing):
         """
                         Check for missing truth values.
@@ -50,8 +49,6 @@ class AbstractMetric(Metric):
 
 
 class PredictionMetric(AbstractMetric):
-    def __init__(self, parameters: dict) -> None:
-        super().__init__(parameters)
 
     @abstractmethod
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
