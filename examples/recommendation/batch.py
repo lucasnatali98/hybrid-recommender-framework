@@ -8,6 +8,7 @@ from src.recommenders.batch import LenskitBatch
 import numpy as np
 import pandas as pd
 
+
 def main():
     movielens = MovieLens({
         'proportion': "ml-latest-small"
@@ -75,15 +76,25 @@ def main():
 
     predict_to_user = item_knn.predict_for_user(user, items)
     predict_to_user = predict_to_user[predict_to_user.notna()]
-    print(predict_to_user)
 
 
     batch_predicted_result = lenskit_batch.predict(item_knn.ItemKNN, ratings[['user', 'item']])
+
+    batch_recommend_result = lenskit_batch.recommend(
+        item_knn.ItemKNN,
+        unique_users,
+        10
+    )
+    print("Batch predict result")
     print(batch_predicted_result)
+    print("\n")
+
+    print("Batch recommend result")
+    print(batch_recommend_result)
+    print("\n")
     return batch_predicted_result
 
 
-
-if __name__ == '__main__' :
+if __name__ == '__main__':
     result = main()
     print(result)
