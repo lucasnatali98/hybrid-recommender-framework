@@ -5,7 +5,6 @@ from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.probability import FreqDist
 from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
-
 import pandas as pd
 
 
@@ -16,18 +15,18 @@ class TextProcessing(AbstractPreProcessing):
         default_keys = {'column_to_apply'}
         parameters = process_parameters(parameters, default_keys)
         self.column_to_apply = parameters.get('column_to_apply')
+        self.items_to_replace = parameters.get('items_to_replace', {})
         self.parameters = parameters
         self.stop_words = set(stopwords.words('english'))
         self.text_processing_output_path = hrf_experiment_output_path().joinpath("preprocessing/text/")
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
-        """
 
-        @param data:
-        @return:
-        """
+        items_to_replace = kwargs.get('items_to_replace', self.items_to_replace)
+        if items_to_replace is None:
+            items_to_replace = {}
 
-        data = self.clean_data(data, self.column_to_apply)
+        data = self.clean_data(data, self.column_to_apply, items_to_replace)
 
         text_tasks = {
             "tokenize_words": self.word_tokenizer,
@@ -47,10 +46,15 @@ class TextProcessing(AbstractPreProcessing):
 
         return result
 
-    def clean_data(self, data: pd.DataFrame, column_to_apply: str, items_to_replace: dict = {}) -> pd.DataFrame:
-        data[column_to_apply] = data[column_to_apply].apply(
-            lambda x: x.replace("|", " ")
-        )
+    def clean_data(self, data: pd.DataFrame, column_to_apply: str, items_to_replace: dict) -> pd.DataFrame:
+
+        if len(items_to_replace) == 0:
+            return data #Nenhuma alteração será feita
+
+        for key, value in items_to_replace.items():
+            data[column_to_apply] = data[column_to_apply].apply(
+                lambda x: x.replace(key, value)
+            )
         return data
 
     def remove_stop_words(self, data: pd.DataFrame, column_to_apply: str, new_column: str = "") -> pd.DataFrame:

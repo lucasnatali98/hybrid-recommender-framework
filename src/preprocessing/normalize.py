@@ -1,5 +1,6 @@
 from src.preprocessing.preprocessing import AbstractPreProcessing
 from sklearn.preprocessing import normalize
+
 import numpy as np
 from src.utils import process_parameters
 import pandas as pd

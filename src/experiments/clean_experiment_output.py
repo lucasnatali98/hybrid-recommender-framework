@@ -20,7 +20,7 @@ folders = {
         }
     },
     "evaluate": {
-        "metrics": hrf_experiment_output_path().joinpath("evaluate/statistics/"),
+        "metrics": hrf_experiment_output_path().joinpath("evaluate/metrics/"),
         "statistics": hrf_experiment_output_path().joinpath("evaluate/statistics/")
     },
     "visualization": {
@@ -76,5 +76,13 @@ def clean_experiment_output(items_to_remove: str | list):
             remove_all(folder_object)
 
 
-clean_experiment_output("datasets")
+clean_experiment_output(
+    [
+        "datasets",
+        "evaluate",
+        "models",
+        "preprocessing",
+        "visualization"
+    ]
+)
 

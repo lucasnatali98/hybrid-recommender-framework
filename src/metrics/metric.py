@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 
+
 class Metric(ABC):
 
     @abstractmethod
@@ -47,7 +48,10 @@ class AbstractMetric(Metric):
             missing = truth.isna().sum()
             raise ValueError('missing truth for {} predictions'.format(missing))
 
+
 class PredictionMetric(AbstractMetric):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
 
     @abstractmethod
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
@@ -57,10 +61,14 @@ class PredictionMetric(AbstractMetric):
         @param truth:
         @return:
         """
-        pass
+        raise NotImplementedError
 
 
 class RankingMetric(AbstractMetric):
+
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
+
     @abstractmethod
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
@@ -69,4 +77,4 @@ class RankingMetric(AbstractMetric):
         @param truth:
         @return:
         """
-        pass
+        raise NotImplementedError
