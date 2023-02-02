@@ -23,7 +23,7 @@ class ANOVA(AbstractResults):
         # possibities = hc0,hc1, hc2, hc3, None
         self.robust = parameters.get('robust')
 
-    def get_results(self):
+    def get_results(self, sample_data, **kwargs):
         """
 
         @return: When args is a single model, return is DataFrame with columns

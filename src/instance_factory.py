@@ -11,6 +11,7 @@ expected_keys = [
     "results"
 ]
 
+
 class InstanceFactory:
     """
     A classe InstanceFactory é responsável por receber o arquivo de configuração
@@ -23,7 +24,6 @@ class InstanceFactory:
         """
 
         self.config_obj = config_obj
-
 
     def get_instance_from_config_obj(self, class_name: str) -> dict:
         """
@@ -56,4 +56,3 @@ class InstanceFactory:
         class_ = getattr(module, class_name)
         class_object = class_(class_parameters)
         return class_object
-

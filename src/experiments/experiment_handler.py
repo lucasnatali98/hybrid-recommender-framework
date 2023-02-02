@@ -4,6 +4,7 @@ from typing import List
 from external.deploy import Xperimentor, TaskExecutor
 from src.experiments.experiment_tasks import ExperimentTask
 
+
 class ExperimentHandler(Container):
     def __init__(self, experiments: list = None) -> None:
         super().__init__()
@@ -11,12 +12,9 @@ class ExperimentHandler(Container):
         self._experiment_tasks = ExperimentTask().define_all_tasks()
 
         if experiments is None:
-            pass
+            raise Exception("Não foi informado nenhum experimento")
         else:
-            #Chamar build experiments
             self.build_experiments(experiments=experiments)
-
-
 
     def build_experiments(self, experiments: list):
         """
@@ -35,7 +33,7 @@ class ExperimentHandler(Container):
         result = {}
         for experiment in self.items:
             print("run experiment: ", experiment.run())
-            #result[experiment._experiment_id] = experiment.run()
+            result = experiment.run()
 
         return result
 
@@ -58,6 +56,7 @@ class ExperimentHandler(Container):
             return False
 
         self._experiments.remove(exp)
+
     def create_experiment_instance(self, experiment: dict):
         """
         Essa função cria uma instancia de um experimento a partir dos arquivos de configuração,
@@ -68,7 +67,7 @@ class ExperimentHandler(Container):
         """
 
         experiment = Experiment(
-            experiment = experiment
+            experiment=experiment
         )
 
         self._experiments.append(experiment)

@@ -23,7 +23,6 @@ class MetricsTask(Task):
         self.preprocessing_output_dir = self.experiment_output_dir.joinpath("preprocessing/")
         self.algorithms_output_dir = self.experiment_output_dir.joinpath("models/results/")
         self.predictions_output_dir = self.algorithms_output_dir.joinpath("predictions/")
-        self.rankings_output_dir = self.algorithms_output_dir.joinpath("rankings/")
         self.recommendations_output_dir = self.algorithms_output_dir.joinpath("recommendations/")
 
     def check_args(self, args):
@@ -58,7 +57,7 @@ class MetricsTask(Task):
         return file_names
 
     def get_results_file_names(self, result_type: str) -> list:
-        if result_type not in ['recommendations', 'predictions', 'rankings']:
+        if result_type not in ['recommendations', 'predictions']:
             raise Exception("O valor de fold_type está invalido, tente: train ou validation")
 
         folds_directory = self.algorithms_output_dir.joinpath("{}/".format(result_type))

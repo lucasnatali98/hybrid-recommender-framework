@@ -37,9 +37,7 @@ class Experiment(AbstractExperiment):
         self._set_attributes(instances_obj)
         self._instances = instances_obj
 
-    @property
-    def instances(self) -> dict:
-        return self._instances
+
 
     def run(self):
         """
@@ -141,6 +139,9 @@ class Experiment(AbstractExperiment):
     def datasets(self, ds):
         self._datasets = ds
 
+    @property
+    def instances(self) -> dict:
+        return self._instances
     @property
     def recommenders(self):
         return self._recommenders

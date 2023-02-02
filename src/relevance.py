@@ -8,6 +8,13 @@ class Relevance:
     def select_ratings_by_relevance(self, database: pd.DataFrame, factor: float):
         return database.loc[database['rating'] >= factor]
 
+    def most_recommended_items_by_algorithm(self, data: pd.DataFrame = None):
+        pass
+
+    def most_popular_items_by_algorithm(self, data: pd.DataFrame = None):
+        pass
+
+
     def most_popular_item(self, database: pd.DataFrame, user_id):
         filtered_database = database.loc[database['user'] == user_id]
         items = self._get_items(filtered_database)
