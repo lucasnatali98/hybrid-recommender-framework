@@ -42,14 +42,22 @@ def run_dataset_task():
     config_obj = loader.load_json_file("config.json")
 
     experiments = config_obj['experiments']
+
     exp_handler = ExperimentHandler(
         experiments=experiments
     )
-    """
-    Não posso passar chumbado qual o experimento é... ou eu descubro pelo arquivo de configuração
-    buscando pelo nome ou algo assim ou eu recebo como argumentos para executar o programa, essa opção
-    é menos viável visto que dependente de uma alteração no Xperimentor
-    """
+
+    experiment_id = None
+    experiment_ids = None
+    if len(experiments) == 1:
+        experiment_id = experiments[0]
+
+    if len(experiments) > 1:
+        experiment_ids = list(map(
+            lambda x: x['experiment_id'],
+            experiments
+        ))
+
     experiment = exp_handler.get_experiment("exp1")
     experiment_instances = experiment.instances
 

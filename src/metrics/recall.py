@@ -7,7 +7,6 @@ import pandas as pd
 
 class Recall(RankingMetric):
     def __init__(self, parameters: dict) -> None:
-        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 

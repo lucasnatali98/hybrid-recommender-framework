@@ -63,9 +63,6 @@ class PredictionMetric(AbstractMetric):
 
 class RankingMetric(AbstractMetric):
 
-    def __init__(self, parameters: dict) -> None:
-        super().__init__(parameters)
-
     @abstractmethod
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         """
