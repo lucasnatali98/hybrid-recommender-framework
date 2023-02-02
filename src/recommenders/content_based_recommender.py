@@ -20,22 +20,9 @@ class ContentBasedRecommender(Recommender):
         self.count_items = parameters.get('count_items') #Quantidade de itens para recomendar
 
     def predict_for_user(self, user, items, ratings=None):
-        """
-
-        @param users:
-        @param items:
-        @param ratings:
-        @return:
-        """
         pass
 
     def predict(self, pairs, ratings):
-        """
-
-        @param user:
-        @param items:
-        @return:
-        """
         pass
 
     def fit(self, ratings: DataFrame, **kwargs) -> None:
@@ -48,13 +35,7 @@ class ContentBasedRecommender(Recommender):
         self.tf_idf(ratings, "genres")
 
     def recommend(self, users, n=None, candidates=None, n_jobs=None) -> DataFrame:
-
-        #Os candidatos aqui podem ser os movie_input's
-
-
         candidates[self.feature].drop_duplicates(keep=False, inplace=True)
-
-
         recommend_df = DataFrame(columns=['item', 'recommended_items', self.feature])
 
         for title in candidates[self.feature]:

@@ -24,18 +24,9 @@ class MetaFeaturesTask(Task):
         return command
 
     def check_args(self, args):
-        """
-
-        @param args:
-        @return:
-        """
         pass
 
     def run(self):
-        """
-
-        @return:
-        """
         metafeatures = self._handle_metafeatures_tasks(self.metafeatures_instance)
         return metafeatures
 

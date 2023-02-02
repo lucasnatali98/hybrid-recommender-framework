@@ -92,7 +92,7 @@ class AlgorithmsTask(Task):
             fold_name = train_file.split(".")
             fold_name = fold_name[0]
 
-            algorithms = self.handle_algorithms_tasks(
+            self.handle_algorithms_tasks(
                 self.algorithm_instances,
                 train_dataset,
                 fold_name,

@@ -47,16 +47,6 @@ def run_dataset_task():
         experiments=experiments
     )
 
-    experiment_id = None
-    experiment_ids = None
-    if len(experiments) == 1:
-        experiment_id = experiments[0]
-
-    if len(experiments) > 1:
-        experiment_ids = list(map(
-            lambda x: x['experiment_id'],
-            experiments
-        ))
 
     experiment = exp_handler.get_experiment("exp1")
     experiment_instances = experiment.instances
