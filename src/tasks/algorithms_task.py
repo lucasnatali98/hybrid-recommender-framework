@@ -12,6 +12,7 @@ from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
 import os
 import traceback
+from src.recommenders.batch import LenskitBatch
 
 
 class AlgorithmsTask(Task):
@@ -24,6 +25,7 @@ class AlgorithmsTask(Task):
         self.predictions_output_dir = self.algorithms_output_dir.joinpath("predictions/")
         self.rankings_output_dir = self.algorithms_output_dir.joinpath("rankings/")
         self.recommendations_output_dir = self.algorithms_output_dir.joinpath("recommendations/")
+        self.lenskit_batch = LenskitBatch()
 
     def check_args(self, args):
         """
@@ -53,19 +55,6 @@ class AlgorithmsTask(Task):
             "ytrain": self.preprocessing_output_dir.joinpath('ytrain.csv')
         }
         return default_splitted_files
-
-    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
-        predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
-        number_of_items_rankeds = self.number_of_recommendations
-        for u in users:
-            prediction_result = algorithm.predict_for_user(u, items, rating)
-            user_id = [u] * number_of_items_rankeds
-            algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
-            prediction_result['user'] = pd.Series(user_id)
-            prediction_result['algorithm'] = pd.Series(algorithm_name)
-            predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
-
-        return predictions_df
 
     def check_if_folds_is_empty(self) -> bool:
         """
@@ -220,24 +209,9 @@ class AlgorithmsTask(Task):
 
                 algorithm.fit(xtrain)
 
-                path = hrf_experiment_output_path().joinpath("models/trained_models/")
-                path = path.joinpath(algorithm_name + "-" + train_dataset_name + ".joblib")
-                dump(algorithm, path)
+                self.save_trained_model(algorithm, algorithm_name, train_dataset_name)
 
-                topn_result = self.topn_process(algorithm, xtrain)
-                if topn_result is not None:
-                    self.save_results(
-                        'ranking',
-                        topn_result,
-                        algorithm_name,
-                        train_dataset_name,
-                        'csv'
-                    )
-
-                dataset_copy = xtrain.copy()
-                dataset_copy.drop(columns=['rating'], inplace=True)
-
-                preds = predict(algorithm, xtrain)
+                preds = self.lenskit_batch.predict(algorithm, xtrain[['user', 'item']])
                 if preds is not None:
                     self.save_results(
                         'predictions',
@@ -248,7 +222,11 @@ class AlgorithmsTask(Task):
                     )
                 users = np.unique(xtest['user'].values)
 
-                recs = algorithm.recommend(users, self.number_of_recommendations)
+                recs = self.lenskit_batch.recommend(
+                    algorithm.recommender,
+                    users,
+                    self.number_of_recommendations
+                )
                 if recs is not None:
                     self.save_results(
                         'recommendations',
@@ -291,6 +269,7 @@ class AlgorithmsTask(Task):
         path = hrf_experiment_output_path().joinpath("models/trained_models/")
         path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
         dump(algorithm, path)
+
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
@@ -314,20 +293,7 @@ class AlgorithmsTask(Task):
 
                 self.save_trained_model(algorithm, algorithm_name, dataset_name)
 
-                topn_result = self.topn_process(algorithm, dataset)
-                if topn_result is not None:
-                    self.save_results(
-                        'ranking',
-                        topn_result,
-                        algorithm_name,
-                        dataset_name,
-                        'csv'
-                    )
-
-                dataset_copy = dataset.copy()
-                dataset_copy.drop(columns=['rating'], inplace=True)
-
-                preds = predict(algorithm, dataset)
+                preds = self.lenskit_batch.predict(algorithm, dataset[['user', 'item']])
                 if preds is not None:
                     self.save_results(
                         'predictions',
@@ -339,7 +305,11 @@ class AlgorithmsTask(Task):
 
                 users = np.unique(test_dataset['user'].values)
 
-                recs = algorithm.recommend(users, self.number_of_recommendations)
+                recs = self.lenskit_batch.recommend(
+                    algorithm.recommender,
+                    users,
+                    self.number_of_recommendations,
+                )
                 if recs is not None:
                     self.save_results(
                         'recommendations',
