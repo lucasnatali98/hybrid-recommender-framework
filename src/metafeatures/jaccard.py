@@ -24,20 +24,6 @@ class Jaccard(ContentBasedMetaFeature):
 
     #        self.items = parameters['items']
 
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
-
     def update(self, obj):
         """
 

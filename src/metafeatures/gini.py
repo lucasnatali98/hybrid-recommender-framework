@@ -19,20 +19,6 @@ class Gini(ColaborativeMetaFeature):
         self.items = parameters.get('items')
 
 
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
-
     def update(self, obj):
         """
 

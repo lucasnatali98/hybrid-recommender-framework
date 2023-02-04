@@ -20,19 +20,6 @@ class Cosine(ContentBasedMetaFeature):
         self.fields = parameters.get('fields')
         self.items = parameters.get('items')
 
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
 
     def update(self, obj):
         """

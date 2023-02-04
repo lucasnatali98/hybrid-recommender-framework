@@ -7,6 +7,15 @@ from src.experiments.experiment_tasks import ExperimentTask
 from external.deploy import Xperimentor, TaskExecutor
 from src.utils import beautify_subprocess_output_response
 
+
+"""
+
+-> Hibridização -> pesos ()
+
+-> arq
+
+"""
+
 if __name__ == "__main__":
     loader = Loader()
 
@@ -49,6 +58,7 @@ if __name__ == "__main__":
         path_to_config_file = "config.json"
     else:
         path_to_config_file = args[1]
+
 
     all_commands = experiment_task.get_task_commands(experiment_tasks)
 
