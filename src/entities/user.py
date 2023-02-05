@@ -4,6 +4,10 @@ class User:
         self._age = parameters.get('age', None)
         self._gender = parameters.get('gender', None)
 
+
+    def create_attributes(self, attributes: dict):
+        for key, value in attributes.items():
+            setattr(self, key, value)
     @property
     def name(self):
         return self._name
