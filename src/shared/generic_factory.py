@@ -6,7 +6,6 @@ from src.utils import is_structure_empty
 T = TypeVar('T')
 
 
-
 class AbstractEntityFactory(ABC, Generic[T]):
 
     @abstractmethod
@@ -15,24 +14,15 @@ class AbstractEntityFactory(ABC, Generic[T]):
 
 
 
-#Condensar todas as factories aqui na generica.
 class GenericFactory(AbstractEntityFactory):
     def __init__(self, parameters: dict):
         self.parameters = self._handle_config_obj(parameters)
 
     def _handle_config_obj(self, parameters: dict) -> dict:
-        """
-
-
-        @type parameters: object
-        @param config_obj:
-        @return: object or None
-        """
-
         instances = parameters['instances']
         is_empty = is_structure_empty(instances)
         if is_empty:
-            raise Exception("Não foram inseridos estágios de pré-processamento, esse array não deve estar vazio")
+            raise Exception("Não foram inseridos estágios/instâncias, esse array não deve estar vazio")
 
         return parameters
 
@@ -44,7 +34,7 @@ class GenericFactory(AbstractEntityFactory):
 
         @return: object
         """
-        instances = [] #Poderia ser um dicionário -> Instancia e Nome da instancia
+        instances = []
 
         for stages in self.parameters['instances']:
 

@@ -3,7 +3,7 @@ from src.utils import process_parameters
 
 class Jaccard(ContentBasedMetaFeature):
     def __init__(self, parameters: dict) -> None:
-
+        super().__init__(parameters)
         default_keys = {
             'type',
             'basePath',
@@ -23,20 +23,6 @@ class Jaccard(ContentBasedMetaFeature):
         self.fields = parameters.get('fields')
 
     #        self.items = parameters['items']
-
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
 
     def update(self, obj):
         """

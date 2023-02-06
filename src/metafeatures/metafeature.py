@@ -5,45 +5,31 @@ from src.utils import process_parameters
 class MetaFeature(ABC):
 
     @abstractmethod
-    def fit(self):
+    def update(self, obj):
         """
         
         """
-
-        raise Exception("O método fit de MetaFeature não está implementado")
-
-    @abstractmethod
-    def predict(self):
-        """
-        
-        """
-        raise Exception("O método predict de MetaFeature não está implementado")
-
-    @abstractmethod
-    def update(self):
-        """
-        
-        """
-        raise Exception("O método update de MetaFeature não está implementado")
+        pass
 
 
 class AbstractMetaFeature(MetaFeature):
+    """
+    -> User
+    -> UserItem
+    -> Item
+
+    -> Todos distintos (Preciso guardar e conseguir separamente cada calculo)
+
+    """
     def __init__(self, parameters: dict) -> None:
-        default_keys = {}
+        default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.buffer_size = parameters.get('bufferSize')
         self.use_text_output = parameters.get('useTextOutput', True)
         self.partition_length = parameters.get('partitionLength', 1)
 
-    def predict(self):
-        pass
-
-    def fit(self):
-        pass
-
-    def update(self):
-        pass
-
+    def update(self, obj):
+        raise NotImplementedError
 
 class ColaborativeMetaFeature(MetaFeature):
 
@@ -60,23 +46,9 @@ class ColaborativeMetaFeature(MetaFeature):
         self.fields = parameters.get('fields', [])
         self.items = parameters.get('items', [])
 
-    def fit(self):
-        """
-        
-        """
-        pass
-
-    def predict(self):
-        """
-        
-        """
-        pass
-
     def update(self, obj):
-        """
-        
-        """
-        pass
+        raise NotImplementedError
+
 
 
 class ContentBasedMetaFeature(MetaFeature):
@@ -102,22 +74,7 @@ class ContentBasedMetaFeature(MetaFeature):
         self.fields = parameters.get('fields', [])
         self.items = parameters.get('items', [])
 
-    def fit(self):
-        """
-        
-        """
-        pass
-
-    @abstractmethod
-    def predict(self):
-        """
-        
-        """
-        pass
 
     @abstractmethod
     def update(self, obj):
-        """
-        
-        """
-        pass
+        raise NotImplementedError

@@ -8,6 +8,7 @@ class Cosine(ContentBasedMetaFeature):
         """
         
         """
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.type = parameters.get('type')
@@ -20,19 +21,6 @@ class Cosine(ContentBasedMetaFeature):
         self.fields = parameters.get('fields')
         self.items = parameters.get('items')
 
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
 
     def update(self, obj):
         """

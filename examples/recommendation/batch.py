@@ -4,7 +4,6 @@ from src.recommenders.batch import LenskitBatch
 import numpy as np
 import pandas as pd
 
-
 def main():
     movielens = MovieLens({
         'proportion': "ml-latest-small"
@@ -14,8 +13,6 @@ def main():
 
     ratings = movielens.ratings
     ratings.drop(columns=['timestamp'], inplace=True)
-    movies = movielens.items
-
 
 
     item_knn = LenskitItemKNN({

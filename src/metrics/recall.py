@@ -14,8 +14,6 @@ class Recall(RankingMetric):
         raise NotImplementedError
 
 
-
-
 class LenskitRecall(Recall):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)

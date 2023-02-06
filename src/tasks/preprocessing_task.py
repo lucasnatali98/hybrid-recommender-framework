@@ -15,6 +15,9 @@ class PreProcessingTask(Task):
         self.path_to_preprocessing_output = self.experiment_output_dir.joinpath("preprocessing/")
         self.loader = Loader()
 
+        self.dataset_cf = None
+        self.dataset_cb = None
+
         self.preprocessing = preprocessing
 
     def check_args(self, args):
@@ -26,17 +29,13 @@ class PreProcessingTask(Task):
         pass
 
     def run(self):
-        """
-
-        @return:
-        """
 
         self.dataset_cf = self.loader.load_csv_file(self.path_to_dataset)
         self.dataset_cb = self.loader.load_csv_file(self.path_to_content_based_dataset)
 
-        self._handle_pre_processing_tasks(self.dataset_cf, self.preprocessing)
+        self._handle_pre_processing_tasks(self.dataset_cf, self.dataset_cb, self.preprocessing)
 
-    def _handle_pre_processing_tasks(self, dataset, preprocessing):
+    def _handle_pre_processing_tasks(self, dataset_cf, dataset_cb, preprocessing):
         """
 
         @param dataset:
@@ -45,12 +44,12 @@ class PreProcessingTask(Task):
         """
         execution_steps = {}
         items = preprocessing.items[0]  # [[]]
-        result = dataset
+        result = dataset_cf
 
         for item in items:
             class_name = item.__class__.__name__
             if class_name == "TextProcessing":
-                db = self.dataset_cb
+                db = dataset_cb
                 temp_cb = item.pre_processing(db)
                 execution_steps[class_name] = temp_cb
                 temp_cb.to_csv(
@@ -68,6 +67,8 @@ class PreProcessingTask(Task):
 
 
 def run_preprocessing_task():
+    print("\n")
+    print(" => Inicio da tarefa de preprocessamento...")
     loader = Loader()
     config_obj = loader.load_json_file("config.json")
     experiments = config_obj['experiments']
@@ -80,11 +81,9 @@ def run_preprocessing_task():
     preprocessing_instance = experiment_instances['preprocessing']
 
     preprocessing_task = PreProcessingTask(preprocessing_instance)
-    print("\n")
-    print(" => Inicio da tarefa de preprocessamento...")
+
     preprocessing_task.run()
 
-    # save the preprocessing result
 
     print(" => Finalização da tarefa de preprocessamento...")
     print('\n')

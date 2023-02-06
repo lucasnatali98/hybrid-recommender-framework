@@ -7,11 +7,10 @@ from src.tasks.task import Task
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path
 import pandas as pd
-from lenskit.batch import predict, recommend
-from lenskit.algorithms import Recommender
 from src.recommenders.recommenders_container import RecommendersContainer
 import os
 import traceback
+from src.recommenders.batch import LenskitBatch
 
 
 class AlgorithmsTask(Task):
@@ -24,13 +23,9 @@ class AlgorithmsTask(Task):
         self.predictions_output_dir = self.algorithms_output_dir.joinpath("predictions/")
         self.rankings_output_dir = self.algorithms_output_dir.joinpath("rankings/")
         self.recommendations_output_dir = self.algorithms_output_dir.joinpath("recommendations/")
+        self.lenskit_batch = LenskitBatch()
 
     def check_args(self, args):
-        """
-
-        @param args:
-        @return:
-        """
         pass
 
     def get_fold_file_names(self, fold_type: str) -> list:
@@ -53,19 +48,6 @@ class AlgorithmsTask(Task):
             "ytrain": self.preprocessing_output_dir.joinpath('ytrain.csv')
         }
         return default_splitted_files
-
-    def predict_to_users(self, algorithm, users, items, rating: pd.Series = None):  # tá errado
-        predictions_df = pd.DataFrame(columns=['user', 'item', 'prediction'])
-        number_of_items_rankeds = self.number_of_recommendations
-        for u in users:
-            prediction_result = algorithm.predict_for_user(u, items, rating)
-            user_id = [u] * number_of_items_rankeds
-            algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
-            prediction_result['user'] = pd.Series(user_id)
-            prediction_result['algorithm'] = pd.Series(algorithm_name)
-            predictions_df = pd.concat([predictions_df, prediction_result], ignore_index=True)
-
-        return predictions_df
 
     def check_if_folds_is_empty(self) -> bool:
         """
@@ -110,7 +92,7 @@ class AlgorithmsTask(Task):
             fold_name = train_file.split(".")
             fold_name = fold_name[0]
 
-            algorithms = self.handle_algorithms_tasks(
+            self.handle_algorithms_tasks(
                 self.algorithm_instances,
                 train_dataset,
                 fold_name,
@@ -155,40 +137,6 @@ class AlgorithmsTask(Task):
             print(e)
             print(traceback.print_exc())
 
-    def topn_process(self, algorithm, ratings: pd.DataFrame):
-        try:
-            if algorithm.__class__.__name__ == "RandomItem":  # Verificar se posso evitar isso
-                return None
-
-            users = np.unique(ratings['user'].values)
-            items = ratings['item'].values
-
-            select = UnratedItemCandidateSelector()
-
-            topn_dataframe = pd.DataFrame(columns=['user', 'item', 'score'])
-
-            top_n = TopN(algorithm, select)
-            number_of_items_rankeds = self.number_of_recommendations
-            for u in users:
-                recs = top_n.recommend(
-                    u,
-                    number_of_items_rankeds,
-                    items
-                )
-
-                user_id = [u] * number_of_items_rankeds
-                algorithm_name = [algorithm.__class__.__name__] * number_of_items_rankeds
-                recs['user'] = pd.Series(user_id)
-                recs['algorithm'] = pd.Series(algorithm_name)
-                topn_dataframe = pd.concat([topn_dataframe, recs], ignore_index=True)
-
-            return topn_dataframe
-
-        except Exception as err:
-            print(err)
-            print(traceback.print_exc())
-            return None
-
     def _recommend_to_content_based(self, algorithm, algorithm_name, dataset, dataset_name):
         algorithm.fit(dataset)
         recs = algorithm.recommend(None, 0, dataset)
@@ -220,24 +168,9 @@ class AlgorithmsTask(Task):
 
                 algorithm.fit(xtrain)
 
-                path = hrf_experiment_output_path().joinpath("models/trained_models/")
-                path = path.joinpath(algorithm_name + "-" + train_dataset_name + ".joblib")
-                dump(algorithm, path)
+                self.save_trained_model(algorithm, algorithm_name, train_dataset_name)
 
-                topn_result = self.topn_process(algorithm, xtrain)
-                if topn_result is not None:
-                    self.save_results(
-                        'ranking',
-                        topn_result,
-                        algorithm_name,
-                        train_dataset_name,
-                        'csv'
-                    )
-
-                dataset_copy = xtrain.copy()
-                dataset_copy.drop(columns=['rating'], inplace=True)
-
-                preds = predict(algorithm, xtrain)
+                preds = self.lenskit_batch.predict(algorithm, xtrain[['user', 'item']])
                 if preds is not None:
                     self.save_results(
                         'predictions',
@@ -248,7 +181,11 @@ class AlgorithmsTask(Task):
                     )
                 users = np.unique(xtest['user'].values)
 
-                recs = algorithm.recommend(users, self.number_of_recommendations)
+                recs = self.lenskit_batch.recommend(
+                    algorithm.recommender,
+                    users,
+                    self.number_of_recommendations
+                )
                 if recs is not None:
                     self.save_results(
                         'recommendations',
@@ -266,7 +203,7 @@ class AlgorithmsTask(Task):
             return None
 
     def save_results(self, result_type: str, result, algorithm_name: str, dataset_name: str, extension: str):
-        possible_result_types = ['ranking, predictions', 'recommendations']
+        possible_result_types = ['predictions', 'recommendations']
         if result_type not in possible_result_types:
             raise Exception(
                 "Não foi possível realizar o armazenamento do resultado de tipo {}".format(result_type)
@@ -291,6 +228,7 @@ class AlgorithmsTask(Task):
         path = hrf_experiment_output_path().joinpath("models/trained_models/")
         path = path.joinpath(algorithm_name + "-" + dataset_name + ".joblib")
         dump(algorithm, path)
+
     def handle_algorithms_tasks(self,
                                 algorithms: RecommendersContainer,
                                 dataset: pd.DataFrame,
@@ -314,20 +252,7 @@ class AlgorithmsTask(Task):
 
                 self.save_trained_model(algorithm, algorithm_name, dataset_name)
 
-                topn_result = self.topn_process(algorithm, dataset)
-                if topn_result is not None:
-                    self.save_results(
-                        'ranking',
-                        topn_result,
-                        algorithm_name,
-                        dataset_name,
-                        'csv'
-                    )
-
-                dataset_copy = dataset.copy()
-                dataset_copy.drop(columns=['rating'], inplace=True)
-
-                preds = predict(algorithm, dataset)
+                preds = self.lenskit_batch.predict(algorithm, dataset[['user', 'item']])
                 if preds is not None:
                     self.save_results(
                         'predictions',
@@ -339,7 +264,11 @@ class AlgorithmsTask(Task):
 
                 users = np.unique(test_dataset['user'].values)
 
-                recs = algorithm.recommend(users, self.number_of_recommendations)
+                recs = self.lenskit_batch.recommend(
+                    algorithm.recommender,
+                    users,
+                    self.number_of_recommendations,
+                )
                 if recs is not None:
                     self.save_results(
                         'recommendations',

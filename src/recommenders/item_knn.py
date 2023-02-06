@@ -55,7 +55,7 @@ class LenskitItemKNN(ItemKNN):
     def predict_for_user(self, users, items, rating=None):
         return self.ItemKNN.predict_for_user(users, items, rating)
 
-    def predict(self, pairs, ratings):
+    def predict(self, pairs, ratings=None):
         return self.ItemKNN.predict(pairs, ratings)
 
     def recommend(self, users, n, candidates=None, n_jobs=None) -> pd.DataFrame:

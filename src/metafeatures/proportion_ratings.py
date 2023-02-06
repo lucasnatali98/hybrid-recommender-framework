@@ -6,30 +6,7 @@ class ProportionRatings(ColaborativeMetaFeature):
         """
         
         """
-        pass
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-
-        return parameters
-
-    def fit(self):
-        """
-
-        @return:
-        """
-        pass
-
-    def predict(self):
-        """
-
-        @return:
-        """
-        pass
+        super().__init__(parameters)
 
     def update(self, obj):
         """
