@@ -6,7 +6,6 @@ from src.utils import is_structure_empty
 T = TypeVar('T')
 
 
-
 class AbstractEntityFactory(ABC, Generic[T]):
 
     @abstractmethod

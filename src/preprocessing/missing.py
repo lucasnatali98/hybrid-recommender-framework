@@ -33,17 +33,15 @@ class MissingProcessing(AbstractPreProcessing):
         ))
 
         if len(rating) == 0 and len(user) == 0 and len(item) == 0:
-            print("Não existe nenhum valor None na base")
             return data
         else:
             print("")
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
-        print("missing processing")
+
         is_null = data.isnull().sum().values.any()
         is_na = data.isna().sum().values.any()
-        print("Verifica is_null no dataframe: ", is_null)
-        print("Verifica is_na no dataframe: ", is_na)
+
         data = self.check_none(data)
 
         if is_na is False and is_null is False:

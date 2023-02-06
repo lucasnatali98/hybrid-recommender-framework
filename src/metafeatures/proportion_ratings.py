@@ -6,7 +6,7 @@ class ProportionRatings(ColaborativeMetaFeature):
         """
         
         """
-        pass
+        super().__init__(parameters)
 
     def update(self, obj):
         """

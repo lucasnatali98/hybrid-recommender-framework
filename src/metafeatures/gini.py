@@ -5,7 +5,7 @@ from src.utils import process_parameters
 
 class Gini(ColaborativeMetaFeature):
     def __init__(self, parameters: dict) -> None:
-
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.type = parameters.get('type')
