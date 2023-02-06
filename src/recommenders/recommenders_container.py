@@ -1,22 +1,16 @@
 from src.shared.container import Container
 from src.shared.generic_factory import GenericFactory
 
+
 class RecommendersContainer(Container):
-    """
-
-    """
-
     def __init__(self, parameters: dict) -> None:
-        """
-        @type stages: list
-
-        """
-
         super().__init__()
-        recommenders = parameters['instances']
+        recommenders = parameters.get('instances')
+        self.number_of_recommendations = parameters.get('number_of_recommendations')
 
         if len(recommenders) == 0:
-            pass
+            raise Exception("Deve ser definido pelo menos um algoritmo de recomendação")
         else:
             self.recommender_factory = GenericFactory(parameters)
             self.insert(0, self.recommender_factory.create)
+

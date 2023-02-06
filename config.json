@@ -11,21 +11,52 @@
     },
     {
       "id": "exp2",
-      "deps": ["exp1"]
+      "deps": [
+        "exp1"
+      ]
     }
   ],
   "recipesDefault": {
-    "database": ["MovieLens"],
-    "metafeatures": ["PCR", "PR", "GINI", "PEARSON", "PQMEAN", "SD"],
-    "metrics": ["RMSE", "F1", "EPC", "EILD"],
-    "hybrid": ["STREAM", "FWLS"],
-    "algorithms": ["Sigmoid", "Biased", "MF", "Uknn", "SVD", "Latent", "Factor", "BiPolar", "SO"],
-    "results": ["mean", "IC"],
+    "database": [
+      "MovieLens"
+    ],
+    "metafeatures": [
+      "PCR",
+      "PR",
+      "GINI",
+      "PEARSON",
+      "PQMEAN",
+      "SD"
+    ],
+    "metrics": [
+      "RMSE",
+      "F1",
+      "EPC",
+      "EILD"
+    ],
+    "hybrid": [
+      "STREAM",
+      "FWLS"
+    ],
+    "algorithms": [
+      "Sigmoid",
+      "Biased",
+      "MF",
+      "Uknn",
+      "SVD",
+      "Latent",
+      "Factor",
+      "BiPolar",
+      "SO"
+    ],
+    "results": [
+      "mean",
+      "IC"
+    ],
     "folds": []
   },
   "experiments": [
     {
-
       "experiment_id": "exp1",
       "dataset": {
         "class": "MovieLens",
@@ -33,7 +64,6 @@
         "parameters": {
           "proportion": "ml-latest-small",
           "filters": {
-
           }
         }
       },
@@ -43,20 +73,10 @@
         "parameters": {
           "instances": [
             {
-              "module": "src.preprocessing.normalize",
-              "class_name": "NormalizeProcessing",
-              "parameters": {
-                "norm": "l2",
-                "axis": 0,
-                "copy": true,
-                "return_norm": false
-
-              }
-            },
-            {
               "module": "src.preprocessing.split",
               "class_name": "SplitProcessing",
               "parameters": {
+                "target": "rating",
                 "train_size": 70,
                 "test_size": 30,
                 "random_state": 42,
@@ -73,8 +93,17 @@
                 "random_state": 42,
                 "strategy": "stratifiedshufflesplit"
               }
+            },
+            {
+              "module": "src.preprocessing.text",
+              "class_name": "TextProcessing",
+              "parameters": {
+                "column_to_apply": "genres",
+                "remove_stop_words": true,
+                "tokenize_words": true,
+                "column_to_index": "title"
+              }
             }
-
           ]
         }
       },
@@ -87,14 +116,12 @@
               "module": "src.hybrid.flws",
               "class_name": "Flws",
               "parameters": {
-
               }
             },
             {
               "module": "src.hybrid.stream",
               "class_name": "Stream",
               "parameters": {
-
               }
             }
           ]
@@ -139,7 +166,6 @@
                 "sample_weight": "None",
                 "ignore_ties": false
               }
-
             }
           ]
         }
@@ -154,7 +180,7 @@
             "doItemUser": true,
             "basePath": "",
             "resourceFile": "",
-            "partitionLength":  1,
+            "partitionLength": 1,
             "outputFolder": "",
             "bufferSize": 1000,
             "numThreads": 0,
@@ -176,9 +202,32 @@
                   "value": ""
                 },
                 "fields": [
-                  "1", "2", "3"
+                  "1",
+                  "2",
+                  "3"
                 ],
                 "items": []
+              }
+            },
+            {
+              "module": "src.metafeatures.gini",
+              "class_name": "Gini",
+              "parameters": {
+                "type": "collaborative",
+                "basePath": "",
+                "doUser": true,
+                "doItem": false,
+                "doItemUser": false,
+                "numThreads": 0,
+                "metricParameter": {},
+                "items": [
+                  {
+                    "dataFile": "",
+                    "resourceFile": "",
+                    "outputFolder": ""
+                  }
+                ],
+                "fields": []
               }
             },
             {
@@ -209,31 +258,36 @@
         "class": "RecommendersContainer",
         "module": "src.recommenders.recommenders_container",
         "parameters": {
+          "number_of_recommendations": 10,
           "instances": [
             {
-              "module": "src.recommenders.item_knn",
-              "class_name": "ItemKNN",
+              "module": "src.recommenders.implicit_mf",
+              "class_name": "LenskitImplicitMF",
               "parameters": {
-                "maxNumberNeighbors": 1,
-                "minNumberNeighbors": 2,
-                "saveNeighbors": 3.0,
+                "features": 20,
+                "iterations": 30
+              }
+            },
+            {
+              "module": "src.recommenders.item_knn",
+              "class_name": "LenskitItemKNN",
+              "parameters": {
+                "maxNumberNeighbors": 20,
+                "minNumberNeighbors": 4,
+                "saveNeighbors": 6.0,
+                "min_sim": 0.03,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true
               }
             },
-            {
-              "module": "src.recommenders.slopeone",
-              "class_name": "SlopeOne",
-              "parameters": {}
-            },
-            {
+             {
               "module": "src.recommenders.user_knn",
-              "class_name": "UserKNN",
+              "class_name": "LenskitUserKNN",
               "parameters": {
-                "maxNumberNeighbors": 1,
-                "minNumberNeighbors": 2,
-                "min_sim": "",
+                "maxNumberNeighbors": 12,
+                "minNumberNeighbors": 4,
+                "min_sim": 0.3,
                 "feedback": "implicit",
                 "aggregate": "weighted-average",
                 "use_ratings": true
@@ -250,7 +304,14 @@
             {
               "module": "src.visualization.static_scatter",
               "class_name": "StaticScatter",
-              "parameters": {}
+              "parameters": {
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
+                }
+              }
             },
             {
               "module": "src.visualization.static_bar",
@@ -277,9 +338,16 @@
               }
             },
             {
-              "module": "src.visualization.interactive_scatter",
-              "class_name": "InteractiveScatter",
-              "parameters": {}
+              "module": "src.visualization.static_scatter",
+              "class_name": "StaticScatter",
+              "parameters": {
+                "plot_types": {
+                  "ratings_by_user": true,
+                  "ratings_by_movie": true,
+                  "items_predict": true,
+                  "movie_ratings_distribution": true
+                }
+              }
             }
           ]
         }

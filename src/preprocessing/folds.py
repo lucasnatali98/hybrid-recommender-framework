@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import pandas as pd
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, StratifiedKFold, StratifiedShuffleSplit
 from sklearn.model_selection import StratifiedGroupKFold, KFold, ShuffleSplit
 from src.preprocessing.preprocessing import AbstractPreProcessing
@@ -20,15 +21,26 @@ class FoldsProcessing(AbstractPreProcessing):
             'strategy'
         }
         parameters = process_parameters(parameters, default_keys)
-        self.number_of_folds = parameters['folds']
-        self.strategy = parameters['strategy']
-        self.shuffle = parameters['shuffle']
-        self.random_state = parameters['random_state']
+        self.number_of_folds = parameters.get('folds')
+        self.strategy = parameters.get('strategy')
+        self.shuffle = parameters.get('shuffle')
+        self.random_state = parameters.get('random_state')
+        self.folds_output_directory = "preprocessing/folds"
 
-    def pre_processing(self, data, **kwargs):
+        self.target_column = parameters.get('target_column', 'rating')
+
+        self.train_folds_output_directory = hrf_experiment_output_path().joinpath(
+            self.folds_output_directory
+        ).joinpath("train/")
+
+        self.validation_folds_output_directory = hrf_experiment_output_path().joinpath(
+            self.folds_output_directory
+        ).joinpath("validation/")
+
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         folds = Folds(self.strategy)
         X = data
-        y = data['rating']
+        y = data[self.target_column]
         folds_indexes = folds.create_folds(
             X=X,
             y=y,
@@ -36,27 +48,25 @@ class FoldsProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             random_state=self.random_state
         )
-        print("folds preprocessing")
-
-        folds_output_directory = "preprocessing/folds"
-        train_folds_output_directory = hrf_experiment_output_path().joinpath(folds_output_directory)
-        validation_folds_output_directory = hrf_experiment_output_path().joinpath(folds_output_directory)
-
-        train_folds_output_directory = train_folds_output_directory.joinpath("train/")
-        validation_folds_output_directory = validation_folds_output_directory.joinpath("validation/")
 
         fold_counter = 1
         for train_index, validation_index in folds_indexes:
             train_df = data.loc[train_index, :]
             validation_df = data.loc[validation_index, :]
 
-            train_folds_archive_name = train_folds_output_directory.joinpath("train-fold-{}.csv".format(fold_counter))
-            validation_folds_archive_name = validation_folds_output_directory.joinpath(
-                "validation-fold-{}.csv".format(fold_counter))
+            train_folds_archive_name = self.train_folds_output_directory.joinpath(
+                "train-fold-{}.csv".format(fold_counter)
+            )
+
+            validation_folds_archive_name = self.validation_folds_output_directory.joinpath(
+                "validation-fold-{}.csv".format(fold_counter)
+            )
 
             train_df.to_csv(train_folds_archive_name)
             validation_df.to_csv(validation_folds_archive_name)
             fold_counter = fold_counter + 1
+
+        return data
 
 
 class Folds:
@@ -105,16 +115,6 @@ class Folds:
 
 class KFoldStrategy(Strategy):
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int = None, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
-
         print('Create folds in KFold Strategy')
         kfold = KFold(n_splits=n_splits, shuffle=shuffle)
         return kfold.split(
@@ -125,15 +125,6 @@ class KFoldStrategy(Strategy):
 
 class GroupKFoldStrategy(Strategy):
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
         print('Create folds in GroupKFold Strategy')
         group_kfold = GroupKFold(n_splits=n_splits)
         return group_kfold.split(
@@ -144,15 +135,6 @@ class GroupKFoldStrategy(Strategy):
 
 class StratifiedGroupKFoldsStrategy(Strategy):
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
         print('Create folds in StratifiedGroupKFolds Strategy')
         stratified_group_kfolds = StratifiedGroupKFold(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
         return stratified_group_kfolds.split(
@@ -164,15 +146,6 @@ class StratifiedGroupKFoldsStrategy(Strategy):
 class StratifiedShuffleSplitStrategy(Strategy):
 
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
         print('Create folds in StratifiedShuffleSPlit Strategy')
         stratified_shuffle_split = StratifiedShuffleSplit(n_splits=n_splits, random_state=random_state)
         return stratified_shuffle_split.split(
@@ -184,15 +157,6 @@ class StratifiedShuffleSplitStrategy(Strategy):
 class ShuffleSplitStrategy(Strategy):
 
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
         print('Create folds in ShuffleSplit Strategy')
         shuffle_split = ShuffleSplit(n_splits=n_splits, random_state=random_state)
         return shuffle_split.split(
@@ -203,15 +167,6 @@ class ShuffleSplitStrategy(Strategy):
 
 class StratifiedKFoldStrategy(Strategy):
     def create_folds(self, X, y, n_splits: int, shuffle: bool, random_state: int, **kwargs):
-        """
-
-        @param data:
-        @param n_splits:
-        @param shuffle:
-        @param random_state:
-        @param kwargs:
-        @return:
-        """
         print('Create folds in StratifiedKFold Strategy')
         stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=shuffle)
         return stratified_kfold.split(

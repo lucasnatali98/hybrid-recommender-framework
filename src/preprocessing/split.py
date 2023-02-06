@@ -1,38 +1,36 @@
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from src.preprocessing.preprocessing import AbstractPreProcessing
-from pandas import DataFrame
 from src.data.loader import Loader
 from src.utils import hrf_experiment_output_path, process_parameters
 
+
 class SplitProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict):
-        """
-        
-        """
         super().__init__()
         default_keys = {
+            'target',
             'test_size',
             'train_size',
             'random_state'
         }
         parameters = process_parameters(parameters, default_keys)
-        self.test_size = parameters['test_size']
-        self.train_size = parameters['train_size']
-        self.random_state = parameters['random_state']
-        self.shuffle = parameters['shuffle']
-        self.stratify = parameters['stratify']
+        self.target = parameters.get('target', 'rating')
+        self.test_size = parameters.get('test_size')
+        self.train_size = parameters.get('train_size')
+        self.random_state = parameters.get('random_state')
+        self.shuffle = parameters.get('shuffle')
+        self.stratify = parameters.get('stratify')
 
-
-
-    def pre_processing(self, data, **kwargs):
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         """
 
         @param **kwargs:
         @param data:
         @return:
         """
-        y = data['rating']
-        X = data.drop(columns=['rating'], axis=1)
+        y = data[self.target]
+        X = data.drop(columns=[self.target], axis=1)
 
         X_train, X_test, y_train, y_test = train_test_split(
             X,
@@ -43,7 +41,6 @@ class SplitProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             stratify=None)
 
-        # return X_train, X_test, y_train, y_test
         new_dfs = {
             'x_train': X_train,
             'x_test': X_test,
@@ -54,27 +51,17 @@ class SplitProcessing(AbstractPreProcessing):
         self._save_splited_dataset(new_dfs)
         return data
 
-    def row_based_splitting(self, data: DataFrame, partitions: int, rng_spec):
+    def _save_splited_dataset(self, splitted_dataframes: dict) -> None:
         """
-
-
-        @return:
-        """
-        pass
-
-    def user_based_splitting(self):
-        pass
-
-    def _save_splited_dataset(self, split_processing: dict):
-        """
+        Função responsável por fazer o armazenamento dentro da saída do experimento das divisões feitas
+        no dataframe original
 
         @param split_processing:
-        @return:
+        @return: None
         """
         loader = Loader()
         preprocessing_experiment_output_path = hrf_experiment_output_path().joinpath("preprocessing/")
-        print("Preprocessing experiment output path: ", preprocessing_experiment_output_path)
-        for key, value in split_processing.items():
+        for key, value in splitted_dataframes.items():
             if key == 'x_train':
                 loader.convert_to("csv", value, preprocessing_experiment_output_path.joinpath("xtrain.csv"))
             if key == 'x_test':

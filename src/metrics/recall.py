@@ -1,72 +1,34 @@
 import lenskit.metrics.topn as lenskit_topn
 from src.metrics.metric import RankingMetric
 from sklearn.metrics import recall_score
+from src.utils import process_parameters, hrf_experiment_output_path
+import pandas as pd
+
+
 class Recall(RankingMetric):
     def __init__(self, parameters: dict) -> None:
-        """
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
 
-        """
-        pass
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        raise NotImplementedError
 
-    def evaluate(self, predictions, truth):
-        """
 
-        @param predictions:
-        @param truth:
-        @return:
-        """
+class LenskitRecall(Recall):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
+
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         return lenskit_topn.recall(predictions, truth)
 
-    def check_missing(self, truth, missing):
-        """
 
-        @param truth:
-        @param missing:
-        @return:
-        """
-        pass
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
+class ScikitRecall(Recall):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = set()
-        parameters_keys_list = list(parameters.keys())
+        parameters = process_parameters(parameters, default_keys)
 
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-
-
-class RecallScikit(RankingMetric):
-    def __init__(self) -> None:
-        """
-
-        """
-        pass
-
-    def evaluate(self, predictions, truth):
-        """
-
-        @param predictions:
-        @param truth:
-        @return:
-        """
-        return recall_score(predictions, truth)
-
-
-    def check_missing(self, truth, missing):
-        """
-
-        @param truth:
-        @param missing:
-        @return:
-        """
-        pass
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        return recall_score(truth, predictions)

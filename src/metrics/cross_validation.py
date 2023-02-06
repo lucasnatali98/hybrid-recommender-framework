@@ -1,46 +1,27 @@
 from sklearn.model_selection import cross_validate as cross_validate_sklearn
 from surprise.model_selection import cross_validate as cross_validate_surprise
-class CrossValidation:
-    """
+from sklearn.model_selection import cross_val_score
+from src.utils import process_parameters
 
-    """
+
+class CrossValidation:
+
     def __init__(self, parameters: dict) -> None:
         """
 
         @param parameters:
         """
-        parameters = self.process_parameters(parameters)
-        self.lib = parameters['lib']
-        self.metrics = parameters['metrics']
-        self.algorithm = parameters['algorithm']
-        self.X = parameters['x']
-        self.y = parameters['y']
-        self.cv = parameters['cv']
-        self.return_train_score = parameters['return_train_score']
-        self.return_estimator = parameters['return_estimator']
-        self.error_score = parameters['error_score']
-
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-
-        default_keys = [
-            'metrics',
-            'algorithm',
-            'x',
-            'y',
-            'lib'
-        ]
-        for key in default_keys:
-            if key not in parameters.keys():
-                raise KeyError("A chave obrigatória {} não foi informada no arquivo de configuração".format(key))
-
-        return parameters
-
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
+        self.lib = parameters.get('lib')
+        self.metrics = parameters.get('metrics')
+        self.algorithm = parameters.get('algorithm')
+        self.X = parameters.get('X')
+        self.y = parameters.get('y')
+        self.cv = parameters.get('cv')
+        self.return_train_score = parameters.get('return_train_score')
+        self.return_estimator = parameters.get('return_estimator')
+        self.error_score = parameters.get('error_score')
 
     def evaluation_surprise(self):
         """
@@ -48,12 +29,16 @@ class CrossValidation:
         @return:
         """
         pass
-    def evaluation(self):
+
+    def evaluation_sklearn(self):
         """
 
         @return:
         """
-        pass
-
-
-
+        scores = cross_validate_sklearn(
+            estimator=self.algorithm,
+            X=self.X,
+            y=self.y,
+            scoring=self.metrics
+        )
+        return scores

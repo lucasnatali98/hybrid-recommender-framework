@@ -1,98 +1,25 @@
 from src.metrics.metric import RankingMetric
 import lenskit.metrics.topn as lenskit_topn
 from sklearn.metrics import ndcg_score
+from src.utils import process_parameters
+import pandas as pd
+
 
 class NDCG(RankingMetric):
-    """
-
-
-    """
-
     def __init__(self, parameters: dict) -> None:
-        """
-        
-        """
-        pass
-
-    def evaluate(self, predictions, truth):
-        """
-        
-        """
-        pass
-
-    def check_missing(self, truth, missing):
-        """
-
-        """
-        pass
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
         default_keys = set()
-        parameters_keys_list = list(parameters.keys())
+        parameters = process_parameters(parameters, default_keys)
 
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        raise NotImplementedError
 
 
-class NDCGLenskit(RankingMetric):
-    """
 
-    """
+class LenskitNDCG(NDCG):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
 
-    def __init__(self):
-        """
-
-        """
-        pass
-
-    def evaluate(self, predictions, truth):
-        """
-
-        @param predictions:
-        @param truth:
-        @return:
-        """
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         return lenskit_topn.ndcg(predictions, truth)
-
-    def check_missing(self, truth, missing):
-        """
-
-        """
-        pass
-
-class NDCGScikit(RankingMetric):
-    def __init__(self):
-        """
-
-        """
-        pass
-
-    def check_missing(self, truth, missing):
-        """
-
-        @param truth:
-        @param missing:
-        @return:
-        """
-
-        pass
-    def evaluate(self, predictions, truth):
-        """
-
-        @param predictions: equivalente a y_true
-        @param truth: equivalente a y_score?
-        @return:
-        """
-        return ndcg_score(predictions, truth)
-

@@ -1,3 +1,5 @@
+import pandas as pd
+
 from src.data.dataset import AbstractDataSet
 from src.utils import process_parameters
 
@@ -8,69 +10,44 @@ PROPORTION_POSSIBILITIES = {
 }
 
 
+def _is_proportion_valid(proportion) -> bool:
+    if proportion in PROPORTION_POSSIBILITIES:
+        return True
+
+    return False
+
 
 class MovieLens(AbstractDataSet):
     def __init__(self, parameters: dict) -> None:
         """
         @param proportion = qual a proporção do MovieLens vamos carregar
-
-
-
         """
         super().__init__()
         default_keys = {
             'proportion'
         }
-        proportion = str(parameters['proportion'])
+        parameters = process_parameters(parameters, default_keys)
+        proportion = parameters.get('proportion', 'ml-latest-small')
 
-        if not self._is_proportion_valid(proportion):
+        if not _is_proportion_valid(proportion):
             raise Exception(
                 "A proporção da base de dados está invalida, escolha por: [ ml-25m, ml-latest, ml-latest-small]"
             )
 
-        parameters = process_parameters(parameters, default_keys)
-
         self.config_obj = parameters
-        self.filters = parameters['filters']
-
+        self.filters = parameters.get('filters', None)
         self.proportion = proportion
         self.basePath = "data_storage/"
         self.dataset = self._get_dataset()
         self.genomeScores = None
         self.genomeTags = None
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters: objeto com os parâmetros da classe
-        @return: dicionário atualizado com esses mesmos parâmetros
-        """
-        default_keys = {
-            'proportion'
-        }
-        parameters_keys_list = list(parameters.keys())
-
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
-        return parameters
-
-    def _is_proportion_valid(self, proportion) -> bool:
-        """
-        Check if the proportion of movielens dataset is valid
-
-        @proportion: str
-
-        """
-        if proportion in PROPORTION_POSSIBILITIES:
-            return True
-
-        return False
+    def transform_columns_to_lenskit_pattern(self, dataset: pd.DataFrame) -> pd.DataFrame:
+        dataset = dataset.rename(columns={
+            "movieId": "item",
+            "userId": "user",
+        })
+        return dataset
 
     def _load_ml25m(self) -> None:
         """
@@ -97,7 +74,7 @@ class MovieLens(AbstractDataSet):
         """
 
         """
-        path = self.basePath + "ml-25m/"
+        path = self.basePath + "ml-latest/"
         movies = self.Loader.load_file(path=path + "movies", extension=".csv")
         links = self.Loader.load_file(path=path + "links", extension=".csv")
         ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
@@ -129,6 +106,7 @@ class MovieLens(AbstractDataSet):
         self.set_links(links)
 
     def set_ratings(self, ratings):
+        ratings = self.transform_columns_to_lenskit_pattern(ratings)
         setattr(MovieLens, 'ratings', ratings)
 
     def set_links(self, links):
@@ -149,15 +127,11 @@ class MovieLens(AbstractDataSet):
     def set_genome_scores(self, genome_scores):
         setattr(MovieLens, 'genomeScores', genome_scores)
 
-    def processing_datasets(self):
-        """
-
-        @return:
-        """
-        pass
-
     def apply_filters(self):
         filters = self.config_obj['filters']
+
+        if filters is None:
+            return self.ratings
 
         if not filters:
             return self.ratings
@@ -175,7 +149,7 @@ class MovieLens(AbstractDataSet):
         if self.proportion == "ml-25m":
             self._load_ml25m()
         if self.proportion == "ml-latest":
-            self.set_mllatest()
+            self._load_ml_latest()
         if self.proportion == "ml-latest-small":
             self._load_ml_latest_small()
 
@@ -201,3 +175,7 @@ class MovieLens(AbstractDataSet):
     @property
     def items(self):
         return self.items
+
+    @property
+    def users(self):
+        return None

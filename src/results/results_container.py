@@ -12,7 +12,7 @@ class ResultsContainer(Container):
 
         """
         super().__init__()
-        results = parameters['instances']
+        results = parameters.get('instances')
 
         if len(results) == 0:
             pass

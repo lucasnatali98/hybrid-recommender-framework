@@ -1,14 +1,6 @@
 import importlib
 from src.preprocessing import *
 
-"""
-
-1. O intuito vai ser delegar a criação dos objetos para cada classe
-2. InstanceFactory vai apenas gerenciar a conexão entre config.json e as classes. 
-3. Achar uma forma de importar tudo que eu preciso de uma só vez.
-4. Import dinamico
-"""
-
 expected_keys = [
     "datasets",
     "preprocessing",
@@ -19,10 +11,10 @@ expected_keys = [
     "results"
 ]
 
+
 class InstanceFactory:
     """
     A classe InstanceFactory é responsável por receber o arquivo de configuração
-
     """
 
     def __init__(self, config_obj=dict):
@@ -32,7 +24,6 @@ class InstanceFactory:
         """
 
         self.config_obj = config_obj
-
 
     def get_instance_from_config_obj(self, class_name: str) -> dict:
         """
@@ -60,12 +51,8 @@ class InstanceFactory:
 
         class_name = instance['class']
         module_name = instance['module']
-
         class_parameters = instance['parameters']
-
         module = importlib.import_module(module_name)
         class_ = getattr(module, class_name)
-
         class_object = class_(class_parameters)
         return class_object
-

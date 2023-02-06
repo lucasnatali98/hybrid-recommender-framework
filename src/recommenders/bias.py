@@ -1,22 +1,45 @@
 from src.recommenders.recommender import Recommender
 from lenskit.algorithms import bias
 from src.utils import process_parameters
+import pandas as pd
 
 
 class Bias(Recommender):
     def __init__(self, parameters: dict) -> None:
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
+
+    def recommend(self, users, n, candidates=None, ratings=None) -> pd.DataFrame:
+        raise NotImplementedError
+
+    def predict(self, pairs, ratings):
+        raise NotImplementedError
+
+    def predict_for_user(self, user, items, ratings):
+        raise NotImplementedError
+
+    def fit(self, rating, **kwargs) -> None:
+        raise NotImplementedError
+
+    def get_params(self, deep=True):
+        raise NotImplementedError
+
+
+class LenskitBias(Bias):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = {'items', 'users', 'damping'}
         parameters = process_parameters(parameters, default_keys)
 
-        self.items = parameters['items']
-        self.users = parameters['users']
-        self.damping = parameters['damping']
+        self.items = parameters.get('items')
+        self.users = parameters.get('users')
+        self.damping = parameters.get('damping')
         self.Bias = bias.Bias(
             items=self.items,
             users=self.users,
         )
 
-    def predict_for_users(self, users, items, ratings):
+    def predict_for_user(self, user, items, ratings):
         """
 
         @param users:
@@ -24,7 +47,7 @@ class Bias(Recommender):
         @param ratings:
         @return:
         """
-        return self.Bias.predict_for_user(users, items, ratings)
+        return self.Bias.predict_for_user(user, items, ratings)
 
     def predict(self, pairs, ratings):
         """
@@ -35,7 +58,7 @@ class Bias(Recommender):
         """
         return self.Bias.predict(pairs, ratings)
 
-    def recommend(self, user, n, candidates, ratings):
+    def recommend(self, user, n, candidates, ratings) -> pd.DataFrame:
         """
 
         @param user:

@@ -1,15 +1,26 @@
 import subprocess
-
 from src.data.loader import Loader
-from external.deploy import TaskExecutor, Xperimentor
 from src.parser import json2yaml
 import sys
 from src.experiments.experiment_handler import ExperimentHandler
 from src.experiments.experiment_tasks import ExperimentTask
-from external.deploy import Xperimentor
+from external.deploy import Xperimentor, TaskExecutor
+from src.utils import beautify_subprocess_output_response
+
+
+"""
+
+-> Hibridização -> pesos ()
+
+-> arq
+
+"""
 
 if __name__ == "__main__":
     loader = Loader()
+
+    task_executor = TaskExecutor()
+
     config_obj = loader.load_json_file("config.json")
 
     experiments = config_obj['experiments']
@@ -27,6 +38,7 @@ if __name__ == "__main__":
     experiment_tasks = experiment_task.define_all_tasks()
 
     xperimentor = Xperimentor()
+
     xperimentor_config_obj = xperimentor.convert_to_xperimentor_pattern(
         experiments=experiments,
         experiment_dependencies=experiment_dependencies,
@@ -38,8 +50,6 @@ if __name__ == "__main__":
     with open("experiment_output/configuration_files/xperimentor_yaml_file.yaml", 'w') as file:
         xperimentor_yaml_file = json2yaml(xperimentor_config_obj, file)
 
-    # experiment_results = experiment_handler.run_experiments()
-
     path_to_config_file = "";
 
     args = sys.argv
@@ -50,41 +60,9 @@ if __name__ == "__main__":
         path_to_config_file = args[1]
 
 
-    dataset_task_command = list(filter(
-        lambda x: x['task_name'] == 'dataset_task',
-        experiment_tasks
-    ))[0]['command']
+    all_commands = experiment_task.get_task_commands(experiment_tasks)
 
-    preprocessing_task_command = list(filter(
-        lambda x: x['task_name'] == 'preprocessing_task',
-        experiment_tasks
-    ))[0]['command']
-    recommenders_task_command = list(filter(
-        lambda x: x['task_name'] == 'recommenders_task',
-        experiment_tasks
-    ))[0]['command']
-    metrics_task_command = list(filter(
-        lambda x: x['task_name'] == 'metrics_task',
-        experiment_tasks
-    ))[0]['command']
-    metafeatures_task_command = list(filter(
-        lambda x: x['task_name'] == 'metafeatures_task',
-        experiment_tasks
-    ))[0]['command']
-    results_task_command = list(filter(
-        lambda x: x['task_name'] == 'results_task',
-        experiment_tasks
-    ))[0]['command']
-    visualization_task_command = list(filter(
-        lambda x: x['task_name'] == 'visualization_task',
-        experiment_tasks
-    ))[0]['command']
-
-    output = subprocess.call([dataset_task_command],
-                             shell=True)
-
-    print("Output do processo - dataset_task: ", output)
-
-    output = subprocess.call([preprocessing_task_command],
-                             shell=True)
-    print("Output do processo - preprocessing_task", output)
+    for key, value in all_commands.items():
+        output = subprocess.call([value], shell=True)
+        beautify_output = beautify_subprocess_output_response(output)
+        print("Output do processo: {}: ".format(key), beautify_output)

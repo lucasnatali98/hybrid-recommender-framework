@@ -23,7 +23,7 @@ class EncodingProcessing(AbstractPreProcessing):
             'encoding_type'
         }
         parameters = process_parameters(parameters, default_keys)
-        encoding_type = parameters['encoding_type']
+        encoding_type = parameters.get('encoding_type')
 
         encoding = list(filter(lambda x: x == encoding_type, ENCODING_TYPES))
 

@@ -3,12 +3,12 @@ from abc import ABC, abstractmethod
 from src.utils import subprocess_output_is_correct
 from src.data.loader import Loader
 
-#https://unix.stackexchange.com/questions/31414/how-can-i-pass-a-command-line-argument-into-a-shell-script
+
+# https://unix.stackexchange.com/questions/31414/how-can-i-pass-a-command-line-argument-into-a-shell-script
 class Xperimentor:
     def __init__(self):
         loader = Loader()
         self.xperimentor_pattern_obj = loader.load_json_file("external/xperimentor_config_file_pattern.json")
-
 
     def convert_to_xperimentor_pattern(self, experiments: list,
                                        experiment_dependencies: dict = None,
@@ -23,7 +23,6 @@ class Xperimentor:
         qtd_experiments = len(experiments)
 
         experiment_ids = list(map(lambda x: x['id'], experiment_dependencies))
-        print("experiment_ids: ", experiment_ids)
 
         cluster_ip = cluster_info['clusterIp']
         for i in range(0, qtd_experiments):
@@ -47,12 +46,9 @@ class Xperimentor:
             self.xperimentor_pattern_obj['recipes'][i]['uses']['Eval'] = self._set_eval_recipes(metrics)
             self.xperimentor_pattern_obj['recipes'][i]['uses']['Stats'] = self._set_stats_recipes(results)
 
-
-
         # Preciso ter a relação dos folds -> Os datasets precisam guardar essa informação após gera-los
         self.xperimentor_pattern_obj['recipeDefaults'] = self.convert_recipes_default(recipes_default)
         self.xperimentor_pattern_obj['clusterIp'] = cluster_ip
-
 
         tasks_aux = []
         for i in range(0, len(tasks)):
@@ -62,7 +58,6 @@ class Xperimentor:
             })
 
         self.xperimentor_pattern_obj['tasks'] = tasks_aux
-        print(self.xperimentor_pattern_obj)
         return self.xperimentor_pattern_obj
 
     def convert_recipes_default(self, recipes: dict) -> dict:
@@ -72,15 +67,16 @@ class Xperimentor:
         @return:
         """
         new_recipes_default = {
-            "DB": recipes['database'],
-            "MF": recipes['metafeatures'],
-            "Eval": recipes['metrics'],
-            "Stats": recipes['results'],
-            "Alg": recipes['algorithms'],
-            "HF": recipes['hybrid'],
-            "Fold": recipes['folds']
+            "DB": recipes.get('database'),
+            "MF": recipes.get('metafeatures'),
+            "Eval": recipes.get('metrics'),
+            "Stats": recipes.get('results'),
+            "Alg": recipes.get('algorithms'),
+            "HF": recipes.get('hybrid'),
+            "Fold": recipes.get('folds')
         }
         return new_recipes_default
+
     def _set_database_recipes(self, database: dict) -> list:
         return [database['class']]
 
@@ -99,9 +95,10 @@ class Xperimentor:
         if obj is None:
             return []
 
-        parameters = obj['parameters']
+        parameters = obj.get('parameters')
         instances = parameters['instances']
         return list(map(lambda x: x['class_name'], instances))
+
     def _set_folds_recipes(self, folds) -> list:
         return self._get_class_name_from_instance(folds)
 
@@ -131,9 +128,10 @@ class Xperimentor:
         print("-- deploy Xperimentor by shell script file -- ")
         print("output: ", output)
         if subprocess_output_is_correct(output) == True:
-           print("O deploy do Xperimentor ocorreu corretamente no cluster")
+            print("O deploy do Xperimentor ocorreu corretamente no cluster")
 
         raise Exception("Nao foi possível fazer o deploy do Xperimentor")
+
 
 class TaskExecutor:
     def __init__(self):
@@ -153,6 +151,7 @@ class TaskExecutor:
             print("Could not build image")
             print("Task Executor Build Output: ", output)
         return output
+
     def deploy(self):
         """
 

@@ -14,3 +14,8 @@ class STREAM(HybridWeighted):
         parameters = process_parameters(parameters, default_keys)
 
 
+
+    def run(self):
+        pass
+
+

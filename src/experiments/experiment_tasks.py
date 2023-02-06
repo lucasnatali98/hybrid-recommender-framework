@@ -1,10 +1,11 @@
 from src.utils import hrf_task_path
 from src.tasks.task_factory import TaskFactory
+
+
 class ExperimentTask:
     def __init__(self):
         # Definição de todas as tarefas do framework (Executadas pelo Task Executor)
         self._task_factory = TaskFactory()
-
 
     def generate_command(self, task_type: str) -> str:
         """
@@ -25,7 +26,7 @@ class ExperimentTask:
             command = "python " + str(task_path) + "/metafeatures_task.py"
         if task_type == "visualization_task":
             command = "python " + str(task_path) + "/visualization_task.py"
-        if task_type == "algorithms_task":
+        if task_type == "recommenders_task":
             command = "python " + str(task_path) + "/algorithms_task.py"
         if task_type == "preprocessing_task":
             command = "python " + str(task_path) + "/preprocessing_task.py"
@@ -88,6 +89,27 @@ class ExperimentTask:
             tasks_structure.append(self.create_task_object(task))
         return tasks_structure
 
+    def get_task_commands(self, experiment_tasks):
+        all_comands = {
+            'dataset_task': '',
+            'preprocessing_task': '',
+            'recommenders_task': '',
+            'metrics_task': '',
+            'metafeatures_task': '',
+            'results_task': '',
+            'visualization_task': ''
+        }
+        keys = all_comands.keys()
+
+        for task_name in keys:
+            command = list(filter(
+                lambda x: x['task_name'] == task_name,
+                experiment_tasks
+            ))[0]['command']
+
+            all_comands[task_name] = command
+
+        return all_comands
 
     def define_all_tasks(self) -> dict:
         """

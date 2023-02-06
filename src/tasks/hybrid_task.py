@@ -3,13 +3,17 @@ import subprocess
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
+from src.utils import hrf_experiment_output_path
+
+
 class HybridTask(Task):
-    def __init__(self, hybrid, args = None):
+    def __init__(self, hybrid, args=None):
         """
 
         @param args:
         """
         self.hybrid_instance = hybrid
+        self.experiment_output_dir = hrf_experiment_output_path()
 
     def check_args(self, args):
         """
@@ -30,6 +34,7 @@ class HybridTask(Task):
     def _handle_hybrid_operations(self, hybrid):
         return hybrid
 
+
 def run_hybrid_task():
     print(" => Iniciando tarefa de hibridização")
     loader = Loader()
@@ -47,5 +52,8 @@ def run_hybrid_task():
     hybrid_task = HybridTask(hybrid_instance)
     hybrid_task.run()
     print(" => Finalizando tarefa de hibridização")
+    print("\n")
 
-run_hybrid_task()
+
+if __name__ == "__main__":
+    run_hybrid_task()

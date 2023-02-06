@@ -1,6 +1,7 @@
 /venv
 __pypache__/
 dist/
+*.joblib
 build/
 *.csv
 data_storage/

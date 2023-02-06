@@ -42,3 +42,30 @@ o nome da classe da métrica, tamanho do buffer
 Seu funcionamento básico pode ser obtido apenas informando o arquivo com a configuração das metafeatures
 e um possível local para armazenar os resultados.
 
+## Métricas
+
+### Colaborativas
+
+-   QualitativeMetrics.GiniIndex
+-	QualitativeMetrics.PearsonCorrelation
+-	QualitativeMetrics.PqMean
+-	QualitativeMetrics.StandardDeviation
+-	QuantitativeMetrics.LogOfDateRatings
+-	QuantitativeMetrics.LogOfQtdRatings
+-	QuantitativeMetrics.LogSdevDate >> Logaritimo do Desvio Padrão
+-	QuantitativeMetrics.NormalizedProportionOfCommomRatings
+-	QuantitativeMetrics.NormalizedProportionOfRatings
+-	QuantitativeMetrics.PRDateRatings
+-	QuantitativeMetrics.ProportionOfCommomRatings
+-	QuantitativeMetrics.ProportionOfRatings
+-	QuantitativeMetrics.RatingsMean >> Media dos ratings
+
+### Baseadas em conteúdo
+- Cosine
+- Dice
+- Jaccard
+- Entropy
+- SimilarRatingsMean >> Media de similaridade dos documentos considerados similares
+- SimilarRatingsSD >> Desvio padrao da similaridade dos documentos considerados similares
+
+	

@@ -36,9 +36,9 @@ recipes:
   pruning: []
   uses:
     Alg:
-    - ItemKNN
-    - SlopeOne
-    - UserKNN
+    - LenskitImplicitMF
+    - LenskitItemKNN
+    - LenskitUserKNN
     DB:
     - MovieLens
     Eval:
@@ -53,6 +53,7 @@ recipes:
     MF:
     - Jaccard
     - Gini
+    - Gini
     Stats:
     - ANOVA
     - ConfidenceInterval
@@ -65,7 +66,7 @@ tasks:
   id: metrics_task
 - command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/metafeatures_task.py
   id: metafeatures_task
-- command: null
+- command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/algorithms_task.py
   id: recommenders_task
 - command: python /home/lucas/Documentos/ufop/tcc/hybrid-recommender-framework/src/tasks/visualization_task.py
   id: visualization_task

@@ -1,39 +1,21 @@
 from abc import ABC, abstractmethod
+import pandas as pd
 
 
 class PreProcessing(ABC):
-
     @abstractmethod
-    def pre_processing(self, data, **kwargs):
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         """
         
         """
-        raise Exception("O método pre_processing não foi implementado")
-
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        raise Exception("O método process_parameters não foi implementado")
-
+        pass
 
 
 class AbstractPreProcessing(PreProcessing):
 
     def __init__(self):
-        """
-        
-        """
         pass
 
     @abstractmethod
-    def pre_processing(self, data, **kwargs):
-        """
-        
-        """
-        pass
-
-
-
+    def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
+        raise NotImplementedError

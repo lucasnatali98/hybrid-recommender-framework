@@ -1,83 +1,41 @@
 from src.metrics.metric import PredictionMetric
 import lenskit.metrics.predict as lenskit_predict
+import pandas as pd
+from sklearn.metrics import mean_absolute_error
+from src.utils import process_parameters
 
 
 class MAE(PredictionMetric):
     """
 
     """
+
     def __init__(self, parameters: dict) -> None:
         """
         
         """
-        pass
-
-    def evaluate(self, predictions, truth):
-        """
-
-        @param predictions:
-        @param truth:
-        @return:
-        """
-        pass
-
-    def check_missing(self, truth, missing):
-        """
-
-        """
-        pass
-
-    def process_parameters(self, parameters: dict) -> dict:
         default_keys = set()
-        parameters_keys_list = list(parameters.keys())
+        parameters = process_parameters(parameters, default_keys)
 
-        parameters_keys = set()
-        for parameter in parameters_keys_list:
-            parameters_keys.add(parameter)
-
-        if default_keys.issubset(parameters_keys):
-            pass
-        else:
-            raise KeyError("Você não informou uma das chaves obrigatorias")
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        raise NotImplementedError
 
 
-class MAELensKit(PredictionMetric):
-    """
+class LenskitMAE(MAE):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
 
-    """
-    def __init__(self):
-        """
-
-        """
-        pass
-
-    def evaluate(self, predictions, truth):
-        """
-        A função evaluate é responsável por aplicar a métrica MAE no resultados obtidos,
-        esses resultados envolvem as predições feitas e também um ground truth para garantir
-        a eficiencia da métrica
-
-        @param: predictions
-            -
-
-        @param: truth
-            -
-
-        @return Lenskit - MAE
-
-        """
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
         return lenskit_predict.mae(predictions, truth)
 
-    def check_missing(self, truth, missing):
-        """
 
-        """
-        pass
+class ScikitMAE(MAE):
+    def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
+        default_keys = set()
+        parameters = process_parameters(parameters, default_keys)
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param parameters:
-        @return:
-        """
-        pass
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        return mean_absolute_error(truth, predictions, **kwargs)

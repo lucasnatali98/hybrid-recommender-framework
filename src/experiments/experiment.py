@@ -1,24 +1,12 @@
 from src.instance_factory import InstanceFactory
 from abc import ABC, abstractmethod
-from external.deploy import Xperimentor, TaskExecutor
-from src.parser import json2yaml, yaml2json
-from src.data.loader import Loader
-from src.tasks.task_factory import TaskFactory
-from src.utils import hrf_task_path, get_project_root, process_parameters
+from src.utils import process_parameters
 
 
 class AbstractExperiment(ABC):
     """
     Interface para os experimentos
     """
-
-    @abstractmethod
-    def run(self):
-        """
-
-        @return:
-        """
-        pass
 
     @abstractmethod
     def run(self):
@@ -44,15 +32,10 @@ class Experiment(AbstractExperiment):
         self._experiment = experiment
         self._experiment_id = self._experiment.get('experiment_id')
 
-
         # Definição de todas as instâncias baseado no experimento
         instances_obj = self.create_experiment_instances(experiment)
         self._set_attributes(instances_obj)
         self._instances = instances_obj
-
-    @property
-    def instances(self) -> dict:
-        return self._instances
 
 
 
@@ -66,16 +49,14 @@ class Experiment(AbstractExperiment):
         self._instances = self.create_experiment_instances(self._experiment)
         return self._instances
 
-
     def _set_attributes(self, instances: dict):
-        self._datasets = instances['datasets']
-        self._metafeatures = instances['metafeatures']
-        self._preprocessing = instances['preprocessing']
-        self._results = instances['results']
-        self._visualization = instances['visualization']
-        self._recommenders = instances['recommenders']
-        self._metrics = instances['metrics']
-
+        self._datasets = instances.get('datasets')
+        self._metafeatures = instances.get('metafeatures')
+        self._preprocessing = instances.get('preprocessing')
+        self._results = instances.get('results')
+        self._visualization = instances.get('visualization')
+        self._recommenders = instances.get('recommenders')
+        self._metrics = instances.get('metrics')
 
     def create_experiment_instances(self, experiment: dict) -> dict:
         """
@@ -129,6 +110,7 @@ class Experiment(AbstractExperiment):
     @property
     def experiment_id(self):
         return self._experiment_id
+
     @property
     def experiment_dependencies(self):
         return self._experiment_dependencie
@@ -157,6 +139,9 @@ class Experiment(AbstractExperiment):
     def datasets(self, ds):
         self._datasets = ds
 
+    @property
+    def instances(self) -> dict:
+        return self._instances
     @property
     def recommenders(self):
         return self._recommenders
@@ -204,5 +189,3 @@ class Experiment(AbstractExperiment):
     @visualization.setter
     def visualization(self, v):
         self._visualization = v
-
-

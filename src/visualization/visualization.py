@@ -1,72 +1,54 @@
 from abc import ABC, abstractmethod
+from pandas import DataFrame
+
 
 class Visualization(ABC):
-    
+
     @abstractmethod
-    def plot(self):
+    def plot(self, data: DataFrame = None, **kwargs):
         """
 
         @return:
         """
-        raise Exception("O método plot de Visualization não está implementado")
+        pass
 
 
 class AbstractVisualization(Visualization):
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param obj:
-        @return:
-        """
-        pass
-
-    def plot(self):
+    @abstractmethod
+    def plot(self, data: DataFrame = None, **kwargs):
         """
 
         @return:
         """
         pass
+
 
 class TablePlot(AbstractVisualization):
-    def parse(self, obj):
-        """
 
-        @param obj:
-        @return:
-        """
-        pass
-    def plot(self):
+    @abstractmethod
+    def plot(self, data: DataFrame = None, **kwargs):
         """
 
         @return:
         """
         pass
+
 
 class StaticPlot(AbstractVisualization):
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters:
-        @return:
-        """
-        pass
-    def plot(self):
+    @abstractmethod
+    def plot(self, data: DataFrame = None, **kwargs):
         """
 
         @return:
         """
         pass
+
 
 class InteractivePlot(AbstractVisualization):
-    def process_parameters(self, parameters: dict) -> dict:
-        """
-
-        @param obj:
-        @return:
-        """
-        pass
-    def plot(self):
+    @abstractmethod
+    def plot(self, data: DataFrame = None, **kwargs):
         """
 
         @return:

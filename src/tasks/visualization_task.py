@@ -1,13 +1,13 @@
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
 from src.data.loader import Loader
-
+from src.utils import hrf_experiment_output_path
 class VisualizationTask(Task):
     def __init__(self, visualization):
         """
 
         """
-
+        self.experiment_output_dir = hrf_experiment_output_path()
         self.visualization_instance = visualization
 
     def process_parameters(self, parameters: dict) -> dict:
@@ -61,8 +61,9 @@ def run_visualization_task():
     print(" => Iniciando a execução da tarefa da visualização dos dados")
     visualization_result = visualization_task.run()
     print(" => Finalizando a tarefa de visualização dos dados")
-
+    print("\n")
     return visualization_result
 
 
-run_visualization_task()
+if __name__ == "__main__":
+    run_visualization_task()
