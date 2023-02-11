@@ -1,5 +1,5 @@
 class Process:
-    def __init__(self, output=None):
+    def __init__(self, output=None, **kwargs):
         self.args = kwargs['args']
         self.response = None
         self.error = None
