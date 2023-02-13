@@ -8,13 +8,11 @@ movielens = MovieLens({
 })
 ratings = movielens.ratings
 
+def test_create_directory():
+    pass
 
-
-def test_create_user_item_rating_matrix():
-    user_item_matrix = create_user_item_rating_matrix(ratings) #Problema de memória
-    print("user item matrix")
-    print(user_item_matrix)
-
+def test_check_if_directory_exists():
+    pass
 def test_hrf_experiment_output_task():
     hrf_path = hrf_experiment_output_path()
     root_path = get_project_root()
