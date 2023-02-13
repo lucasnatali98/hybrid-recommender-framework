@@ -1,5 +1,4 @@
 import pandas as pd
-
 from src.data.dataset import AbstractDataSet
 from src.utils import process_parameters
 

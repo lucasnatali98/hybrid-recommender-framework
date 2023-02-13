@@ -1,7 +1,32 @@
+from __future__ import annotations
+
 from pathlib import Path
 import pandas as pd
 from pandas import DataFrame, Series
+import os
 
+
+def create_directory(path: Path, dir_name: str):
+    """
+    Função para criar um novo diretório no projetp
+    @param path: Caminho base para criar o diretório
+    @param dir_name: nome do diretório a ser criado
+    @return: None or str
+    """
+    dir_path = path.joinpath(dir_name)
+    directory_exists = check_if_directory_exists(dir_path)
+    if directory_exists:
+        return None
+    else:
+        os.makedirs(dir_path)
+        return dir_path
+def check_if_directory_exists(dir: Path):
+    """
+    Função para checar se o diretório existe
+    @param dir: string para o caminho do diretório
+    @return: bool -> Verdadeiro ou falso
+    """
+    return os.path.exists(dir)
 
 def process_parameters(parameters: dict, default_keys: set) -> dict:
     parameters = convert_json_attribute_values_to_python(parameters)
