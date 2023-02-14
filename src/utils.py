@@ -6,18 +6,24 @@ import os
 
 def create_directory(path: Path, dir_name: str):
     """
-    Função para criar um novo diretório no projetp
+    Função para criar um novo diretório no projeto
+
+
     @param path: Caminho base para criar o diretório
     @param dir_name: nome do diretório a ser criado
+
+
     @return: None or str
     """
     dir_path = path.joinpath(dir_name)
     directory_exists = check_if_directory_exists(dir_path)
     if directory_exists:
+        print("directory exists: ", directory_exists)
         return None
     else:
-        os.makedirs(dir_path)
-        return dir_path
+        Path(dir_path).mkdir(parents=True, exist_ok=True)
+        return True
+
 def check_if_directory_exists(dir: Path):
     """
     Função para checar se o diretório existe
