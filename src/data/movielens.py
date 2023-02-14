@@ -1,7 +1,10 @@
 import pandas as pd
 from src.data.dataset import AbstractDataSet
-from src.utils import process_parameters, create_directory, hrf_data_storage_path, check_if_directory_exists
-from surprise import Dataset
+from src.utils import process_parameters,\
+    create_directory,\
+    hrf_data_storage_path,\
+    check_if_directory_exists, check_if_directory_is_empty, unzip_file, hrf_build_path
+
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
     "ml-latest",
@@ -54,9 +57,6 @@ class MovieLens(AbstractDataSet):
 
         """
 
-
-
-
         path = self.basePath + "ml-25m/"
         movies = self.Loader.load_file(path=path + "movies", extension=".csv")
         links = self.Loader.load_file(path=path + "links", extension=".csv")
@@ -71,12 +71,6 @@ class MovieLens(AbstractDataSet):
         self.set_links(links)
         self.set_genome_tags(genome_tags)
         self.set_genome_scores(genome_scores)
-
-
-
-
-
-
 
     def _load_ml_latest(self) -> None:
         """
@@ -97,21 +91,40 @@ class MovieLens(AbstractDataSet):
         self.set_genome_tags(genome_tags)
         self.set_genome_scores(genome_scores)
 
-    def _load_ml_latest_small(self) -> None:
+    def _load_ml_latest_small(self) -> str:
         """
 
 
         """
-        path = self.basePath + "ml-latest-small/"
-        movies = self.Loader.load_file(path=path + "movies", extension=".csv")
-        links = self.Loader.load_file(path=path + "links", extension=".csv")
-        ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
-        tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+        response = ("success", "failure")
+        ml_latest_small_path = hrf_data_storage_path().joinpath("ml-latest-small")
+        ml_latest_small_zip_file = hrf_build_path().joinpath("ml-latest-small.zip")
 
-        self.set_items(movies)
-        self.set_tags(tags)
-        self.set_ratings(ratings)
-        self.set_links(links)
+        is_ml_latest_small_path_exists = check_if_directory_exists(ml_latest_small_path)
+        is_ml_latest_small_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-latest-small")
+
+        if is_ml_latest_small_path_exists and is_ml_latest_small_empty is False:
+            path = self.basePath + "ml-latest-small/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
+        else:
+            c = create_directory(hrf_data_storage_path(), "ml-latest-small")
+
+            if c is None:
+                raise Exception("Não foi possivel criar o diretório - ml-latest-small")
+
+            print("O diretório (ml-latest-small) foi criado com sucesso")
+            print("Extraindo os arquivos...")
+            unzip_file(path_to_zip_file=ml_latest_small_zip_file, path_to_extract=hrf_data_storage_path())
+            return response[1]
 
     def set_ratings(self, ratings):
         ratings = self.transform_columns_to_lenskit_pattern(ratings)
@@ -153,20 +166,23 @@ class MovieLens(AbstractDataSet):
 
         @return:
         """
-
+        load_result = None
         if self.proportion == "ml-25m":
-            self._load_ml25m()
+            load_result = self._load_ml25m()
         if self.proportion == "ml-latest":
-            self._load_ml_latest()
+            load_result = self._load_ml_latest()
         if self.proportion == "ml-latest-small":
-            self._load_ml_latest_small()
+            load_result = self._load_ml_latest_small()
 
-        return [
-            self.items,
-            self.links,
-            self.ratings,
-            self.tags,
-        ]
+        if load_result == "success":
+            return [
+                self.items,
+                self.links,
+                self.ratings,
+                self.tags,
+            ]
+        else:
+            return None
 
     @property
     def ratings(self):

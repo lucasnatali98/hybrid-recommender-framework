@@ -2,10 +2,8 @@
 __pypache__/
 dist/
 *.joblib
-build/
 *.csv
 data_storage/
-*.zip
 *.pyc
 .idea
 node_modules/
