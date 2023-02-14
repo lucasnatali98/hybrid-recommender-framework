@@ -124,7 +124,19 @@ class MovieLens(AbstractDataSet):
             print("O diretório (ml-latest-small) foi criado com sucesso")
             print("Extraindo os arquivos...")
             unzip_file(path_to_zip_file=ml_latest_small_zip_file, path_to_extract=hrf_data_storage_path())
-            return response[1]
+
+            path = self.basePath + "ml-latest-small/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
+
 
     def set_ratings(self, ratings):
         ratings = self.transform_columns_to_lenskit_pattern(ratings)
