@@ -2,6 +2,29 @@ from __future__ import annotations
 from pathlib import Path
 from pandas import DataFrame, Series
 import os
+import zipfile
+
+
+def check_if_directory_is_empty(path: Path, dir_name: str) -> bool:
+    """
+
+    @param path:
+    @param dir_name:
+    @return:
+    """
+
+    try:
+        path = path.joinpath(dir_name)
+        dir = os.listdir(path)
+
+        if len(dir) == 0:
+            return True
+        else:
+            return False
+    except Exception as e:
+        print(e)
+        return True
+
 
 
 def create_directory(path: Path, dir_name: str):
@@ -88,6 +111,16 @@ def object_equals_type(obj, object_type):
     return False
 
 
+def unzip_file(path_to_zip_file: Path, path_to_extract: Path) -> None:
+    """
+    Função para fazer unzip
+
+    @param path_to_zip_file: caminho do arquivo .zip que será lido
+    @param path_to_extract: caminho onde o arquivo .zip será extraido
+    @return: None
+    """
+    with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
+        zip_ref.extractall(path_to_extract)
 def subprocess_output_is_correct(output):
     """
     Função responsável por verificar se a saída de CompletedProcess
@@ -154,7 +187,7 @@ def hrf_data_storage_path():
     @return:
     """
     root_path = get_project_root()
-    root_path = root_path.joinpath("data_storage/")
+    root_path = root_path.joinpath("data_storage")
     return root_path
 def hrf_external_path():
     """
