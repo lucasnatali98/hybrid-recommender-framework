@@ -148,6 +148,14 @@ def hrf_experiment_output_path():
     root_path = root_path.joinpath("experiment_output")
     return root_path
 
+def hrf_data_storage_path():
+    """
+    Função responsável por retornar o path para a pasta de armazenamento de dados.
+    @return:
+    """
+    root_path = get_project_root()
+    root_path = root_path.joinpath("data_storage/")
+    return root_path
 def hrf_external_path():
     """
     Função responsável por retornar o path para o diretório "external"
