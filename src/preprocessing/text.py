@@ -3,10 +3,10 @@ from src.preprocessing.preprocessing import AbstractPreProcessing
 from src.utils import process_parameters, hrf_experiment_output_path
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.probability import FreqDist
-from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
+from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
 import pandas as pd
-
+nltk.download('stopwords')
 
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict) -> None:
