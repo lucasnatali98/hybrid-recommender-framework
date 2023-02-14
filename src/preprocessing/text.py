@@ -7,6 +7,8 @@ from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
 import pandas as pd
 nltk.download('stopwords')
+nltk.download('punkt')
+
 
 class TextProcessing(AbstractPreProcessing):
     def __init__(self, parameters: dict) -> None:
