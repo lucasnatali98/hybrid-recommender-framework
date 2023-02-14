@@ -3,7 +3,7 @@ from src.data.dataset import AbstractDataSet
 from src.utils import process_parameters,\
     create_directory,\
     hrf_data_storage_path,\
-    check_if_directory_exists, check_if_directory_is_empty, unzip_file
+    check_if_directory_exists, check_if_directory_is_empty, unzip_file, hrf_build_path
 
 PROPORTION_POSSIBILITIES = {
     "ml-25m",
@@ -98,14 +98,10 @@ class MovieLens(AbstractDataSet):
         """
         response = ("success", "failure")
         ml_latest_small_path = hrf_data_storage_path().joinpath("ml-latest-small")
-
-        data_storage_path = hrf_data_storage_path()
+        ml_latest_small_zip_file = hrf_build_path().joinpath("ml-latest-small.zip")
 
         is_ml_latest_small_path_exists = check_if_directory_exists(ml_latest_small_path)
         is_ml_latest_small_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-latest-small")
-
-        print("is_ml_latest_small_path_exists: ", is_ml_latest_small_path_exists)
-        print("is_ml_latest_small_directory_empty: ", is_ml_latest_small_empty)
 
         if is_ml_latest_small_path_exists and is_ml_latest_small_empty is False:
             path = self.basePath + "ml-latest-small/"
@@ -125,8 +121,9 @@ class MovieLens(AbstractDataSet):
             if c is None:
                 raise Exception("Não foi possivel criar o diretório - ml-latest-small")
 
-            print("O diretório (ml-latest-small) foi criado com sucesso - porém sem os arquivos")
-            unzip_file()
+            print("O diretório (ml-latest-small) foi criado com sucesso")
+            print("Extraindo os arquivos...")
+            unzip_file(path_to_zip_file=ml_latest_small_zip_file, path_to_extract=hrf_data_storage_path())
             return response[1]
 
     def set_ratings(self, ratings):
