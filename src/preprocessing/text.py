@@ -6,8 +6,8 @@ from nltk.probability import FreqDist
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from nltk.corpus import stopwords
 import pandas as pd
-nltk.download('stopwords')
-nltk.download('punkt')
+nltk.download('stopwords', quiet=True)
+nltk.download('punkt', quiet=True)
 
 
 class TextProcessing(AbstractPreProcessing):
