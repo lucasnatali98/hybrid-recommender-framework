@@ -28,6 +28,7 @@ class AbstractMetaFeature(MetaFeature):
         self.use_text_output = parameters.get('useTextOutput', True)
         self.partition_length = parameters.get('partitionLength', 1)
 
+
     def update(self, obj):
         raise NotImplementedError
 

@@ -103,8 +103,6 @@ def beautify_subprocess_output_response(output):
     else:
         return "Concluído com sucesso"
 
-
-
 def object_equals_type(obj, object_type):
     """
 

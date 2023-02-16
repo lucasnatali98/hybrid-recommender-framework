@@ -64,10 +64,14 @@ if __name__ == "__main__":
 
     for key, value in all_commands.items():
         output = subprocess.run([value], shell=True, capture_output=True, check=True)
+
         return_code = output.returncode
+
         stdout = output.stdout.decode("utf-8")
         stderr = output.stderr.decode("utf-8")
+
         beautify_output = beautify_subprocess_output_response(return_code)
         beautify_stderr = beautify_subprocess_stderr_respose(stderr)
+
         print("Output do processo: {}: ".format(key), beautify_output)
         print("Erros: ", beautify_stderr)
