@@ -198,31 +198,6 @@ Para contribuir com o hybrid recommender framework, siga estas etapas:
 
 Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-## 🤝 Autores
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="#">
-        <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHcrrceSpVcDw/profile-displayphoto-shrink_800_800/0/1579646560279?e=1673481600&v=beta&t=ZNYdW2-J5gF_d2VcVgVbJMaiMxdk0klwyLr7JvoJPSM" width="100px;" alt="Foto do Lucas"/><br>
-        <sub>
-          <b>Lucas Natali</b>
-        </sub>
-      </a>
-    </td>
-    <td align="center">
-      <a href="#">
-        <img src="https://media-exp1.licdn.com/dms/image/C4D03AQEKsc-CUUX56A/profile-displayphoto-shrink_800_800/0/1516837380603?e=1673481600&v=beta&t=FkNii-p4tkKDfN16HTrdE4k1ChaDmAeB3-Tusg-fsE8" width="100px;" alt="Foto do Reinaldo"/><br>
-        <sub>
-          <b>Reinaldo Silva Fortes</b>
-        </sub>
-      </a>
-    </td>
-    
-  </tr>
-</table>
-
-
 ## Seja um dos contribuidores<br>
 
 Quer fazer parte desse projeto? Entre em contato com:
