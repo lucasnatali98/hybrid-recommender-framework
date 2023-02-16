@@ -90,6 +90,13 @@ def convert_json_attribute_values_to_python(parameters: dict) -> dict:
     return new_parameters
 
 
+def beautify_subprocess_stderr_respose(stderr):
+
+    if not stderr or stderr == '' or stderr == "" or len(stderr) == 0:
+        return "Não houveram erros na execução"
+    else:
+        return stderr
+
 def beautify_subprocess_output_response(output):
     if output == 1:
         return "Concluído com erros na execução"

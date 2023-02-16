@@ -5,7 +5,7 @@ import sys
 from src.experiments.experiment_handler import ExperimentHandler
 from src.experiments.experiment_tasks import ExperimentTask
 from external.deploy import Xperimentor, TaskExecutor
-from src.utils import beautify_subprocess_output_response
+from src.utils import beautify_subprocess_output_response, beautify_subprocess_stderr_respose
 
 
 """
@@ -63,7 +63,11 @@ if __name__ == "__main__":
     all_commands = experiment_task.get_task_commands(experiment_tasks)
 
     for key, value in all_commands.items():
-        output = subprocess.run([value], shell=True, capture_output=True)
-        print(output)
-        beautify_output = beautify_subprocess_output_response(output)
+        output = subprocess.run([value], shell=True, capture_output=True, check=True)
+        return_code = output.returncode
+        stdout = output.stdout.decode("utf-8")
+        stderr = output.stderr.decode("utf-8")
+        beautify_output = beautify_subprocess_output_response(return_code)
+        beautify_stderr = beautify_subprocess_stderr_respose(stderr)
         print("Output do processo: {}: ".format(key), beautify_output)
+        print("Erros: ", beautify_stderr)
