@@ -1,8 +1,8 @@
 
 from src.recommenders.recommender import Recommender
+from pandas import DataFrame, Series
 
-
-class Hybrid(Recommender):
+class Hybrid: #Deve herdar de quem?
 
     def __init__(self, parameters: dict) -> None:
         self.constituent_algorithm = []
@@ -36,11 +36,15 @@ class Hybrid(Recommender):
         """
         self.remove_algorithm(algorithm)
 
-    def combine_user_metafeature_with_predictions(self, metafeature, predictions):
+    def combine_user_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
 
-    def combine_item_metafeature_with_predictions(self, metafeature, predictions):
+    def combine_item_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
 
-    def combine_user_item_metafeature_with_predictions(self, metafeature, predictions):
+    def combine_user_item_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
+        pass
+
+
+    def predict_new_score(self):
         pass

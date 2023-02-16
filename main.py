@@ -63,15 +63,16 @@ if __name__ == "__main__":
     all_commands = experiment_task.get_task_commands(experiment_tasks)
 
     for key, value in all_commands.items():
-        output = subprocess.run([value], shell=True, capture_output=True, check=True)
+        output = subprocess.call([value], shell=True)
+        print("output: ", output)
 
+        """
         return_code = output.returncode
-
         stdout = output.stdout.decode("utf-8")
         stderr = output.stderr.decode("utf-8")
+        """
 
-        beautify_output = beautify_subprocess_output_response(return_code)
-        beautify_stderr = beautify_subprocess_stderr_respose(stderr)
-
+        beautify_output = beautify_subprocess_output_response(output)
+        #beautify_stderr = beautify_subprocess_stderr_respose(stderr)
         print("Output do processo: {}: ".format(key), beautify_output)
-        print("Erros: ", beautify_stderr)
+        #print("Erros: ", beautify_stderr)
