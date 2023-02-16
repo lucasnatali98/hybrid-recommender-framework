@@ -87,19 +87,51 @@ Para instalar o hybrid recommender framework, siga estas etapas:
 
 Primeiro faça o clone do projeto para sua máquina
 ```
-git clone https://github.com/lucasnatali98/hybrid-recommender-framework.git
+git clone https://github.com/lucasnatali98/hybrid_recommender_framework.git
 ```
-Em sequência você irá precisar criar um ambiente para o projeto e suas depedências, e para isso você pode utilizar de diversas ferramentas. Nesse caso, vou utilizar o Virtualenv
+Em sequência você irá precisar criar um ambiente para o projeto com suas dependências e para isso você pode utilizar de algumas ferramentas como, por exemplo, Virtualenv ou python3-venv. Vamos simular as duas situações:
+
+Para o Virtualenv, podemos fazer da seguinte forma, primeiro fazemos a instalação do virtualenv com:
+
+<code>
+pip install virtualenv
+</code>
+
+Após instalado, vamos criar o ambiente virtual com:
 
 ```
-virtualenv venv
+virtualenv <environment_name>
+
+Exemplo: virtualenv venv
 ```
 
 Com o ambiente devidamente criado, vamos ativá-lo:
 
+No linux:
 ```
-source venv/bin/activate
+source venv/Scripts/activate
 ```
+
+No windows:
+```
+cd venv/Scripts/
+activate
+```
+
+Agora, vamos ver como funcionaria caso estejamos usando o python-venv:
+
+Caso você ainda não tenha o venv instalado, você pode instalar com:
+
+<code>
+sudo apt install python3-venv
+</code>
+
+Criar o ambiente virtual:
+
+<code>
+python3 -m venv <environment_name>
+</code>
+
 
 Com o ambiente ativado, podemos fazer a instalação das dependências
 do projeto utilizando pip
