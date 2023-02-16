@@ -4,6 +4,8 @@ from src.utils import process_parameters
 
 class MetaFeature(ABC):
 
+
+
     @abstractmethod
     def update(self, obj):
         """
@@ -28,6 +30,11 @@ class AbstractMetaFeature(MetaFeature):
         self.use_text_output = parameters.get('useTextOutput', True)
         self.partition_length = parameters.get('partitionLength', 1)
 
+
+
+    def get_user_metafeature(self):
+        pass
+    def get_item_metafeature
 
     def update(self, obj):
         raise NotImplementedError

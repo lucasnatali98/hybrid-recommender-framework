@@ -1,7 +1,7 @@
 
-from src.hybrid.hybrid_weighted import HybridWeighted
+from src.hybrid.hybrid import HybridWeighted
 from src.utils import process_parameters
-
+from pandas import DataFrame, Series
 
 class STREAM(HybridWeighted):
 
@@ -9,13 +9,14 @@ class STREAM(HybridWeighted):
         """
         
         """
-        super().__init__()
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
 
 
-    def run(self):
+    def run(self, metafeatures: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
+
 
 
