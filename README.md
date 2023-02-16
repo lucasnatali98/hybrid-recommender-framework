@@ -129,18 +129,22 @@ sudo apt install python3-venv
 Criar o ambiente virtual:
 
 <code>
-python3 -m venv <environment_name>
+python3 -m venv environment_name
 </code>
 
+Após a criação do ambiente virtual temos algumas possíveis formas de ativar que variam entre plataforma e podem ser vistos no link abaixo:
 
-Com o ambiente ativado, podemos fazer a instalação das dependências
-do projeto utilizando pip
-```
+https://docs.python.org/3/library/venv.html#how-venvs-work
+
+
+Agora que vimos duas das principais formas de criar e ativar os ambientes virtuais python, podemos começar a instalar as dependências do projeto.
+Para isso, vamos usar o seguinte comando pip:
+
+<code>
 pip install -r requirements.txt
-```
+</code>
 
-Isso deve ser suficiente para baixar todas as dependências e a
-partir dai já estaremos prontos para utilizar o projeto
+Após a finalização da instalação, já podemos começar a usar o framework.
 
 ## ☕ Usando o Hybrid Recommender Framework
 
@@ -149,13 +153,38 @@ prepare todo o arquivo de configuração, definindo os experimentos
 com seus respectivos algoritmos, preprocessamentos, dentre outras
 operações. Com esse arquivo configurado, basta que seja executado:
 
-```
-python main.py <path_to_config_file>
-```
+<code>
+python main.py path_to_config_file
+</code>
+
 
 A execução do projeto considera um único argumento de linha de comando que é o caminho
 para o arquivo de configuração. Por default esse valor vai considerar que o arquivo de configuração
 esteja na raiz do projeto, nomeado como ```config.json```
+
+Uma outra forma de utilização é usar diretamente os módulos do framework juntamente com suas classes e funções.
+Nesse caso, basta importar e instanciar o que for necessário, por exemplo:
+
+```commandline
+from src.data.movielens import MovieLens
+from src.preprocessing.normalize import NormalizeProcessing
+
+movielens = MovieLens({
+    "proportion": "ml-latest-small"
+})
+ratings = movielens.ratings
+
+normalize_processing = NormalizeProcessing({
+    "norm": "l2"
+})
+
+result = normalize_processing.pre_processing(ratings, **kwargs)
+```
+
+Casos como esse estão relatados na pasta de exemplos do framework que pode ser acessado através
+desse link: 
+
+[Exemplos de uso do Framework](examples/recommendation)
 
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
