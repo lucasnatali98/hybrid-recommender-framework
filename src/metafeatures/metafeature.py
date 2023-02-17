@@ -5,7 +5,10 @@ import os
 
 
 def read_metafeatures_textfiles():
-    result = DataFrame()
+    result = {
+        'collaborative': [],
+        'contentbased': [],
+    }
     collaborative_dir = hrf_metafeatures_path().joinpath("collaborative")
     contentbased_dir = hrf_metafeatures_path().joinpath("contentbased")
 
@@ -35,19 +38,20 @@ def read_metafeatures_textfiles():
         if mf_type == "ItemUser":
             columns = ['user', 'item', 'value']
 
-        mf_dataframe = DataFrame(columns = columns)
+        mf_dataframe = {}
         file = collaborative_dir.joinpath(collaborative_file)
 
         df = read_csv(file, sep=';')
-        print(df)
 
+        mf_dataframe[cf_name + "_" + mf_type] = df
+        result['collaborative'].append(mf_dataframe)
 
 
 
     for contentbased_file in contentbased_dir_files:
-        splitted_cf = collaborative_file.split("_")  # Exemplo: cf_Gini_Item.txt
-        cf_name = splitted_cf[1]
-        mf_type = splitted_cf[2]
+        splitted_cb = contentbased_file.split("_")  # Exemplo: cf_Gini_Item.txt
+        cb_name = splitted_cb[1]
+        mf_type = splitted_cb[2]
         mf_type = mf_type.split(".")[0]
         columns = None
 
@@ -58,10 +62,16 @@ def read_metafeatures_textfiles():
         if mf_type == "ItemUser":
             columns = ['user', 'item', 'value']
 
-        mf_dataframe = DataFrame(columns=columns)
+        mf_dataframe = {}
         file = contentbased_dir.joinpath(contentbased_file)
         df = read_csv(file, sep=';')
-        print(df)
+        print("content df: ", df)
+        mf_dataframe[cb_name + "_" + mf_type] = df
+        result['contentbased'].append(mf_dataframe)
+
+
+    print(result)
+    return result
 
 
 
