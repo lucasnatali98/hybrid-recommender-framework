@@ -62,12 +62,6 @@ class AbstractHybrid(Hybrid):
 
         """
         self.remove_algorithm(algorithm)
-
-    def _convert_metafeature_textfile_to_csv(self):
-        pass
-    def _read_metafeature_files(self, metafeatures):
-        df = DataFrame()
-
     def combine_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
 
@@ -93,8 +87,4 @@ class HybridMixed(Hybrid, ABC):
         super().__init__(parameters)
 
 
-hybrid = Hybrid({
 
-})
-
-loader = Loader()

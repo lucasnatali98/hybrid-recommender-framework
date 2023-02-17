@@ -190,6 +190,10 @@ def hrf_experiment_output_path():
     root_path = root_path.joinpath("experiment_output")
     return root_path
 
+def hrf_metafeatures_path():
+    root_path = hrf_experiment_output_path()
+    root_path = root_path.joinpath("metafeatures")
+    return root_path
 def hrf_data_storage_path():
     """
     Função responsável por retornar o path para a pasta de armazenamento de dados.
