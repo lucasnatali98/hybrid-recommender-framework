@@ -66,11 +66,6 @@ if __name__ == "__main__":
         output = subprocess.call([value], shell=True)
         print("output: ", output)
 
-        """
-        return_code = output.returncode
-        stdout = output.stdout.decode("utf-8")
-        stderr = output.stderr.decode("utf-8")
-        """
 
         beautify_output = beautify_subprocess_output_response(output)
         #beautify_stderr = beautify_subprocess_stderr_respose(stderr)

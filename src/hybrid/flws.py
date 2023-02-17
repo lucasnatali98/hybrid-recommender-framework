@@ -1,5 +1,7 @@
-from src.hybrid.hybrid_weighted import HybridWeighted
+from src.hybrid.hybrid import HybridWeighted
 from src.utils import process_parameters
+from pandas import DataFrame, Series
+
 
 class FLWS(HybridWeighted):
     def __init__(self, parameters: dict) -> None:
@@ -11,7 +13,7 @@ class FLWS(HybridWeighted):
         parameters = process_parameters(parameters, default_keys)
 
 
-    def run(self):
+    def run(self, metafeatures: DataFrame, predictions: DataFrame) -> DataFrame:
         """
 
         @return:

@@ -87,28 +87,64 @@ Para instalar o hybrid recommender framework, siga estas etapas:
 
 Primeiro faça o clone do projeto para sua máquina
 ```
-git clone https://github.com/lucasnatali98/hybrid-recommender-framework.git
+git clone https://github.com/lucasnatali98/hybrid_recommender_framework.git
 ```
-Em sequência você irá precisar criar um ambiente para o projeto e suas depedências, e para isso você pode utilizar de diversas ferramentas. Nesse caso, vou utilizar o Virtualenv
+Em sequência você irá precisar criar um ambiente para o projeto com suas dependências e para isso você pode utilizar de algumas ferramentas como, por exemplo, Virtualenv ou python3-venv. Vamos simular as duas situações:
+
+Para o Virtualenv, podemos fazer da seguinte forma, primeiro fazemos a instalação do virtualenv com:
+
+<code>
+pip install virtualenv
+</code>
+
+Após instalado, vamos criar o ambiente virtual com:
 
 ```
-virtualenv venv
+virtualenv <environment_name>
+
+Exemplo: virtualenv venv
 ```
 
 Com o ambiente devidamente criado, vamos ativá-lo:
 
+No linux:
 ```
-source venv/bin/activate
+source venv/Scripts/activate
 ```
 
-Com o ambiente ativado, podemos fazer a instalação das dependências
-do projeto utilizando pip
+No windows:
 ```
+cd venv/Scripts/
+activate
+```
+
+Agora, vamos ver como funcionaria caso estejamos usando o python-venv:
+
+Caso você ainda não tenha o venv instalado, você pode instalar com:
+
+<code>
+sudo apt install python3-venv
+</code>
+
+Criar o ambiente virtual:
+
+<code>
+python3 -m venv environment_name
+</code>
+
+Após a criação do ambiente virtual temos algumas possíveis formas de ativar que variam entre plataforma e podem ser vistos no link abaixo:
+
+https://docs.python.org/3/library/venv.html#how-venvs-work
+
+
+Agora que vimos duas das principais formas de criar e ativar os ambientes virtuais python, podemos começar a instalar as dependências do projeto.
+Para isso, vamos usar o seguinte comando pip:
+
+<code>
 pip install -r requirements.txt
-```
+</code>
 
-Isso deve ser suficiente para baixar todas as dependências e a
-partir dai já estaremos prontos para utilizar o projeto
+Após a finalização da instalação, já podemos começar a usar o framework.
 
 ## ☕ Usando o Hybrid Recommender Framework
 
@@ -117,13 +153,38 @@ prepare todo o arquivo de configuração, definindo os experimentos
 com seus respectivos algoritmos, preprocessamentos, dentre outras
 operações. Com esse arquivo configurado, basta que seja executado:
 
-```
-python main.py <path_to_config_file>
-```
+<code>
+python main.py path_to_config_file
+</code>
+
 
 A execução do projeto considera um único argumento de linha de comando que é o caminho
 para o arquivo de configuração. Por default esse valor vai considerar que o arquivo de configuração
 esteja na raiz do projeto, nomeado como ```config.json```
+
+Uma outra forma de utilização é usar diretamente os módulos do framework juntamente com suas classes e funções.
+Nesse caso, basta importar e instanciar o que for necessário, por exemplo:
+
+```commandline
+from src.data.movielens import MovieLens
+from src.preprocessing.normalize import NormalizeProcessing
+
+movielens = MovieLens({
+    "proportion": "ml-latest-small"
+})
+ratings = movielens.ratings
+
+normalize_processing = NormalizeProcessing({
+    "norm": "l2"
+})
+
+result = normalize_processing.pre_processing(ratings, **kwargs)
+```
+
+Casos como esse estão relatados na pasta de exemplos do framework que pode ser acessado através
+desse link: 
+
+[Exemplos de uso do Framework](examples/recommendation)
 
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
@@ -136,31 +197,6 @@ Para contribuir com o hybrid recommender framework, siga estas etapas:
 5. Crie a solicitação de pull.
 
 Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
-
-## 🤝 Autores
-
-<table>
-  <tr>
-    <td align="center">
-      <a href="#">
-        <img src="https://media-exp1.licdn.com/dms/image/C4E03AQHcrrceSpVcDw/profile-displayphoto-shrink_800_800/0/1579646560279?e=1673481600&v=beta&t=ZNYdW2-J5gF_d2VcVgVbJMaiMxdk0klwyLr7JvoJPSM" width="100px;" alt="Foto do Lucas"/><br>
-        <sub>
-          <b>Lucas Natali</b>
-        </sub>
-      </a>
-    </td>
-    <td align="center">
-      <a href="#">
-        <img src="https://media-exp1.licdn.com/dms/image/C4D03AQEKsc-CUUX56A/profile-displayphoto-shrink_800_800/0/1516837380603?e=1673481600&v=beta&t=FkNii-p4tkKDfN16HTrdE4k1ChaDmAeB3-Tusg-fsE8" width="100px;" alt="Foto do Reinaldo"/><br>
-        <sub>
-          <b>Reinaldo Silva Fortes</b>
-        </sub>
-      </a>
-    </td>
-    
-  </tr>
-</table>
-
 
 ## Seja um dos contribuidores<br>
 
