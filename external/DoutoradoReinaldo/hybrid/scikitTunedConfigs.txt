@@ -1,1 +1,0 @@
-python -u run/hybrid/scikitTunedConfigs.py <OUT_FOLD> "<PREFIX>" "train.out" run/hybrid/scikitAlgorithms-<BD>.py > <OUT>.out

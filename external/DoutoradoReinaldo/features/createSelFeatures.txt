@@ -1,5 +1,0 @@
-python -u run/features/createSelFeatures.py <BD> F1234-5 features <STRATEGY> > <OUT>.<STRATEGY>.1234-5.out
-python -u run/features/createSelFeatures.py <BD> F1235-4 features <STRATEGY> > <OUT>.<STRATEGY>.1235-4.out
-python -u run/features/createSelFeatures.py <BD> F1245-3 features <STRATEGY> > <OUT>.<STRATEGY>.1245-3.out
-python -u run/features/createSelFeatures.py <BD> F1345-2 features <STRATEGY> > <OUT>.<STRATEGY>.1345-2.out
-python -u run/features/createSelFeatures.py <BD> F2345-1 features <STRATEGY> > <OUT>.<STRATEGY>.2345-1.out

@@ -1,1 +1,0 @@
-python -u <RUN>/sortPredictions.py  <BD>  constituent/<FOLD>  features/<FOLD>/keys.test  <TOP_N>  > <OUT>-<R>-<FOLD>.out

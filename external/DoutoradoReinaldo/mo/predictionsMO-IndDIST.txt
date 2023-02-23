@@ -1,1 +1,0 @@
-python -u <RUN>/predictionsMO.py  <BD>/  PREF-6h/MO/<FOLD>/<R>/  SOL-Ind-DIST.csv      features/<FOLD>/  <hybrid>-<feature>.test  keys.test  <PRED_FOLD>/  >  <OUT>-<hybrid>-<feature>-<FOLD>-<R>.out

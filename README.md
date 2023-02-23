@@ -19,16 +19,40 @@ Em cada uma dessas fases teremos um conjunto de artefatos gerados para alimentar
 
 ![alt text](docs/imgs/arquiteturaFramework_ptbr.png?raw=true)
 
-O módulo de pré-processamento será responsável por todas operações pré construção dos modelos de recomendação, para ter mais detalhes sobre o funcionamento do pré-processamento basta acessar a documentação do módulo [Preprocessamento](src/preprocessing/README.md)
+O módulo de pré-processamento será responsável por 
+todas operações feitas pré construção dos modelos de recomendação,
+para ter mais detalhes sobre o funcionamento do pré-processamento
+basta acessar a documentação do módulo [Preprocessamento](src/preprocessing/README.md)
 
-Posteriormente, com os recursos gerados partiremos para parte da modelagem e treinamento dos modelos para obtermos ao final um conjunto de itens recomendados. Mais detalhes sobre esse módulo basta consultar a documentação [Modelagem e Treinamento](src/recommenders/README.md)
+Posteriormente, com os recursos gerados partiremos para parte do 
+treinamento dos modelos, dessa fase podemos obter
+um conjunto de itens recomendados além de predições relacionadas
+aos ratings. Para mais detalhes sobre esse módulo 
+basta consultar a documentação [Modelagem e Treinamento](src/recommenders/README.md)
 
-Esses itens recomendados serão usados na última fase do framework que envolve a avaliação e visualização dos resultados gerados pelas outras etapas do framework. Aqui podemos aplicar diferentes métricas para avaliar os resultados e deles criar visualizações utilizando diferentes bibliotecas de visualização. Mais detalhes podem ser consultados aqui: [Avaliação](src/metrics/README.md)
+Esses itens recomendados e predições, além de informações
+relacionadas a base de dados original e pré-processada
+serão usados na fase do framework
+que envolve a avaliação e visualização
+dos resultados gerados pelas etapas anteriores
+. Aqui podemos aplicar diferentes métricas para avaliar os resultados
+e deles criar visualizações utilizando diferentes 
+bibliotecas de visualização. 
+Mais detalhes podem ser consultados aqui: [Avaliação](src/metrics/README.md)
 
 
 ### Dependências importantes do projeto
 
-Esse framework faz uso de outros trabalhos de monografia, com isso, é importante que tenhamos conhecimento sobre o objetivo desses trabalhos e também como podemos utilizá-los. Os dois principais projetos que iremos usar são o Xperimentor e o MetricsCalculator. O Xperimentor é dividido em dois projetos, o front-end chamado de Xperimentor e um back-end chamado Task-Executor, abaixo estão as documentações para os projetos e através delas teremos um maior entendimento sobre cada um.
+Esse framework faz uso de outros trabalhos de monografia, com isso, 
+é importante que tenhamos conhecimento sobre o objetivo
+desses trabalhos e também como podemos utilizá-los.
+Os dois principais projetos que iremos usar 
+são o Xperimentor e o MetricsCalculator. 
+O Xperimentor é dividido em dois projetos, 
+o front-end chamado de Xperimentor e 
+um back-end chamado Task-Executor, abaixo estão as documentações
+para os projetos e através delas teremos um maior entendimento sobre
+cada um.
 
 
 [Xperimentor](external/xperimentor/README.md)
@@ -39,19 +63,32 @@ Esse framework faz uso de outros trabalhos de monografia, com isso, é important
 
 
 ## Princípios de funcionamento do framework
-Toda a execução do framework parte de um único ponto, um arquivo de configuração JSON que contêm todas as informações necessarias para a criação das classes que estarão envolvidas no processo da experimentação, em termos práticos cada experimento será definido por um conjunto de objetos que descrevem classes e seus parâmetros de forma que poderemos instanciar base de dados, diferentes preprocessamentos, modelos e avaliadores.
+Toda a execução do framework pode partir de um único ponto,
+um arquivo de configuração JSON que contêm todas as informações
+necessarias para a criação das classes que estarão envolvidas
+no processo da experimentação, em termos práticos cada
+experimento será definido por um conjunto de objetos
+que descrevem classes e seus parâmetros de forma que poderemos
+instanciar base de dados, diferentes pré-processamentos, 
+modelos de recomendação e métricas de avaliação.
 
-A partir das instâncias geradas do arquivo de configração, podemos preencher containers que vão armazenar todas as instâncias, ou seja, para uma base de dados X podemos ter um container de preprocessamentos que vão realizar normalização, splitting e encoding, por exemplo.
+A partir das instâncias geradas do arquivo de configuração,
+podemos preencher containers que vão armazenar todas as instâncias, 
+por exemplo, para uma base de dados como a MovieLens
+podemos ter um container de pré-processamentos que vão
+ser aplicados nessa base de dados. Um exemplo poderia ser realizar
+normalização, particionar os dados em treino e teste
+e codificar um texto, por exemplo.
 
 
 ## Os pacotes do framework:
-- Pré-processamento:
-- Meta-features:
-- Métricas:
-- Recomendadores:
-- Resultados:
-- Visualização:
-- Eecomendação hibrida
+- Pré-processamento
+- Meta-features
+- Métricas
+- Recomendadores
+- Resultados
+- Visualização
+- Recomendação hibrida
 - Dados
 - Experimentos
 
@@ -89,9 +126,13 @@ Primeiro faça o clone do projeto para sua máquina
 ```
 git clone https://github.com/lucasnatali98/hybrid_recommender_framework.git
 ```
-Em sequência você irá precisar criar um ambiente para o projeto com suas dependências e para isso você pode utilizar de algumas ferramentas como, por exemplo, Virtualenv ou python3-venv. Vamos simular as duas situações:
+Em sequência você irá precisar criar um ambiente para o projeto
+com suas dependências e para isso você pode utilizar de
+algumas ferramentas como, por exemplo, Virtualenv ou python3-venv. 
+Vamos simular as duas situações:
 
-Para o Virtualenv, podemos fazer da seguinte forma, primeiro fazemos a instalação do virtualenv com:
+Para o Virtualenv, podemos fazer da seguinte forma,
+primeiro fazemos a instalação do virtualenv com:
 
 <code>
 pip install virtualenv

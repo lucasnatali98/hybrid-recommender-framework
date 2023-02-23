@@ -1,2 +1,0 @@
-python -u <RUN>/sortPredictions.py  <BD>  Predictions/<R>/<FOLD>  features/<FOLD>/keys.test  <TOP_N>  > <OUT>-<R>-<FOLD>.out
-#python -u <RUN>/sortPredictions.py  <BD>  Predictions/hybrid/<R>/<FOLD>  features/<FOLD>/keys.test  <TOP_N>  > <OUT>-<R>-<FOLD>.out

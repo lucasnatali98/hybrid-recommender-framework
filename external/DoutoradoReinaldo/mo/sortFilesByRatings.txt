@@ -1,5 +1,0 @@
-sort -k1,1n -k3,3nr < <BD>/BD/Sample1234.train > <BD>/BD/Sample1234.sorted
-sort -k1,1n -k3,3nr < <BD>/BD/Sample1235.train > <BD>/BD/Sample1235.sorted
-sort -k1,1n -k3,3nr < <BD>/BD/Sample1245.train > <BD>/BD/Sample1245.sorted
-sort -k1,1n -k3,3nr < <BD>/BD/Sample1345.train > <BD>/BD/Sample1345.sorted
-sort -k1,1n -k3,3nr < <BD>/BD/Sample2345.train > <BD>/BD/Sample2345.sorted

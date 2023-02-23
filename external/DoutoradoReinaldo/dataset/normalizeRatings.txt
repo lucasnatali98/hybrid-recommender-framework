@@ -1,1 +1,0 @@
-python -u <RUN>/normalizeRatings.py <BD> <FACTOR> ratings.txt ratingsNorm.txt > <OUT>.out
