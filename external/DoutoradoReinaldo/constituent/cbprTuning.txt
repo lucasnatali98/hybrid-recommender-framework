@@ -1,6 +1,0 @@
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-32-001.tsv  32 0.01  > <OUT>32-001.out
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-32-01.tsv   32 0.1   > <OUT>32-01.out
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-64-001.tsv  64 0.01  > <OUT>64-001.out
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-64-01.tsv   64 0.1   > <OUT>64-01.out
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-128-001.tsv 128 0.01 > <OUT>128-001.out
-python3 -u run/constituent/cBPR/main.py <BD> <TRAIN> <TEST> cbpr-128-01.tsv  128 0.1  > <OUT>128-01.out

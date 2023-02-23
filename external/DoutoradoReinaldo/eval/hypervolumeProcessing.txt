@@ -1,1 +1,0 @@
-python -u <RUN>/hypervolumeProcessing.py <RUN>/hv-1.3-src/hv <BD> RANK-6h/MO/<FOLD>/<R> Results/HV/<FOLD>/<R> > <OUT>-<FOLD><R>.out

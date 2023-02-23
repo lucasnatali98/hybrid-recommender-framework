@@ -1,2 +1,0 @@
-python -u <RUN>/decisionMaking.py <BD>/MO/<FOLD>/<R> <ALPHA> "1;1;1" SOL-SUM  > <OUT>_PEH_<ALPHA>_<FOLD>_<R>.out
-python -u <RUN>/decisionMaking.py <BD>/MO/<FOLD>/<R> <ALPHA> "" SOL-GeoRisk   > <OUT>_GeoRisk_<ALPHA>_<FOLD>_<R>.out

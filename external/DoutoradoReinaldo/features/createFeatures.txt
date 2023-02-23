@@ -1,5 +1,0 @@
-python -u run/features/createFeatures.py <BD> 1234 5 <IGNORE_CB> > <OUT>.1234-5.out
-python -u run/features/createFeatures.py <BD> 1235 4 <IGNORE_CB> > <OUT>.1235-4.out
-python -u run/features/createFeatures.py <BD> 1245 3 <IGNORE_CB> > <OUT>.1245-3.out
-python -u run/features/createFeatures.py <BD> 1345 2 <IGNORE_CB> > <OUT>.1345-2.out
-python -u run/features/createFeatures.py <BD> 2345 1 <IGNORE_CB> > <OUT>.2345-1.out

@@ -1,2 +1,0 @@
-python -u <RUN>/distancesComputation.py  <BD>  Results/<R>-Top  <FOLD>  <TOP_N>  > <OUT>-<R>-<FOLD>_TOP.out
-python -u <RUN>/distancesComputation.py  <BD>  Results/<R>-Bot  <FOLD>  <TOP_N>  > <OUT>-<R>-<FOLD>_BOT.out

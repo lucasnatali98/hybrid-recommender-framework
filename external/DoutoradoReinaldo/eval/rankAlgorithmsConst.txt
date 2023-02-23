@@ -1,1 +1,0 @@
-python -u <RUN>/rankAlgorithms.py <BD>/Results-Const <R1> <R2> <TOP_N> ranking_<R1>_<R2>_<NAME> <CONFIG> > <OUT>-<R1>-<R2>_<NAME>.out
