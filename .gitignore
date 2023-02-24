@@ -5,6 +5,7 @@ dist/
 *.csv
 data_storage/
 *.pyc
+docs/
 .idea
 node_modules/
 kubernetes_config.json
