@@ -78,14 +78,14 @@ def clean_experiment_output(items_to_remove: str | list):
             folder_object = get_folder_object(key)
             remove_all(folder_object)
 
-
-clean_experiment_output(
-    [
-        "datasets",
-        "evaluate",
-        "models",
-        "preprocessing",
-        "visualization"
-    ]
-)
+if __name__ == "__main__":
+    clean_experiment_output(
+        [
+            "datasets",
+            "evaluate",
+            "models",
+            "preprocessing",
+            "visualization"
+        ]
+    )
 
