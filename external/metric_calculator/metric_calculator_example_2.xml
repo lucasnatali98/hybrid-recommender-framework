@@ -54,7 +54,7 @@
 	QuantitativeMetrics.LogOfQtdRatings
 	QuantitativeMetrics.LogSdevDate >> Logaritimo do Desvio Padrão
 	QuantitativeMetrics.NormalizedProportionOfCommomRatings
-	QuantitativeMetrics.NormalizedProportionOfRatings
+	.NormalizedProportionOfRatings
 	QuantitativeMetrics.PRDateRatings
 	QuantitativeMetrics.ProportionOfCommomRatings
 	QuantitativeMetrics.ProportionOfRatings
