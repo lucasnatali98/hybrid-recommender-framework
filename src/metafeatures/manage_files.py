@@ -1,5 +1,5 @@
 from src.data.loader import Loader
-from src.utils import hrf
+from src.utils import hrf_external_path, hrf_experiment_output_path
 import dict2xml
 
 loader = Loader()
@@ -55,7 +55,11 @@ def get_globals(experiment):
     if global_key is None:
         return global_key
 
-    return global_key
+    #Para garantir que haverá a chave exitirá
+    global_obj = {
+        "global": global_key
+    }
+    return global_obj
 
 
 def get_instances(experiment):
@@ -87,23 +91,56 @@ def select_cf_metric(metric_type:str):
 
 
 
-def transform_instances_to_xml(instances):
+def transform_instances_to_xml(global_dict = None, instances = []):
+    basePath = hrf_external_path().joinpath("metric_calculator/")
+    cf_output_path = hrf_experiment_output_path().joinpath("metafeatures/collaborative/")
+    cb_output_path = hrf_experiment_output_path().joinpath("metafeatures/contentbased/")
+
+    obj = {}
+    #Adicionando estrutura global ao objeto final
+    obj.update(global_dict)
+
+
     for ins in instances:
         class_name = ins.get('class_name', None)
+        class_name = class_name.lower()
         ins_params = ins.get('parameters', None)
 
-        obj = {
+        print("Name of metafeature: ", class_name)
+
+        metric = None
+
+        if ins_params.get('type') == 'collaborative':
+            metric = select_cf_metric(class_name)
+            print("Collaborative metric: ", metric)
+        elif ins_params.get('type') == 'content-based':
+            metric = CB_METRICS.index(class_name)
+            print("Content based metric: ", metric)
+
+
+
+
+        process_obj = {
             "process": {
                 "type": ins_params.get('type'),
-                "metric":
-                "basePath":
+                "metric": metric,
+                "basePath": str(basePath)
             }
         }
+
+        obj.update(process_obj)
+
+    return dict2xml.dict2xml(obj)
+
 
 
 experiments = read_json_file()
 experiment = experiments[0]
 metafeatures = get_metafeatures_obj(experiment)
 print(metafeatures)
-global_info = get_globals(experiment)
-instances = get_instances(experiment)
+global_info = get_globals(metafeatures)
+print("globalInfo: \n", global_info)
+instances = get_instances(metafeatures)
+
+final_obj = transform_instances_to_xml(global_info, instances)
+print("final obj: \n", final_obj)
