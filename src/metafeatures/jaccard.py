@@ -25,6 +25,8 @@ class Jaccard(ContentBasedMetaFeature):
 
     #        self.items = parameters['items']
 
+    def calculate(self, obj):
+        pass
     def update(self, obj):
         """
 

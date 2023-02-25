@@ -72,6 +72,13 @@ def read_metafeatures_textfiles():
 class MetaFeature(ABC):
 
 
+    def calculate(self, obj):
+        """
+
+        @param obj:
+        @return:
+        """
+        pass
 
     @abstractmethod
     def update(self, obj):
@@ -103,6 +110,8 @@ class AbstractMetaFeature(MetaFeature):
 
 
 
+    def calculate(self, obj):
+        raise NotImplementedError
     def get_user_metafeature(self):
         return self.user
     def get_item_metafeature(self):
@@ -131,6 +140,8 @@ class ColaborativeMetaFeature(AbstractMetaFeature):
         self.fields = parameters.get('fields', [])
         self.items = parameters.get('items', [])
 
+    def calculate(self, obj):
+        raise NotImplementedError
     def update(self, obj):
         raise NotImplementedError
 
@@ -161,7 +172,9 @@ class ContentBasedMetaFeature(AbstractMetaFeature):
         self.items = parameters.get('items', [])
 
 
-    @abstractmethod
+    def calculate(self, obj):
+        raise NotImplementedError
+
     def update(self, obj):
         raise NotImplementedError
 

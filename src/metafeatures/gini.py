@@ -19,13 +19,7 @@ class Gini(ColaborativeMetaFeature):
         self.items = parameters.get('items')
 
 
-    def get_user_values(self):
-        pass
-
-    def get_useritem_values(self):
-        pass
-
-    def get_item_values(self):
+    def calculate(self, obj):
         pass
     def update(self, obj):
         """
@@ -34,3 +28,17 @@ class Gini(ColaborativeMetaFeature):
         @return:
         """
         pass
+
+
+
+gini = Gini({
+    'type': '',
+    'basePath': "",
+    'doUser': True,
+    'doItem': True,
+    'doItemUser': True,
+    'numThreads': 0,
+    'metricParameter': {}
+
+})
+

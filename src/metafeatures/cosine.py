@@ -22,9 +22,13 @@ class Cosine(ContentBasedMetaFeature):
         self.items = parameters.get('items')
 
 
+    def calculate(self, obj):
+        pass
+
     def update(self, obj):
         """
 
         @param obj:
         @return:
         """
+        pass
