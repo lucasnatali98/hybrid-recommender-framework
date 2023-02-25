@@ -4,28 +4,31 @@ import dict2xml
 
 loader = Loader()
 
-CF_QUALITATIVE_METRICS = [
-    ('gini', 'QualitativeMetrics.GiniIndex'),
-    ('person_correlation', 'QualitativeMetrics.PearsonCorrelation'),
-    ('pqmean', 'QualitativeMetrics.PqMean'),
-    ('standard_deviation', 'QualitativeMetrics.StandardDeviation')
-]
-CF_QUANTITATIVE_METRICS = [
-    ('log_of_date_ratings', 'QuantitativeMetrics.LogOfDateRatings'),
-    ('log_of_qtd_ratings', 'QuantitativeMetrics.LogOfQtdRatings'),
-    ('log_sdev_date', 'QuantitativeMetrics.LogSdevDate'),
-    ('normalized_proportion_of_common_ratings', 'QuantitativeMetrics.NormalizedProportionOfCommomRatings'),
-    ('normalized_proportion_of_ratings', 'QuantitativeMetrics.NormalizedProportionOfRatings'),
-    ('pr_date_ratings', 'QuantitativeMetrics.PRDateRatings'),
-    ('proportion_of_common_ratings', 'QuantitativeMetrics.ProportionOfCommomRatings'),
-    ('proportion_of_ratings', 'QuantitativeMetrics.ProportionOfRatings'),
-    ('ratings_mean', 'QuantitativeMetrics.RatingsMean')
-]
+CF_QUALITATIVE_METRICS = {
+    'gini': 'QualitativeMetrics.GiniIndex',
+    'person_correlation': 'QualitativeMetrics.PearsonCorrelation',
+    'pqmean': 'QualitativeMetrics.PqMean',
+    'standard_deviation': 'QualitativeMetrics.StandardDeviation'
+}
+
+CF_QUANTITATIVE_METRICS = {
+    'log_of_date_ratings': 'QuantitativeMetrics.LogOfDateRatings',
+    'log_of_qtd_ratings': 'QuantitativeMetrics.LogOfQtdRatings',
+    'log_sdev_date': 'QuantitativeMetrics.LogSdevDate',
+    'normalized_proportion_of_common_ratings': 'QuantitativeMetrics.NormalizedProportionOfCommomRatings',
+    'normalized_proportion_of_ratings': 'QuantitativeMetrics.NormalizedProportionOfRatings',
+    'pr_date_ratings': 'QuantitativeMetrics.PRDateRatings',
+    'proportion_of_common_ratings': 'QuantitativeMetrics.ProportionOfCommomRatings',
+    'proportion_of_ratings': 'QuantitativeMetrics.ProportionOfRatings',
+    'ratings_mean': 'QuantitativeMetrics.RatingsMean'
+}
+
+
 CB_METRICS = [
-    'Cosine',
-    'Dice',
-    'Jaccard',
-    'Entropy'
+    'cosine',
+    'dice',
+    'jaccard',
+    'entropy'
 ]
 
 
@@ -67,9 +70,35 @@ def get_instances(experiment):
 
     return instances
 
+def select_cf_metric(metric_type:str):
+    metric_type = metric_type.lower()
+
+    selected_metric = CF_QUALITATIVE_METRICS.get(metric_type, None)
+
+    if selected_metric is not None:
+        return selected_metric
+
+    selected_metric = CF_QUANTITATIVE_METRICS.get(metric_type, None)
+
+    if selected_metric is not None:
+        return selected_metric
+
+    return None
+
+
 
 def transform_instances_to_xml(instances):
     for ins in instances:
+        class_name = ins.get('class_name', None)
+        ins_params = ins.get('parameters', None)
+
+        obj = {
+            "process": {
+                "type": ins_params.get('type'),
+                "metric":
+                "basePath":
+            }
+        }
 
 
 experiments = read_json_file()
