@@ -1,6 +1,7 @@
 from src.metafeatures.metafeature import ContentBasedMetaFeature
 from src.utils import process_parameters
 
+
 class Jaccard(ContentBasedMetaFeature):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
@@ -31,3 +32,5 @@ class Jaccard(ContentBasedMetaFeature):
         @return:
         """
         pass
+
+

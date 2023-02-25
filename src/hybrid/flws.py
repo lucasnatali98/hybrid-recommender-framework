@@ -18,4 +18,5 @@ class FLWS(HybridWeighted):
 
         @return:
         """
+        pass
 

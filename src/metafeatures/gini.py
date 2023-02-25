@@ -19,6 +19,14 @@ class Gini(ColaborativeMetaFeature):
         self.items = parameters.get('items')
 
 
+    def get_user_values(self):
+        pass
+
+    def get_useritem_values(self):
+        pass
+
+    def get_item_values(self):
+        pass
     def update(self, obj):
         """
 
