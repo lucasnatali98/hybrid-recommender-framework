@@ -1,6 +1,6 @@
 from src.hybrid.hybrid import HybridWeighted
 from src.utils import process_parameters
-from pandas import DataFrame, Series
+from pandas import DataFrame, Series, read_csv
 
 from src.metafeatures.metafeature import read_metafeatures_textfiles
 from src.data.movielens import MovieLens
@@ -12,11 +12,22 @@ class FLWS(HybridWeighted):
         """
         
         """
-        super().__init__()
+        super().__init__(parameters)
         default_keys = set()
+
         parameters = process_parameters(parameters, default_keys)
 
 
+    def combine_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
+        print(metafeature)
+        print(predictions)
+
+        return predictions
+
+    def set_weights(self, weights):
+        pass
+    def predict(self, metafeatures, predictions):
+        pass
     def run(self, metafeatures: DataFrame, predictions: DataFrame) -> DataFrame:
         """
 
@@ -24,6 +35,15 @@ class FLWS(HybridWeighted):
         """
         pass
 
+
+flws = FLWS({
+    "shit": True
+})
+predict_result = read_csv("batch_predict_result.csv", index_col=[0])
+
+const_rec = {
+    "item_knn": predict_result
+}
 
 
 metafeatures = read_metafeatures_textfiles()
@@ -47,6 +67,16 @@ for cfm in cf_metafeatures:
         if key == "Gini_User":
             gini_user = value
 
-print("gini item: ", gini_item)
-print("gini item user: ", gini_item_user)
-print("gini user: ", gini_user)
+
+flws.add_metafeature({"gini_user": gini_user})
+flws.add_metafeature({"gini_item_user": gini_item_user})
+flws.add_metafeature({"gini_item": gini_item})
+
+flws.add_algorithm(const_rec)
+
+flws.set_weights({
+    "item_knn": 4
+})
+
+print(flws.metafeatures)
+

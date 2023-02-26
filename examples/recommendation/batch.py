@@ -41,6 +41,8 @@ def main():
     print(batch_predicted_result)
     print("\n")
 
+    batch_predicted_result.to_csv("batch_predict_result.csv")
+
     print("Batch recommend result")
     print(batch_recommend_result)
     print("\n")
