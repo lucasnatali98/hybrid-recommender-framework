@@ -41,7 +41,10 @@ flws = FLWS({
 })
 predict_result = read_csv("batch_predict_result.csv", index_col=[0])
 
-print(predict_result)
+const_rec = {
+    "item_knn": predict_result
+}
+
 
 metafeatures = read_metafeatures_textfiles()
 cf_metafeatures = metafeatures.get('collaborative')
@@ -64,9 +67,16 @@ for cfm in cf_metafeatures:
         if key == "Gini_User":
             gini_user = value
 
-print("gini item: ", gini_item)
-print("gini item user: ", gini_item_user)
-print("gini user: ", gini_user)
 
+flws.add_metafeature({"gini_user": gini_user})
+flws.add_metafeature({"gini_item_user": gini_item_user})
+flws.add_metafeature({"gini_item": gini_item})
 
-flws
+flws.add_algorithm(const_rec)
+
+flws.set_weights({
+    "item_knn": 4
+})
+
+print(flws.metafeatures)
+
