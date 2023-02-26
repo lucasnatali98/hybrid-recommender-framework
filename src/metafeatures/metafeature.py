@@ -178,6 +178,5 @@ class ContentBasedMetaFeature(AbstractMetaFeature):
     def update(self, obj):
         raise NotImplementedError
 
-metafeatures_files = read_metafeatures_textfiles()
-print(metafeatures_files)
+
 

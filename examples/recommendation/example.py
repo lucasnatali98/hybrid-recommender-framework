@@ -55,3 +55,5 @@ if __name__ == "__main__":
 
     print("Recommend")
     print(recommend_to_users)
+
+    return predict, recommend_to_users
