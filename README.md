@@ -59,7 +59,7 @@ cada um.
 
 [Task-Executor](external/TaskExecutor/README.md)
 
-[Metrics Calculator](external/MetricsCalculator/README.md)
+[Metrics Calculator](external/metric_calculator/README.md)
 
 
 ## Princípios de funcionamento do framework
