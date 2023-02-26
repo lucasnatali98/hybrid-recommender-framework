@@ -229,7 +229,21 @@ desse link:
 
 
 ## 📫 Contribuindo para o Hybrid Recommender Framework
-Para contribuir com o hybrid recommender framework, siga estas etapas:
+Para contribuir com o hybrid recommender framework,
+você pode seguir de duas formas:
+
+1. Contribuir para uma disciplina (BCC409)
+2. Contribuir no código fonte do projeto.
+
+Vale lembrar que sua contribuição na disciplina pode ser uma contribuição
+no código fonte do projeto. Mas o ponto aqui é que pensando
+em trabalhos práticos da disciplina BCC409, as contribuições (entregas)
+do seu trabalho devem ser feitas no 
+[diretório da disciplina](academic/BCC409). Nele existem mais documentações de como
+contribuir.
+
+Caso você esteja interessado em contribuir apenas com o kernel desse 
+projeto, você pode seguir os passos abaixo: 
 
 1. Bifurque este repositório.
 2. Crie um branch: `git checkout -b <nome_branch>`.
@@ -244,4 +258,4 @@ Como alternativa, consulte a documentação do GitHub em [como criar uma solicit
 Quer fazer parte desse projeto? Entre em contato com:
 
 - lucas.natali@aluno.ufop.edu.br
-- rei.fortes@ufop.edu.br
+- reifortes@ufop.edu.br
