@@ -1,4 +1,3 @@
-
 from src.hybrid.hybrid import HybridWeighted
 from src.utils import process_parameters
 from pandas import DataFrame, Series
@@ -24,7 +23,4 @@ class STREAM(HybridWeighted):
     def run(self, metafeatures: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
 
-
-
-stream = STREAM({})
 
