@@ -12,9 +12,6 @@ def read_metafeatures_textfiles():
     collaborative_dir = hrf_metafeatures_path().joinpath("collaborative")
     contentbased_dir = hrf_metafeatures_path().joinpath("contentbased")
 
-    print("collaborative dir: ", collaborative_dir)
-    print("contentbased_dir: ", contentbased_dir)
-
     collaborative_dir_files = None
     contentbased_dir_files = None
 
@@ -65,12 +62,9 @@ def read_metafeatures_textfiles():
         mf_dataframe = {}
         file = contentbased_dir.joinpath(contentbased_file)
         df = read_csv(file, sep=';')
-        print("content df: ", df)
         mf_dataframe[cb_name + "_" + mf_type] = df
         result['contentbased'].append(mf_dataframe)
 
-
-    print(result)
     return result
 
 
@@ -78,6 +72,13 @@ def read_metafeatures_textfiles():
 class MetaFeature(ABC):
 
 
+    def calculate(self, obj):
+        """
+
+        @param obj:
+        @return:
+        """
+        pass
 
     @abstractmethod
     def update(self, obj):
@@ -104,22 +105,29 @@ class AbstractMetaFeature(MetaFeature):
         self.partition_length = parameters.get('partitionLength', 1)
 
         self.user = DataFrame(columns=['user', 'value'])
-        self.userItem = DataFrame(columns=['user', 'item', 'value'])
+        self.user_item = DataFrame(columns=['user', 'item', 'value'])
         self.item = DataFrame(columns=['item', 'value'])
 
 
 
+    def calculate(self, obj):
+        raise NotImplementedError
     def get_user_metafeature(self):
-        pass
+        return self.user
     def get_item_metafeature(self):
-        pass
+        return self.item
+
+    def get_useritem_metafeature(self):
+        return self.user_item
 
     def update(self, obj):
         raise NotImplementedError
 
-class ColaborativeMetaFeature(MetaFeature):
+
+class ColaborativeMetaFeature(AbstractMetaFeature):
 
     def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.type = parameters.get('type', 'collaborative')
@@ -132,14 +140,17 @@ class ColaborativeMetaFeature(MetaFeature):
         self.fields = parameters.get('fields', [])
         self.items = parameters.get('items', [])
 
+    def calculate(self, obj):
+        raise NotImplementedError
     def update(self, obj):
         raise NotImplementedError
 
 
 
-class ContentBasedMetaFeature(MetaFeature):
+class ContentBasedMetaFeature(AbstractMetaFeature):
 
     def __init__(self, parameters: dict) -> None:
+        super().__init__(parameters)
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
         self.type = parameters.get('type', 'content-based')
@@ -161,10 +172,11 @@ class ContentBasedMetaFeature(MetaFeature):
         self.items = parameters.get('items', [])
 
 
-    @abstractmethod
+    def calculate(self, obj):
+        raise NotImplementedError
+
     def update(self, obj):
         raise NotImplementedError
 
 
 
-read_metafeatures_textfiles()

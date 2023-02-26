@@ -229,27 +229,6 @@
                 ],
                 "fields": []
               }
-            },
-            {
-              "module": "src.metafeatures.gini",
-              "class_name": "Gini",
-              "parameters": {
-                "type": "collaborative",
-                "basePath": "",
-                "doUser": true,
-                "doItem": false,
-                "doItemUser": false,
-                "numThreads": 0,
-                "metricParameter": {},
-                "items": [
-                  {
-                    "dataFile": "",
-                    "resourceFile": "",
-                    "outputFolder": ""
-                  }
-                ],
-                "fields": []
-              }
             }
           ]
         }
