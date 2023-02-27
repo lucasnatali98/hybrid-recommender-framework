@@ -96,7 +96,8 @@ e codificar um texto, por exemplo.
 ## 💻 Pré-requisitos
 
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
-* Python 3
+* Ambiente Linux (Recomendado)
+* Python>=3.8, Python <=3.10 (Recomendado)
 * Numpy
 * Pandas
 * Scikit-Learn

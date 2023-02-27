@@ -11,7 +11,20 @@ def download_and_unzip(url, extract_to):
 
     zipfile.extractall(path=extract_to)
 
+def download_database(database: str, proportion: str = ""):
+    """
+
+    @param database:
+    @param proportion:
+    @return:
+    """
+    pass
 def download_movielens(proportion: str):
+    """
+
+    @param proportion:
+    @return:
+    """
     valid_proportions = {
         'ml-latest-small': "https://files.grouplens.org/datasets/movielens/ml-latest-small.zip",
         'ml-latest': "https://files.grouplens.org/datasets/movielens/ml-latest.zip",
