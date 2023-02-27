@@ -1,9 +1,9 @@
 import pandas as pd
 from src.download import download_movielens
 from src.data.dataset import AbstractDataSet
-from src.utils import process_parameters,\
-    create_directory,\
-    hrf_data_storage_path,\
+from src.utils import process_parameters, \
+    create_directory, \
+    hrf_data_storage_path, \
     check_if_directory_exists, check_if_directory_is_empty, unzip_file, hrf_build_path
 
 PROPORTION_POSSIBILITIES = {
@@ -52,45 +52,84 @@ class MovieLens(AbstractDataSet):
         })
         return dataset
 
-    def _load_ml25m(self) -> None:
+    def _load_ml25m(self):
         """
 
 
         """
+        response = ("success", "failure")
+        ml_25m_path = hrf_data_storage_path().joinpath("ml-25m")
+        ml_25m_zip_file = hrf_build_path().joinpath("ml-25m.zip")
 
-        path = self.basePath + "ml-25m/"
-        movies = self.Loader.load_file(path=path + "movies", extension=".csv")
-        links = self.Loader.load_file(path=path + "links", extension=".csv")
-        ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
-        tags = self.Loader.load_file(path=path + "tags", extension=".csv")
-        genome_scores = self.Loader.load_file(path=path + "genome-scores", extension=".csv")
-        genome_tags = self.Loader.load_file(path=path + "genome-tags", extension=".csv")
+        is_ml_25m_path_exists = check_if_directory_exists(ml_25m_path)
+        is_ml_25m_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-25m")
 
-        self.set_items(movies)
-        self.set_tags(tags)
-        self.set_ratings(ratings)
-        self.set_links(links)
-        self.set_genome_tags(genome_tags)
-        self.set_genome_scores(genome_scores)
+        if is_ml_25m_path_exists and is_ml_25m_empty is False:
+            path = self.basePath + "ml-25m/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
 
-    def _load_ml_latest(self) -> None:
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
+        else:
+            print("Fazendo download da base de dados...")
+            download_movielens('ml-25m')
+
+            path = self.basePath + "ml-25m/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
+
+    def _load_ml_latest(self):
         """
 
         """
-        path = self.basePath + "ml-latest/"
-        movies = self.Loader.load_file(path=path + "movies", extension=".csv")
-        links = self.Loader.load_file(path=path + "links", extension=".csv")
-        ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
-        tags = self.Loader.load_file(path=path + "tags", extension=".csv")
-        genome_scores = self.Loader.load_file(path=path + "genome-scores", extension=".csv")
-        genome_tags = self.Loader.load_file(path=path + "genome-tags", extension=".csv")
+        response = ("success", "failure")
+        ml_latest_path = hrf_data_storage_path().joinpath("ml-latest")
+        ml_latest_zip_file = hrf_build_path().joinpath("ml-latest.zip")
 
-        self.set_items(movies)
-        self.set_tags(tags)
-        self.set_ratings(ratings)
-        self.set_links(links)
-        self.set_genome_tags(genome_tags)
-        self.set_genome_scores(genome_scores)
+        is_ml_latest_path_exists = check_if_directory_exists(ml_latest_path)
+        is_ml_latest_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-latest")
+
+        if is_ml_latest_path_exists and is_ml_latest_empty is False:
+            path = self.basePath + "ml-latest/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
+        else:
+            print("Fazendo download da base de dados...")
+            download_movielens('ml-latest-small')
+
+            path = self.basePath + "ml-latest/"
+            movies = self.Loader.load_file(path=path + "movies", extension=".csv")
+            links = self.Loader.load_file(path=path + "links", extension=".csv")
+            ratings = self.Loader.load_file(path=path + "ratings", extension=".csv")
+            tags = self.Loader.load_file(path=path + "tags", extension=".csv")
+
+            self.set_items(movies)
+            self.set_tags(tags)
+            self.set_ratings(ratings)
+            self.set_links(links)
+            return response[0]
 
     def _load_ml_latest_small(self) -> str:
         """
@@ -105,7 +144,6 @@ class MovieLens(AbstractDataSet):
         is_ml_latest_small_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-latest-small")
 
         if is_ml_latest_small_path_exists and is_ml_latest_small_empty is False:
-            print("Pao")
             path = self.basePath + "ml-latest-small/"
             movies = self.Loader.load_file(path=path + "movies", extension=".csv")
             links = self.Loader.load_file(path=path + "links", extension=".csv")
@@ -121,7 +159,6 @@ class MovieLens(AbstractDataSet):
             print("Fazendo download da base de dados...")
             download_movielens('ml-latest-small')
 
-
             path = self.basePath + "ml-latest-small/"
             movies = self.Loader.load_file(path=path + "movies", extension=".csv")
             links = self.Loader.load_file(path=path + "links", extension=".csv")
@@ -133,7 +170,6 @@ class MovieLens(AbstractDataSet):
             self.set_ratings(ratings)
             self.set_links(links)
             return response[0]
-
 
     def set_ratings(self, ratings):
         ratings = self.transform_columns_to_lenskit_pattern(ratings)
@@ -171,10 +207,6 @@ class MovieLens(AbstractDataSet):
         return new_ratings
 
     def _get_dataset(self):
-        """
-
-        @return:
-        """
         load_result = None
         if self.proportion == "ml-25m":
             load_result = self._load_ml25m()
