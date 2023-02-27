@@ -12,7 +12,6 @@ def check_if_directory_is_empty(path: Path, dir_name: str) -> bool:
     @param dir_name:
     @return:
     """
-
     try:
         path = path.joinpath(dir_name)
         dir = os.listdir(path)
@@ -22,7 +21,6 @@ def check_if_directory_is_empty(path: Path, dir_name: str) -> bool:
         else:
             return False
     except Exception as e:
-        print(e)
         return True
 
 
@@ -53,6 +51,7 @@ def check_if_directory_exists(dir: Path):
     @param dir: string para o caminho do diretório
     @return: bool -> Verdadeiro ou falso
     """
+    print("check if directory exists")
     return os.path.exists(dir)
 
 def process_parameters(parameters: dict, default_keys: set) -> dict:

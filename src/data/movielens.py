@@ -1,4 +1,5 @@
 import pandas as pd
+from src.download import download_movielens
 from src.data.dataset import AbstractDataSet
 from src.utils import process_parameters,\
     create_directory,\
@@ -104,6 +105,7 @@ class MovieLens(AbstractDataSet):
         is_ml_latest_small_empty = check_if_directory_is_empty(hrf_data_storage_path(), "ml-latest-small")
 
         if is_ml_latest_small_path_exists and is_ml_latest_small_empty is False:
+            print("Pao")
             path = self.basePath + "ml-latest-small/"
             movies = self.Loader.load_file(path=path + "movies", extension=".csv")
             links = self.Loader.load_file(path=path + "links", extension=".csv")
@@ -116,14 +118,9 @@ class MovieLens(AbstractDataSet):
             self.set_links(links)
             return response[0]
         else:
-            c = create_directory(hrf_data_storage_path(), "ml-latest-small")
+            print("Fazendo download da base de dados...")
+            download_movielens('ml-latest-small')
 
-            if c is None:
-                raise Exception("Não foi possivel criar o diretório - ml-latest-small")
-
-            print("O diretório (ml-latest-small) foi criado com sucesso")
-            print("Extraindo os arquivos...")
-            unzip_file(path_to_zip_file=ml_latest_small_zip_file, path_to_extract=hrf_data_storage_path())
 
             path = self.basePath + "ml-latest-small/"
             movies = self.Loader.load_file(path=path + "movies", extension=".csv")
