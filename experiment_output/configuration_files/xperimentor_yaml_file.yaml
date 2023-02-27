@@ -53,7 +53,6 @@ recipes:
     MF:
     - Jaccard
     - Gini
-    - Gini
     Stats:
     - ANOVA
     - ConfidenceInterval

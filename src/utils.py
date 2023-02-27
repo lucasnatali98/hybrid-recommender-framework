@@ -39,7 +39,6 @@ def create_directory(path: Path, dir_name: str):
     dir_path = path.joinpath(dir_name)
     directory_exists = check_if_directory_exists(dir_path)
     if directory_exists:
-        print("directory exists: ", directory_exists)
         return None
     else:
         Path(dir_path).mkdir(parents=True, exist_ok=True)
@@ -51,7 +50,6 @@ def check_if_directory_exists(dir: Path):
     @param dir: string para o caminho do diretório
     @return: bool -> Verdadeiro ou falso
     """
-    print("check if directory exists")
     return os.path.exists(dir)
 
 def process_parameters(parameters: dict, default_keys: set) -> dict:
