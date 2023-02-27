@@ -2,8 +2,6 @@ from src.utils import hrf_data_storage_path
 from io import BytesIO
 from zipfile import ZipFile
 from urllib.request import urlopen
-# or: requests.get(url).content
-
 
 
 def download_and_unzip(url, extract_to):
