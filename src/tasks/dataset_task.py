@@ -1,7 +1,7 @@
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
-from src.utils import hrf_experiment_output_path
+from src.utils import hrf_experiment_output_path, check_if_directory_exists, create_directory
 
 
 class DatasetTask(Task):
@@ -57,6 +57,13 @@ def run_dataset_task():
     print(" => Iniciando a execução da tarefa dos datasets")
 
     dataset_result = dataset_task.run()
+    dataset_experiment_dir = hrf_experiment_output_path().joinpath("datasets/")
+
+    is_dataset_dir_exists = check_if_directory_exists(dataset_experiment_dir)
+
+    if is_dataset_dir_exists is False:
+        create_directory(hrf_experiment_output_path(), "datasets")
+
     path_to_save_ratings = hrf_experiment_output_path().joinpath("datasets/new_ratings_dataset.csv")
     path_to_save_items = hrf_experiment_output_path().joinpath("datasets/items.csv")
 

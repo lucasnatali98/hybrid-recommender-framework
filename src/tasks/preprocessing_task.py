@@ -3,7 +3,7 @@ import subprocess
 from src.data.loader import Loader
 from src.tasks.task import Task
 from src.experiments.experiment_handler import ExperimentHandler
-from src.utils import hrf_experiment_output_path
+from src.utils import hrf_experiment_output_path, check_if_directory_exists, create_directory
 
 
 class PreProcessingTask(Task):

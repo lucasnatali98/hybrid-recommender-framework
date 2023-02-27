@@ -3,7 +3,8 @@ import pandas as pd
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, StratifiedKFold, StratifiedShuffleSplit
 from sklearn.model_selection import StratifiedGroupKFold, KFold, ShuffleSplit
 from src.preprocessing.preprocessing import AbstractPreProcessing
-from src.utils import process_parameters, hrf_experiment_output_path
+from src.utils import process_parameters, hrf_experiment_output_path, check_if_directory_exists, create_directory
+
 
 
 class Strategy(ABC):
@@ -26,6 +27,10 @@ class FoldsProcessing(AbstractPreProcessing):
         self.shuffle = parameters.get('shuffle')
         self.random_state = parameters.get('random_state')
         self.folds_output_directory = "preprocessing/folds"
+        self.folds_dir = hrf_experiment_output_path().joinpath("preprocessing/folds")
+
+
+
 
         self.target_column = parameters.get('target_column', 'rating')
 
@@ -36,6 +41,8 @@ class FoldsProcessing(AbstractPreProcessing):
         self.validation_folds_output_directory = hrf_experiment_output_path().joinpath(
             self.folds_output_directory
         ).joinpath("validation/")
+
+
 
     def pre_processing(self, data: pd.DataFrame, **kwargs) -> pd.DataFrame:
         folds = Folds(self.strategy)
@@ -48,6 +55,21 @@ class FoldsProcessing(AbstractPreProcessing):
             shuffle=self.shuffle,
             random_state=self.random_state
         )
+
+        is_fold_dir_exists = check_if_directory_exists(self.folds_dir)
+
+        if is_fold_dir_exists is False:
+            create_directory(hrf_experiment_output_path(), "folds")
+
+        tfo_dir_exists = check_if_directory_exists(self.train_folds_output_directory)
+
+        if tfo_dir_exists is False:
+            create_directory(self.folds_dir, "train")
+
+        vfo_dir_exists = check_if_directory_exists(self.validation_folds_output_directory)
+
+        if vfo_dir_exists is False:
+            create_directory(self.folds_dir, "validation")
 
         fold_counter = 1
         for train_index, validation_index in folds_indexes:
