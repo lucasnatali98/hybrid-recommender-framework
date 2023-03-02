@@ -14,6 +14,7 @@ if __name__ == "__main__":
     ratings.drop(columns=['timestamp'], inplace=True)
     movies = movielens.items
 
+
     normalize_processing = NormalizeProcessing({
         'norm': 'l2',
         'column_to_apply': "rating",
