@@ -237,6 +237,7 @@ class MovieLens(AbstractDataSet):
     def links(self):
         return self.links
 
+
     @property
     def items(self):
         return self.items

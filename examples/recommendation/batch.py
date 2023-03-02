@@ -4,10 +4,12 @@ from src.recommenders.batch import LenskitBatch
 import numpy as np
 import pandas as pd
 
+
 def main():
     movielens = MovieLens({
         'proportion': "ml-latest-small"
     })
+  #  movielens.apply_filters()
 
     lenskit_batch = LenskitBatch()
 
