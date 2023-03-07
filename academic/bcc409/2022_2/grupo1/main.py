@@ -1,12 +1,15 @@
 import pandas as pd
 
 from src.preprocessing.split import SplitProcessing
+from src.preprocessing.folds import FoldsProcessing
 from src.recommenders.random_item import RandomItem
 from src.recommenders.user_knn import UserKNN
+from src.metrics.rmse import LenskitRMSE
 
 from sklearn.preprocessing import LabelEncoder
 from sklearn import tree
 from sklearn import linear_model
+#numpy.flatten
 
 data_frame = pd.read_csv("data.csv")
 
@@ -35,7 +38,7 @@ data_frame['health_n'] = LabelEncoder().fit_transform(data_frame['Have any Healt
 data_frame_n = data_frame.drop(['Select your Gender :', 'Select your age :', 'How much spicy would you like your pizza to be?', 'Do you like Pepperoni ?', 'Which one do you prefer the most :','Do you Prefer Tomatoes?', 'Which one of these do you like ?','Do you like Capsicum ?', 'Which one of these you like ?', 'Do you like Peppers ?', 'Do you like Sauce :', 'Do you like Mushroom :', 'Do you like Pesto :',  'Do you like Cheese :','Have any Health or diet issue ?' ], axis='columns')
 #print(data_frame_n)
 
-split_processing = SplitProcessing({
+'''split_processing = SplitProcessing({
                 "target": "tomato_n",
                 "train_size": 70,
                 "test_size": 30,
@@ -44,8 +47,18 @@ split_processing = SplitProcessing({
                 "stratify": ""
 })
 
-split_processing.pre_processing(data_frame_n)
+split_processing.pre_processing(data_frame_n)'''
+
 #usar k fold
+
+k_fold = FoldsProcessing({
+        "target_column": "tomato_n",
+        "folds": 5,
+        "shuffle": False,
+        "random_state": 42,
+        "strategy": "kfold"
+})
+k_fold.pre_processing(data_frame_n)
 
 x_train = pd.read_csv("/home/clara/PycharmProjects/hybrid_recommender_framework/experiment_output/preprocessing/xtrain.csv")
 y_train = pd.read_csv("/home/clara/PycharmProjects/hybrid_recommender_framework/experiment_output/preprocessing/ytrain.csv")
@@ -61,7 +74,16 @@ predict = reg_tomato.predict(x_test)
 score = reg_tomato.score(x_test,y_test)
 print(score)
 #print(predict)
-#rmse
+rmse = LenskitRMSE({
+        "sample_weight": "None",
+        "squared": True,
+        "missing": "error"
+})
+print(predict)
+print(y_test.values)
+score_rmse = rmse.evaluate(predict, y_test.values)
+print(score_rmse)
+#mae
 
 
 #TESTING TOMATO (decision tree))
@@ -72,10 +94,7 @@ model_tomato.predict(x_test)
 score_tomato_dt = model_tomato.score(x_test,y_test)
 print(score_tomato_dt)
 
-#TESTING TOMATO (random item))
-#tomato_random_item = RandomItem({})
-
 #TESTING TOMATO (knn user))
-tomato_knn_user = UserKNN({
-    "maxNumberNeighbors": 12,
-})
+#tomato_knn_user = UserKNN({
+ #   "maxNumberNeighbors": 12,
+#})
