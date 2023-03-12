@@ -181,6 +181,7 @@ class MovieLens(AbstractDataSet):
     def set_items(self, items):
         setattr(MovieLens, 'items', items)
 
+
     def set_users(self, users):
         setattr(MovieLens, 'users', users)
 
