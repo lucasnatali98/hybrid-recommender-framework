@@ -65,36 +65,51 @@ y_train = pd.read_csv("/home/clara/PycharmProjects/hybrid_recommender_framework/
 x_test = pd.read_csv("/home/clara/PycharmProjects/hybrid_recommender_framework/experiment_output/preprocessing/xtest.csv")
 y_test = pd.read_csv("/home/clara/PycharmProjects/hybrid_recommender_framework/experiment_output/preprocessing/ytest.csv")
 
-#print(y_train)
 
-#TESTING TOMATO (linear regression))
+print("=================================== LINEAR REGRESSION ===================================")
 reg_tomato = linear_model.LinearRegression()
 reg_tomato.fit(x_train, y_train)
-predict = reg_tomato.predict(x_test)
-score = reg_tomato.score(x_test,y_test)
-print(score)
-#print(predict)
+predict_lr = reg_tomato.predict(x_test)
+score_lr = reg_tomato.score(x_test,y_test)
+
+print(f'[LINEAR REGRESSION] Score: {}', score_lr)
+print(f'[LINEAR REGRESSION] Predict: {}', predict_lr)
+
+
+print("========================================== RMSE ==========================================")
 rmse = LenskitRMSE({
         "sample_weight": "None",
         "squared": True,
         "missing": "error"
 })
-print(predict)
-print(y_test.values)
 score_rmse = rmse.evaluate(predict, y_test.values)
-print(score_rmse)
-#mae
+print(f'[RMSE] Score: {}', score_rmse)
 
 
-#TESTING TOMATO (decision tree))
+
+print("=================================== DECISION TREE ===================================")
 model_tomato = tree.DecisionTreeClassifier()
 model_tomato.fit(x_train, y_train) #target (y) is the answer
 
 model_tomato.predict(x_test)
 score_tomato_dt = model_tomato.score(x_test,y_test)
-print(score_tomato_dt)
+print(f'[DECISION TREE] Score: {}', score_tomato_dt)
 
-#TESTING TOMATO (knn user))
-#tomato_knn_user = UserKNN({
- #   "maxNumberNeighbors": 12,
-#})
+
+
+print("========================== CONTENT-BASED RECOMMENDER SYSTEM ==========================")
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import linear_kernel
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+mapping = pd.Series(data_frame_n.index[0], index=[row for row in data_frame_n])
+print(f'\n[CONTENT BASED] Mapping: \n{mapping}')
+
+ing_index = mapping["tomato_n"]
+similarity_score = list(enumerate(similarity_matrix[ing_index]))
+print(f'\n[CONTENT BASED] Similarity Score: \n{similarity_score}')
+
+similarity_score = sorted(similarity_score, key=lambda x: x[1], reverse=True)
+similarity_score = similarity_score[1:15]
+ing_indices = [i[0] for i in similarity_score]
+print(f'\n[CONTENT BASED] Result recommendations for TOMATO: \n{data_frame_n.iloc[ing_indices]}')
