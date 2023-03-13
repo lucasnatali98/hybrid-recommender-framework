@@ -32,10 +32,7 @@ class LenskitUserKNN(UserKNN):
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
         default_keys = {
-            'maxNumberNeighbors',
-            'minNumberNeighbors',
-            'min_sim',
-            'feedback'
+            'maxNumberNeighbors'
         }
         parameters = process_parameters(parameters, default_keys)
 

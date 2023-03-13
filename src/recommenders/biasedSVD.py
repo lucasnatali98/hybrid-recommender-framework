@@ -11,7 +11,7 @@ class BiasedSVD(Recommender):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-    def recommend(self, users, n, candidates=None, ratings=None) -> pd.DataFrame:
+    def recommend(self, users, n, candidates=None, ratings=None) -> DataFrame:
         raise NotImplementedError
 
     def predict(self, pairs, ratings):
@@ -29,7 +29,7 @@ class BiasedSVD(Recommender):
 
 class LenskitBiasedSVD(Recommender):
     def __init__(self, parameters: dict) -> None:
-        super().__init__(parameters)
+        super().__init__()
         default_keys = {
             'iterations',
             'features'
@@ -38,7 +38,7 @@ class LenskitBiasedSVD(Recommender):
         parameters = process_parameters(parameters, default_keys)
 
         self.features = parameters.get('features')
-        self.damping = parameters.get('damping')
+        self.damping = parameters.get('damping', 5)
         self.BiasedMF = BiasedMF(
             features=self.features,
             iterations=20
