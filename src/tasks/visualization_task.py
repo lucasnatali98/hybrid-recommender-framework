@@ -10,13 +10,7 @@ class VisualizationTask(Task):
         self.experiment_output_dir = hrf_experiment_output_path()
         self.visualization_instance = visualization
 
-    def process_parameters(self, parameters: dict) -> dict:
-        """
 
-        @param parameters:
-        @return:
-        """
-        pass
 
     def check_args(self, args):
         """

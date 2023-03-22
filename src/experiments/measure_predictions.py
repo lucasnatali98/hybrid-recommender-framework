@@ -4,7 +4,8 @@ from src.metrics.rmse import LenskitRMSE
 from src.metrics.mae import LenskitMAE
 from src.metrics.ndcg import LenskitNDCG
 from src.metrics.dcg import LenskitDCG
-
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
 from src.utils import hrf_experiment_output_path
 from src.data.movielens import MovieLens
 
@@ -104,6 +105,7 @@ def evaluate_process_other_databases(evaluate_obj: dict):
 
                     evaluate_result[key] = {
                         algorithm: {
+                            "accuracy": measure_predictions(preds, truth, "accuracy"),
                             "rmse": measure_predictions(preds, truth, "rmse"),
                             "mae": measure_predictions(preds, truth, "mae"),
                             "precision": precision(predictions, truth),
@@ -145,7 +147,7 @@ def evaluate_process_100k(evaluate_obj: dict):
 
 
     evaluate_result = {}
-    e100k = evaluate_obj.get('400k')
+    e100k = evaluate_obj.get('100k')
     for key, value in e100k.items():
         if key == "prediction_files":
             predictions_obj = value
@@ -157,10 +159,11 @@ def evaluate_process_100k(evaluate_obj: dict):
                 preds = predictions['prediction']
 
                 evaluate_result[algorithm] = {
-                    "rmse": measure_predictions(preds, truth_for_samples['rating'], "rmse"),
-                    "mae": measure_predictions(preds, truth_for_samples['rating'], "mae"),
-                    "precision": precision(predictions, truth_for_samples['rating']),
-                    "recall": recall(predictions, truth_for_samples['rating'])
+                    "accuracy": measure_predictions(preds, truth, "accuracy"),
+                    "rmse": measure_predictions(preds, truth, "rmse"),
+                    "mae": measure_predictions(preds, truth, "mae"),
+                    "precision": precision(predictions, truth, "precision"),
+                    "recall": recall(predictions, truth, "recall")
                 }
 
         if key == "recommendation_files":
@@ -172,8 +175,8 @@ def evaluate_process_100k(evaluate_obj: dict):
                 )
 
                 evaluate_result[algorithm].update({
-                    "ndcg": measure_predictions(recs, truth_for_samples, "ndcg"),
-                    "dcg": measure_predictions(recs, truth_for_samples, "dcg")
+                    "ndcg": measure_predictions(recs, truth_recs, "ndcg"),
+                    "dcg": measure_predictions(recs, truth_recs, "dcg")
                 })
 
     return evaluate_result
@@ -191,27 +194,15 @@ def measure_predictions(prediction_df, truth, metric):
         evaluator = LenskitNDCG({})
     if metric == "dcg":
         evaluator = LenskitDCG({})
+    if metric == "accuracy":
+        return accuracy_score(prediction_df, truth)
+    if metric == "precision":
+        return
 
     return evaluator.evaluate(prediction_df, truth)
 
-result = evaluate_process_100k(evaluate_predict_process)
+result = evaluate_process_100k(evaluate_predict_process_100k)
 result = pd.DataFrame(result)
 print(result)
 
-"""
 
-result = evaluate_process_other_databases(evaluate_predict_process)
-e200k = result.get('200k', None)
-e300k = result.get('300k', None)
-e400k = result.get('400k', None)
-
-e200k = pd.DataFrame(e200k)
-e300k = pd.DataFrame(e300k)
-e400k = pd.DataFrame(e400k)
-
-print(e200k)
-print(e300k)
-print(e400k)
-
-
-"""
