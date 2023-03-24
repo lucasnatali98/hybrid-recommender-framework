@@ -2,7 +2,7 @@
 
 ## Membros do grupo
 - Daniel
-- Danielle
+- Danielle 
 - Fabrício
 - Gabriel
 - Guilherme 
