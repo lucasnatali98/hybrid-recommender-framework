@@ -123,10 +123,36 @@ De modo geral, o sistema de recomendação utiliza a biblioteca Lenskit para faz
 Os livros que receberam menos de 50 avaliações são removidos e as avaliações restantes são usadas para treinar o modelo de recomendação. Usamos os métodos da biblioteca Lenskit: Bias e BiasedMF. 
 
 - O módulo `lenskit.algorithms.bias` contém a previsão de classificação média personalizada. Um algoritmo de previsão de classificação de viés de item de usuário. Isso implementa o seguinte algoritmo preditor:
-```math
-                                                          $s(u, i) = \mu + b_i + b_u$
-                                     ```                     
-onde `\mu` é a classificação média global, `b_i` é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" align="center">
+  <mi>s</mi>
+  <mo stretchy="false">(</mo>
+  <mi>u</mi>
+  <mo>,</mo>
+  <mi>i</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mi>&#x3BC;</mi>
+  <mo>+</mo>
+  <msub>
+    <mi>b</mi>
+    <mi>i</mi>
+  </msub>
+  <mo>+</mo>
+  <msub>
+    <mi>b</mi>
+    <mi>u</mi>
+  </msub>
+</math>                    
+
+onde <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>&#x3BC;</mi>
+</math> é a classificação média global, <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msub>
+    <mi>b</mi>
+    <mi>i</mi>
+  </msub>
+</math> é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
 
 
 `\begin{align*}
