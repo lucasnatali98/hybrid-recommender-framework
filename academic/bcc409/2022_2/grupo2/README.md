@@ -124,7 +124,7 @@ Os livros que receberam menos de 50 avaliações são removidos e as avaliaçõe
 
 - O módulo `lenskit.algorithms.bias` contém a previsão de classificação média personalizada. Um algoritmo de previsão de classificação de viés de item de usuário. Isso implementa o seguinte algoritmo preditor:
 
-                                                          s(u,i) = \mu + b_i + b_u
+                                                          $s(u, i) = \mu + b_i + b_u$
                                                           
 onde `\mu` é a classificação média global, `b_i` é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
 
