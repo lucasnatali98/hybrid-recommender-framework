@@ -126,13 +126,13 @@ Os livros que receberam menos de 50 avaliações são removidos e as avaliaçõe
 
                                                           s(u,i) = \mu + b_i + b_u
                                                           
-onde \mu é a classificação média global, b_i é o viés do item, e b_u é o viés do usuário. Com os valores de amortecimento fornecidos \beta_{\mathrm{u}} e \beta_{\mathrm{i}}, eles são calculados da seguinte forma:
+onde `\mu` é a classificação média global, `b_i` é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
 
-\begin{align*}
+`\begin{align*}
 \mu & = \frac{\sum_{r_{ui} \in R} r_{ui}}{|R|} &
 b_i & = \frac{\sum_{r_{ui} \in R_i} (r_{ui} - \mu)}{|R_i| + \beta_{\mathrm{i}}} &
 b_u & = \frac{\sum_{r_{ui} \in R_u} (r_{ui} - \mu - b_i)}{|R_u| + \beta_{\mathrm{u}}}
-\end{align*}
+\end{align*}`
 
 Os valores de amortecimento podem ser interpretados como o número de classificações padrão (médias) a serem assumidas a priori para cada usuário ou item, reduzindo usuários e itens com pouca informação em direção a uma média, em vez de permitir que eles assumam valores extremos com base em poucas classificações.
 
