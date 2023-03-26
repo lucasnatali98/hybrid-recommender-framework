@@ -128,6 +128,12 @@ Os livros que receberam menos de 50 avaliações são removidos e as avaliaçõe
                                                           
 onde `\mu` é a classificação média global, `b_i` é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
 
+
+`\begin{align*}
+bi = (λb + |Ii|)⁻¹ ∑_{j∈Ii} (rj-µ-bu)
+bu = (λu + |Ui|)⁻¹ ∑_{j∈Ui} (rj-µ-bi)
+\end{align*}`
+
 `\begin{align*}
 \mu & = \frac{\sum_{r_{ui} \in R} r_{ui}}{|R|} &
 b_i & = \frac{\sum_{r_{ui} \in R_i} (r_{ui} - \mu)}{|R_i| + \beta_{\mathrm{i}}} &
