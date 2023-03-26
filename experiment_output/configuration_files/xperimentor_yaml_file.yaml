@@ -57,17 +57,17 @@ recipes:
     - ANOVA
     - ConfidenceInterval
 tasks:
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/dataset_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/dataset_task.py
   id: dataset_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/preprocessing_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/preprocessing_task.py
   id: preprocessing_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/metrics_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/metrics_task.py
   id: metrics_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/metafeatures_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/metafeatures_task.py
   id: metafeatures_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/algorithms_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/algorithms_task.py
   id: recommenders_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/visualization_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/visualization_task.py
   id: visualization_task
-- command: python /home/lucas/PycharmProjects/hybrid_recommender_framework/src/tasks/results_task.py
+- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/results_task.py
   id: results_task
