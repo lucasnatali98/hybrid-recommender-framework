@@ -101,29 +101,45 @@ books = books[(books['Year-Of-Publication'] > '1965') & (books['Year-Of-Publicat
 Nesse trecho, é criado um objeto batch, que mais tarde será utilizado para fazer as previsões e recomendações.
 ```python
 lenskit_batch = LenskitBatch()
+
 bias.fit(new_ratings)
 biased_svd.fit(new_ratings)
-batch_predicted_result_bias = 
-lenskit_batch.predict(bias.Bias, new_ratings[['user', 'item']])
-batch_recommend_result_bias = 
-lenskit_batch.recommend(bias.Bias, users, 10)
-batch_predicted_result_biased_svd =    
-lenskit_batch.predict(biased_svd.BiasedMF,new_ratings[['user','item']])
-batch_recommend_result_biased_svd =
-lenskit_batch.recommend(biased_svd.BiasedMF, users, 10)
+
+batch_predicted_result_bias = lenskit_batch.predict(bias.Bias, new_ratings[['user', 'item']])
+batch_recommend_result_bias = lenskit_batch.recommend(bias.Bias, users, 10)
+
+batch_predicted_result_biased_svd = lenskit_batch.predict(biased_svd.BiasedMF,new_ratings[['user','item']])
+batch_recommend_result_biased_svd = lenskit_batch.recommend(biased_svd.BiasedMF, users, 10)
 
 batch_predicted_result_bias.to_csv("bias-predict-result.csv")
 batch_recommend_result_bias.to_csv("bias-recommend-result.csv")
-batch_predicted_result_biased_svd.to_csv(
-"biasedSVD-predict-result.csv”)
-batch_recommend_result_biased_svd.to_csv(
-"biasedSVD-recommend-result.csv")
-```
 
+batch_predicted_result_biased_svd.to_csv("biasedSVD-predict-result.csv”)
+batch_recommend_result_biased_svd.to_csv("biasedSVD-recommend-result.csv")
+```
 
 De modo geral, o sistema de recomendação utiliza a biblioteca Lenskit para fazer as previsões e recomendações. Ele cria uma instância da classe LenskitBatch, que é usada para calcular as previsões e recomendações para todos os usuários de uma só vez.
 
-Os livros que receberam menos de 50 avaliações são removidos e as avaliações restantes são usadas para treinar o modelo de recomendação. O modelo é uma combinação de um modelo de fatoração de matriz com viés e um modelo de fatoração de matriz sem viés.
+Os livros que receberam menos de 50 avaliações são removidos e as avaliações restantes são usadas para treinar o modelo de recomendação. Usamos os métodos da biblioteca Lenskit: Bias e BiasedMF. 
+
+- O módulo `lenskit.algorithms.bias` contém a previsão de classificação média personalizada. Um algoritmo de previsão de classificação de viés de item de usuário. Isso implementa o seguinte algoritmo preditor:
+
+                                                          s(u,i) = \mu + b_i + b_u
+                                                          
+onde \mu é a classificação média global, b_i é o viés do item, e b_u é o viés do usuário. Com os valores de amortecimento fornecidos \beta_{\mathrm{u}} e \beta_{\mathrm{i}}, eles são calculados da seguinte forma:
+
+\begin{align*}
+\mu & = \frac{\sum_{r_{ui} \in R} r_{ui}}{|R|} &
+b_i & = \frac{\sum_{r_{ui} \in R_i} (r_{ui} - \mu)}{|R_i| + \beta_{\mathrm{i}}} &
+b_u & = \frac{\sum_{r_{ui} \in R_u} (r_{ui} - \mu - b_i)}{|R_u| + \beta_{\mathrm{u}}}
+\end{align*}
+
+Os valores de amortecimento podem ser interpretados como o número de classificações padrão (médias) a serem assumidas a priori para cada usuário ou item, reduzindo usuários e itens com pouca informação em direção a uma média, em vez de permitir que eles assumam valores extremos com base em poucas classificações.
+
+- Já o `lenskit.algorithms.als.BiasedMF` o LensKit fornece implementações alternadas de mínimos quadrados de fatoração de matrizes adequadas para dados de feedback explícitos. Este é um algoritmo orientado a previsões adequado para dados de feedback explícito, usando a abordagem de mínimos quadrados alternados para calcular P
+e Q para minimizar o erro de reconstrução quadrada regularizada da matriz de avaliações. Ele fornece dois solucionadores para a etapa de otimização (o parâmetro do método):
+    * 'cd' (padrão): Descida coordenada adaptada para um modelo de viés treinado separadamente e para usar a regularização ponderada como no documento ALS original;
+    * 'lu' : Uma implementação direta do ALS original usando a decomposição LU para resolver as matrizes otimizadas.
 
 O modelo treinado é usado para gerar previsões e recomendações para cada usuário. As previsões são salvas em arquivos CSV. As recomendações são geradas para os 10 principais itens para cada usuário e também são salvas em arquivos CSV.
 
