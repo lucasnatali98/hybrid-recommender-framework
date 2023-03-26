@@ -50,17 +50,6 @@ def main():
     batch_predicted_result_biased_svd = lenskit_batch.predict(biased_svd.BiasedMF, new_ratings[['user', 'item']])
     batch_recommend_result_biased_svd = lenskit_batch.recommend(biased_svd.BiasedMF, users, 10)
 
-    parameters = {
-        "k": None,
-        "sample_weight": None,
-        "ignore_ties": False
-    }
-
-    ndcg = NDCG(parameters)
-
-    result = ndcg.evaluate(batch_recommend_result_bias, new_ratings)
-    print(result)
-
     batch_predicted_result_bias.to_csv("bias-predict-result.csv")
     batch_recommend_result_bias.to_csv("bias-recommend-result.csv")
 
