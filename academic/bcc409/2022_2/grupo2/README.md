@@ -152,19 +152,201 @@ onde <math xmlns="http://www.w3.org/1998/Math/MathML">
     <mi>b</mi>
     <mi>i</mi>
   </msub>
-</math> é o viés do item, e `b_u` é o viés do usuário. Com os valores de amortecimento fornecidos `\beta_{\mathrm{u}}` e `\beta_{\mathrm{i}}`, eles são calculados da seguinte forma:
+</math> é o viés do item, e <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msub>
+    <mi>b</mi>
+    <mi>u</mi>
+  </msub>
+</math> é o viés do usuário. Com os valores de amortecimento fornecidos <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msub>
+    <mi>&#x3B2;</mi>
+    <mrow data-mjx-texclass="ORD">
+      <mrow data-mjx-texclass="ORD">
+        <mi mathvariant="normal">u</mi>
+      </mrow>
+    </mrow>
+  </msub>
+</math> e <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msub>
+    <mi>&#x3B2;</mi>
+    <mrow data-mjx-texclass="ORD">
+      <mrow data-mjx-texclass="ORD">
+        <mi mathvariant="normal">i</mi>
+      </mrow>
+    </mrow>
+  </msub>
+</math>, eles são calculados da seguinte forma:
 
-
-`\begin{align*}
-bi = (λb + |Ii|)⁻¹ ∑_{j∈Ii} (rj-µ-bu)
-bu = (λu + |Ui|)⁻¹ ∑_{j∈Ui} (rj-µ-bi)
-\end{align*}`
-
-`\begin{align*}
-\mu & = \frac{\sum_{r_{ui} \in R} r_{ui}}{|R|} &
-b_i & = \frac{\sum_{r_{ui} \in R_i} (r_{ui} - \mu)}{|R_i| + \beta_{\mathrm{i}}} &
-b_u & = \frac{\sum_{r_{ui} \in R_u} (r_{ui} - \mu - b_i)}{|R_u| + \beta_{\mathrm{u}}}
-\end{align*}`
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mtable displaystyle="true" columnalign="right left right left right left" columnspacing="0em 2em 0em 2em 0em" rowspacing="3pt">
+    <mtr>
+      <mtd>
+        <mi>&#x3BC;</mi>
+      </mtd>
+      <mtd>
+        <mi></mi>
+        <mo>=</mo>
+        <mfrac>
+          <mrow>
+            <munder>
+              <mo data-mjx-texclass="OP">&#x2211;</mo>
+              <mrow data-mjx-texclass="ORD">
+                <msub>
+                  <mi>r</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mi>u</mi>
+                    <mi>i</mi>
+                  </mrow>
+                </msub>
+                <mo>&#x2208;</mo>
+                <mi>R</mi>
+              </mrow>
+            </munder>
+            <msub>
+              <mi>r</mi>
+              <mrow data-mjx-texclass="ORD">
+                <mi>u</mi>
+                <mi>i</mi>
+              </mrow>
+            </msub>
+          </mrow>
+          <mrow>
+            <mo stretchy="false">|</mo>
+            <mi>R</mi>
+            <mo stretchy="false">|</mo>
+          </mrow>
+        </mfrac>
+      </mtd>
+      <mtd>
+        <msub>
+          <mi>b</mi>
+          <mi>i</mi>
+        </msub>
+      </mtd>
+      <mtd>
+        <mi></mi>
+        <mo>=</mo>
+        <mfrac>
+          <mrow>
+            <munder>
+              <mo data-mjx-texclass="OP">&#x2211;</mo>
+              <mrow data-mjx-texclass="ORD">
+                <msub>
+                  <mi>r</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mi>u</mi>
+                    <mi>i</mi>
+                  </mrow>
+                </msub>
+                <mo>&#x2208;</mo>
+                <msub>
+                  <mi>R</mi>
+                  <mi>i</mi>
+                </msub>
+              </mrow>
+            </munder>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>r</mi>
+              <mrow data-mjx-texclass="ORD">
+                <mi>u</mi>
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <mo>&#x2212;</mo>
+            <mi>&#x3BC;</mi>
+            <mo stretchy="false">)</mo>
+          </mrow>
+          <mrow>
+            <mo stretchy="false">|</mo>
+            <msub>
+              <mi>R</mi>
+              <mi>i</mi>
+            </msub>
+            <mrow data-mjx-texclass="ORD">
+              <mo stretchy="false">|</mo>
+            </mrow>
+            <mo>+</mo>
+            <msub>
+              <mi>&#x3B2;</mi>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="ORD">
+                  <mi mathvariant="normal">i</mi>
+                </mrow>
+              </mrow>
+            </msub>
+          </mrow>
+        </mfrac>
+      </mtd>
+      <mtd>
+        <msub>
+          <mi>b</mi>
+          <mi>u</mi>
+        </msub>
+      </mtd>
+      <mtd>
+        <mi></mi>
+        <mo>=</mo>
+        <mfrac>
+          <mrow>
+            <munder>
+              <mo data-mjx-texclass="OP">&#x2211;</mo>
+              <mrow data-mjx-texclass="ORD">
+                <msub>
+                  <mi>r</mi>
+                  <mrow data-mjx-texclass="ORD">
+                    <mi>u</mi>
+                    <mi>i</mi>
+                  </mrow>
+                </msub>
+                <mo>&#x2208;</mo>
+                <msub>
+                  <mi>R</mi>
+                  <mi>u</mi>
+                </msub>
+              </mrow>
+            </munder>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>r</mi>
+              <mrow data-mjx-texclass="ORD">
+                <mi>u</mi>
+                <mi>i</mi>
+              </mrow>
+            </msub>
+            <mo>&#x2212;</mo>
+            <mi>&#x3BC;</mi>
+            <mo>&#x2212;</mo>
+            <msub>
+              <mi>b</mi>
+              <mi>i</mi>
+            </msub>
+            <mo stretchy="false">)</mo>
+          </mrow>
+          <mrow>
+            <mo stretchy="false">|</mo>
+            <msub>
+              <mi>R</mi>
+              <mi>u</mi>
+            </msub>
+            <mrow data-mjx-texclass="ORD">
+              <mo stretchy="false">|</mo>
+            </mrow>
+            <mo>+</mo>
+            <msub>
+              <mi>&#x3B2;</mi>
+              <mrow data-mjx-texclass="ORD">
+                <mrow data-mjx-texclass="ORD">
+                  <mi mathvariant="normal">u</mi>
+                </mrow>
+              </mrow>
+            </msub>
+          </mrow>
+        </mfrac>
+      </mtd>
+    </mtr>
+  </mtable>
+</math>
 
 Os valores de amortecimento podem ser interpretados como o número de classificações padrão (médias) a serem assumidas a priori para cada usuário ou item, reduzindo usuários e itens com pouca informação em direção a uma média, em vez de permitir que eles assumam valores extremos com base em poucas classificações.
 
