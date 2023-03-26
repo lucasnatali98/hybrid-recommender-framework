@@ -177,7 +177,7 @@ onde <math xmlns="http://www.w3.org/1998/Math/MathML">
   </msub>
 </math>, eles são calculados da seguinte forma:
 
-!(imagens/formulas.png)
+![estrutura](imagens/formulas.png)
 
 
 Os valores de amortecimento podem ser interpretados como o número de classificações padrão (médias) a serem assumidas a priori para cada usuário ou item, reduzindo usuários e itens com pouca informação em direção a uma média, em vez de permitir que eles assumam valores extremos com base em poucas classificações.
