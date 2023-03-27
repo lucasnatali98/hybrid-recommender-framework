@@ -11,7 +11,6 @@ class StaticScatter(StaticPlot):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-
         self.visualization_output_path = "visualization/static/scatter/"
         self.plot_types = parameters.get('plot_types')
 
@@ -22,7 +21,7 @@ class StaticScatter(StaticPlot):
 
 
 
-    def plot(self):
+    def plot(self, data: pd.DataFrame = None, **kwargs):
         """
 
         @return:
@@ -39,6 +38,7 @@ class StaticScatter(StaticPlot):
     def ratings_by_user_plot(self, ratings: pd.DataFrame):
         print("ratings by user scatter plot")
         df = ratings.groupby(by=['user'], axis=0).count()
+        print("df: ", df)
         df = df.reset_index()
         fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -46,7 +46,7 @@ class StaticScatter(StaticPlot):
         ax.set_title("Quantidade de Ratings por usuário")
         ax.set_ylabel("Quantidade de ratings")
         ax.set_xlabel("Id dos usuários")
-        archive_name = "ratings_by_user.png"
+        archive_name = "ratings_by_user_bar.png"
         path_to_save = hrf_experiment_output_path().joinpath(self.visualization_output_path).joinpath(archive_name)
         fig.savefig(path_to_save)
         return df

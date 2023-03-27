@@ -13,8 +13,8 @@
 		<doItem/> <!-- executar calculo por item -->
 		<doItemUser/> <!-- executar calculo por item e user (apenas CF) -->
 
-		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid_recommender_framework/external/metric_calculator/</basePath><!-- Diretorio onde o programa atua -->
-		<resourceFile>ratings.txt</resourceFile> <!-- arquivo com os ratings de entrada (CF), relativo ao basePath -->
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath><!-- Diretorio onde o programa atua -->
+		<resourceFile>ratings-movielens.txt</resourceFile> <!-- arquivo com os ratings de entrada (CF), relativo ao basePath -->
 		<partitionLength>1</partitionLength> <!-- Tamanho do bloco de ratings que cada thread vai pegar por vez para processar (CF) -->
 		<outputFolder>Test1/</outputFolder>  <!-- Pasta onde escrever os arquivos de saida (relativa ao basePath) -->
 
@@ -27,15 +27,47 @@
 	<process>								<!-- Um processo corresponde a uma métrica a ser processada -->
 		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
 		<metric>QualitativeMetrics.GiniIndex</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
-		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid_recommender_framework/external/metric_calculator/</basePath>
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath>
 
 		<doUser/>
 		<doItem/>
 		<doItemUser/>
 		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
 			<item>
-				<dataFile>ratingsNorm.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
-				<resourceFile>ratingsNorm.txt</resourceFile>
+				<dataFile>ratings-movielens.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratings-movielens.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+	<process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QualitativeMetrics.PearsonCorrelation</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratings-movielens.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratings-movielens.txt</resourceFile>
+				<outputFolder>Test1/</outputFolder>
+			</item>
+		</items>
+	</process>
+	<process>								<!-- Um processo corresponde a uma métrica a ser processada -->
+		<type>collaborative</type>					<!-- Tipo: collaborative ou content-based (CF ou CB) -->
+		<metric>QuantitativeMetrics.ProportionOfRatings</metric>		        <!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath>
+
+		<doUser/>
+		<doItem/>
+		<doItemUser/>
+		<items>								<!-- Cada item corresponde a um bloco de Ids a terem suas métricas calculadas (arquivos txt) -->
+			<item>
+				<dataFile>ratings-movielens.txt</dataFile>		<!-- O dataFile contem todos os ratings, enquanto o resourceFile contem os ratings de onde vem os ids dos itens e users que serão calculados (implementação do Adriano). Em geral esses dois parâmetros serão idênticos -->
+				<resourceFile>ratings-movielens.txt</resourceFile>
 				<outputFolder>Test1/</outputFolder>
 			</item>
 		</items>
@@ -65,7 +97,7 @@
 	<process>
 		<type>content-based</type>
 		<index/>					<!-- A presença deste parâmetro em um processo CB indica que vamos fazer indexação dos dados pelo Lucene. Isto deve ser feito em um processo separado. O cálculo de métricas CB depende de existir uma indexação prévia -->
-		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid_recommender_framework/external/metric_calculator/</basePath>
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath>
 		<indexFolder>index-directory</indexFolder>      <!-- Diretorio onde criar o indice do Lucene, relativo ao basePath -->
 		<resourceFile>genres.txt</resourceFile>	<!-- Conteudo textual dos itens -->
 		<separatorCharacter>\|</separatorCharacter>     <!-- caractere separador dos campos de cada item no arquivo textual (se for | tem que ser escapado com \| ) -->
@@ -76,7 +108,7 @@
 
 		<doUser/><!-- Se queremos indexar também por usuario (conteudo textual do usuario = conteudo dos itens que ele avaliou com valor > userPreferenceTreshold) -->
 		<userPreferenceThreshold>0.5</userPreferenceThreshold>
-		<userPreferenceFile>ratingsNorm.txt</userPreferenceFile> <!-- arquivo de ratings para obter as avaliações de cada usuario -->
+		<userPreferenceFile>ratings-movielens.txt</userPreferenceFile> <!-- arquivo de ratings para obter as avaliações de cada usuario -->
 	</process>
 
 	<process>						<!-- Processo CB sem o parametro 'index' significa calculo de meta-feature CB -->
@@ -84,7 +116,7 @@
 		<doItem/>
 		<type>content-based</type>
 		<metric>Entropy</metric>			<!-- Nome da metrica: Tem que ser exatamente igual à classe da meta-feature implementada -->
-		<basePath>/home/lucas/Documentos/ufop/tcc/hybrid_recommender_framework/external/metric_calculator/</basePath>
+		<basePath>/home/lucas/PycharmProjects/hybrid_recommender_framework/external/metric_calculator/</basePath>
 		<outputFolder>Test2/</outputFolder>
 		<indexFolder>index-directory</indexFolder>	<!-- diretorio onde foi feita a indexação dos dados pelo Lucene -->
 		<numThreads>0</numThreads>
