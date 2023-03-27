@@ -32,7 +32,7 @@ class FoldsProcessing(AbstractPreProcessing):
 
 
 
-        self.target_column = parameters.get('target_column', 'rating')
+        self.target_column = parameters.get('target_column', None)
 
         self.train_folds_output_directory = hrf_experiment_output_path().joinpath(
             self.folds_output_directory
