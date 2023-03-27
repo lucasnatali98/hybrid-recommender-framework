@@ -62,10 +62,7 @@ Com isso, foi aplicado o algoritmo de recomendação chamado **LenskitItemKNN**.
 
 Após a aplicação do modelo LenskitItemKNN, foi possível gerar a recomendação de 10 itens para cada usuário.
 
-## Pós-processamento
-Para o insight e extratificação de resultados relacionamos as tabelas do resultado da classificação de gênero com a tabela de recomendação para os novos usuários. As colunas de algorithm_name, url e picture_url, foram removidas do resultado da recomendação final, para efeito de estudo e análise dos dados.
 
-![imagem](link_daImagem)
 
 ## Conclusão
 Com isso, foi possível ter a relação de gênero com as recomendações para os usuários. Conforme os dados, foi possível perceber que ainda que a quantidade de artistas com o gênero identificados como feminino nas recomendações, perdeu volume,
