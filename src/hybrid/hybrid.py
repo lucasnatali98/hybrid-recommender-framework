@@ -29,8 +29,16 @@ class AbstractHybrid(Hybrid):
     def __init__(self, parameters: dict) -> None:
         self.parameters = parameters
         self._constituent_algorithms = []
-        self._metafeatures = []
 
+
+    def fit(self, data, **kwargs) -> None:
+        raise NotImplementedError
+    def recommend(self, users, n, candidates=None, ratings=None) -> DataFrame:
+        raise NotImplementedError
+    def predict_for_user(self, user, items, ratings):
+        raise NotImplementedError
+    def get_params(self, deep = True):
+        raise NotImplementedError
     @property
     def metafeatures(self):
         return self._metafeatures
@@ -39,17 +47,22 @@ class AbstractHybrid(Hybrid):
     def constituent_algorithms(self):
         return self._constituent_algorithms
 
-    def add_algorithm(self, algorithm) -> None:
+    def add_constituent(self, algorithm) -> None:
         """
 
         """
         self._constituent_algorithms.append(algorithm)
 
-    def remove_algorithm(self, algorithm) -> None:
+    def update_constituent(self, const_id, new_constituent):
         """
 
         """
-        self.remove_algorithm(algorithm)
+        pass
+    def remove_constituent(self, algorithm) -> None:
+        """
+
+        """
+        self._constituent_algorithms.remove(algorithm)
 
     def combine_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:
         pass
@@ -59,6 +72,8 @@ class HybridWeighted(AbstractHybrid, ABC):
 
     def __init__(self, parameters: dict) -> None:
         super().__init__(parameters)
+        self._metafeatures = []
+        #self.features =[]
 
     def add_metafeature(self, metafeature) -> None:
         """
@@ -81,9 +96,7 @@ class HybridWeighted(AbstractHybrid, ABC):
     def set_weights(self, weights):
         pass
 
-    @abstractmethod
-    def add_metafeature(self, metafeature):
-        pass
+
 
     @abstractmethod
     def combine_metafeature_with_predictions(self, metafeature: DataFrame, predictions: DataFrame) -> DataFrame:

@@ -49,8 +49,10 @@ if __name__ == "__main__":
     unique_users = np.unique(users)
     user = unique_users[0]
 
+
     item_knn.fit(ratings)
     user_knn.fit(ratings)
+
     bias.fit(ratings)
     biased_svd.fit(ratings)
 
