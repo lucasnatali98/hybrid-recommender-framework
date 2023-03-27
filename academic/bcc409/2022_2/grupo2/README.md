@@ -150,21 +150,30 @@ Finalmente, a função main() é chamada e o resultado é armazenado na variáve
 
 Nesta seção são apresentados, interpretados e analisados todos os resultados alcançados no trabalho. A análise deve ser realizada de forma que fique claro que os objetivos específicos foram atendidos. Se possível, faça uma comparação com os resultados da literatura, destacando a importância da pesquisa realizada no contexto acadêmico.
 
+Tabela que representa a predição de dados:
 ![estrutura](imagens/tabelapredict.png)
 
+Tabela que representa a recomendação:
 ![estrutura](imagens/tabelarecommend.png)
 
+Tabela com informações do dataset de Books, sendo que esta já possui o tratamento de colunas e linhas inúteis excluídas, além de que em relação a variávela "ano de publicação" mantém somente os valores numéricos entre 1965 e 2023:
 ![estrutura](imagens/tabela0.png)
 
+Tabela com informações do dataset de Users com o filtro de idade estabelecido:
 ![estrutura](imagens/tabela1.png)
 
 ![estrutura](imagens/tabela2.png)
 
+Tabela que representa a união dos três datasets:
 ![estrutura](imagens/tabela3.png)
 
+Tabela com idades não nulas:
 ![estrutura](imagens/tabela4.png)
 
+Tabela com idades nulas:
 ![estrutura](imagens/tabela5.png)
+
+
 # Conclusões
 
 O desenvolvimento de um sistema de recomendação de livros baseado em técnicas de machine learning, com a coleta de dados relevantes dos usuários e dos livros, e a implementação de um algoritmo de filtragem baseado em conteúdo, foi capaz de gerar recomendações personalizadas e precisas. A validação do modelo em um ambiente de teste permitiu avaliar sua eficácia e precisão, e a realização de ajustes no modelo e na coleta de dados contribuiu para melhorar a relevância das recomendações geradas. Dessa forma, o sistema de recomendação de livros desenvolvido apresenta uma solução promissora para melhorar a experiência do usuário na busca por novas leituras.
