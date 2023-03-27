@@ -10,7 +10,7 @@ class PopScore(Recommender):
         default_keys = set()
         parameters = process_parameters(parameters, default_keys)
 
-    def recommend(self, users, n, candidates=None, ratings=None) -> pd.DataFrame:
+    def recommend(self, users, n, candidates=None, ratings=None) -> DataFrame:
         raise NotImplementedError
 
     def predict(self, pairs, ratings):
@@ -35,7 +35,7 @@ class LenskitPopScore(PopScore):
         self.PopScore = PopScoreLenskit()
         self.PopScore = LenskitRecommender.adapt(self.PopScore)
 
-    def predict_for_user(self, user, items, ratings=None):
+    def predict_for_user(self, users, items, ratings=None):
         """
 
         @param users:
@@ -43,9 +43,9 @@ class LenskitPopScore(PopScore):
         @param ratings:
         @return:
         """
-        return self.PopScore.predict_for_user(user, items, ratings)
+        return self.PopScore.predict_for_user(users, items, ratings)
 
-    def predict(self, pairs: DataFrame, ratings):
+    def predict(self, pairs: DataFrame, ratings=None):
         """
 
         @param pairs:
