@@ -150,6 +150,21 @@ Finalmente, a função main() é chamada e o resultado é armazenado na variáve
 
 Nesta seção são apresentados, interpretados e analisados todos os resultados alcançados no trabalho. A análise deve ser realizada de forma que fique claro que os objetivos específicos foram atendidos. Se possível, faça uma comparação com os resultados da literatura, destacando a importância da pesquisa realizada no contexto acadêmico.
 
+![estrutura](imagens/tabelapredict.png)
+
+![estrutura](imagens/tabelarecommend.png)
+
+![estrutura](imagens/tabela0.png)
+
+![estrutura](imagens/tabela1.png)
+
+![estrutura](imagens/tabela2.png)
+
+![estrutura](imagens/tabela3.png)
+
+![estrutura](imagens/tabela4.png)
+
+![estrutura](imagens/tabela5.png)
 # Conclusões
 
 O desenvolvimento de um sistema de recomendação de livros baseado em técnicas de machine learning, com a coleta de dados relevantes dos usuários e dos livros, e a implementação de um algoritmo de filtragem baseado em conteúdo, foi capaz de gerar recomendações personalizadas e precisas. A validação do modelo em um ambiente de teste permitiu avaliar sua eficácia e precisão, e a realização de ajustes no modelo e na coleta de dados contribuiu para melhorar a relevância das recomendações geradas. Dessa forma, o sistema de recomendação de livros desenvolvido apresenta uma solução promissora para melhorar a experiência do usuário na busca por novas leituras.
