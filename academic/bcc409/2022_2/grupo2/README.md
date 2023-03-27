@@ -124,58 +124,9 @@ Os livros que receberam menos de 50 avaliações são removidos e as avaliaçõe
 
 - O módulo `lenskit.algorithms.bias` contém a previsão de classificação média personalizada. Um algoritmo de previsão de classificação de viés de item de usuário. Isso implementa o seguinte algoritmo preditor:
 
-<math xmlns="http://www.w3.org/1998/Math/MathML" display="block" align="center">
-  <mi>s</mi>
-  <mo stretchy="false">(</mo>
-  <mi>u</mi>
-  <mo>,</mo>
-  <mi>i</mi>
-  <mo stretchy="false">)</mo>
-  <mo>=</mo>
-  <mi>&#x3BC;</mi>
-  <mo>+</mo>
-  <msub>
-    <mi>b</mi>
-    <mi>i</mi>
-  </msub>
-  <mo>+</mo>
-  <msub>
-    <mi>b</mi>
-    <mi>u</mi>
-  </msub>
-</math>                    
+![estrutura](imagens/formulas0.png)
 
-onde <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <mi>&#x3BC;</mi>
-</math> é a classificação média global, <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <msub>
-    <mi>b</mi>
-    <mi>i</mi>
-  </msub>
-</math> é o viés do item, e <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <msub>
-    <mi>b</mi>
-    <mi>u</mi>
-  </msub>
-</math> é o viés do usuário. Com os valores de amortecimento fornecidos <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <msub>
-    <mi>&#x3B2;</mi>
-    <mrow data-mjx-texclass="ORD">
-      <mrow data-mjx-texclass="ORD">
-        <mi mathvariant="normal">u</mi>
-      </mrow>
-    </mrow>
-  </msub>
-</math> e <math xmlns="http://www.w3.org/1998/Math/MathML">
-  <msub>
-    <mi>&#x3B2;</mi>
-    <mrow data-mjx-texclass="ORD">
-      <mrow data-mjx-texclass="ORD">
-        <mi mathvariant="normal">i</mi>
-      </mrow>
-    </mrow>
-  </msub>
-</math>, eles são calculados da seguinte forma:
+eles são calculados da seguinte forma:
 
 ![estrutura](imagens/formulas.png)
 
