@@ -12,9 +12,9 @@ class BookCrossing(AbstractDataSet):
 
 
     def load_datasets(self):
-        ratings = pd.read_csv(self.book_crossing_path.joinpath("BX-Book-Ratings.csv"),sep=';', encoding='unicode_escape', error_bad_lines=False)
-        books = pd.read_csv(self.book_crossing_path.joinpath("BX-Books.csv"),sep=';', encoding='unicode_escape', error_bad_lines=False)
-        users = pd.read_csv(self.book_crossing_path.joinpath("BX-Users.csv"),sep=';', encoding='unicode_escape', error_bad_lines=False)
+        ratings = pd.read_csv(self.book_crossing_path.joinpath("BX-Book-Ratings.csv"),sep=',')
+        books = pd.read_csv(self.book_crossing_path.joinpath("BX-Books.csv"),sep=',')
+        users = pd.read_csv(self.book_crossing_path.joinpath("BX-Users.csv"),sep=',')
         ratings = self.convert_to_hrf_pattern(ratings)
 
         self.set_ratings(ratings)
@@ -25,9 +25,9 @@ class BookCrossing(AbstractDataSet):
     def convert_to_hrf_pattern(self, rating: pd.DataFrame):
         rating = rating.rename(columns={
             "User-ID": "user",
-            "Book-Rating": "rating"
+            "Book-Rating": "rating",
+            "ISBN": "item"
         })
-        print(rating)
         return rating
 
     def set_users(self, users):

@@ -48,6 +48,7 @@ def main():
 
    # item_knn.fit(ratings)
    # user_knn.fit(ratings)
+    print(len(ratings))
     bias.fit(ratings)
     biased_svd.fit(ratings)
 
