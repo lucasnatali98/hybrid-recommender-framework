@@ -32,11 +32,11 @@ Essa tabela foi relacionada com outra cujo o nome é artist.dat referente ao mes
 
 <!-- TODO: Quantidade dos generos -->
 
-Nesse conjunto, a quanitdade de artistas identificados como feminino eram: 999999999
+Nesse conjunto, a quanitdade de artistas identificados como feminino eram: 14036
 
-Masculinos: 999999999
+Masculinos: 12483
 
-não-binário: 0000009999
+não-binário: 917
 
 female           14036
 male             12483
