@@ -148,30 +148,16 @@ Finalmente, a função main() é chamada e o resultado é armazenado na variáve
 
 # Resultados
 
-Nesta seção são apresentados, interpretados e analisados todos os resultados alcançados no trabalho. A análise deve ser realizada de forma que fique claro que os objetivos específicos foram atendidos. Se possível, faça uma comparação com os resultados da literatura, destacando a importância da pesquisa realizada no contexto acadêmico.
+Os resultados mostram que para o objetivo proposto o melhor método é realmente usando o batch no qual ele faz a relação usuário x item e devolve uma predição de qual a chance aquele usuário tem de escolher determinado item. 
 
 Tabela que representa a predição de dados:
 ![estrutura](imagens/tabelapredict.png)
+ 
+Já na tabela de recomendação o mais importante a ser analisado é o rank que mostra o rank daquele item para o usuário com base no score (uma espécie de predição).
 
 Tabela que representa a recomendação:
 ![estrutura](imagens/tabelarecommend.png)
 
-Tabela com informações do dataset de Books, sendo que esta já possui o tratamento de colunas e linhas inúteis excluídas, além de que em relação a variávela "ano de publicação" mantém somente os valores numéricos entre 1965 e 2023:
-![estrutura](imagens/tabela0.png)
-
-Tabela com informações do dataset de Users com o filtro de idade estabelecido:
-![estrutura](imagens/tabela1.png)
-
-![estrutura](imagens/tabela2.png)
-
-Tabela que representa a união dos três datasets:
-![estrutura](imagens/tabela3.png)
-
-Tabela com idades não nulas:
-![estrutura](imagens/tabela4.png)
-
-Tabela com idades nulas:
-![estrutura](imagens/tabela5.png)
 
 
 # Conclusões
