@@ -132,6 +132,7 @@ def evaluate_process_other_databases(evaluate_obj: dict):
                         })
 
                     else:
+
                         evaluate_result[key].update({
                             algorithm: {
                                 "ndcg": measure_predictions(recs, truth_recs, "ndcg"),
@@ -159,10 +160,10 @@ def evaluate_process_100k(evaluate_obj: dict):
                 preds = predictions['prediction']
 
                 evaluate_result[algorithm] = {
-                    "accuracy": measure_predictions(preds, truth, "accuracy"),
+                    #"accuracy": measure_predictions(preds, truth, "accuracy"),
                     "rmse": measure_predictions(preds, truth, "rmse"),
                     "mae": measure_predictions(preds, truth, "mae"),
-                    "precision": precision(predictions, truth, "precision"),
+#                    "precision": precision(predictions, truth, "precision"),
                     "recall": recall(predictions, truth, "recall")
                 }
 
@@ -174,6 +175,8 @@ def evaluate_process_100k(evaluate_obj: dict):
                     index_col=[0]
                 )
 
+                print("recs \n", recs)
+                print("truth recs: \n", truth_recs)
                 evaluate_result[algorithm].update({
                     "ndcg": measure_predictions(recs, truth_recs, "ndcg"),
                     "dcg": measure_predictions(recs, truth_recs, "dcg")

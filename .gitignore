@@ -15,3 +15,4 @@ kubernetes_config.json
 external/metric_calculator/Test1/
 external/metric_calculator/Test2/
 external/metric_calculator/index-directory/
+src/experiments/measure_predictions.py

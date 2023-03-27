@@ -1,7 +1,5 @@
 from src.data.movielens import MovieLens
 from src.preprocessing.normalize import NormalizeProcessing
-from src.preprocessing.text import TextProcessing
-from src.recommenders.item_knn import LenskitItemKNN
 from src.recommenders.pop_score import LenskitPopScore
 import numpy as np
 
@@ -20,19 +18,6 @@ if __name__ == "__main__":
         'norm': 'l2',
         'column_to_apply': "rating",
         'axis': 0
-    })
-
-
-    text_processing = TextProcessing({
-        'column_to_apply': 'genres',
-        'remove_stop_words': True,
-        'tokenize_words': True
-    })
-
-    movies2 = text_processing.pre_processing(movies)
-
-    item_knn = LenskitItemKNN({
-        'maxNumberNeighbors': 10,
     })
 
     pop_score = LenskitPopScore({
