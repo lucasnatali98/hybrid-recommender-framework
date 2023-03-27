@@ -67,7 +67,7 @@ class LenskitUserKNN(UserKNN):
             ratings
         )
 
-    def predict(self, pairs, ratings):
+    def predict(self, pairs, ratings=None):
         return self.user_knn.predict(
             pairs,
             ratings)

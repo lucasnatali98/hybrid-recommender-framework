@@ -1,6 +1,10 @@
 /venv
 __pypache__/
+src/recommenders/__pycache__/
+src/data/__pycache__/
+src/preprocessing/__pycache__/
 dist/
+experiment_output/svmlight_files/
 *.joblib
 *.csv
 data_storage/
