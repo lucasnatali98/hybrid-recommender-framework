@@ -126,7 +126,9 @@ Os livros que receberam menos de 50 avaliações são removidos e as avaliaçõe
 
 ![estrutura](imagens/formulas0.png)
 
-eles são calculados da seguinte forma:
+onde '<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>&#x3BC;</mi>
+</math>' é a classificação média global, 'bi' é o viés do item, e 'bu' é o viés do usuário. Com os valores de amortecimento fornecidos βu e βi, eles são calculados da seguinte forma:
 
 ![estrutura](imagens/formulas.png)
 
