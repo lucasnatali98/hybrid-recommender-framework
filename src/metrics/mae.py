@@ -28,6 +28,8 @@ class LenskitMAE(MAE):
         parameters = process_parameters(parameters, default_keys)
 
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        print(predictions)
+        print(truth)
         return lenskit_predict.mae(predictions, truth)
 
 

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 import pandas as pd
 
 
@@ -65,6 +66,31 @@ class RankingMetric(AbstractMetric):
 
     @abstractmethod
     def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        """
+
+        @param predictions:
+        @param truth:
+        @return:
+        """
+        raise NotImplementedError
+
+class NoveltyMetric(AbstractMetric):
+
+    @abstractmethod
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):
+        """
+
+        @param predictions:
+        @param truth:
+        @return:
+        """
+        raise NotImplementedError
+
+
+class DiversityMetric(AbstractMetric):
+
+    @abstractmethod
+    def evaluate(self, predictions: pd.Series, features: pd.Series, **kwargs):
         """
 
         @param predictions:

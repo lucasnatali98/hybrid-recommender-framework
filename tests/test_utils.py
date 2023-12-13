@@ -9,7 +9,7 @@ movielens = MovieLens({
 ratings = movielens.ratings
 
 def test_create_directory():
-    path = Path("/home/lucas/Documentos/ufop/tcc/hybrid_recommender_framework/tests")
+    path = Path("/home/usuario/PycharmProjects/RecSysExp/tests")
     print("path: path")
     dir_name = "direxample"
     result = create_directory(path, dir_name)

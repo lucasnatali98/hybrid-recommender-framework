@@ -1,4 +1,4 @@
-clusterIp: 10.123.222.10
+clusterIp: 10.97.101.227
 recipeDefaults:
   Alg:
   - Sigmoid
@@ -37,8 +37,6 @@ recipes:
   uses:
     Alg:
     - LenskitImplicitMF
-    - LenskitItemKNN
-    - LenskitUserKNN
     DB:
     - MovieLens
     Eval:
@@ -57,17 +55,17 @@ recipes:
     - ANOVA
     - ConfidenceInterval
 tasks:
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/dataset_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/dataset_task.py
   id: dataset_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/preprocessing_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/preprocessing_task.py
   id: preprocessing_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/metrics_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/metrics_task.py
   id: metrics_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/metafeatures_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/metafeatures_task.py
   id: metafeatures_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/algorithms_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/algorithms_task.py
   id: recommenders_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/visualization_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/visualization_task.py
   id: visualization_task
-- command: python C:\Users\ANANDA\OneDrive\Documentos\SR - TP\src\tasks/results_task.py
+- command: python /home/usuario/PycharmProjects/RecSysExp/src/tasks/results_task.py
   id: results_task
