@@ -23,18 +23,15 @@ def example1():
 
     ratings = movielens.ratings
     movies = movielens.items
-    print(movies.head())
     print(ratings.head())
 
     # Processar 'genres' do DataFrame 'movies_df' para características binárias (one-hot encoding)
     genres = movies['genres'].str.get_dummies(sep='|')
-    print(genres)
 
     # Criar DataFrame apenas com características de gêneros
     movies_genres = pd.concat([movies['movieId'], genres], axis=1)
     movies_genres = movies_genres.set_index('movieId')  # Definir 'movieId' como índice
 
-    print(movies_genres)
 
     y = ratings['rating']
     X = ratings.drop(columns=['timestamp'])
@@ -55,7 +52,7 @@ def example1():
     recommendations_for_all_users = user_knn.recommend(all_users, n=100)  # Gerar recomendações para todos os usuários, recomendando 10 itens por usuário
 
     print("recomendations")
-    print(recommendations_for_all_users.head())
+    print(recommendations_for_all_users)
     print(movies_genres)
     diversity = RecmetricsDIVERSITY().evaluate(recommendations_for_all_users, movies_genres)
     #diversity2 = GiniIndexDIVERSITY().evaluate(recommendations_for_all_users, )

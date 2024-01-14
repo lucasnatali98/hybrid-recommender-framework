@@ -57,7 +57,7 @@ def example1():
 
     recommendations_for_all_users = user_knn.recommend(all_users, n=10)  # Gerar recomendações para todos os usuários, recomendando 10 itens por usuário
     print("recomendations")
-    print(recommendations_for_all_users.head())
+    print(recommendations_for_all_users)
     print(ratings.head())
 
     cutoff = 100

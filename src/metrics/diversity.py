@@ -30,16 +30,12 @@ class RecmetricsDIVERSITY(DIVERSITY):
         print('rec list 2')
         print(rec_lists)
         diversity = recmetrics.intra_list_similarity(rec_lists, features)
-        print("----------------------------------------------")
-        print(diversity)
+        #print("----------------------------------------------")
+        #print(diversity)
         return diversity
 
 
 class GiniIndexDIVERSITY(DIVERSITY):
-    def __init__(self, cutoff, num_items):
-        self.cutoff = cutoff
-        self.num_items = num_items
-
     def evaluate(self, predictions: pd.Series, features: pd.Series, **kwargs):
         def calculate_gini(recommendations: pd.Series):
             # Contagem de recomendações por item

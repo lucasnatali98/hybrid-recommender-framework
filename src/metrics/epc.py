@@ -47,8 +47,8 @@ class EPC(NOVELTY):
                 {40491: 402, 3567: 222, 2314: 224, 156605: 382, 5490: 466,...}
                 '''
 
-        print("item_count")
-        print(item_count)
+        #print("item_count")
+        #print(item_count)
 
         num_users = len(rec_lists)
         item_novelty_dict = {item: 1 - (count / num_users) for item, count in item_count.items()}
@@ -68,10 +68,10 @@ class EPC(NOVELTY):
         Em resumo, item_novelty_dict é um dicionário onde as chaves são os itens presentes nas listas de recomendações e os valores são uma medida de novidade (ou inverso da popularidade) desses itens, calculada com base na proporção de usuários que receberam essas recomendações em relação ao número total de usuários.
         
         '''
-        print("item_novelty_dict")
-        print(item_novelty_dict)
-        print("------------------------")
-        print(enumerate(rec_lists))
+        #print("item_novelty_dict")
+        #print(item_novelty_dict)
+        #print("------------------------")
+        #print(enumerate(rec_lists))
 
         epc_scores = []
 
@@ -95,9 +95,9 @@ class EPC(NOVELTY):
                 print("observed")
                 print(observed)'''
                 rel = self.get_rel_item(item, observed)  # Get relevance of item for the user
-                if rel == 1:
-                    print("R")
-                    print(rel)
+                #if rel == 1:
+                    #print("R")
+                    #print(rel)
                 #discount = self.logarithmic_ranking_discount(r)  # Calculate logarithmic discount
                 discount = self.reciprocal_discount(r)
 
@@ -124,14 +124,14 @@ class EPC(NOVELTY):
         # Processing features DataFrame to create observed_items
         observed_items = {}
         for row in features.itertuples(index=False):
-            print("row")
-            print(row)
+            #print("row")
+            #print(row)
             user_id, item_id = row[0], row[1]
             if user_id not in observed_items:
                 observed_items[user_id] = []
             observed_items[user_id].append(item_id)
-        print("obserde itens")
-        print(observed_items)
+        #print("obserde itens")
+        #print(observed_items)
         epc_score = self.calculate_epc(rec_lists, observed_items)
         return epc_score
 
