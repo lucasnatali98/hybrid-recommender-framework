@@ -6,6 +6,9 @@ from src.metrics.epc import EPC
 from src.metrics.diversity import RecmetricsDIVERSITY
 from src.metrics.ndcg import LenskitNDCG
 from src.metrics.recall import LenskitRecall
+from src.metrics.gini import GiniIndex
+import lenskit.metrics.topn as lenskit_topn
+
 
 from src.utils import process_parameters
 
@@ -37,94 +40,130 @@ class MOO(AbstractMultiObjectiveRecommender):
     def get_params(self, deep=True):
         raise NotImplementedError
 
-def decode_recommendations(design, num_items, num_users):
-    # Binarize the matrix with a probability threshold of 0.9
-    binary_x = (design > 0.9).astype(int)
-
-    # Initialize an empty DataFrame to store recommendations
+def create_user_dataframes(user, scores_list):
     recommendations_df = pd.DataFrame(columns=['user', 'item', 'score', 'algorithm_name'])
+    ratings_df = pd.DataFrame(columns=['user', 'item', 'rating'])
 
-    # Parameters
-    num_items = num_items
-    num_users = num_users
+    for item, score, rating in scores_list:
+        recommendations_df = pd.concat([recommendations_df, pd.DataFrame({'user': [user], 'item': [item], 'score': [score], 'algorithm_name': ['nsga2']})], ignore_index=True)
+        ratings_df = pd.concat([ratings_df, pd.DataFrame({'user': [user], 'item': [item], 'rating': [rating]})], ignore_index=True)
 
-    # Decode the recommendations
-    for i, user_row in enumerate(binary_x.reshape((num_users, -1))):
-        user_id = i + 1  # User IDs are 1-indexed
+    return recommendations_df, ratings_df
 
-        # Find indices where user_row is 1
-        recommended_items = np.where(user_row == 1)[0]
+# Função para calcular métricas para um usuário específico
+def calculate_metrics(user_recommendations, user_ratings, cutoff):
+    '''parameters = {
+        "k": "None",
+        "sample_weight": "None",
+        "ignore_ties": "false"
+    }'''
 
-        # print(recommended_items)
+    parameters = {
+        "labels": "None",
+        "average": "binary",
+        "sample_weight": "None",
+        "zero_division": "warn"
+    }
 
-        # Add recommendations to DataFrame
-        user_recommendations = pd.DataFrame({
-            'user': [user_id] * len(recommended_items),
-            'item': i * num_items + recommended_items + 1,  # Item IDs are 1-indexed
-            'score': design[i * num_items + recommended_items],
-            'algorithm_name': 'nsga2'
-        })
 
-        recommendations_df = pd.concat([recommendations_df, user_recommendations])
+    recall = LenskitRecall(parameters)
 
-    # Reset indices
-    recommendations_df.reset_index(drop=True, inplace=True)
+    epc = EPC(cutoff)
+    ndcg = LenskitNDCG(parameters)
 
-    return recommendations_df
+    novelty = epc.evaluate(user_recommendations, user_ratings)
+    accuracy = recall.evaluate(user_recommendations, user_ratings)
 
-class RecommenderProblem(Problem):
-    def __init__(self, num_items, num_users, ratings, cutoff, df_features):
-        super().__init__(n_var=num_users * num_items, n_obj=2, n_constr=0, xl=0, xu=1)
+    return novelty, accuracy
 
-        self.num_items = num_items
-        self.num_users = num_users
+def process_file(file_path, weights, top_n):
+    scores = {}
+
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+
+        for line in lines:
+            parts = line.strip().split('\t')
+            user_item = parts[0]
+
+            rating, *features_str = parts[1].split()
+            rating = float(rating)
+            features = {int(f.split(':')[0]): float(f.split(':')[1]) for f in features_str}
+
+            num_features = len(features)
+
+            #Calculo peso * feature
+            score_sum = sum(weights[feature - 1] * value for feature, value in features.items())
+            #Normalizo dividindo pelo total de features
+            normalized_score_sum = score_sum / num_features
+            #Para cada par usuario x item salvo o rating e o score normalizado
+            scores[user_item] = (rating, normalized_score_sum)
+
+    top_n_scores = {}
+    #Percorro os scores e salvo para cada usuário  os items dele no formato (item,score,rating)
+    for user_item, (rating, score) in scores.items():
+        user, item = map(int, user_item.split(','))
+        if user not in top_n_scores:
+            top_n_scores[user] = []
+        top_n_scores[user].append((item, score, rating))
+
+    #Ordeno os que tem maior score e pego os primeiros top_n para cada usuário, usei um método de ordenação simples, depois eu vou voltar nisso
+    for user, scores_list in top_n_scores.items():
+        scores_list.sort(key=lambda x: x[1], reverse=True)
+        top_n_scores[user] = scores_list[:top_n]
+
+    return top_n_scores
+    #topn_scores {1002: [(296, 5.694619656291464, 1.0), (2858, 5.598729910716902, 1.0)
+
+class FitnessEvaluation(Problem):
+    def __init__(self, num_features, top_n, num_items, num_users, ratings, cutoff, arquivo_path):
+        super().__init__(n_var=num_features, n_obj=2, n_constr=0, xl=0, xu=1)
+
         self.ratings = ratings
-        self.df_features = df_features
         self.cutoff = cutoff
+        self.top_n = top_n
+        self.arquivo_path = arquivo_path
 
-    def _evaluate(self, designs, out, *args, **kwargs):
-        ratings = self.ratings
-        df_features = self.df_features
-
-        parameters = {
-            "labels": "None",
-            "average": "binary",
-            "sample_weight": "None",
-            "zero_division": "warn"
-        }
-
+    def _evaluate(self, population, out, *args, **kwargs):
+        print("população----------------------------")
+        print(population)
+        '''
+        -------------------individuo-------------------
+        [0.90850257 0.91387016 0.07832085 ... 0.87716883 0.80064328 0.53347508] Pesos para as features
+        
+        '''
         cutoff = self.cutoff
-        num_items = self.num_items
-        num_users = self.num_users
+        top_n = self.top_n
 
-        epc = EPC(cutoff)
-        ild = RecmetricsDIVERSITY()
-        # ndcg = LenskitNDCG(parameters)
-        recall = LenskitRecall(parameters)
+        #Percorro cada solução da população que seria um conjunto de pesos para aplicar nas features dos pares usuario x item do arquivo
+        for solution in population:
+            weights = solution
+            #passo os pesos, o arquivo e o tamanho do top_n para a função que vai processar esses arquivos e voltar com
+            # o topn_scores {user: [(item, score, rating)]
+            topn_scores = process_file('/home/usuario/PycharmProjects/RecSysExp/data_storage/hr/HR-all-train.merged', weights, top_n)
 
-        res = []
+            res = []
 
-        for design in designs:
-            print('-------------------design-------------------')
-            print(design)
+            # Lista para armazenar as métricas de cada usuário
+            novelty_scores = []
+            accuracy_scores = []
+            #Percorro o topn_scores
+            for user, scores_list in topn_scores.items():
+                #Para cada user transformo os dados em 2 df, um das recomendações e um dos ratings, da forma que o algoritmo de avaliação esta
+                #preparado para receber.
+                recommendations_df, ratings_df = create_user_dataframes(user, scores_list)
+                #calculo as métricas para cada usuário
+                novelty, accuracy = calculate_metrics(recommendations_df, ratings_df, cutoff)
 
-            recommendations = decode_recommendations(design, num_items, num_users)
-            print("------------decode---------------")
-            print(recommendations)
-            # x representa as recomendações para cada item (0 ou 1)recommendations_for_all_users
-            # Avaliar métricas de novidade, diversidade e acurácia
+                novelty_scores.append(novelty)
+                accuracy_scores.append(accuracy)
 
-            novelty = epc.evaluate(recommendations, ratings)
-            #diversity = ild.evaluate(recommendations, df_features)  # Substitua isso pela sua função de diversidade
-            accuracy = recall.evaluate(recommendations, ratings)
-
-            res.append(novelty)
-            res.append(accuracy)
-            #res.append(diversity)
-            print("------------teste")
-            print(novelty)
-            print(accuracy)
-            #print(diversity)
+            # Calcular média das métricas
+            avg_novelty = sum(novelty_scores) / len(novelty_scores)
+            avg_accuracy = sum(accuracy_scores) / len(accuracy_scores)
+            #Salvo a média das métricas para cada solução
+            res.append(avg_accuracy)
+            res.append(avg_novelty)
 
         out["F"] = np.array(res)
 
@@ -138,7 +177,7 @@ class NSGA2PyMoo(MOO):
         self.n_gen = n_gen
         self.seed = seed
 
-    def recommend(self, users, n, df_features, candidates=None, ratings=None, **kwargs):
+    def recommend(self, ratings=None, **kwargs):
         cutoff = self.cutoff
         num_items = self.num_items
         num_users = self.num_users
@@ -146,13 +185,16 @@ class NSGA2PyMoo(MOO):
         n_gen = self.n_gen
         seed = self.seed
 
-        problem = RecommenderProblem(num_items, num_users, ratings, cutoff, df_features)
+        problem = FitnessEvaluation(13, 5, num_items, num_users, ratings, cutoff, 'x')
         algorithm = NSGA2(pop_size=pop_size)
         termination = ("n_gen", n_gen)
-        res = minimize(problem, algorithm, termination, seed)
+        res = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
 
         X = res.X
         F = res.F
+
+
+        #Decisão, fazer função separada depois
         accuracy_index = 1  # A decisão é tomada dando preferência a acurácia - trocar por 2 depois
         # Sort solutions by accuracy in descending order
         sorted_X = X[F[:, accuracy_index].argsort()[::-1]]
@@ -184,10 +226,10 @@ class NSGA3PyMoo(MOO):
         n_gen = self.n_gen
         num_partitions = self.num_partitions
         seed = self.seed
-        num_objectives = 2
+        num_objectives = 3
 
         ref_dirs = get_reference_directions("uniform", num_objectives, n_partitions=num_partitions)
-        problem = RecommenderProblem(num_items, num_users, ratings, cutoff)
+        problem = FitnessEvaluation(num_items, num_users, ratings, cutoff)
         algorithm = NSGA3(pop_size=pop_size,ref_dirs=ref_dirs)
         termination = ("n_gen", n_gen)
         res = minimize(problem, algorithm, termination, seed)
@@ -226,7 +268,7 @@ class AGEMOEAPyMoo(MOO):
         n_gen = self.n_gen
         seed = self.seed
 
-        problem = RecommenderProblem(num_items, num_users, ratings, cutoff)
+        problem = FitnessEvaluation(num_items, num_users, ratings, cutoff)
         algorithm = AGEMOEA(pop_size=pop_size)
         termination = ("n_gen", n_gen)
         res = minimize(problem, algorithm, termination, seed)
