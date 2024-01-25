@@ -208,3 +208,29 @@ def hrf_external_path():
     root_path = get_project_root()
     root_path = root_path.joinpath("external")
     return root_path
+
+
+def merge_files(file1, file2, output_file):
+    with open(file1, 'r') as f1, open(file2, 'r') as f2, open(output_file, 'w') as output:
+        for line1, line2 in zip(f1, f2):
+            # Remove espaços em branco extras e concatena as linhas
+            merged_line = f"{line1.strip()}\t{line2.strip()}\n"
+            output.write(merged_line)
+
+def read_and_store_features_in_memory(path_file_features):
+    features_dict = {}
+
+    with open(path_file_features, 'r') as file:
+        lines = file.readlines()
+
+        for line in lines:
+            parts = line.strip().split('\t')
+            user_item = parts[0]
+
+            rating, *features_str = parts[1].split()
+            rating = float(rating)
+            features = {int(f.split(':')[0]): float(f.split(':')[1]) for f in features_str}
+
+            features_dict[user_item] = {'rating': rating, 'features': features}
+
+    return features_dict
