@@ -78,7 +78,10 @@ class EPC(NOVELTY):
     def evaluate(self, predictions: pd.Series, features: pd.Series, **kwargs):  # recommendations_df, df_all_ratings
         rec_lists = {}
         # Transforma as predictions em um objeto {1:[12,15,20], 2:[1,2,3]}
-        for user, item, _, _ in predictions.itertuples(index=False):
+        for row in predictions.itertuples(index=False):
+            user = row[0]
+            item = row[1]
+
             if user not in rec_lists:
                 rec_lists[user] = []
             if not pd.isnull(item) and pd.notnull(pd.to_numeric(item, errors='coerce')):

@@ -92,21 +92,23 @@ def get_all_ratings(features_in_memory_dict):
 
 
 class FitnessEvaluation(Problem):
-    def __init__(self, num_features, top_n, features_in_memory_dict):
-        super().__init__(n_var=num_features, n_obj=2, n_constr=0, xl=0, xu=1)
+    def __init__(self, num_features, top_n, features_in_memory_dict, metrics=None, metric_params=None):
+        super().__init__(n_var=num_features, n_obj=len(metrics), n_constr=0, xl=0, xu=1)
 
         self.top_n = top_n
         self.features_in_memory_dict = features_in_memory_dict
+        self.metrics = metrics or []
+        self.metric_params = metric_params or {}
     def _evaluate(self, population, out, *args, **kwargs):
-        '''print("população----------------------------")
-        print(population)'''
         top_n = self.top_n
         features_in_memory_dict = self.features_in_memory_dict
+        metrics = self.metrics
+        metric_params = self.metric_params
+
         objective_values = []
 
         all_ratings = get_all_ratings(features_in_memory_dict)
         df_all_ratings = pd.DataFrame(all_ratings, columns=['user', 'item', 'rating'])
-        preferences_dict, num_users_with_preference = generate_item_frequency_dict(ratings_df=df_all_ratings)
 
         #Percorro cada solução da população que seria um conjunto de pesos para aplicar nas features dos pares usuario x item do arquivo
         for solution in population:
@@ -115,34 +117,20 @@ class FitnessEvaluation(Problem):
             # o topn_scores {user: [(item, score, rating)]
             topn_scores = get_top_n_score(features_in_memory_dict, weights, top_n)
 
-            novelty_scores = []
-            accuracy_scores = []
-
+            user_metric_values = []
             for user, scores_list in topn_scores.items():
                 recommendations_user_df = create_user_dataframes(user, scores_list)
 
-                epc = EPC(cutoff=top_n, preferences_dict=preferences_dict, num_users_with_preference=num_users_with_preference)
-                items, scores, ratings = zip(*scores_list)
-                ratings = np.array([ratings])  # Convertendo para uma matriz bidimensional
-                scores = np.array([scores])
+                user_metrics = []
+                for metric_class in metrics:
+                    metric_instance = metric_class(**metric_params.get(metric_class, {}))
+                    metric_value = metric_instance.evaluate(recommendations_user_df, df_all_ratings)
+                    user_metrics.append(-metric_value)  # assuming you want to maximize
 
-                novelty = epc.evaluate(recommendations_user_df, df_all_ratings)
-                accuracy = ndcg_score(ratings, scores, k=top_n)
+                user_metric_values.append(user_metrics)
 
-                print("acuracy----------------")
-                print(accuracy)
-                print("novelty------------------")
-                print(novelty)
-
-                novelty_scores.append(-novelty)
-                accuracy_scores.append(-accuracy)
-
-            # Calcular média das métricas
-            avg_novelty = sum(novelty_scores) / len(novelty_scores)
-            avg_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-            #Salvo a média das métricas para cada solução
-            objective_values.append(avg_accuracy)
-            objective_values.append(avg_novelty)
+            user_avg_metrics = np.array(user_metric_values).mean(axis=0)
+            objective_values.append(user_avg_metrics)
 
         out["F"] = np.array(objective_values)
 
@@ -154,12 +142,17 @@ def decide_best_solution(X, F, weights, algorithm):
 
     relative_path = f'PycharmProjects/RecSysExp/experiment_output/moo/{algorithm}'
     file_name_best_solution = 'best_solution.json'
+    file_name_best_solution_result = 'best_solution_result.json'
     folder_path = os.path.expanduser(f'~/{relative_path}')
     file_path_best_solution = os.path.join(folder_path, file_name_best_solution)
+    file_path_best_solution_result = os.path.join(folder_path, file_name_best_solution_result)
     os.makedirs(folder_path, exist_ok=True)
 
     with open(file_path_best_solution, 'w') as file:
         json.dump(X[index], file)
+
+    with open(file_path_best_solution_result, 'w') as file:
+        json.dump(F[index].tolist(), file)
 
     return X[index]
 
@@ -172,14 +165,14 @@ class NSGA2PyMoo(MOO):
         self.top_n = top_n
         self.num_features = num_features
 
-    def recommend(self, features_in_memory_dict, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, **kwargs):
         pop_size = self.pop_size
         n_gen = self.n_gen
         seed = self.seed
         top_n = self.top_n
         num_features = self.num_features
 
-        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict)
+        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
         algorithm = NSGA2(pop_size=pop_size)
         termination = ("n_gen", n_gen)
         optimization_result = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
