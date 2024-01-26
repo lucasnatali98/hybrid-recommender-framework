@@ -46,9 +46,19 @@ def example1():
     file_path_F_agemoea = os.path.join(folder_path_agemoea, file_name_F)
     file_path_best_solution_agemoea = os.path.join(folder_path_agemoea, file_name_best_solution)
 
+    '''
+    Experimento 1
+    Hibridização: HR
+    Otimização:
+        Meta heuristíca: NSGA2
+        Pop: 100
+        Mutation: default
+        top_n: 5
+    '''
+
     top_n = 5
-    pop_size = 5
-    n_gen = 1
+    pop_size = 100
+    n_gen = 2
     num_features = 13
     seed = 1
     num_partitions = 12
@@ -79,24 +89,16 @@ def example1():
 
     #NSGA2
     nsga2 = NSGA2PyMoo(pop_size, n_gen, top_n, num_features, seed)
-    X,F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use, metric_params=metric_params)
-
-    with open(file_path_X_nsga2, 'r') as file:
-        loaded_pareto_front = json.load(file)
-
-    with open(file_path_F_nsga2, 'r') as file:
-        loaded_results_pareto_front = json.load(file)
+    folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/hr/fold1/nsga2'
+    X,F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use, metric_params=metric_params, folder_path=folder_path)
 
     #DECISÃO MELHOR SOLUÇÃO
-    weights_decision = np.array([0.5,0.5])
-    algorithm = 'nsga2'
-    best_solution = decide_best_solution(loaded_pareto_front,loaded_results_pareto_front,weights_decision, algorithm)
-
-    with open(file_path_best_solution_nsga2, 'r') as file:
-        loaded_best_solution = json.load(file)
+    weights_decision = np.array([0.5, 0.5])
+    file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/hr/fold1/nsga2'
+    best_solution = decide_best_solution(X, F, weights_decision, file_path_save_solution)
 
     #PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    topn_scores = nsga2.predict(test_features_in_memory_dict, loaded_best_solution, top_n)
+    topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n)
 
     novelty_scores = []
     accuracy_scores = []
@@ -116,7 +118,7 @@ def example1():
     print(avg_accuracy)
     print(avg_novelty)
     #PREDICT PARA UM USUÁRIO ESPECÍFICO NSGA2
-    topn_user = nsga2.predict_for_user(1002, test_features_in_memory_dict, loaded_best_solution, top_n)
+    topn_user = nsga2.predict_for_user(1002, test_features_in_memory_dict, best_solution, top_n)
     recommendations_user_df = create_user_dataframes(1002, topn_user)
     epc_score = epc.evaluate(recommendations_user_df, df_all_ratings)
     ndcg_score = ndcg.evaluate(recommendations_user_df, df_all_ratings)

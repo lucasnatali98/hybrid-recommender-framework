@@ -134,25 +134,26 @@ class FitnessEvaluation(Problem):
 
         out["F"] = np.array(objective_values)
 
-def decide_best_solution(X, F, weights, algorithm):
+def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF()):
     #Compromise Programming
     F = np.array(F)
-    decomp = ASF()
+    #decomp = ASF()
     index = decomp(F, weights).argmax()
 
-    relative_path = f'PycharmProjects/RecSysExp/experiment_output/moo/{algorithm}'
-    file_name_best_solution = 'best_solution.json'
-    file_name_best_solution_result = 'best_solution_result.json'
-    folder_path = os.path.expanduser(f'~/{relative_path}')
-    file_path_best_solution = os.path.join(folder_path, file_name_best_solution)
-    file_path_best_solution_result = os.path.join(folder_path, file_name_best_solution_result)
-    os.makedirs(folder_path, exist_ok=True)
+    if file_path_save_solution:
+        relative_path = file_path_save_solution
+        file_name_best_solution = 'best_solution.json'
+        file_name_best_solution_result = 'best_solution_objectives_result.json'
+        folder_path = os.path.expanduser(f'~/{relative_path}')
+        file_path_best_solution = os.path.join(folder_path, file_name_best_solution)
+        file_path_best_solution_result = os.path.join(folder_path, file_name_best_solution_result)
+        os.makedirs(folder_path, exist_ok=True)
 
-    with open(file_path_best_solution, 'w') as file:
-        json.dump(X[index], file)
+        with open(file_path_best_solution, 'w') as file:
+            json.dump(X[index].tolist(), file)
 
-    with open(file_path_best_solution_result, 'w') as file:
-        json.dump(F[index].tolist(), file)
+        with open(file_path_best_solution_result, 'w') as file:
+            json.dump(F[index].tolist(), file)
 
     return X[index]
 
@@ -165,7 +166,7 @@ class NSGA2PyMoo(MOO):
         self.top_n = top_n
         self.num_features = num_features
 
-    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
         n_gen = self.n_gen
         seed = self.seed
@@ -180,20 +181,21 @@ class NSGA2PyMoo(MOO):
         X = optimization_result.X
         F = -optimization_result.F
 
-        relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2'
-        file_name_X = 'pareto_front.json'
-        file_name_F = 'results_solutions.json'
+        if folder_path:
+            relative_path = folder_path
+            file_name_X = 'pareto_front.json'
+            file_name_F = 'pareto_front_objectives_results.json'
 
-        folder_path = os.path.expanduser(f'~/{relative_path}')
-        file_path_X = os.path.join(folder_path, file_name_X)
-        file_path_F = os.path.join(folder_path, file_name_F)
-        os.makedirs(folder_path, exist_ok=True)
+            folder_path = os.path.expanduser(f'~/{relative_path}')
+            file_path_X = os.path.join(folder_path, file_name_X)
+            file_path_F = os.path.join(folder_path, file_name_F)
+            os.makedirs(folder_path, exist_ok=True)
 
-        with open(file_path_X, 'w') as file:
-            json.dump(X.tolist(), file)
+            with open(file_path_X, 'w') as file:
+                json.dump(X.tolist(), file)
 
-        with open(file_path_F, 'w') as file:
-            json.dump(F.tolist(), file)
+            with open(file_path_F, 'w') as file:
+                json.dump(F.tolist(), file)
 
         return X, F
 
@@ -232,7 +234,7 @@ class NSGA3PyMoo(MOO):
         self.num_features = num_features
         self.num_partitions = num_partitions
 
-    def recommend(self, features_in_memory_dict, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
         n_gen = self.n_gen
         num_partitions = self.num_partitions
@@ -242,7 +244,7 @@ class NSGA3PyMoo(MOO):
         num_objectives = 2
 
         ref_dirs = get_reference_directions("uniform", num_objectives, n_partitions=num_partitions)
-        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict)
+        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
         algorithm = NSGA3(pop_size=pop_size,ref_dirs=ref_dirs)
         termination = ("n_gen", n_gen)
         optimization_result = minimize(problem, algorithm, termination, seed)
@@ -250,20 +252,21 @@ class NSGA3PyMoo(MOO):
         X = optimization_result.X
         F = -optimization_result.F
 
-        relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga3'
-        file_name_X = 'pareto_front.json'
-        file_name_F = 'results_solutions.json'
+        if folder_path:
+            relative_path = folder_path
+            file_name_X = 'pareto_front.json'
+            file_name_F = 'pareto_front_objectives_results.json'
 
-        folder_path = os.path.expanduser(f'~/{relative_path}')
-        file_path_X = os.path.join(folder_path, file_name_X)
-        file_path_F = os.path.join(folder_path, file_name_F)
-        os.makedirs(folder_path, exist_ok=True)
+            folder_path = os.path.expanduser(f'~/{relative_path}')
+            file_path_X = os.path.join(folder_path, file_name_X)
+            file_path_F = os.path.join(folder_path, file_name_F)
+            os.makedirs(folder_path, exist_ok=True)
 
-        with open(file_path_X, 'w') as file:
-            json.dump(X.tolist(), file)
+            with open(file_path_X, 'w') as file:
+                json.dump(X.tolist(), file)
 
-        with open(file_path_F, 'w') as file:
-            json.dump(F.tolist(), file)
+            with open(file_path_F, 'w') as file:
+                json.dump(F.tolist(), file)
 
         return X, F
 
@@ -301,14 +304,14 @@ class AGEMOEAPyMoo(MOO):
         self.top_n = top_n
         self.num_features = num_features
 
-    def recommend(self, features_in_memory_dict, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
         n_gen = self.n_gen
         seed = self.seed
         top_n = self.top_n
         num_features = self.num_features
 
-        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict)
+        problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
         algorithm = AGEMOEA(pop_size=pop_size)
         termination = ("n_gen", n_gen)
         optimization_result = minimize(problem, algorithm, termination, seed)
@@ -316,21 +319,21 @@ class AGEMOEAPyMoo(MOO):
         X = optimization_result.X
         F = -optimization_result.F
 
-        relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/agemoea'
-        file_name_X = 'pareto_front.json'
-        file_name_F = 'results_solutions.json'
+        if folder_path:
+            relative_path = folder_path
+            file_name_X = 'pareto_front.json'
+            file_name_F = 'pareto_front_objectives_results.json'
 
-        folder_path = os.path.expanduser(f'~/{relative_path}')
-        file_path_X = os.path.join(folder_path, file_name_X)
-        file_path_F = os.path.join(folder_path, file_name_F)
-        os.makedirs(folder_path, exist_ok=True)
+            folder_path = os.path.expanduser(f'~/{relative_path}')
+            file_path_X = os.path.join(folder_path, file_name_X)
+            file_path_F = os.path.join(folder_path, file_name_F)
+            os.makedirs(folder_path, exist_ok=True)
 
-        # Save the file to the specified path
-        with open(file_path_X, 'w') as file:
-            json.dump(X.tolist(), file)
+            with open(file_path_X, 'w') as file:
+                json.dump(X.tolist(), file)
 
-        with open(file_path_F, 'w') as file:
-            json.dump(F.tolist(), file)
+            with open(file_path_F, 'w') as file:
+                json.dump(F.tolist(), file)
 
         return X, F
 
