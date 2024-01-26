@@ -10,6 +10,11 @@ from src.metrics.epc import generate_item_frequency_dict
 from src.metrics.epc import EPC
 from src.metrics.ndcg import LenskitNDCG
 
+from pymoo.operators.mutation.bitflip import BitflipMutation
+from pymoo.operators.mutation.pm import PolynomialMutation
+from pymoo.operators.crossover.pntx import TwoPointCrossover
+from pymoo.operators.crossover.ux import UniformCrossover
+
 import json
 import os
 
@@ -57,8 +62,8 @@ def example1():
     '''
 
     top_n = 5
-    pop_size = 100
-    n_gen = 2
+    pop_size = 10
+    n_gen = 1
     num_features = 13
     seed = 1
     num_partitions = 12
@@ -106,17 +111,13 @@ def example1():
         recommendations_user_df = create_user_dataframes(user, scores_list)
         epc_score = epc.evaluate(recommendations_user_df, df_all_ratings)
         ndcg_score = ndcg.evaluate(recommendations_user_df, df_all_ratings)
-        print(df_all_ratings)
-        print(recommendations_user_df)
         novelty_scores.append(epc_score)
         accuracy_scores.append(ndcg_score)
 
     # Calcular média das métricas
     avg_novelty = sum(novelty_scores) / len(novelty_scores)
     avg_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    print("Resultado")
-    print(avg_accuracy)
-    print(avg_novelty)
+
     #PREDICT PARA UM USUÁRIO ESPECÍFICO NSGA2
     topn_user = nsga2.predict_for_user(1002, test_features_in_memory_dict, best_solution, top_n)
     recommendations_user_df = create_user_dataframes(1002, topn_user)

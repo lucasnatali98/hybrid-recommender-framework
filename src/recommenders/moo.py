@@ -9,10 +9,7 @@ from src.metrics.epc import EPC
 from src.metrics.epc import generate_item_frequency_dict
 from src.metrics.ndcg import LenskitNDCG
 
-
 import heapq
-
-
 
 from src.utils import process_parameters
 
@@ -23,8 +20,12 @@ from pymoo.util.ref_dirs import get_reference_directions
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.algorithms.moo.nsga3 import NSGA3
 from pymoo.algorithms.moo.age import AGEMOEA
-from pymoo.mcdm.pseudo_weights import PseudoWeights
 from pymoo.decomposition.asf import ASF
+from pymoo.operators.mutation.pm import PolynomialMutation
+from pymoo.operators.crossover.ux import UniformCrossover
+from pymoo.visualization.scatter import Scatter
+import matplotlib.pyplot as plt
+
 
 from sklearn.metrics import ndcg_score
 
@@ -89,7 +90,6 @@ def get_all_ratings(features_in_memory_dict):
         rating = data['rating']
         all_ratings.append((int(usuario_item.split(',')[0]), int(usuario_item.split(',')[1]), rating))
     return all_ratings
-
 
 class FitnessEvaluation(Problem):
     def __init__(self, num_features, top_n, features_in_memory_dict, metrics=None, metric_params=None):
@@ -159,12 +159,14 @@ def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF
 
 
 class NSGA2PyMoo(MOO):
-    def __init__(self, pop_size, n_gen, top_n, num_features, seed=None):
+    def __init__(self, pop_size, n_gen, top_n, num_features, mutation=PolynomialMutation(), crossover=UniformCrossover, seed=None):
         self.pop_size = pop_size
         self.n_gen = n_gen
         self.seed = seed
         self.top_n = top_n
         self.num_features = num_features
+        self.mutation = mutation
+        self.crossover = crossover
 
     def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
@@ -172,14 +174,26 @@ class NSGA2PyMoo(MOO):
         seed = self.seed
         top_n = self.top_n
         num_features = self.num_features
+        mutation = self.mutation
+        crossover = self.crossover
 
         problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
-        algorithm = NSGA2(pop_size=pop_size)
+        algorithm = NSGA2(pop_size=pop_size, mutation=mutation, crossover=crossover)
         termination = ("n_gen", n_gen)
         optimization_result = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
 
         X = optimization_result.X
         F = -optimization_result.F
+        print("------------------")
+        print(X)
+        print(F)
+
+        plot = Scatter()
+        plot.add(calculate_true_pareto_front(), plot_type="line", color="black", alpha=0.7)
+        plot.add(F, facecolor="none", edgecolor="red")
+        plot.show()
+        plot.save("nsga2_pareto.png")
+
 
         if folder_path:
             relative_path = folder_path
@@ -223,6 +237,19 @@ class NSGA2PyMoo(MOO):
         with open(file_path_predict, 'w') as json_file:
             json.dump(topn_scores[user], json_file)
         return topn_scores[user]
+
+
+
+
+def calculate_true_pareto_front():
+    # Esta é uma implementação fictícia - substitua por sua lógica real
+    # Neste exemplo, estamos criando uma fronteira de Pareto fictícia com alguns pontos fixos.
+
+    # Pontos representando um equilíbrio ideal entre acurácia e novidade
+    pareto_front_points = np.array([[1.0, 1.0], [0.9, 0.9], [0.8, 0.8], [0.7, 0.7], [0.6, 0.6]])
+
+    return pareto_front_points
+
 
 class NSGA3PyMoo(MOO):
 
