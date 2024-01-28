@@ -141,7 +141,7 @@ def experiments():
     nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
-                           metric_params=metric_params, folder_path=folder_path)
+                           metric_params=metric_params, folder_path=folder_path, experiment=experiment)
 
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
