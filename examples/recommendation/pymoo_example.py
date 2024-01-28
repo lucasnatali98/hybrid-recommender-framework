@@ -8,7 +8,7 @@ from src.recommenders.moo import decide_best_solution, get_all_ratings, create_u
 from src.utils import merge_files, read_and_store_features_in_memory
 from src.metrics.epc import generate_item_frequency_dict
 from src.metrics.epc import EPC
-from src.metrics.ndcg import LenskitNDCG
+from src.metrics.ndcg import SklearnNDCG
 
 from pymoo.operators.mutation.bitflip import BitflipMutation
 from pymoo.operators.mutation.pm import PolynomialMutation
@@ -52,7 +52,91 @@ def example1():
     file_path_best_solution_agemoea = os.path.join(folder_path_agemoea, file_name_best_solution)
 
     '''
-    Experimento 1
+        Experimento 1
+        Hibridização: FWLS
+        Otimização:
+            Meta heuristíca: NSGA2
+            Pop: 100
+            Mutation: default
+            Crossover: default
+            top_n: 5
+        '''
+
+    top_n = 5
+    pop_size = 5
+    n_gen = 1
+    num_features = 13
+    seed = 1
+    num_partitions = 12
+
+    # SALVANDO FEATURES DE TREINO E TESTE EM MEMÓRIA
+    test_features_in_memory_dict = read_and_store_features_in_memory(
+        path_file_features='/home/usuario/PycharmProjects/RecSysExp/data_storage/hr/HR-all-test.merged')
+    train_features_in_memory_dict = read_and_store_features_in_memory(
+        path_file_features='/home/usuario/PycharmProjects/RecSysExp/data_storage/hr/HR-all-train.merged')
+
+    all_ratings = get_all_ratings(train_features_in_memory_dict)
+    df_all_ratings = pd.DataFrame(all_ratings, columns=['user', 'item', 'rating'])
+    preferences_dict, num_users_with_preference = generate_item_frequency_dict(ratings_df=df_all_ratings)
+
+    print(preferences_dict)
+
+    parameters = {
+        "k": "10",
+        "sample_weight": "None",
+        "ignore_ties": "false"
+    }
+
+    epc = EPC(cutoff=top_n, preferences_dict=preferences_dict, num_users_with_preference=num_users_with_preference)
+    ndcg = SklearnNDCG()
+
+    metrics_to_use = [EPC, SklearnNDCG]
+    metric_params = {EPC: {"cutoff": top_n, "preferences_dict": preferences_dict,
+                           "num_users_with_preference": num_users_with_preference},
+                     SklearnNDCG: {}}
+
+    # NSGA2
+    nsga2 = NSGA2PyMoo(pop_size, n_gen, top_n, num_features, seed)
+    folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/hr/fold1/nsga2'
+    X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
+                           metric_params=metric_params, folder_path=folder_path)
+
+    # DECISÃO MELHOR SOLUÇÃO
+    weights_decision = np.array([0.5, 0.5])
+    file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/hr/fold1/nsga2'
+    best_solution = decide_best_solution(X, F, weights_decision, file_path_save_solution)
+
+    # PREDICT PARA TODOS OS USUÁRIOS NSGA2
+    topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n)
+
+    novelty_scores = []
+    accuracy_scores = []
+
+    for user, scores_list in topn_scores.items():
+        recommendations_user_df, ratings_user_df = create_user_dataframes(user, scores_list)
+
+        epc_score = epc.evaluate(recommendations_user_df, df_all_ratings)
+        ndcg_score = ndcg.evaluate(recommendations_user_df, ratings_user_df)
+
+        novelty_scores.append(epc_score)
+        accuracy_scores.append(ndcg_score)
+
+    # Calcular médias ou métrica geral para todas as avaliações
+    average_novelty = sum(novelty_scores) / len(novelty_scores)
+    average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
+    print(average_novelty)
+    print(average_accuracy)
+
+    # PREDICT PARA UM USUÁRIO ESPECÍFICO NSGA2
+    '''topn_user = nsga2.predict_for_user(1002, test_features_in_memory_dict, best_solution, top_n)
+    recommendations_user_df, ratings_user_df = create_user_dataframes(1002, topn_user)
+    epc_score = epc.evaluate(recommendations_user_df, df_all_ratings)
+    ndcg_score = ndcg.evaluate(recommendations_user_df, ratings_user_df)
+    print(epc_score)
+    print(ndcg_score)'''
+
+    '''
+    Experimento 0
     Hibridização: HR
     Otimização:
         Meta heuristíca: NSGA2
@@ -61,7 +145,7 @@ def example1():
         top_n: 5
     '''
 
-    top_n = 5
+    '''top_n = 5
     pop_size = 10
     n_gen = 1
     num_features = 13
@@ -124,7 +208,7 @@ def example1():
     epc_score = epc.evaluate(recommendations_user_df, df_all_ratings)
     ndcg_score = ndcg.evaluate(recommendations_user_df, df_all_ratings)
     print(epc_score)
-    print(ndcg_score)
+    print(ndcg_score)'''
 
     '''nsga3 = NSGA3PyMoo(pop_size, n_gen, top_n, num_features, num_partitions,seed)
     X,F = nsga3.recommend(features_in_memory_dict=train_features_in_memory_dict)

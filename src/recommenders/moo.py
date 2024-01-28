@@ -7,7 +7,7 @@ import json
 
 from src.metrics.epc import EPC
 from src.metrics.epc import generate_item_frequency_dict
-from src.metrics.ndcg import LenskitNDCG
+from src.metrics.ndcg import SklearnNDCG
 
 import heapq
 
@@ -23,6 +23,13 @@ from pymoo.algorithms.moo.age import AGEMOEA
 from pymoo.decomposition.asf import ASF
 from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.operators.crossover.ux import UniformCrossover
+from pymoo.operators.crossover.pntx import TwoPointCrossover
+from pymoo.operators.mutation.gauss import GM
+
+from pymoo.operators.crossover.sbx import SBX
+from pymoo.operators.mutation.pm import PM
+
+
 from pymoo.visualization.scatter import Scatter
 import matplotlib.pyplot as plt
 
@@ -50,11 +57,15 @@ class MOO(AbstractMultiObjectiveRecommender):
 
 def create_user_dataframes(user, scores_list):
     recommendations_df = pd.DataFrame(columns=['user', 'item', 'score', 'algorithm_name'])
+    ratings_df = pd.DataFrame(columns=['user', 'item', 'rating'])
+
 
     for item, score, rating in scores_list:
         recommendations_df = pd.concat([recommendations_df, pd.DataFrame({'user': [user], 'item': [item], 'score': [score], 'algorithm_name': ['nsga2']})], ignore_index=True)
+        ratings_df = pd.concat([ratings_df, pd.DataFrame({'user': [user], 'item': [item], 'rating': [rating]})], ignore_index=True)
 
-    return recommendations_df
+
+    return recommendations_df, ratings_df
 
 # Função para calcular métricas para um usuário específico
 def get_top_n_score(features_in_memory_dict, weights, top_n):
@@ -119,15 +130,21 @@ class FitnessEvaluation(Problem):
 
             user_metric_values = []
             for user, scores_list in topn_scores.items():
-                recommendations_user_df = create_user_dataframes(user, scores_list)
+                recommendations_user_df, ratings_user_df = create_user_dataframes(user, scores_list)
 
                 user_metrics = []
                 for metric_class in metrics:
                     metric_instance = metric_class(**metric_params.get(metric_class, {}))
-                    metric_value = metric_instance.evaluate(recommendations_user_df, df_all_ratings)
+                    if isinstance(metric_instance, SklearnNDCG):
+                        print(recommendations_user_df)
+                        print(ratings_user_df)
+                        metric_value = metric_instance.evaluate(recommendations_user_df, ratings_user_df)
+                    else:
+                        metric_value = metric_instance.evaluate(recommendations_user_df, df_all_ratings)
                     user_metrics.append(-metric_value)  # assuming you want to maximize
 
                 user_metric_values.append(user_metrics)
+                print(user_metrics)
 
             user_avg_metrics = np.array(user_metric_values).mean(axis=0)
             objective_values.append(user_avg_metrics)
@@ -137,7 +154,6 @@ class FitnessEvaluation(Problem):
 def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF()):
     #Compromise Programming
     F = np.array(F)
-    #decomp = ASF()
     index = decomp(F, weights).argmax()
 
     if file_path_save_solution:
@@ -159,7 +175,7 @@ def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF
 
 
 class NSGA2PyMoo(MOO):
-    def __init__(self, pop_size, n_gen, top_n, num_features, mutation=PolynomialMutation(), crossover=UniformCrossover, seed=None):
+    def __init__(self, pop_size, n_gen, top_n, num_features, mutation=None, crossover=None, seed=None):
         self.pop_size = pop_size
         self.n_gen = n_gen
         self.seed = seed
@@ -177,8 +193,11 @@ class NSGA2PyMoo(MOO):
         mutation = self.mutation
         crossover = self.crossover
 
+        #crossover=SBX(eta=15, prob=0.9)
+        #PM(eta=20)
+
         problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
-        algorithm = NSGA2(pop_size=pop_size, mutation=mutation, crossover=crossover)
+        algorithm = NSGA2(pop_size=pop_size, mutation=GM(), crossover=TwoPointCrossover(prob=0.9))
         termination = ("n_gen", n_gen)
         optimization_result = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
 
