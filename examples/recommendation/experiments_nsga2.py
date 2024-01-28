@@ -70,10 +70,10 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
-                           metric_params=metric_params, folder_path=folder_path, experiment=experiment)
+                           metric_params=metric_params, folder_path=folder_path)
 
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
@@ -127,7 +127,7 @@ def experiments():
     '''
     experiment = 2
     pop_size = 100
-    num_features = 56
+    num_features = 59
     seed = 1
     mutation = PM(eta=20)
     crossover = TwoPointCrossover(prob=0.9)
@@ -138,10 +138,10 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
-                           metric_params=metric_params, folder_path=folder_path, experiment=experiment)
+                           metric_params=metric_params, folder_path=folder_path)
 
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
@@ -192,8 +192,10 @@ def experiments():
             top_n: 5
     '''
 
-    '''pop_size = 100
-    num_features = 56
+
+    '''experiment = 3
+    pop_size = 100
+    num_features = 59
     seed = 1
     mutation = PM(eta=20)
     crossover=SBX(eta=15, prob=0.9)
@@ -204,7 +206,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -212,12 +214,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -235,7 +237,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -258,8 +260,10 @@ def experiments():
             top_n: 5
     '''
 
-    '''pop_size = 100
-    num_features = 56
+    '''
+    experiment = 4
+    pop_size = 100
+    num_features = 59
     seed = 1
     mutation = GM()
     crossover=SBX(eta=15, prob=0.9)
@@ -270,7 +274,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -278,12 +282,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -301,7 +305,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -324,7 +328,9 @@ def experiments():
             top_n: 5
         '''
 
-    '''pop_size = 500
+    '''
+    experiment = 5
+    pop_size = 500
     num_features = 59
     seed = 1
     mutation=GM()
@@ -336,7 +342,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -344,12 +350,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -367,7 +373,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -390,7 +396,9 @@ def experiments():
             top_n: 5
     '''
 
-    '''pop_size = 500
+    '''
+    experiment = 6
+    pop_size = 500
     num_features = 59
     seed = 1
     mutation = PM(eta=20)
@@ -402,7 +410,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -410,12 +418,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -433,7 +441,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -456,8 +464,10 @@ def experiments():
             top_n: 5
     '''
 
-    '''pop_size = 500
-    num_features = 56
+    '''
+    experiment = 7
+    pop_size = 500
+    num_features = 59
     seed = 1
     mutation = PM(eta=20)
     crossover=SBX(eta=15, prob=0.9)
@@ -468,7 +478,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -476,12 +486,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -499,7 +509,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -522,8 +532,10 @@ def experiments():
             top_n: 5
     '''
 
-    '''pop_size = 500
-    num_features = 56
+    '''
+    experiment = 8
+    pop_size = 500
+    num_features = 59
     seed = 1
     mutation = GM()
     crossover=SBX(eta=15, prob=0.9)
@@ -534,7 +546,7 @@ def experiments():
                      SklearnNDCG: {}}
 
     # NSGA2
-    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed)
+    nsga2 = NSGA2PyMoo(pop_size, top_n, num_features, time_termination, mutation, crossover, seed, experiment)
     folder_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
     X, F = nsga2.recommend(features_in_memory_dict=train_features_in_memory_dict, metrics=metrics_to_use,
                            metric_params=metric_params, folder_path=folder_path)
@@ -542,12 +554,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold1/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -565,7 +577,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -630,12 +642,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -653,7 +665,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -696,12 +708,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -719,7 +731,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -762,12 +774,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -785,7 +797,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -828,12 +840,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop100'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -851,7 +863,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -894,12 +906,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -917,7 +929,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -960,12 +972,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -983,7 +995,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)
@@ -1026,12 +1038,12 @@ def experiments():
     # DECISÃO MELHOR SOLUÇÃO
     weights_decision = np.array([0.5, 0.5])
     #file_path_save_solution = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2/stream/fold2/pop500'
-    file_name_best_solution = f'best_solution_{mutation}_{crossover}.json'
-    file_name_best_solution_result = f'best_solution_result_{mutation}_{crossover}.json'
+    file_name_best_solution = f'experiment_{experiment}_best_solution.json'
+    file_name_best_solution_result = f'experiment_{experiment}_best_solution_result.json'
     best_solution = decide_best_solution(X, F, weights_decision, folder_path, file_name_best_solution, file_name_best_solution_result)
 
     # PREDICT PARA TODOS OS USUÁRIOS NSGA2
-    file_name_test_predict = f'test_predict_all_users_{mutation}_{crossover}.json'
+    file_name_test_predict = f'experiment_{experiment}_test_predict_all_users.json'
     topn_scores = nsga2.predict(test_features_in_memory_dict, best_solution, top_n, folder_path, file_name_test_predict)
 
     novelty_scores = []
@@ -1049,7 +1061,7 @@ def experiments():
     # Calcular médias ou métrica geral para todas as avaliações
     average_novelty = sum(novelty_scores) / len(novelty_scores)
     average_accuracy = sum(accuracy_scores) / len(accuracy_scores)
-    file_name_result_test = f'test_result_{mutation}_{crossover}.json'
+    file_name_result_test = f'experiment_{experiment}_test_result.json'
 
     folder_path = os.path.expanduser(f'~/{folder_path}')
     file_path_result_test= os.path.join(folder_path, file_name_result_test)

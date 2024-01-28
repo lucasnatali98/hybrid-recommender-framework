@@ -174,7 +174,7 @@ def decide_best_solution(X, F, weights, file_path_save_solution=None, file_name_
 
 
 class NSGA2PyMoo(MOO):
-    def __init__(self, pop_size, top_n, num_features, time_termination="00:30:00",  mutation=GM(), crossover=TwoPointCrossover(prob=0.9), seed=None):
+    def __init__(self, pop_size, top_n, num_features, time_termination="00:30:00",  mutation=GM(), crossover=TwoPointCrossover(prob=0.9), seed=None, experiment=None):
         self.pop_size = pop_size
         self.seed = seed
         self.top_n = top_n
@@ -182,8 +182,9 @@ class NSGA2PyMoo(MOO):
         self.mutation = mutation
         self.crossover = crossover
         self.time_termination = time_termination
+        self.experiment = experiment
 
-    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, experiment=None, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
         seed = self.seed
         top_n = self.top_n
@@ -191,14 +192,12 @@ class NSGA2PyMoo(MOO):
         mutation = self.mutation
         crossover = self.crossover
         time_termination = self.time_termination
-
-        #crossover=SBX(eta=15, prob=0.9)
-        #PM(eta=20)
+        experiment = self.experiment
 
         problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
         algorithm = NSGA2(pop_size=pop_size, mutation=mutation, crossover=crossover)
         termination = get_termination("time", time_termination)
-        optimization_result = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
+        optimization_result = minimize(problem, algorithm, termination, seed)
 
         X = optimization_result.X
         F = -optimization_result.F
@@ -210,8 +209,6 @@ class NSGA2PyMoo(MOO):
         plot.add(calculate_true_pareto_front(), plot_type="line", color="black", alpha=0.7)
         plot.add(F, facecolor="none", edgecolor="red")
         plot.show()
-
-
 
         if folder_path:
             relative_path = folder_path
