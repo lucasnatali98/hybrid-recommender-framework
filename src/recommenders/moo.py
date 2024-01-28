@@ -152,15 +152,13 @@ class FitnessEvaluation(Problem):
 
         out["F"] = np.array(objective_values)
 
-def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF()):
+def decide_best_solution(X, F, weights, file_path_save_solution=None, file_name_best_solution=None, file_name_best_solution_result=None, decomp=ASF()):
     #Compromise Programming
     F = np.array(F)
     index = decomp(F, weights).argmax()
 
-    if file_path_save_solution:
+    if file_path_save_solution and file_name_best_solution and file_name_best_solution_result:
         relative_path = file_path_save_solution
-        file_name_best_solution = 'best_solution.json'
-        file_name_best_solution_result = 'best_solution_objectives_result.json'
         folder_path = os.path.expanduser(f'~/{relative_path}')
         file_path_best_solution = os.path.join(folder_path, file_name_best_solution)
         file_path_best_solution_result = os.path.join(folder_path, file_name_best_solution_result)
@@ -185,7 +183,7 @@ class NSGA2PyMoo(MOO):
         self.crossover = crossover
         self.time_termination = time_termination
 
-    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
+    def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, experiment=None, **kwargs):
         pop_size = self.pop_size
         seed = self.seed
         top_n = self.top_n
@@ -217,8 +215,8 @@ class NSGA2PyMoo(MOO):
 
         if folder_path:
             relative_path = folder_path
-            file_name_X = f'pareto_front_{mutation}_{crossover}.json'
-            file_name_F = f'pareto_front_objectives_results_{mutation}_{crossover}.json'
+            file_name_X = f'experiment_{experiment}_pareto_front.json'
+            file_name_F = f'experiment_{experiment}_pareto_front_objectives_results.json'
 
             folder_path = os.path.expanduser(f'~/{relative_path}')
             file_path_X = os.path.join(folder_path, file_name_X)
@@ -231,7 +229,7 @@ class NSGA2PyMoo(MOO):
             with open(file_path_F, 'w') as file:
                 json.dump(F.tolist(), file)
 
-            plot.save(os.path.join(folder_path, f'nsga2_pareto_{mutation}_{crossover}.png'))
+            plot.save(os.path.join(folder_path, f'experiment_{experiment}_nsga2_pareto.png'))
 
         return X, F
 
