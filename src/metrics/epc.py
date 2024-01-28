@@ -75,7 +75,7 @@ class EPC(NOVELTY):
 
         return np.mean(epc_scores)
 
-    def evaluate(self, predictions: pd.Series, features: pd.Series, **kwargs):  # recommendations_df, df_all_ratings
+    def evaluate(self, predictions: pd.Series, truth: pd.Series, **kwargs):  # recommendations_df, df_all_ratings
         rec_lists = {}
         # Transforma as predictions em um objeto {1:[12,15,20], 2:[1,2,3]}
         for row in predictions.itertuples(index=False):
@@ -89,7 +89,7 @@ class EPC(NOVELTY):
 
         rec_lists = [rec_lists[user] for user in rec_lists if rec_lists[user]]
 
-        ratings_df = features
+        ratings_df = truth
         epc_score = self.calculate_epc(rec_lists, ratings_df)
         return epc_score
 

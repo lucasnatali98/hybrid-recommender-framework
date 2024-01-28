@@ -25,6 +25,7 @@ from pymoo.operators.mutation.pm import PolynomialMutation
 from pymoo.operators.crossover.ux import UniformCrossover
 from pymoo.operators.crossover.pntx import TwoPointCrossover
 from pymoo.operators.mutation.gauss import GM
+from pymoo.termination import get_termination
 
 from pymoo.operators.crossover.sbx import SBX
 from pymoo.operators.mutation.pm import PM
@@ -175,30 +176,30 @@ def decide_best_solution(X, F, weights, file_path_save_solution=None, decomp=ASF
 
 
 class NSGA2PyMoo(MOO):
-    def __init__(self, pop_size, n_gen, top_n, num_features, mutation=None, crossover=None, seed=None):
+    def __init__(self, pop_size, top_n, num_features, time_termination="00:30:00",  mutation=GM(), crossover=TwoPointCrossover(prob=0.9), seed=None):
         self.pop_size = pop_size
-        self.n_gen = n_gen
         self.seed = seed
         self.top_n = top_n
         self.num_features = num_features
         self.mutation = mutation
         self.crossover = crossover
+        self.time_termination = time_termination
 
     def recommend(self, features_in_memory_dict, metrics=None, metric_params=None, folder_path=None, **kwargs):
         pop_size = self.pop_size
-        n_gen = self.n_gen
         seed = self.seed
         top_n = self.top_n
         num_features = self.num_features
         mutation = self.mutation
         crossover = self.crossover
+        time_termination = self.time_termination
 
         #crossover=SBX(eta=15, prob=0.9)
         #PM(eta=20)
 
         problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
-        algorithm = NSGA2(pop_size=pop_size, mutation=GM(), crossover=TwoPointCrossover(prob=0.9))
-        termination = ("n_gen", n_gen)
+        algorithm = NSGA2(pop_size=pop_size, mutation=mutation, crossover=crossover)
+        termination = get_termination("time", time_termination)
         optimization_result = minimize(problem, algorithm, termination, seed)#Trocar por maximizar?
 
         X = optimization_result.X
@@ -211,13 +212,13 @@ class NSGA2PyMoo(MOO):
         plot.add(calculate_true_pareto_front(), plot_type="line", color="black", alpha=0.7)
         plot.add(F, facecolor="none", edgecolor="red")
         plot.show()
-        plot.save("nsga2_pareto.png")
+
 
 
         if folder_path:
             relative_path = folder_path
-            file_name_X = 'pareto_front.json'
-            file_name_F = 'pareto_front_objectives_results.json'
+            file_name_X = f'pareto_front_{mutation}_{crossover}.json'
+            file_name_F = f'pareto_front_objectives_results_{mutation}_{crossover}.json'
 
             folder_path = os.path.expanduser(f'~/{relative_path}')
             file_path_X = os.path.join(folder_path, file_name_X)
@@ -230,31 +231,32 @@ class NSGA2PyMoo(MOO):
             with open(file_path_F, 'w') as file:
                 json.dump(F.tolist(), file)
 
+            plot.save(os.path.join(folder_path, f'nsga2_pareto_{mutation}_{crossover}.png'))
+
         return X, F
 
-    def predict(self, features_in_memory_dict, weights, top_n):
+    def predict(self, features_in_memory_dict, weights, top_n, folder_path=None, file_name_test_prediction=None):
         topn_scores = get_top_n_score(features_in_memory_dict, weights, top_n)
 
-        relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2'
-        file_name_predict = f'predict_all_users_top_{top_n}.json'
-        folder_path = os.path.expanduser(f'~/{relative_path}')
-        file_path_predict = os.path.join(folder_path, file_name_predict)
-        os.makedirs(folder_path, exist_ok=True)
+        if folder_path and file_name_test_prediction:
+            file_path_predict = os.path.join(folder_path, file_name_test_prediction)
+            os.makedirs(folder_path, exist_ok=True)
 
-        with open(file_path_predict, 'w') as json_file:
-            json.dump(topn_scores, json_file)
+            with open(file_path_predict, 'w') as json_file:
+                json.dump(topn_scores, json_file)
         return topn_scores
-    def predict_for_user(self, user, features_in_memory_dict, weights, top_n):
+    def predict_for_user(self, user, features_in_memory_dict, weights, top_n, folder_path=None, file_name_test_prediction=None):
         topn_scores = get_top_n_score(features_in_memory_dict, weights, top_n)
 
-        relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2'
-        file_name_predict = f'predict_to_user_{user}_top_{top_n}.json'
-        folder_path = os.path.expanduser(f'~/{relative_path}')
-        file_path_predict = os.path.join(folder_path, file_name_predict)
-        os.makedirs(folder_path, exist_ok=True)
+        if folder_path and file_name_test_prediction:
+            relative_path = 'PycharmProjects/RecSysExp/experiment_output/moo/nsga2'
+            file_name_predict = f'predict_to_user_{user}_top_{top_n}.json'
+            folder_path = os.path.expanduser(f'~/{relative_path}')
+            file_path_predict = os.path.join(folder_path, file_name_predict)
+            os.makedirs(folder_path, exist_ok=True)
 
-        with open(file_path_predict, 'w') as json_file:
-            json.dump(topn_scores[user], json_file)
+            with open(file_path_predict, 'w') as json_file:
+                json.dump(topn_scores[user], json_file)
         return topn_scores[user]
 
 
