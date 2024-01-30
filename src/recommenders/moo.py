@@ -155,7 +155,7 @@ class FitnessEvaluation(Problem):
 def decide_best_solution(X, F, weights, file_path_save_solution=None, file_name_best_solution=None, file_name_best_solution_result=None, decomp=ASF()):
     #Compromise Programming
     F = np.array(F)
-    index = decomp(F, weights).argmax()
+    index = decomp(F, weights).argmin()
 
     if file_path_save_solution and file_name_best_solution and file_name_best_solution_result:
         relative_path = file_path_save_solution
@@ -170,7 +170,7 @@ def decide_best_solution(X, F, weights, file_path_save_solution=None, file_name_
         with open(file_path_best_solution_result, 'w') as file:
             json.dump(F[index].tolist(), file)
 
-    return X[index]
+    return X[index], index
 
 
 class NSGA2PyMoo(MOO):
@@ -197,7 +197,7 @@ class NSGA2PyMoo(MOO):
         problem = FitnessEvaluation(num_features, top_n, features_in_memory_dict, metrics, metric_params)
         algorithm = NSGA2(pop_size=pop_size, mutation=mutation, crossover=crossover)
         termination = get_termination("time", time_termination)
-        optimization_result = minimize(problem, algorithm, termination, seed)
+        optimization_result = minimize(problem, algorithm, termination, seed, save_history=True)
 
         X = optimization_result.X
         F = -optimization_result.F
@@ -205,10 +205,9 @@ class NSGA2PyMoo(MOO):
         print(X)
         print(F)
 
-        plot = Scatter()
-        plot.add(calculate_true_pareto_front(), plot_type="line", color="black", alpha=0.7)
+        '''plot = Scatter()
         plot.add(F, facecolor="none", edgecolor="red")
-        plot.show()
+        plot.show()'''
 
         if folder_path:
             relative_path = folder_path
@@ -226,7 +225,7 @@ class NSGA2PyMoo(MOO):
             with open(file_path_F, 'w') as file:
                 json.dump(F.tolist(), file)
 
-            plot.save(os.path.join(folder_path, f'experiment_{experiment}_nsga2_pareto.png'))
+            #plot.save(os.path.join(folder_path, f'experiment_{experiment}_nsga2_pareto.png'))
 
         return X, F
 
@@ -250,18 +249,6 @@ class NSGA2PyMoo(MOO):
             with open(file_path_predict, 'w') as json_file:
                 json.dump(topn_scores[user], json_file)
         return topn_scores[user]
-
-
-
-
-def calculate_true_pareto_front():
-    # Esta é uma implementação fictícia - substitua por sua lógica real
-    # Neste exemplo, estamos criando uma fronteira de Pareto fictícia com alguns pontos fixos.
-
-    # Pontos representando um equilíbrio ideal entre acurácia e novidade
-    pareto_front_points = np.array([[1.0, 1.0], [0.9, 0.9], [0.8, 0.8], [0.7, 0.7], [0.6, 0.6]])
-
-    return pareto_front_points
 
 
 class NSGA3PyMoo(MOO):
@@ -369,7 +356,6 @@ class AGEMOEAPyMoo(MOO):
         print(F)
 
         plot = Scatter()
-        plot.add(calculate_true_pareto_front(), plot_type="line", color="black", alpha=0.7)
         plot.add(F, facecolor="none", edgecolor="red")
         plot.show()
 
